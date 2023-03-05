@@ -41,7 +41,7 @@ ion-card-header.ios {
     margin: auto;
     margin-left: 2em;
     min-height: 50px;
-    border-left: 1px dashed #000000;
+    border-left: 1px dashed #50d890;
     padding: 0 0 50px 30px;
     position: relative;
   }
@@ -64,7 +64,7 @@ ion-card-header.ios {
   }
   
   .rb-container ul.rb li:hover::before {
-    border-color: #232931;
+    // border-color: #232931;
     transition: all 1000ms ease-in-out;
   }
   
@@ -79,5 +79,13 @@ ion-card-header.ios {
     color: black;
   }
   
+  .feature-w-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span{
+      font-size: 20px;
+    }
+  }
   
   
