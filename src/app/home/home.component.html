@@ -1,0 +1,49 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-card-header slot="start">
+      <ion-card-subtitle>Hello</ion-card-subtitle>
+      <ion-card-title>Ajeet Rajbhar 👋</ion-card-title>
+      </ion-card-header>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+    <ion-card-header>
+      <ion-card-title>Courses</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-button shape="round">
+        <ion-icon slot="start" name="flame-outline"></ion-icon>
+        All Topic
+      </ion-button>
+      <ion-button shape="round" fill="outline">
+        <ion-icon  slot="start" name="flash-outline"></ion-icon>
+        Popular
+      </ion-button>
+      <ion-button shape="round" fill="outline">
+        <ion-icon  slot="start" name="star-outline"></ion-icon>
+        Newest
+      </ion-button>
+      <ion-button shape="round" fill="outline">
+        <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+        Advanec
+      </ion-button>
+    </ion-card-content>
+    <ion-content  class="ion-padding" scroll-y="false">
+      <ion-slides>
+        <ion-slide *ngFor="let item of lecturesData">
+          <ion-card>
+            <img alt="Silhouette of mountains"  [src]="item.lec_icon" />
+            <ion-card-header class="ion-card-content">
+              <ion-card-title>{{item.lec_title}}</ion-card-title>
+              <ion-card-subtitle>Emitted when the slider is at the last slide</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+          </ion-slide>
+          </ion-slides>
+    </ion-content>
+
+</ion-content>

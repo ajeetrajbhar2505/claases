@@ -1,0 +1,196 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Contents
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline" (click)="backTolectures()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="currentContent" value="video">
+      <ion-segment-button value="video">
+        <ion-label>Video</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="audio">
+        <ion-label>Audio</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="document">
+        <ion-label>Document</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <ion-list>
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+      </ion-reorder-group>
+      <div [ngSwitch]="currentContent">
+        <div *ngSwitchDefault>
+          <ion-item *ngFor="let data of contentsData['videos']" expand="block"
+            (click)="setOpenvideoModal(videoModalOpen,data)">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="data.video_icon" />
+            </ion-thumbnail>
+            <ion-label>{{data.video_title}}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+        </div>
+        <div *ngSwitchCase="'audio'">
+          <ion-item *ngFor="let data of contentsData['audios']" expand="block"
+            (click)="setOpenaudioModal(audioModalOpen,data)">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="data.audio_icon" />
+            </ion-thumbnail>
+            <ion-label>{{data.audio_title}}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+        </div>
+        <div *ngSwitchCase="'document'">
+          <ion-item *ngFor="let data of contentsData['documents']" expand="block"
+            (click)="setOpendocumentModal(documentModalOpen,data)">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="data.document_icon" />
+            </ion-thumbnail>
+            <ion-label>{{data.document_title}}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+        </div>
+      </div>
+    </ion-list>
+  </ion-card-content>
+</ion-content>
+
+
+
+<ion-modal [isOpen]="videoModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="arrow-back-outline" (click)="setClose()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div [class]="videoControls.openFullscreen?'fullscreen':'exitfullscreen'">
+        <video (dblclick)="openFullscreenVideo()" width="100%" id="classVideo" (loadeddata)="checkVideoLoaded($event)"
+          (timeupdate)="checkContinuousVideoduration($event)" class="sticky-top" autoplay frameborder="0">
+          <source [src]="getImgContent(selectedVideoToWatch.video_link)" type="video/mp4">
+          Your Device does not support the video.
+        </video>
+        <ion-spinner color="light" class="videonotloaded" *ngIf="!videoLoaded" name="bubbles"></ion-spinner>
+
+        <ion-card-header>
+          <ion-range [style]="videoControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
+            [value]="videoControls.currentRangeDuration" [min]="0" [max]="videoControls.Rangeduration"
+            (ionKnobMoveStart)="onIonKnobMoveVideoStart($event)" (ionKnobMoveEnd)="onIonKnobMoveVideoEnd($event)">
+            <span slot="start">{{videoControls.currentDuration?videoControls.currentDuration:'00:00'}}</span>
+            <span slot="end"> {{videoControls.duration?videoControls.duration:'00:00'}}</span>
+          </ion-range>
+          <div class="videocontrols">
+            <ion-fab-button (click)="skipbackVideo(10)" size="small">
+              <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="playPauseVideo()" size="small">
+              <ion-icon [name]="videoControls.playVideo?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="skipnextVideo(10)" size="small">
+              <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+            </ion-fab-button>
+            <!-- <ion-fab-button slot="end"  (click)="openFullscreen()" size="small">
+              <ion-icon [name]="videoControls.openFullscreen?'open-outline':'tv-outline'"></ion-icon>
+            </ion-fab-button> -->
+          </div>
+        </ion-card-header>
+      </div>
+      <ion-card-header>
+        <ion-card-subtitle>{{selectedVideoToWatch.video_title}}</ion-card-subtitle>
+        <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
+        <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="audioModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="arrow-back-outline" (click)="setClose()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div [class]="AudioControls.openFullscreen?'fullscreen':'exitfullscreen'">
+        <img style="border: 1px solid lightgray;border-radius: 18px;" [src]="selectedAudioToWatch.audio_icon" height="150px" alt="">
+        <audio (dblclick)="openFullscreenAudio()" width="100%" id="classAudio" (loadeddata)="checkAudioLoaded($event)"
+          (timeupdate)="checkContinuousAudioduration($event)" class="sticky-top" autoplay frameborder="0">
+          <source [src]="getImgContent(selectedAudioToWatch.audio_link)" type="video/mp4">
+          Your Device does not support the video.
+        </audio>
+        <ion-card-header>
+          <ion-range [style]="AudioControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
+            [value]="AudioControls.currentRangeDuration" [min]="0" [max]="AudioControls.Rangeduration"
+            (ionKnobMoveStart)="onIonKnobMoveAudioStart($event)" (ionKnobMoveEnd)="onIonKnobMoveAudioEnd($event)">
+            <span slot="start">{{AudioControls.currentDuration?AudioControls.currentDuration:'00:00'}}</span>
+            <span slot="end"> {{AudioControls.duration?AudioControls.duration:'00:00'}}</span>
+          </ion-range>
+          <div class="Audiocontrols">
+            <ion-fab-button (click)="skipbackAudio(10)" size="small">
+              <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="playPauseAudio()" size="small">
+              <ion-icon [name]="AudioControls.playAudio?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="skipnextAudio(10)" size="small">
+              <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+            </ion-fab-button>
+            <!-- <ion-fab-button slot="end"  (click)="openFullscreen()" size="small">
+              <ion-icon [name]="AudioControls.openFullscreen?'open-outline':'tv-outline'"></ion-icon>
+            </ion-fab-button> -->
+          </div>
+        </ion-card-header>
+      </div>
+      <ion-card-header>
+        <ion-card-subtitle>{{selectedAudioToWatch.audio_title}}</ion-card-subtitle>
+        <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
+        <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+<ion-modal [isOpen]="documentModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="arrow-back-outline" (click)="setClose()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="exitfullscreen">
+        <pdf-viewer (dblclick)="openFullscreenDocument()" *ngIf="DocumentControls.openFullscreen"
+          src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
+          [original-size]="false" style="height: 3500px"></pdf-viewer>
+        <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreenDocument()" *ngIf="!DocumentControls.openFullscreen" [src]="selectedDocumentToWatch.document_icon" height="150px" alt="">
+        <ion-card-header>
+          <div class="Documentcontrols">
+          </div>
+        </ion-card-header>
+      </div>
+      <ion-card-header class="sticky-bottom">
+        <ion-card-subtitle>{{selectedDocumentToWatch.document_title}}</ion-card-subtitle>
+        <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
+        <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-content>
+  </ng-template>
+</ion-modal>

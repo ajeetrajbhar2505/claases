@@ -1,0 +1,51 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  
+  b {
+    width: 100%;
+  }
+  
+  .ripple-parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    position: relative;
+    overflow: hidden;
+  
+    border: 1px solid #ddd;
+  
+    user-select: none;
+    font-size: 60px;
+    color: white;
+    background-color: lightgray;
+  }
+  
+  .circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+
+  .edit-icon
+  {
+    cursor: pointer;
+    position: absolute;
+    bottom: -16px;
+    border-radius: 50%;
+    font-size: 25px;
+    padding: 7px 7px 0px 7px;
+    background: white;
+    border: 1px solid lightgray;
+  }

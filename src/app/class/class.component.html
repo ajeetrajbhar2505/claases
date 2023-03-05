@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Standards
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <ion-list>
+          <ion-item *ngFor="let data of classes" expand="block" (click)="routeTosubjects(data.classId)">
+            <ion-thumbnail slot="start">
+              <img  [src]="data.std_icon" />
+            </ion-thumbnail>
+            <ion-label>{{data.classNamme}}</ion-label>
+          </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-content>
+
+

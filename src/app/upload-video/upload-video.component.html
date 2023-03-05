@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Upload video
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card-content [formGroup]="uploadVideogroup">
+    <ion-item fill="outline">
+      <ion-label position="floating">Video title</ion-label>
+      <ion-input formControlName="video_title" placeholder="Enter text"></ion-input>
+    </ion-item>
+    <ion-list>
+      <ion-item fill="outline">
+      <ion-label position="floating">Class</ion-label>
+        <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
+          <ion-select-option *ngFor="let data of classData" [value]="data.classId">{{'Standard ' + data.classId}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item fill="outline">
+      <ion-label position="floating">Lecture</ion-label>
+        <ion-select formControlName="lec_title" placeholder="Select Lecture" [multiple]="false">
+          <ion-select-option *ngFor="let data of lecturesData" [value]="data.lec_title">{{data.lec_title}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-item fill="outline">
+      <ion-input type="file" accept="video/*" (change)="readUrl($event)" formControlName="video_link" placeholder="Enter text"></ion-input>
+    </ion-item>
+    
+   </ion-card-content>
+</ion-content>
+
+

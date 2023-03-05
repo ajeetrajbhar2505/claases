@@ -1,0 +1,14 @@
+/* iOS places the subtitle above the title */
+ion-card-header.ios {
+    display: flex;
+    flex-flow: column-reverse;
+  }
+  .swiper-slide img
+  {
+    height: 250px;
+    width: 100%;
+  }
+  .ion-card-content
+  {
+    text-align: left;
+  }

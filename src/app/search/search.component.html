@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Ask a question 
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content [fullscreen]="true" class="ion-padding">
+  <div class="chat-window" [formGroup]="searchGroup">
+    <div class="chat-body" *ngFor="let data of searchArrayControl();let i = index">
+      <div *ngIf="data.get('searched')?.value == true" class="message sent">
+        <p>{{data.get('question')?.value}}</p>
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </div>
+      <div *ngIf="data.get('searched')?.value == true" class="message received">
+        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+        <p *ngIf="data.get('answer')?.value" [innerHTML]="data.get('answer')?.value"></p>
+        <ion-spinner *ngIf="data.get('searched')?.value == true && data.get('answer')?.value == ''" name="dots"></ion-spinner>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
+<ion-footer [formGroup]="searchGroup">
+  <div formArrayName="array" *ngFor="let data of searchArrayControl();let i = index;let last = last">
+    <div *ngIf="last" [formGroupName]="i"  class="chat-footer" slot="bottom" >
+      <input type="text" formControlName="question"  placeholder="Type your message here">
+       <button (click)="getResponse(i)">Send</button>
+     </div>
+  </div>
+</ion-footer>
+
+

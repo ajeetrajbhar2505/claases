@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Streaming 
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content>
+    <div [class]="videoControls.openFullscreen?'fullscreen':'exitfullscreen'">
+      <video  (dblclick)="openFullscreen()" width="100%"  id="liveVideo" (loadeddata)="checkvideoLoaded($event)" (timeupdate)="checkContinuousVideoduration($event)" class="sticky-top"  autoplay frameborder="0">
+        <source [src]="getImgContent(selectedVideoToWatch.video_link)"   type="video/mp4">
+        Your Device does not support the video.
+      </video>
+      <ion-spinner class="videonotloaded" *ngIf="!videoLoaded" name="bubbles"></ion-spinner>
+      <ion-card-header>
+        <ion-range  [style]="videoControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"  [value]="videoControls.currentRangeDuration"  [min]="0" [max]="videoControls.Rangeduration" (ionKnobMoveStart)="onIonKnobMoveStart($event)" (ionKnobMoveEnd)="onIonKnobMoveEnd($event)">
+        <span slot="start">{{videoControls.currentDuration?videoControls.currentDuration:'00:00'}}</span>
+        <span slot="end"> {{videoControls.duration?videoControls.duration:'00:00'}}</span>
+        </ion-range>
+        <div class="videocontrols">
+          <ion-fab-button (click)="skipback(10)" size="small">
+            <ion-icon color="light" name="play-skip-back-circle-outline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button (click)="playPause()" size="small">
+            <ion-icon [name]="videoControls.playVideo?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button  (click)="skipnext(10)" size="small">
+            <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+          </ion-fab-button>
+          <!-- <ion-fab-button slot="end"  (click)="openFullscreen()" size="small">
+            <ion-icon [name]="videoControls.openFullscreen?'open-outline':'tv-outline'"></ion-icon>
+          </ion-fab-button> -->
+        </div>
+      </ion-card-header>
+    </div>
+    <ion-card-header>
+      <ion-card-subtitle>{{selectedVideoToWatch.video_title}}</ion-card-subtitle>
+      <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
+      <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-content>
+</ion-content>
