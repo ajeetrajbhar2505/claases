@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 
@@ -7,8 +7,9 @@ import { ActionSheetController } from '@ionic/angular';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
   result:string = ""
+  splash_loaded = false
   constructor(private actionSheetCtrl: ActionSheetController,public router:Router) {}
 
   async presentActionSheet() {
@@ -53,6 +54,12 @@ export class TabsPage {
        
 
     
+  }
+
+  ngOnInit(): void {
+    setTimeout(() => {
+     this.splash_loaded =  true
+    }, 3000);
   }
 
 }

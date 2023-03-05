@@ -19,13 +19,11 @@ export class AppComponent {
     // Auto hide show loader
     checkRouterEvent(routerEvent: Event): void {
       if (routerEvent instanceof NavigationStart) {
-          this.loading = true;
       }
 
       if (routerEvent instanceof NavigationEnd ||
           routerEvent instanceof NavigationCancel ||
           routerEvent instanceof NavigationError) {
-          this.loading = false;
       }
   }
 

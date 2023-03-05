@@ -39,17 +39,21 @@ const routes: Routes = [
         path: 'search',
         loadChildren: () => import('../search/search.module').then(m => m.SearchModule)
       },
+      {
+        path: 'splash',
+        loadChildren: () => import('../splash/splash.module').then(m => m.SplashModule)
+      },
 
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/tabs/splash',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/tabs/splash',
     pathMatch: 'full'
   }
 ];
