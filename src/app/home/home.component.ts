@@ -15,8 +15,7 @@ export class HomeComponent implements OnInit {
       video_link:
         'assets/video/A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4',
       video_title: 'A For Apple - ABC Alphabet Songs with Sounds for Children',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 2,
@@ -25,8 +24,7 @@ export class HomeComponent implements OnInit {
       video_link:
         'assets/video/Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4',
       video_title: 'Tables1 to 10 || English Table of One to Ten Tables Song ',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 3,
@@ -34,15 +32,15 @@ export class HomeComponent implements OnInit {
       lec_title: 'Biology',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
-      lec_id: 4, lec_icon: 'assets/chemistry.webp', lec_title: 'Chemistry',
+      lec_id: 4,
+      lec_icon: 'assets/chemistry.webp',
+      lec_title: 'Chemistry',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
 
     {
@@ -51,8 +49,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'Economics',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 6,
@@ -60,8 +57,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'History',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 7,
@@ -69,8 +65,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'Hindi',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 8,
@@ -78,8 +73,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'Physics',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 9,
@@ -87,8 +81,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'Urdu',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 10,
@@ -96,8 +89,7 @@ export class HomeComponent implements OnInit {
       lec_title: 'Psychology',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
     {
       lec_id: 11,
@@ -105,17 +97,23 @@ export class HomeComponent implements OnInit {
       lec_title: 'Computer Science',
       video_link: '',
       video_title: '',
-      liked: false
-
+      liked: false,
     },
   ];
-
-  constructor(public http:HttpClient) { }
+  greeting = ''
+  constructor(public http: HttpClient) {}
 
   ngOnInit() {
- 
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour >= 5 && hour < 12) {
+      this.greeting = 'Good morning';
+    } else if (hour >= 12 && hour < 18) {
+      this.greeting = 'Good afternoon';
+    } else {
+      this.greeting = 'Good night';
+    }
   }
-
 
   handleScrollStart() {
     console.log('scroll start');
@@ -128,5 +126,4 @@ export class HomeComponent implements OnInit {
   handleScrollEnd() {
     console.log('scroll end');
   }
-
 }
