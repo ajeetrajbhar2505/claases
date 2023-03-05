@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
       question : question
     }
     
-   let response:any = await this.http.post('http://cedar-forested-ferryboat.glitch.me/questionResponse',body).toPromise()
+   let response:any = await this.http.post('https://cedar-forested-ferryboat.glitch.me/questionResponse',body).toPromise()
    if (response.status == 200) {
     this.loading = false
      this.scrollToBottomOnInit();

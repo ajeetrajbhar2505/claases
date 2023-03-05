@@ -23,5 +23,4 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.getcapacitor.app", appContext.getPackageName());
     }
-
 }
