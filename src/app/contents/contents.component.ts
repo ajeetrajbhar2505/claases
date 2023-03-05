@@ -79,6 +79,8 @@ export class ContentsComponent  {
   }
   currentContent = 'video'
   videoLoaded:boolean = false
+  audioLoaded:boolean = false
+  pdfLoaded:boolean = false
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
@@ -110,6 +112,7 @@ export class ContentsComponent  {
 
   setClose() {
     this.videoLoaded  = false
+    this.audioLoaded  = false
     this.videoModalOpen = false;
     this.audioModalOpen = false;
     this.documentModalOpen = false;
@@ -286,6 +289,7 @@ export class ContentsComponent  {
 
   checkAudioLoaded(ev:Event)
   {
+    this.audioLoaded = true
     var myAudio: any = document.getElementById("classAudio");
     this.AudioControls.Rangeduration = myAudio.duration
     this.AudioControls.duration = this.formatTime(myAudio.duration)

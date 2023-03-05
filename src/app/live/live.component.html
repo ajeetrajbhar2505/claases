@@ -3,6 +3,7 @@
     <ion-title>
       Streaming 
     </ion-title>
+    <ion-progress-bar *ngIf="!videoLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +17,6 @@
         <source [src]="getImgContent(selectedVideoToWatch.video_link)"   type="video/mp4">
         Your Device does not support the video.
       </video>
-      <ion-spinner class="videonotloaded" *ngIf="!videoLoaded" name="bubbles"></ion-spinner>
       <ion-card-header>
         <ion-range  [style]="videoControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"  [value]="videoControls.currentRangeDuration"  [min]="0" [max]="videoControls.Rangeduration" (ionKnobMoveStart)="onIonKnobMoveStart($event)" (ionKnobMoveEnd)="onIonKnobMoveEnd($event)">
         <span slot="start">{{videoControls.currentDuration?videoControls.currentDuration:'00:00'}}</span>
@@ -24,7 +24,7 @@
         </ion-range>
         <div class="videocontrols">
           <ion-fab-button (click)="skipback(10)" size="small">
-            <ion-icon color="light" name="play-skip-back-circle-outline"></ion-icon>
+            <ion-icon  name="play-skip-back-circle-outline"></ion-icon>
           </ion-fab-button>
           <ion-fab-button (click)="playPause()" size="small">
             <ion-icon [name]="videoControls.playVideo?'play-circle-outline':'pause-circle-outline'"></ion-icon>

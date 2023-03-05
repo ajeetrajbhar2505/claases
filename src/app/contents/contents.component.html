@@ -72,17 +72,17 @@
         <ion-buttons slot="start">
           <ion-icon name="arrow-back-outline" (click)="setClose()"></ion-icon>
         </ion-buttons>
+      <ion-progress-bar *ngIf="!videoLoaded" type="indeterminate"></ion-progress-bar>
       </ion-toolbar>
     </ion-header>
     <ion-content>
+
       <div [class]="videoControls.openFullscreen?'fullscreen':'exitfullscreen'">
         <video (dblclick)="openFullscreenVideo()" width="100%" id="classVideo" (loadeddata)="checkVideoLoaded($event)"
           (timeupdate)="checkContinuousVideoduration($event)" class="sticky-top" autoplay frameborder="0">
           <source [src]="getImgContent(selectedVideoToWatch.video_link)" type="video/mp4">
           Your Device does not support the video.
         </video>
-        <ion-spinner color="light" class="videonotloaded" *ngIf="!videoLoaded" name="bubbles"></ion-spinner>
-
         <ion-card-header>
           <ion-range [style]="videoControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
             [value]="videoControls.currentRangeDuration" [min]="0" [max]="videoControls.Rangeduration"
@@ -122,6 +122,7 @@
         <ion-buttons slot="start">
           <ion-icon name="arrow-back-outline" (click)="setClose()"></ion-icon>
         </ion-buttons>
+      <ion-progress-bar *ngIf="!audioLoaded" type="indeterminate"></ion-progress-bar>
       </ion-toolbar>
     </ion-header>
     <ion-content>
