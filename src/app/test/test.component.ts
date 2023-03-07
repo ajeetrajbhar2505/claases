@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
 
 @Component({
@@ -117,8 +118,15 @@ export class TestComponent implements OnInit {
       ],
     },
   ];
+  lectureDetails =  { lec_title : "",lec_id : ""}
+  constructor(private animationCtrl: AnimationController,public ActivatedRoute:ActivatedRoute) {}
 
-  constructor(private animationCtrl: AnimationController) {}
+  ngOnInit() {
+    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
+      this.lectureDetails.lec_title = param.lec_title
+      this.lectureDetails.lec_id = param.lec_id
+    })
+  }
 
   onselectOption(i: any, option: any) {
     this.quizArray[i].options.forEach((option) => {
@@ -209,5 +217,5 @@ export class TestComponent implements OnInit {
     return this.enterAnimation(baseEl).direction('reverse');
   };
 
-  ngOnInit() {}
+
 }

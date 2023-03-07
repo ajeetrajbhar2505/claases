@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ScrollDetail } from '@ionic/angular';
 @Component({
   selector: 'app-home',
@@ -7,103 +8,11 @@ import { ScrollDetail } from '@ionic/angular';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  lecturesData = [
-    {
-      lec_id: 1,
-      lec_icon: 'assets/english.webp',
-      lec_title: 'English',
-      video_link:
-        'assets/video/A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4',
-      video_title: 'A For Apple - ABC Alphabet Songs with Sounds for Children',
-      liked: false,
-    },
-    {
-      lec_id: 2,
-      lec_icon: 'assets/maths.webp',
-      lec_title: 'Maths',
-      video_link:
-        'assets/video/Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4',
-      video_title: 'Tables1 to 10 || English Table of One to Ten Tables Song ',
-      liked: false,
-    },
-    {
-      lec_id: 3,
-      lec_icon: 'assets/biology.webp',
-      lec_title: 'Biology',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 4,
-      lec_icon: 'assets/chemistry.webp',
-      lec_title: 'Chemistry',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-
-    {
-      lec_id: 5,
-      lec_icon: 'assets/economic.webp',
-      lec_title: 'Economics',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 6,
-      lec_icon: 'assets/history.webp',
-      lec_title: 'History',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 7,
-      lec_icon: 'assets/hindi.webp',
-      lec_title: 'Hindi',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 8,
-      lec_icon: 'assets/physics.webp',
-      lec_title: 'Physics',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 9,
-      lec_icon: 'assets/urdu.webp',
-      lec_title: 'Urdu',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 10,
-      lec_icon: 'assets/psychology.webp',
-      lec_title: 'Psychology',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-    {
-      lec_id: 11,
-      lec_icon: 'assets/computer-science.webp',
-      lec_title: 'Computer Science',
-      video_link: '',
-      video_title: '',
-      liked: false,
-    },
-  ];
+  lecturesData:any = []
   greeting = ''
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient,public router:Router) {}
 
-  ngOnInit() {
+ async ngOnInit() {
     const now = new Date();
     const hour = now.getHours();
     if (hour >= 5 && hour < 12) {
@@ -113,6 +22,14 @@ export class HomeComponent implements OnInit {
     } else {
       this.greeting = 'Good night';
     }
+    let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
+      response.filter((data: any) => {
+        if (data.classId == 1) {
+          this.lecturesData = data['subjects']
+        }
+      })
+
+    })
   }
 
   handleScrollStart() {
@@ -126,4 +43,11 @@ export class HomeComponent implements OnInit {
   handleScrollEnd() {
     console.log('scroll end');
   }
+
+  beginTest(data:any)
+  {
+    this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
+
+  }
+
 }

@@ -1,15 +1,13 @@
-
-
 <ion-content [fullscreen]="true">
   <ion-toolbar>
     <ion-card-header slot="start">
-      <ion-card-title>{{greeting | titlecase}}</ion-card-title>
+      <ion-card-title>{{ greeting | titlecase }}</ion-card-title>
       <ion-card-subtitle>Ajeet Rajbhar</ion-card-subtitle>
     </ion-card-header>
   </ion-toolbar>
   <ion-toolbar>
     <ion-card-header class="feature-w-title">
-      <img  src="assets\feature-boy.jpg" width="100px" alt="">
+      <img src="assets\feature-boy.jpg" width="100px" alt="" />
       <div><span>F</span>eatures available in class</div>
     </ion-card-header>
   </ion-toolbar>
@@ -20,34 +18,59 @@
         <ul class="rb">
           <li class="rb-item" ng-repeat="itembx">
             <div class="timestamp">
-              Video<br> Classroom
+              Video<br />
+              Classroom
             </div>
-            <div class="item-title">Video Classroom videos can be accessed at any time and from anywhere, allowing learners to learn at their own pace and convenience.</div>
-  
+            <div class="item-title">
+              Video Classroom videos can be accessed at any time and from
+              anywhere, allowing learners to learn at their own pace and
+              convenience.
+            </div>
           </li>
           <li class="rb-item" ng-repeat="itembx">
             <div class="timestamp">
-              Live<br> Classroom
+              Live<br />
+              Classroom
             </div>
-            <div class="item-title">Live video sessions can be accessed from anywhere with an internet connection, allowing learners to participate in classes from remote locations.</div>
+            <div class="item-title">
+              Live video sessions can be accessed from anywhere with an internet
+              connection, allowing learners to participate in classes from
+              remote locations.
+            </div>
           </li>
-  
+
           <li class="rb-item" ng-repeat="itembx">
             <div class="timestamp">
-              Chat<br> Room
+              Chat<br />
+              Room
             </div>
-            <div class="item-title">@The chat feature allows learners to ask questions in real-time and receive answers from their instructors or peers quickly.<br>
-              @The chat feature provides privacy to learners who may not feel comfortable asking questions in a public forum.<br>
-              @The chat feature allows learners who may have difficulty speaking or hearing to participate in class discussions and ask questions.<br>
-              @The chat feature records all messages sent and received, making it easy for learners to refer back to previous questions and answers.
+            <div class="item-title">
+              @The chat feature allows learners to ask questions in real-time
+              and receive answers from their instructors or peers quickly.<br />
+              @The chat feature provides privacy to learners who may not feel
+              comfortable asking questions in a public forum.<br />
+              @The chat feature allows learners who may have difficulty speaking
+              or hearing to participate in class discussions and ask
+              questions.<br />
+              @The chat feature records all messages sent and received, making
+              it easy for learners to refer back to previous questions and
+              answers.
             </div>
           </li>
-  
         </ul>
-  
       </div>
     </div>
   </div>
 
-
+  <ion-toolbar>
+    <ion-card-header slot="start">
+      <ion-card-title>Recent Quiz</ion-card-title>
+    </ion-card-header>
+  </ion-toolbar>
+  <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
+    <ion-thumbnail slot="start">
+      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+    </ion-thumbnail>
+    <ion-label>{{data.lec_title}}</ion-label>
+  </div>
 </ion-content>
