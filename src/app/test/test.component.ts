@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnimationController } from '@ionic/angular';
 
 @Component({
   selector: 'app-test',
@@ -9,6 +10,7 @@ export class TestComponent implements OnInit {
   currentContent: string = 'video';
   totalScore: number = 0;
   currentQuestion: number = 0;
+  isModalOpen:boolean = false
   quizArray = [
     {
       question_text: "Which letter does the word 'apple' starts with?",
@@ -46,7 +48,7 @@ export class TestComponent implements OnInit {
     },
     {
       question_text: "Which letter does the word 'car' starts with?",
-      marks: 2,
+      marks: 1,
       options: [
         {
           id: 1,
@@ -78,9 +80,44 @@ export class TestComponent implements OnInit {
         },
       ],
     },
+    {
+      question_text: "Which letter does the word 'giraffe' starts with?",
+      marks: 1,
+      options: [
+        {
+          id: 1,
+          option_text: 'o',
+          is_correct: false,
+          selected: false,
+          correct_response: false,
+        },
+        {
+          id: 2,
+          option_text: 'c',
+          is_correct: false,
+          selected: false,
+          correct_response: false,
+        },
+        {
+          id: 3,
+          option_text: 'g',
+          is_correct: true,
+          selected: false,
+          correct_response: false,
+        },
+        {
+          id: 4,
+          option_text: 'd',
+          is_correct: false,
+          selected: false,
+          correct_response: false,
+        },
+      ],
+    },
+    
   ];
 
-  constructor() {}
+  constructor(private animationCtrl: AnimationController) {}
 
   onselectOption(i: any, option: any) {
     this.quizArray[i].options.forEach((option) => {
@@ -106,5 +143,57 @@ export class TestComponent implements OnInit {
     }
   }
 
+  submitQuestion()
+  {
+    this.totalScore = 0
+    for(let question of this.quizArray )
+    {
+      for(let option of question['options'])
+      {
+        if (option.selected && option.correct_response) {
+          this.totalScore += question.marks
+        }
+      }
+    }
+    this.isModalOpen = true
+  }
+
+  dismiss()
+  {
+   this.isModalOpen = false 
+  }
+
+
+  enterAnimation = (baseEl: HTMLElement) => {
+    const root:any = baseEl.shadowRoot;
+
+    const backdropAnimation = this.animationCtrl
+      .create()
+      .addElement(root.querySelector('ion-backdrop')!)
+      .fromTo('opacity', '0.01', 'var(--backdrop-opacity)');
+
+    const wrapperAnimation = this.animationCtrl
+      .create()
+      .addElement(root.querySelector('.modal-wrapper')!)
+      .keyframes([
+        { offset: 0, opacity: '0', transform: 'scale(0)' },
+        { offset: 1, opacity: '0.99', transform: 'scale(1)' },
+      ]);
+
+    return this.animationCtrl
+      .create()
+      .addElement(baseEl)
+      .easing('ease-out')
+      .duration(500)
+      .addAnimation([backdropAnimation, wrapperAnimation]);
+  };
+
+  leaveAnimation = (baseEl: HTMLElement) => {
+    return this.enterAnimation(baseEl).direction('reverse');
+  };
+
   ngOnInit() {}
+
+
+  
 }
