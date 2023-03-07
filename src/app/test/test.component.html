@@ -24,12 +24,14 @@
           >
             <div
               [class]="
-                option.selected && option.correct_response
+                option.selected && option.correct_response && viewResult
                   ? 'right option-text'
                   : 'option-text' &&
                     option.selected &&
-                    option.correct_response == false
+                    option.correct_response == false && viewResult
                   ? 'wrong option-text'
+                  : 'option-text' && option.selected?'right option-text'
+                  : 'option-text' && option.is_correct && viewResult ?'right option-text'
                   : 'option-text'
               "
               (click)="onselectOption(i, option)"
@@ -87,7 +89,7 @@
                 </div>
               </div>
             </ion-card-content>
-            <ion-button fill="outline">See Result</ion-button>
+            <ion-button fill="outline" (click)="viewResults()">See Result</ion-button>
             <ion-button fill="outline" (click)="restartQuiz()">Replay Quiz</ion-button>
           </ion-card>
         </ion-content>

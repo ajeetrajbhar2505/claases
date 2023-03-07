@@ -9,10 +9,10 @@ import { AnimationController } from '@ionic/angular';
 export class TestComponent implements OnInit {
   currentContent: string = 'video';
   totalScore: number = 0;
-  totalMarks:number = 0
-
+  totalMarks: number = 0;
   currentQuestion: number = 0;
-  isModalOpen:boolean = false
+  isModalOpen: boolean = false;
+  viewResult: boolean = false;
   quizArray = [
     {
       question_text: "Which letter does the word 'apple' starts with?",
@@ -116,7 +116,6 @@ export class TestComponent implements OnInit {
         },
       ],
     },
-    
   ];
 
   constructor(private animationCtrl: AnimationController) {}
@@ -145,45 +144,45 @@ export class TestComponent implements OnInit {
     }
   }
 
-  submitQuestion()
-  {
-    this.totalScore = 0
-    this.totalMarks = 0
-    for(let question of this.quizArray )
-    {
-      this.totalMarks += question.marks
-      for(let option of question['options'])
-      {
+  submitQuestion() {
+    this.totalScore = 0;
+    this.totalMarks = 0;
+    for (let question of this.quizArray) {
+      this.totalMarks += question.marks;
+      for (let option of question['options']) {
         if (option.selected && option.correct_response) {
-          this.totalScore += question.marks
+          this.totalScore += question.marks;
         }
       }
     }
-    this.isModalOpen = true
+    this.isModalOpen = true;
   }
 
-  restartQuiz(){
-    this.totalScore = 0
-    this.currentQuestion = 0
-    for(let question of this.quizArray )
-    {
-      for(let option of question['options'])
-      {
+  restartQuiz() {
+    this.totalScore = 0;
+    this.currentQuestion = 0;
+    for (let question of this.quizArray) {
+      for (let option of question['options']) {
         option.selected = false;
         option.correct_response = false;
       }
     }
-    this.isModalOpen = false
+    this.isModalOpen = false;
   }
 
-  dismiss()
-  {
-   this.isModalOpen = false 
+  viewResults() {
+    this.viewResult = true;
+    this.currentQuestion = 0;
+    this.isModalOpen = false;
+
   }
 
+  dismiss() {
+    this.isModalOpen = false;
+  }
 
   enterAnimation = (baseEl: HTMLElement) => {
-    const root:any = baseEl.shadowRoot;
+    const root: any = baseEl.shadowRoot;
 
     const backdropAnimation = this.animationCtrl
       .create()
@@ -211,7 +210,4 @@ export class TestComponent implements OnInit {
   };
 
   ngOnInit() {}
-
-
-  
 }
