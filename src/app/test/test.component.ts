@@ -168,13 +168,13 @@ export class TestComponent implements OnInit {
       }
     }
     this.isModalOpen = false;
+    this.viewResult = false
   }
 
   viewResults() {
     this.viewResult = true;
     this.currentQuestion = 0;
     this.isModalOpen = false;
-
   }
 
   dismiss() {

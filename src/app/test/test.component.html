@@ -34,7 +34,7 @@
                   : 'option-text' && option.is_correct && viewResult ?'right option-text'
                   : 'option-text'
               "
-              (click)="onselectOption(i, option)"
+              (click)="!viewResult?onselectOption(i, option):null"
               [innerHTML]="'Option.' + (j + 1) + ' ' + option['option_text']"
             ></div>
           </div>
