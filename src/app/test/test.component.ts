@@ -10,13 +10,23 @@ export class TestComponent implements OnInit {
   totalScore:number = 0
   quizArray = [
     {
-      question_text: 'Who is prime minister of india ?',
+      question_text: "Which letter does the word 'apple' starts with?",
       marks: 1 ,
       options: [
-        { id :1, option_text: 'Narendra modi', is_correct: true,selected : false ,correct_response : false },
-        { id :2, option_text: 'Rahul gandi', is_correct: false,selected : false,correct_response : false },
-        { id :3, option_text: 'Mamta banerji', is_correct: false,selected : false,correct_response : false },
-        { id :4, option_text: 'Yoginath', is_correct: false,selected : false,correct_response : false },
+        { id :1, option_text: 'a', is_correct: true,selected : false ,correct_response : false },
+        { id :2, option_text: 'e', is_correct: false,selected : false,correct_response : false },
+        { id :3, option_text: 'o', is_correct: false,selected : false,correct_response : false },
+        { id :4, option_text: 'l', is_correct: false,selected : false,correct_response : false },
+      ],
+    },
+    {
+      question_text: "Which letter does the word 'car' starts with?",
+      marks: 2 ,
+      options: [
+        { id :1, option_text: 'o', is_correct: false,selected : false ,correct_response : false },
+        { id :2, option_text: 'c', is_correct: true,selected : false,correct_response : false },
+        { id :3, option_text: 'b', is_correct: false,selected : false,correct_response : false },
+        { id :4, option_text: 'd', is_correct: false,selected : false,correct_response : false },
       ],
     },
   ];

@@ -12,7 +12,7 @@
     <div class="question" *ngFor="let question of quizArray;let i = index">
      <div class="question-text" [innerHTML]="'Q.' + (i+1) + ' ' +question['question_text']"></div>
       <div class="options" *ngFor="let option of question['options'];let j = index">
-        <div [class]="option.selected && option.correct_response?'option-selected-right option-text':'option-text' && option.correct_response == false && option.selected?'option-selected-wrong option-text':'option-text'" (click)="onselectOption(i,option)" [innerHTML]="'Option.' + (j+1) + ' ' +option['option_text']"></div>
+        <div [class]="option.selected && option.correct_response?'option-selected-right option-text':'option-text' && option.selected && option.correct_response == false?'option-selected-wrong option-text':'option-text'" (click)="onselectOption(i,option)" [innerHTML]="'Option.' + (j+1) + ' ' +option['option_text']"></div>
       </div>
     </div>
    <div class="action-buttons">
