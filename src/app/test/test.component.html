@@ -14,9 +14,10 @@
     <div class="quiz-card">
       <div *ngFor="let question of quizArray; let i = index">
         <div *ngIf="currentQuestion == i">
+          <p style="font-weight: 700;">{{'Question ' + (i + 1) + '/' + (quizArray.length)}}</p>
           <div
             class="question-text"
-            [innerHTML]="'Q.' + (i + 1) + ' ' + question['question_text']"
+            [innerHTML]="question['question_text']"
           ></div>
           <div
             class="options"
