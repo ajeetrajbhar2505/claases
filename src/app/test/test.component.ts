@@ -9,6 +9,7 @@ import { AnimationController } from '@ionic/angular';
 export class TestComponent implements OnInit {
   currentContent: string = 'video';
   totalScore: number = 0;
+  totalMarks:number = 0
   currentQuestion: number = 0;
   isModalOpen:boolean = false
   quizArray = [
@@ -146,8 +147,10 @@ export class TestComponent implements OnInit {
   submitQuestion()
   {
     this.totalScore = 0
+    this.totalMarks = 0
     for(let question of this.quizArray )
     {
+      this.totalMarks += question.marks
       for(let option of question['options'])
       {
         if (option.selected && option.correct_response) {
