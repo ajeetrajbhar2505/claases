@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      General Knowledge
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+<ion-content class="ion-content" #content [fullscreen]="true" class="ion-padding">
+   <div class="quiz-card">
+    <div class="question" *ngFor="let question of quizArray;let i = index">
+     <div class="question-text" [innerHTML]="'Q.' + (i+1) + ' ' +question['question_text']"></div>
+      <div class="options" *ngFor="let option of question['options'];let j = index">
+        <div [class]="option.selected && option.correct_response?'option-selected-right option-text':'option-text' && option.correct_response == false && option.selected?'option-selected-wrong option-text':'option-text'" (click)="onselectOption(i,option)" [innerHTML]="'Option.' + (j+1) + ' ' +option['option_text']"></div>
+      </div>
+    </div>
+   <div class="action-buttons">
+    <ion-button fill="outline" slot="start"><ion-icon name="arrow-back-outline"></ion-icon> Previous</ion-button>
+    <ion-button fill="outline" slot="end">Next <ion-icon name="arrow-forward-outline"></ion-icon></ion-button>
+   </div>
+    </div>
+</ion-content>

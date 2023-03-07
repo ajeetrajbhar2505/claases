@@ -43,7 +43,10 @@ const routes: Routes = [
         path: 'splash',
         loadChildren: () => import('../splash/splash.module').then(m => m.SplashModule)
       },
-
+      {
+        path : 'test',
+        loadChildren : () => import('../test/test.module').then(m => m.TestModule)
+      },
       {
         path: '',
         redirectTo: '/tabs/splash',

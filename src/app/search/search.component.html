@@ -15,10 +15,9 @@
       </div>
       <div *ngIf="data.get('searched')?.value == true" class="message received">
         <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-        <p *ngIf="data.get('answer')?.value" [innerHTML]="data.get('answer')?.value"></p>
+        <p *ngIf="data.get('answer')?.value">{{data.get('answer')?.value}}</p>
         <ion-spinner *ngIf="data.get('searched')?.value == true && data.get('answer')?.value == ''" name="dots"></ion-spinner>
       </div>
-
     </div>
   </div>
 </ion-content>

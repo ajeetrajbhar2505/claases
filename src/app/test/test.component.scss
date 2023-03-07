@@ -1,0 +1,23 @@
+.option-text{
+    padding: 15px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+.option-selected-wrong{
+   background-color: red;
+   color: white;
+}
+.option-selected-right{
+ background-color: green;
+ color: white;
+}
+.action-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
