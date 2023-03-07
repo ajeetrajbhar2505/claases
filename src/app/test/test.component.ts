@@ -10,6 +10,7 @@ export class TestComponent implements OnInit {
   currentContent: string = 'video';
   totalScore: number = 0;
   totalMarks:number = 0
+
   currentQuestion: number = 0;
   isModalOpen:boolean = false
   quizArray = [
@@ -159,6 +160,20 @@ export class TestComponent implements OnInit {
       }
     }
     this.isModalOpen = true
+  }
+
+  restartQuiz(){
+    this.totalScore = 0
+    this.currentQuestion = 0
+    for(let question of this.quizArray )
+    {
+      for(let option of question['options'])
+      {
+        option.selected = false;
+        option.correct_response = false;
+      }
+    }
+    this.isModalOpen = false
   }
 
   dismiss()

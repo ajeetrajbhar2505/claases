@@ -69,7 +69,7 @@
           </ion-toolbar>
         </ion-header>
         <ion-content>
-          <ion-card>
+          <ion-card class="card">
             <ion-card-header>
               <ion-card-title>Congratulations! You have scored</ion-card-title>
             </ion-card-header>
@@ -88,7 +88,7 @@
               </div>
             </ion-card-content>
             <ion-button fill="outline">See Result</ion-button>
-            <ion-button fill="outline">Replay Quiz</ion-button>
+            <ion-button fill="outline" (click)="restartQuiz()">Replay Quiz</ion-button>
           </ion-card>
         </ion-content>
       </ng-template>
