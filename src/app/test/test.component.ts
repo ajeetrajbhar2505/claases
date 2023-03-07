@@ -126,6 +126,7 @@ export class TestComponent implements OnInit {
       this.lectureDetails.lec_title = param.lec_title
       this.lectureDetails.lec_id = param.lec_id
     })
+    this.restartQuiz()
   }
 
   onselectOption(i: any, option: any) {

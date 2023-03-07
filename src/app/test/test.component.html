@@ -89,8 +89,10 @@
                 </div>
               </div>
             </ion-card-content>
-            <ion-button fill="outline" (click)="viewResults()">See Result</ion-button>
-            <ion-button fill="outline" (click)="restartQuiz()">Replay Quiz</ion-button>
+            <div class="action-buttons">
+              <ion-button fill="outline" (click)="viewResults()">See Result</ion-button>
+              <ion-button fill="outline" (click)="restartQuiz()">Replay Quiz</ion-button>
+            </div>
           </ion-card>
         </ion-content>
       </ng-template>
