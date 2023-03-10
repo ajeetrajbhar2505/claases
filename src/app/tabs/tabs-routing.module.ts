@@ -48,6 +48,10 @@ const routes: Routes = [
         loadChildren : () => import('../test/test.module').then(m => m.TestModule)
       },
       {
+        path : 'quiz',
+        loadChildren : () => import('../quiz/quiz.module').then(m => m.QuizModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/splash',
         pathMatch: 'full'

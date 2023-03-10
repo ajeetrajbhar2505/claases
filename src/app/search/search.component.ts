@@ -60,6 +60,7 @@ export class SearchComponent implements OnInit {
     }
     
    let response:any = await this.http.post('https://cedar-forested-ferryboat.glitch.me/questionResponse',body).toPromise()
+   console.log(response.data);
    if (response.status == 200) {
     this.loading = false
      this.scrollToBottomOnInit();

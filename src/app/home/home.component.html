@@ -1,9 +1,12 @@
 <ion-content [fullscreen]="true">
   <ion-toolbar>
+    <div class="space-between">
     <ion-card-header slot="start">
       <ion-card-title>{{ greeting | titlecase }}</ion-card-title>
       <ion-card-subtitle>Ajeet Rajbhar</ion-card-subtitle>
     </ion-card-header>
+    <ion-icon size="large" name="person-circle-outline"></ion-icon>
+    </div>
   </ion-toolbar>
   <ion-toolbar>
     <ion-card-header class="feature-w-title">
@@ -60,17 +63,5 @@
         </ul>
       </div>
     </div>
-  </div>
-
-  <ion-toolbar>
-    <ion-card-header slot="start">
-      <ion-card-title>Recent Quizes</ion-card-title>
-    </ion-card-header>
-  </ion-toolbar>
-  <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
-    <ion-thumbnail slot="start">
-      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-    </ion-thumbnail>
-    <ion-label>{{data.lec_title}}</ion-label>
   </div>
 </ion-content>

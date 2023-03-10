@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Quizes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content [fullscreen]="true" class="ion-padding">
+  <div class="container">
+  <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
+    <ion-thumbnail slot="start">
+      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+    </ion-thumbnail>
+    <ion-label>{{data.lec_title}}</ion-label>
+  </div>
+</div>
+  </ion-content>

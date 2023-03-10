@@ -8,7 +8,6 @@ import { ScrollDetail } from '@ionic/angular';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  lecturesData:any = []
   greeting = ''
   constructor(public http: HttpClient,public router:Router) {}
 
@@ -22,14 +21,6 @@ export class HomeComponent implements OnInit {
     } else {
       this.greeting = 'Good night';
     }
-    let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-      response.filter((data: any) => {
-        if (data.classId == 1) {
-          this.lecturesData = data['subjects']
-        }
-      })
-
-    })
   }
 
   handleScrollStart() {
@@ -44,10 +35,6 @@ export class HomeComponent implements OnInit {
     console.log('scroll end');
   }
 
-  beginTest(data:any)
-  {
-    this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
 
-  }
 
 }
