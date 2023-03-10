@@ -7,16 +7,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card-content>
-    <ion-list>
-          <ion-item *ngFor="let data of classes" expand="block" (click)="routeTosubjects(data.classId)">
-            <ion-thumbnail slot="start">
-              <img  [src]="data.std_icon" />
-            </ion-thumbnail>
-            <ion-label>{{data.classNamme}}</ion-label>
-          </ion-item>
-    </ion-list>
-  </ion-card-content>
+  <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data.classId)">
+    <ion-thumbnail slot="start">
+      <img  [src]="data.std_icon" />
+    </ion-thumbnail>
+    <ion-label>{{data.classNamme}}</ion-label>
+</div>
 </ion-content>
 
 
