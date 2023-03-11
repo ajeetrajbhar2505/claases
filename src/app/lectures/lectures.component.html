@@ -7,22 +7,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-reorder-group
-    [disabled]="false"
-    (ionItemReorder)="handleReorder($any($event))"
+<ion-content #content [fullscreen]="true" class="ion-padding">
+  <div
+    class="quize-cards"
+    *ngFor="let data of lecturesData"
+    (click)="routeTocontents(data.lec_id)"
   >
-    <div
-      class="quize-cards"
-      *ngFor="let data of lecturesData"
-      (click)="routeTocontents(data.lec_id)"
-    >
-    <ion-reorder>
-    </ion-reorder>
-      <ion-thumbnail slot="start">
-        <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-      </ion-thumbnail>
-        <ion-label>{{ data.lec_title }}</ion-label>
-    </div>
-  </ion-reorder-group>
+    <ion-thumbnail slot="start">
+      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+    </ion-thumbnail>
+    <ion-label>{{ data.lec_title }}</ion-label>
+  </div>
 </ion-content>

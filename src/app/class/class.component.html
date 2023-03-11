@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content #content [fullscreen]="true" class="ion-padding">
   <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data.classId)">
     <ion-thumbnail slot="start">
       <img  [src]="data.std_icon" />
