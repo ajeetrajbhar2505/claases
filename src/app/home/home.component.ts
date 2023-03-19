@@ -10,7 +10,11 @@ import { ScrollDetail } from '@ionic/angular';
 export class HomeComponent implements OnInit {
   greeting = ''
   constructor(public http: HttpClient,public router:Router) {}
-
+   menus = [
+    { icon : 'bar-chart-outline',title : 'Leadership'},
+    { icon : 'medal-outline',title : 'Achievements'},
+    { icon : 'heart-outline',title : 'Favorites'},
+   ]
  async ngOnInit() {
     const now = new Date();
     const hour = now.getHours();
