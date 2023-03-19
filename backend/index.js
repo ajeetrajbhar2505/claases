@@ -221,3 +221,33 @@ app.post('/questionResponse',async (req,res)=>{
     }
     
   })
+
+
+
+
+  
+const cron = require('node-cron');
+
+
+// create a Date object for the desired date and time
+const date = new Date('2023-03-19T19:30:46.310Z');
+
+date.setHours(1);
+date.setMinutes(14)
+// extract the year, month, day, hour, and minute values from the Date object
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const day = date.getDate();
+const hour = date.getHours();
+const minute = date.getMinutes();
+;
+
+
+// create the cron schedule value using the extracted values
+const cronSchedule = `${minute} ${hour} ${day} ${month} *`;
+
+
+// schedule the cron job using the cron schedule value
+cron.schedule(cronSchedule, () => {
+    console.log('Cron job running');
+  });
