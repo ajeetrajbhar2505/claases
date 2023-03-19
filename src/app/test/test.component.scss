@@ -34,10 +34,15 @@
   width: 90px;
   ion-card-header{
     color: white;
+    height: 95px;
   }
 }
 
 .card{
   border-radius: 8px;
    box-shadow: unset;
+}
+.grid{
+  display: grid;
+  justify-content: center;
 }

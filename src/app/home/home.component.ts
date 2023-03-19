@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
     { icon : 'medal-outline',title : 'Achievements'},
     { icon : 'heart-outline',title : 'Favorites'},
    ]
+  lecturesData:any = []
    courses = [
     { icon : 'layers-outline',title : 'Shop',ratings : '4.2',contents : '24'},
     { icon : 'bar-chart-outline',title : 'Leadership',ratings : '3.5',contents : '15'},
@@ -31,6 +32,25 @@ export class HomeComponent implements OnInit {
     } else {
       this.greeting = 'Good night';
     }
+    let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
+      response.filter((data: any) => {
+        if (data.classId == 1) {
+          this.lecturesData = data['subjects']
+          data['subjects'].forEach((element:any) => {
+            element.ratings = 25
+            element.contents = 16
+          });
+        }
+      })
+
+    })
+  }
+
+
+  beginTest(data:any)
+  {
+    this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
+
   }
 
   handleScrollStart() {
