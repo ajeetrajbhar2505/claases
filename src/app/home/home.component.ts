@@ -15,6 +15,12 @@ export class HomeComponent implements OnInit {
     { icon : 'medal-outline',title : 'Achievements'},
     { icon : 'heart-outline',title : 'Favorites'},
    ]
+   courses = [
+    { icon : 'layers-outline',title : 'Shop',ratings : '4.2',contents : '24'},
+    { icon : 'bar-chart-outline',title : 'Leadership',ratings : '3.5',contents : '15'},
+    { icon : 'medal-outline',title : 'Achievements',ratings : '5',contents : '10'},
+    { icon : 'heart-outline',title : 'Favorites',ratings : '2.6',contents : '35'},
+   ]
  async ngOnInit() {
     const now = new Date();
     const hour = now.getHours();

@@ -133,7 +133,8 @@ ion-card-header.ios {
 }
 
 .slide{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   justify-content: space-between;
   align-items: flex-start;
   height: 110px;
@@ -145,8 +146,14 @@ ion-card-header.ios {
 
 .rating{
   display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  margin: 5px;
+    align-items: center;
+    justify-content: right;
+    gap: 5px;
+    width: 99%;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.content-details{
+  font-weight: bold;
 }

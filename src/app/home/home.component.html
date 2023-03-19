@@ -30,10 +30,17 @@
   </div>
   <div class="main-container">
     <div class="slider-container" id="scrollContainer">
-      <div *ngFor="let data of menus" class="card slide">
+      <div *ngFor="let data of courses" class="card slide">
         <ion-icon style="font-size: 35px" [name]="data.icon"></ion-icon>
-        <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> 4.2</span>
+        <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> {{data.ratings}} <ion-icon name="caret-forward-circle-outline"></ion-icon>{{data.contents}}</span>
+        <div class="content-details">
+          <ion-label>{{ data.title }}</ion-label>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="space-between">
+    <h2>Popular Skill Tests</h2>
+    <span class="linked">See All</span>
   </div>
 </ion-content>
