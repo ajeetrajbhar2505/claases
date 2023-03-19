@@ -117,7 +117,7 @@ ion-card-header.ios {
     --ion-background-color:rgba(243,243,243,255);
 }
 
-.xslider-container
+.slider-container
 {
   overflow-x: auto;
   display: flex;
@@ -126,32 +126,9 @@ ion-card-header.ios {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scroll-padding: 10px;
-  .slide{
-    height: 110px;
-    width: 230px !important;
-  }
-}
-.yslider-container
-{
-  overflow-x: auto;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scroll-padding: 10px;
-  .slide{
-    height: 90px;
-    width: 100% !important;
-  }
-  height: 200px;
 }
 
-.xslider-container::-webkit-scrollbar {
-  display: none;
-}
-
-.yslider-container::-webkit-scrollbar {
+.slider-container::-webkit-scrollbar {
   display: none;
 }
 
@@ -160,6 +137,8 @@ ion-card-header.ios {
   grid-template-columns: repeat(2,1fr);
   justify-content: space-between;
   align-items: flex-start;
+  height: 110px;
+  width: 230px !important;
   max-height: max-content;
   flex-shrink: 0;
   scroll-snap-align: start;
