@@ -28,8 +28,7 @@
     <h2>Popular Courses</h2>
     <span class="linked">See All</span>
   </div>
-  <div class="main-container">
-    <div class="slider-container" id="scrollContainer">
+    <div class="xslider-container" id="scrollContainer">
       <div *ngFor="let data of courses" class="card slide">
         <ion-icon style="font-size: 35px" [name]="data.icon"></ion-icon>
         <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> {{data.ratings}} <ion-icon name="caret-forward-circle-outline"></ion-icon>{{data.contents}}</span>
@@ -38,9 +37,17 @@
         </div>
       </div>
     </div>
-  </div>
   <div class="space-between">
     <h2>Popular Skill Tests</h2>
     <span class="linked">See All</span>
+  </div>
+  <div class="yslider-container" id="scrollContainer">
+    <div *ngFor="let data of courses" class="card slide">
+      <ion-icon style="font-size: 35px" [name]="data.icon"></ion-icon>
+      <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> {{data.ratings}} <ion-icon name="caret-forward-circle-outline"></ion-icon>{{data.contents}}</span>
+      <div class="content-details">
+        <ion-label>{{ data.title }}</ion-label>
+      </div>
+    </div>
   </div>
 </ion-content>
