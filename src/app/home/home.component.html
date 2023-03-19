@@ -2,7 +2,12 @@
   <ion-toolbar>
     <div class="space-between">
       <ion-card-header slot="start">
-        <ion-card-title>Home</ion-card-title>
+        <ion-card-title style="position: relative;"> 
+          <ion-icon  name="partly-sunny-outline" *ngIf="greeting == 'Good morning'"></ion-icon>
+          <ion-icon *ngIf="greeting == 'Good afternoon'" name="sunny-outline"></ion-icon>
+          <ion-icon *ngIf="greeting == 'Good night'" name="cloudy-night-outline"></ion-icon>
+          <span class="greeting">{{greeting}}</span>
+        </ion-card-title>
       </ion-card-header>
       <ion-card-header class="notification-header">
         <ion-icon
