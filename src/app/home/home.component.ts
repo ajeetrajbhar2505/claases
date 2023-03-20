@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScrollDetail } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +10,8 @@ import { ScrollDetail } from '@ionic/angular';
 })
 export class HomeComponent implements OnInit {
   greeting = ''
-  constructor(public http: HttpClient,public router:Router) {}
+  menuType: string = 'overlay';
+  constructor(public http: HttpClient,public router:Router, public menuCtrl: MenuController) {}
    menus = [
     { icon : 'bar-chart-outline',title : 'Leadership'},
     { icon : 'medal-outline',title : 'Achievements'},
@@ -51,6 +53,11 @@ export class HomeComponent implements OnInit {
   {
     this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
 
+  }
+
+
+  toggleMenu() {
+    this.menuCtrl.toggle(); //Add this method to your button click function
   }
 
   handleScrollStart() {
