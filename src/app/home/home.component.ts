@@ -24,6 +24,16 @@ export class HomeComponent implements OnInit {
     { icon : 'medal-outline',title : 'Achievements',ratings : '5',contents : '10'},
     { icon : 'heart-outline',title : 'Favorites',ratings : '2.6',contents : '35'},
    ]
+
+   notifications:any[] = [
+    { icons : 'musical-notes-outline', info : 'Admin uploaded a new audio'},
+    { icons : 'play-circle-outline', info : 'Admin uploaded a new video'},
+    { icons : 'document-text-outline', info : 'Admin uploaded a new document'},
+   ]
+
+   
+   
+
  async ngOnInit() {
     const now = new Date();
     const hour = now.getHours();
