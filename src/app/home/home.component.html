@@ -49,7 +49,7 @@
       </ion-toolbar>
       <div class="space-between">
         <h2>Popular Courses</h2>
-        <span class="linked">See All</span>
+        <span class="linked" routerLink="/tabs/popular-course">See All</span>
       </div>
         <div class="slider-container" id="scrollContainer">
           <div *ngFor="let data of courses" class="card slide">
@@ -62,7 +62,7 @@
         </div>
       <div class="space-between">
         <h2>Popular Skill Tests</h2>
-        <span class="linked">See All</span>
+        <span class="linked" routerLink="/tabs/popular-quiz">See All</span>
       </div>
       <div class="slider-container" id="scrollContainer">
         <div *ngFor="let data of lecturesData" (click)="beginTest(data)" class="card slide">

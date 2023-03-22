@@ -52,6 +52,14 @@ const routes: Routes = [
         loadChildren : () => import('../quiz/quiz.module').then(m => m.QuizModule)
       },
       {
+        path : 'popular-quiz',
+        loadChildren : () => import('../popular/quiz/quiz.module').then(m => m.QuizModule)
+      },
+      {
+        path : 'popular-course',
+        loadChildren : () => import('../popular/course/course.module').then(m => m.CourseModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/splash',
         pathMatch: 'full'
