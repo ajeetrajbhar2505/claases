@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,7 +11,8 @@ import { MenuController } from '@ionic/angular';
 })
 export class HomeComponent implements OnInit {
   greeting = ''
-  menuType: string = 'overlay';
+  isModalOpen:boolean = false
+
   constructor(public http: HttpClient,public router:Router, public menuCtrl: MenuController) {}
    menus = [
     { icon : 'bar-chart-outline',title : 'Leadership'},
@@ -32,7 +34,10 @@ export class HomeComponent implements OnInit {
    ]
 
    
-   
+   setOpen()
+   {
+    this.isModalOpen = ! this.isModalOpen
+   }
 
  async ngOnInit() {
     const now = new Date();
