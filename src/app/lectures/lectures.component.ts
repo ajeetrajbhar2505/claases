@@ -41,7 +41,7 @@ export class LecturesComponent  {
 
 
   routeTocontents(lecId: any) {
-    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lecId : lecId}})
+    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lecId : lecId,from : '/tabs/lectures'}})
    }
 
   backToclass() {

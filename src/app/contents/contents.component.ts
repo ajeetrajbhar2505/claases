@@ -81,10 +81,12 @@ export class ContentsComponent  {
   videoLoaded:boolean = false
   audioLoaded:boolean = false
   pdfLoaded:boolean = false
+  from:any = ""
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.classId = param.classId
+      this.from = param.from
       this.contentsData.videos = []
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise().then((response: any) => {
         response.filter((Object:any)=>{
@@ -107,7 +109,7 @@ export class ContentsComponent  {
   }
 
   backTolectures() {
-    this.router.navigate(['/tabs/lectures'],{queryParams : { classId : this.classId}})
+    this.router.navigate([this.from],{queryParams : { classId : this.classId}})
   }
 
   setClose() {

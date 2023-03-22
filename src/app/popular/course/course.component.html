@@ -1,14 +1,12 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
-    <ion-thumbnail slot="start">
-      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-    </ion-thumbnail>
-    <ion-label>{{data.lec_title}}</ion-label>
-</div>
-<div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
-  <ion-thumbnail slot="start">
-    <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-  </ion-thumbnail>
-  <ion-label>{{data.lec_title}}</ion-label>
-</div>
+    <ion-card-content>
+      <ion-list>
+            <ion-item *ngFor="let data of lecturesData" expand="block" (click)="routeTocontents(data.lec_id)">
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+              </ion-thumbnail>
+              <ion-label>{{data.lec_title}}</ion-label>
+            </ion-item>
+      </ion-list>
+    </ion-card-content>
 </ion-content>
