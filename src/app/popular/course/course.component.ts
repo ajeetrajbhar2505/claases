@@ -39,9 +39,14 @@ export class CourseComponent  {
 
   }
 
+
   routeTocontents(lecId: any) {
     this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lecId : lecId,from : '/tabs/popular-course'}})
    }
+
+  backTohome() {
+    this.router.navigate(['/tabs/home'])
+  }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     ev.detail.complete();

@@ -1,3 +1,15 @@
+
+<ion-header  [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Popular Quizes
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline" (click)="backTohome()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
     <ion-thumbnail slot="start">

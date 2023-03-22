@@ -29,4 +29,8 @@ export class QuizComponent implements OnInit {
     this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
 
   }
+  
+  backTohome() {
+    this.router.navigate(['/tabs/home'])
+  }
 }
