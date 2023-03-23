@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ContentsComponent  {
   contentsData:any =  []
+  filteredData:any = []
   currentContent = "video"
   from:any = ""
   classId:any = ""
@@ -36,6 +37,7 @@ export class ContentsComponent  {
         response.filter((Object:any)=>{
           if (Object.lec_id == param.lec_id) {
             this.contentsData = Object['contents']
+            this.filteredData =  Object['contents'].filter((object:any)=> object.content == this.currentContent)
           }
         })
       })
@@ -57,6 +59,11 @@ export class ContentsComponent  {
     ev.detail.complete();
   }
 
+
+  switchContent(content:any)
+  {
+   this.filteredData =  this.contentsData.filter((object:any)=> object.content == content)
+  }
   
 
   routeTocontentControls(contentDetails:any)

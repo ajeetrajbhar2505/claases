@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="currentContent" value="video">
+    <ion-segment [(ngModel)]="currentContent" (ngModelChange)="switchContent(currentContent)" value="video">
       <ion-segment-button value="video">
         <ion-label>Video</ion-label>
       </ion-segment-button>
@@ -29,7 +29,7 @@
       </ion-reorder-group>
       <div [ngSwitch]="currentContent">
         <div *ngSwitchDefault>
-          <ion-item *ngFor="let data of contentsData" expand="block"
+          <ion-item *ngFor="let data of filteredData" expand="block"
             (click)="routeTocontentControls(data)">
             <ion-thumbnail slot="start">
               <img alt="Silhouette of mountains" [src]="data.content_icon" />
