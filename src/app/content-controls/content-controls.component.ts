@@ -68,6 +68,8 @@ export class ContentControlsComponent {
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
       response.filter((Object:any)=>{
         if (Object.lec_id == param.lec_id) {
+         console.log(Object['contents'].filter((data:any)=> data.contentId == param.contentId));
+         this.contentToWatch =  Object['contents'].filter((data:any)=> data.contentId == param.contentId)[0]
         }
       })
 

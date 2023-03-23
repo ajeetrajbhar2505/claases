@@ -12,25 +12,29 @@
 
   <ion-content [fullscreen]="true" class="ion-padding">
           <div [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
-
-            <video *ngIf="contentDetails.content == 'video'" (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
+            <div [style]="contentDetails.content == 'video'?'display: block':'display: none'">
+              <video  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
               (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>
+            </div>
+            <div [style]="contentDetails.content == 'audio'?'display: block':'display: none'">
+              <video  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
+              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
+              <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
+              Your Device does not support the video.
+            </video>
+            </div>
+            <div [style]="contentDetails.content == 'document'?'display: block':'display: none'">
+              <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen"
+              src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
+              [original-size]="false" style="height: 3500px"></pdf-viewer>
+              <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen" [src]="contentToWatch.content_icon" height="150px" alt="">
+            </div>
 
-            <audio *ngIf="contentDetails.content == 'audio'" (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-            (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
-            <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
-            Your Device does not support the Audio.
-            </audio>
 
 
-            <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen && contentDetails.content == 'document'"
-            src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
-            [original-size]="false" style="height: 3500px"></pdf-viewer>
-            <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen && contentDetails.content == 'document'" [src]="contentToWatch.content_icon" height="150px" alt="">
-          
 
             <ion-card-header>
               <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
