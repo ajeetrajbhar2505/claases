@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  OnInit,
   Optional,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +12,6 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-content-controls',
@@ -64,15 +62,7 @@ export class ContentControlsComponent {
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      console.log({param : param});
-      
-      this.contentDetails.from = param.from;
-      this.contentDetails.nested = param.nested;
-      this.contentDetails.classId = param.classId;
-      this.contentDetails.lec_id = param.lec_id;
-      this.contentDetails.contentId = param.contentId;
-      this.contentDetails.content = param.content;
-
+      this.contentDetails = param;
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
       response.filter((Object:any)=>{
         if (Object.lec_id == param.lec_id) {

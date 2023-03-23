@@ -62,8 +62,6 @@ export class ContentsComponent  {
 
   routeTocontentControls(contentDetails:any)
   {
-    console.log({contentDetails :contentDetails});
-    
     this.router.navigate(['/tabs/content-controls'],{queryParams : { nested : this.params.from, from : '/tabs/contents', classId : this.params.classId,lec_id : this.params.lec_id,contentId : contentDetails.contentId,content : contentDetails.content}})
   }
 }
