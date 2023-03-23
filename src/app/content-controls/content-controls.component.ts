@@ -63,13 +63,12 @@ export class ContentControlsComponent {
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
-      console.log({contentDetails : this.contentDetails});
-      
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
       response.filter((Object:any)=>{
         if (Object.lec_id == param.lec_id) {
-         console.log(Object['contents'].filter((data:any)=> data.contentId == param.contentId));
-         this.contentToWatch =  Object['contents'].filter((data:any)=> data.contentId == param.contentId)[0]
+          let response =  Object['contents'].filter((data:any)=> data.contentId == param.contentId)
+          this.contentToWatch = response[0]
+          this.contentToWatch.content_link = 'https://cdn.glitch.global/77fbbc57-651f-4482-aa3c-97402292b10b/' + response[0].content_link + '?v=1677959874652'
         }
       })
 

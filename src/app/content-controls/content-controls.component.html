@@ -8,57 +8,57 @@
     </ion-buttons>
     <ion-progress-bar *ngIf="!contentLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
-  </ion-header>
+</ion-header>
 
-  <ion-content [fullscreen]="true" class="ion-padding">
-          <div [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
-            <div [style]="contentDetails.content == 'video'?'display: block':'display: none'">
-              <video  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
-              <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
-              Your Device does not support the video.
-            </video>
-            </div>
-            <div [style]="contentDetails.content == 'audio'?'display: block':'display: none'">
-              <video  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
-              <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
-              Your Device does not support the video.
-            </video>
-            </div>
-            <div [style]="contentDetails.content == 'document'?'display: block':'display: none'">
-              <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen"
-              src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
-              [original-size]="false" style="height: 3500px"></pdf-viewer>
-              <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen" [src]="contentToWatch.content_icon" height="150px" alt="">
-            </div>
-
-
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
+    <video (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
+      (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
+      <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
+      Your Device does not support the video.
+    </video>
+    <div [style]="contentDetails.content == 'audio'?'display: block':'display: none'">
+      <video (dblclick)="openFullscreencontent()" width="100%" id="classContent"
+        (loadeddata)="checkContentLoaded($event)" (timeupdate)="checkContinuousContentduration($event)"
+        class="sticky-top" autoplay frameborder="0">
+        <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
+        Your Device does not support the video.
+      </video>
+    </div>
+    <div [style]="contentDetails.content == 'document'?'display: block':'display: none'">
+      <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen"
+        src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true" [original-size]="false"
+        style="height: 3500px"></pdf-viewer>
+      <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()"
+        *ngIf="!contentControls.openFullscreen" [src]="contentToWatch.content_icon" height="150px" alt="">
+    </div>
 
 
-            <ion-card-header>
-              <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
-                [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
-                (ionKnobMoveStart)="onIonKnobMovecontentStart($event)" (ionKnobMoveEnd)="onIonKnobMovecontentEnd($event)">
-                <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
-                <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
-              </ion-range>
-              <div class="contentcontrols">
-                <ion-fab-button (click)="skipbackContent(10)" size="small">
-                  <ion-icon name="play-skip-back-circle-outline"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button (click)="playPauseContent()" size="small">
-                  <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button (click)="skipnextContent(10)" size="small">
-                  <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
-                </ion-fab-button>
-              </div>
-            </ion-card-header>
-          </div>
-          <ion-card-header>
-            <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
-            <ion-card-subtitle>Auther : {{contentToWatch.teacher | lowercase}}</ion-card-subtitle>
-            <ion-card-subtitle>Published : {{contentToWatch.published_at | lowercase}}</ion-card-subtitle>
-          </ion-card-header>
-  </ion-content>
+
+
+    <ion-card-header>
+      <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
+        [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
+        (ionKnobMoveStart)="onIonKnobMovecontentStart($event)" (ionKnobMoveEnd)="onIonKnobMovecontentEnd($event)">
+        <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
+        <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
+      </ion-range>
+      <div class="contentcontrols">
+        <ion-fab-button (click)="skipbackContent(10)" size="small">
+          <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="playPauseContent()" size="small">
+          <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="skipnextContent(10)" size="small">
+          <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+        </ion-fab-button>
+      </div>
+    </ion-card-header>
+  </div>
+  <ion-card-header>
+    <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
+    <ion-card-subtitle>Auther : {{contentToWatch.teacher | lowercase}}</ion-card-subtitle>
+    <ion-card-subtitle>Published : {{contentToWatch.published_at | lowercase}}</ion-card-subtitle>
+  </ion-card-header>
+</ion-content>
