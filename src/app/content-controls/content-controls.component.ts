@@ -116,10 +116,6 @@ export class ContentControlsComponent {
       this.contentControls.playContent = true;
     }
 
-    if (!content.paused) {
-      content.pause();
-      this.contentControls.playContent = false;
-    }
  
   }
 
@@ -149,10 +145,7 @@ export class ContentControlsComponent {
       this.contentControls.playContent = true;
       content.pause();
     }
-    if (!this.contentLoaded) {
-      this.contentControls.currentRangeDuration = 0
-      content.pause();
-    }
+
   }
 
   checkContentLoaded(ev: Event) {
