@@ -63,6 +63,7 @@ export class ContentControlsComponent {
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
+      this.contentControls.openFullscreen = false
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
       response.filter((Object:any)=>{
         if (Object.lec_id == param.lec_id) {
