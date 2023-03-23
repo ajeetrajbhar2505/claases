@@ -11,7 +11,7 @@
           <div *ngIf="contentDetails.content == 'video' || contentDetails.content == 'audio'" [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
             <div [style]="contentDetails.content == 'video'?'display: block':'display: none'">
               <video  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
+              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay  frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>

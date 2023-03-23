@@ -120,6 +120,7 @@ export class ContentControlsComponent {
       content.pause();
       this.contentControls.playContent = false;
     }
+ 
   }
 
   onIonKnobMovecontentEnd(ev: Event) {
@@ -146,6 +147,10 @@ export class ContentControlsComponent {
       Math.floor(this.contentControls.Rangeduration)
     ) {
       this.contentControls.playContent = true;
+      content.pause();
+    }
+    if (!this.contentLoaded) {
+      this.contentControls.currentRangeDuration = 0
       content.pause();
     }
   }
@@ -206,6 +211,9 @@ export class ContentControlsComponent {
   }
 
   playPauseContent() {
+    if (!this.contentLoaded) {
+      return
+    }
     var content: any = document.getElementById('classContent');
     if (content.paused) content.play();
     else content.pause();
@@ -213,24 +221,36 @@ export class ContentControlsComponent {
   }
 
   skipnextContent(value: any) {
+    if (!this.contentLoaded) {
+      return
+    }
     var content: any = document.getElementById('classContent');
     content.currentTime += value;
     this.contentControls.currentRangeDuration = content.currentTime;
   }
 
   skipbackContent(value: any) {
+    if (!this.contentLoaded) {
+      return
+    }
     var content: any = document.getElementById('classContent');
     content.currentTime = content.currentTime - value;
     this.contentControls.currentRangeDuration = content.currentTime;
   }
 
   restartContent() {
+    if (!this.contentLoaded) {
+      return
+    }
     var content: any = document.getElementById('classContent');
     content.currentTime = 0;
     this.contentControls.currentRangeDuration = content.currentTime;
   }
 
   openFullscreencontent() {
+    if (!this.contentLoaded) {
+      return
+    }
     this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
 }
