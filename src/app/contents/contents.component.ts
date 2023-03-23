@@ -56,8 +56,6 @@ export class ContentsComponent  {
 
   switchContent(content:any)
   {
-    console.log({content :content});
-    
    this.filteredData =  this.contentsData.filter((object:any)=> object.content == content)
   }
   

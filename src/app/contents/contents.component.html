@@ -32,7 +32,7 @@
           <ion-item *ngFor="let data of filteredData" expand="block"
             (click)="routeTocontentControls(data)">
             <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" [src]="data.content_icon" />
+              <img alt="Silhouette of mountains" [src]="data.c" />
             </ion-thumbnail>
             <ion-label>{{data.content_title}}</ion-label>
             <ion-reorder slot="end"></ion-reorder>
