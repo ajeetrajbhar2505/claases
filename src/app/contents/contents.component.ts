@@ -23,7 +23,7 @@ export class ContentsComponent  {
   contentDetails: any = {
     from: '',
     classId: '',
-    lectureId: '',
+    lec_id: '',
     contentId: '',
     content: ''
     };
@@ -68,7 +68,6 @@ export class ContentsComponent  {
 
   routeTocontentControls(contentDetails:any)
   {
-    this.router.navigate([this.from],{queryParams : { from : '', classId : contentDetails.classId,lectureId : contentDetails.lectureId,contentId : contentDetails.contentId,content : contentDetails.content}})
+    this.router.navigate([this.from],{queryParams : { from : '/tabs/contents', classId : contentDetails.classId,lec_id : contentDetails.lec_id,contentId : contentDetails.contentId,content : contentDetails.content}})
   }
-
 }

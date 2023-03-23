@@ -47,7 +47,7 @@ export class ContentControlsComponent {
   contentDetails: any = {
     from: '',
     classId: '',
-    lectureId: '',
+    lec_id: '',
     contentId: '',
     content: ''
     };
@@ -65,13 +65,13 @@ export class ContentControlsComponent {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails.from = param.from;
       this.contentDetails.classId = param.classId;
-      this.contentDetails.lectureId = param.lectureId;
+      this.contentDetails.lec_id = param.lec_id;
       this.contentDetails.contentId = param.contentId;
       this.contentDetails.content = param.content;
 
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
       response.filter((Object:any)=>{
-        if (Object.lec_id == param.lectureId) {
+        if (Object.lec_id == param.lec_id) {
         }
       })
 
@@ -89,7 +89,7 @@ export class ContentControlsComponent {
     this.router.navigate([this.contentDetails.from], {
       queryParams: {
         classId: this.contentDetails.classId,
-        lectureId: this.contentDetails.lectureId,
+        lec_id: this.contentDetails.lec_id,
         contentId: this.contentDetails.contentId,
       },
     });
