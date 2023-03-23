@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('../contents/contents.module').then(m => m.ContentsModule)
       },
       {
+        path: 'content-controls',
+        loadChildren: () => import('../content-controls/content-controls.module').then(m => m.ContentControlsModule)
+      },
+      {
         path: 'live',
         loadChildren: () => import('../live/live.module').then(m => m.LiveModule)
       },
@@ -56,7 +60,7 @@ const routes: Routes = [
         loadChildren : () => import('../popular/quiz/quiz.module').then(m => m.QuizModule)
       },
       {
-        path : 'popular-course',
+        path : 'popular-lectures',
         loadChildren : () => import('../popular/course/course.module').then(m => m.CourseModule)
       },
       {

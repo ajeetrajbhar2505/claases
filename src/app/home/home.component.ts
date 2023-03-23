@@ -28,9 +28,9 @@ export class HomeComponent implements OnInit {
    ]
 
    notifications:any[] = [
-    { icons : 'musical-notes-outline', info : 'Admin uploaded a new audio'},
-    { icons : 'play-circle-outline', info : 'Admin uploaded a new video'},
-    { icons : 'document-text-outline', info : 'Admin uploaded a new document'},
+    { icons : 'musical-notes-outline', info : 'Admin uploaded a new audio',from : ''},
+    { icons : 'play-circle-outline', info : 'Admin uploaded a new video',from : ''},
+    { icons : 'document-text-outline', info : 'Admin uploaded a new document',from : ''},
    ]
 
    
