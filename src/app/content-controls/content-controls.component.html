@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Contents
+      {{contentDetails.content | titlecase}}
     </ion-title>
     <ion-buttons slot="start">
       <ion-icon name="arrow-back-outline" (click)="backToContents()"></ion-icon>

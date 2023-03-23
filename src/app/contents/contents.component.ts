@@ -1,13 +1,10 @@
 import { Component, ElementRef, OnInit, Optional, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { RangeCustomEvent, RangeValue } from '@ionic/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-contents',
@@ -18,8 +15,6 @@ export class ContentsComponent  {
   contentsData:any =  []
   filteredData:any = []
   currentContent = "video"
-  from:any = ""
-  classId:any = ""
   contentDetails: any = {
     from: '',
     classId: '',
@@ -27,12 +22,11 @@ export class ContentsComponent  {
     contentId: '',
     content: ''
     };
-
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
+  params:any = ""
+  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      this.classId = param.classId
-      this.from = param.from
+      this.params = param
       let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise().then((response: any) => {
         response.filter((Object:any)=>{
           if (Object.lec_id == param.lec_id) {
@@ -52,7 +46,7 @@ export class ContentsComponent  {
   }
 
   backTolectures() {
-    this.router.navigate([this.from],{queryParams : { classId : this.classId}})
+    this.router.navigate([this.params.from],{queryParams : { classId : this.params.classId}})
   }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
@@ -68,6 +62,8 @@ export class ContentsComponent  {
 
   routeTocontentControls(contentDetails:any)
   {
-    this.router.navigate([this.from],{queryParams : { from : '/tabs/contents', classId : contentDetails.classId,lec_id : contentDetails.lec_id,contentId : contentDetails.contentId,content : contentDetails.content}})
+    console.log({contentDetails :contentDetails});
+    
+    this.router.navigate(['/tabs/content-controls'],{queryParams : { nested : this.params.from, from : '/tabs/contents', classId : this.params.classId,lec_id : this.params.lec_id,contentId : contentDetails.contentId,content : contentDetails.content}})
   }
 }

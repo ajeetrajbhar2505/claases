@@ -45,6 +45,7 @@ export class ContentControlsComponent {
   };
 
   contentDetails: any = {
+    nested : '',
     from: '',
     classId: '',
     lec_id: '',
@@ -63,7 +64,10 @@ export class ContentControlsComponent {
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
+      console.log({param : param});
+      
       this.contentDetails.from = param.from;
+      this.contentDetails.nested = param.nested;
       this.contentDetails.classId = param.classId;
       this.contentDetails.lec_id = param.lec_id;
       this.contentDetails.contentId = param.contentId;
@@ -91,6 +95,7 @@ export class ContentControlsComponent {
         classId: this.contentDetails.classId,
         lec_id: this.contentDetails.lec_id,
         contentId: this.contentDetails.contentId,
+        from : this.contentDetails.nested
       },
     });
   }
