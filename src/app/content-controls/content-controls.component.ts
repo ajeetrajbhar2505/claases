@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent implements OnInit  {
+export class ContentControlsComponent {
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
 
@@ -58,7 +58,25 @@ export class ContentControlsComponent implements OnInit  {
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
-      this.contentControls.openFullscreen = false;
+      this.contentControls = {
+        playContent: false,
+        openFullscreen: false,
+        Rangeduration: 0,
+        currentRangeDuration: 0,
+        currentDuration: '',
+        duration: '',
+      };;
+      this.contentToWatch = {};
+      this.contentToWatch = await this.http
+        .get(
+          'https://cedar-forested-ferryboat.glitch.me/loadVideo/' +
+          this.contentDetails.lec_id +
+          '/' +
+          this.contentDetails.contentId
+        )
+        .toPromise();
+      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link + '?v=1677959874652'
+
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -66,25 +84,16 @@ export class ContentControlsComponent implements OnInit  {
         App.exitApp();
       }
     });
-    
+
   }
 
-  async ngOnInit() {
-    this.contentToWatch = {};
-    this.contentToWatch = await this.http
-      .get(
-        'https://cedar-forested-ferryboat.glitch.me/loadVideo/' +
-          this.contentDetails.lec_id +
-          '/' +
-          this.contentDetails.contentId
-      )
-      .toPromise();
-      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link + '?v=1677959874652'
-  }
+
 
   backToContents() {
     var content: any = document.getElementById('classContent');
-    content.pause()
+    if (content) {
+      content.pause()
+    }
     this.router.navigate([this.contentDetails.from], {
       queryParams: {
         classId: this.contentDetails.classId,
@@ -173,7 +182,7 @@ export class ContentControlsComponent implements OnInit  {
       this.contentControls.playContent = false;
     }
   }
-  
+
 
   formatTime(duration: any) {
     const hours = Math.floor(duration / 3600);
@@ -258,5 +267,5 @@ export class ContentControlsComponent implements OnInit  {
 
 
 
-  
+
 }

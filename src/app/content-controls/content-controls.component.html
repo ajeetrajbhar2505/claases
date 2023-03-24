@@ -8,12 +8,13 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" class="ion-padding" >
-          <div *ngIf="contentToWatch.content == 'video' || contentToWatch.content == 'audio'" [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
+          <div  [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
               <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
               (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay  frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>
+            <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'document' || contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
               <audio *ngIf="contentToWatch.content == 'audio'"  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
               (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp3">
@@ -42,7 +43,6 @@
             <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen && contentToWatch.content == 'document'"
             src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
             [original-size]="false" style="height: 3500px"></pdf-viewer>
-            <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen && contentToWatch.content == 'document'" [src]="contentToWatch.content_icon" height="150px" alt="">
           <ion-card-header>
             <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
             <ion-card-subtitle>Auther : {{contentToWatch.teacher | lowercase}}</ion-card-subtitle>
