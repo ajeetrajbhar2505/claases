@@ -17,6 +17,7 @@
               <img alt="Silhouette of mountains" [src]="data.lec_icon" />
             </ion-thumbnail>
             <ion-label>{{data.lec_title}}</ion-label>
+            <ion-label slot="end">{{i == (2*1+1)?i+10:30}}%</ion-label>
             <ion-icon slot="end" [name]="i == (2*1+1)?'trending-down-outline':'trending-up-outline'"></ion-icon>
           </ion-item>
     </ion-list>
