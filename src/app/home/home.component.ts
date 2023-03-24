@@ -88,5 +88,10 @@ export class HomeComponent implements OnInit {
   }
 
 
+  routeTocontents(lec_id: any) {
+    this.router.navigate(['/tabs/contents'],{queryParams : {classId : 1, lec_id : lec_id,from : '/tabs/home'}})
+   }
+
+
 
 }

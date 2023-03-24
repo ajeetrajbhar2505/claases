@@ -11,32 +11,32 @@ import { App } from '@capacitor/app';
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.scss'],
 })
-export class CourseComponent  {
+export class CourseComponent implements OnInit  {
   lecturesData: any[] = []
   classId = ''
   
 
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
-    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      this.classId = param.classId
-      this.lecturesData = []
-      let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-        response.filter((data: any) => {
-          if (data.classId == 10) {
-            this.lecturesData = data['subjects']
-          }
-        })
-
-      })
-
-    })
+      
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         App.exitApp();
       }
     });
 
+  }
+
+
+ async ngOnInit() {
+    this.lecturesData = []
+    let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
+      response.filter((data: any) => {
+        if (data.classId == 10) {
+          this.lecturesData = data['subjects']
+        }
+      })
+    }) 
   }
 
 
