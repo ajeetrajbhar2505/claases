@@ -28,18 +28,19 @@ export class AppComponent {
     
     checkRouterEvent(routerEvent: any): void {
       if (routerEvent instanceof NavigationStart) {
-        if (this.getContentElement()) {
-          this.getContentElement()?.pause()
+        const contentElement = this.getContentElement();
+        if (contentElement) {
+          contentElement.pause();
         }
-        if (routerEvent.url !== '/tabs/live' && this.getliveContentElement()) {
-          this.getliveContentElement()?.pause()
+        const liveContentElement = this.getliveContentElement();
+        if (routerEvent.url !== '/tabs/live' && liveContentElement) {
+          liveContentElement.pause();
         }
+      } else if (routerEvent instanceof NavigationError) {
+        this.router.navigate(['/tabs/home']);
+        // handle NavigationError here
       }
-
-      if (routerEvent instanceof NavigationEnd ||
-          routerEvent instanceof NavigationCancel ||
-          routerEvent instanceof NavigationError) {
-      }
-  }
+    }
+    
 
 }
