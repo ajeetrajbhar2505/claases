@@ -29,7 +29,7 @@ $red-color:#EA4335;
 // }
 
 .donut {
-    background:transparent;
+    background: transparent;
     width: 10rem;
     height: 10rem;
     border: 0;
@@ -37,10 +37,46 @@ $red-color:#EA4335;
     border-left: $size solid $red-color;
     border-bottom: $size solid $blue-color;
     border-top: $size solid $blue-color;
-    border-radius:25rem;
-    overflow:hidden;
-    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+    border-radius: 25rem;
+    overflow: hidden;
+    box-shadow: 0px 25px 25px -10px rgba(0,0,0,0.25), 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+    animation-name: donut;
+    animation-duration: 6s;
+    animation-timing-function: ease-in-out;
   }
+  
+  @keyframes donut {
+    0% {
+      border-right: $size solid $red-color;
+      border-left: $size solid $red-color;
+      border-bottom: $size solid $red-color;
+      border-top: $size solid $red-color;
+      transform: rotate(0deg);
+    }
+    25%{
+        border-right: $size solid $red-color;
+        border-left: $size solid $red-color;
+        border-bottom: $size solid $red-color;
+        border-top: $size solid $blue-color;
+        transform: rotate(90deg);
+    }
+    50% {
+        border-right: $size solid $blue-color;
+        border-left: $size solid $red-color;
+        border-bottom: $size solid $red-color;
+        border-top: $size solid $blue-color;
+      transform: rotate(180deg);
+    }
+
+    100% {
+        border-right: $size solid $blue-color;
+        border-left: $size solid $red-color;
+        border-bottom: $size solid $blue-color;
+        border-top: $size solid $blue-color;
+      transform: rotate(360deg);
+    }
+  }
+  
 
 
 .donut-red {
