@@ -46,7 +46,8 @@ export class HomeComponent implements OnInit {
     { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video' },
     { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document' },
   ];
-
+  contentId = 10
+  classId = 10
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
 
   async ngOnInit() {
@@ -60,7 +61,7 @@ export class HomeComponent implements OnInit {
       this.greeting = 'Good night';
     }
     const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
-    const data = response.filter((data: any) => data.classId === 10)[0];
+    const data = response.filter((data: any) => data.classId === this.classId)[0];
     this.lecturesData = data.subjects;
     this.lecturesData.forEach((element: any) => {
       element.ratings = 25;
@@ -68,8 +69,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  beginTest(data: any) {
-    this.router.navigate(['/tabs/test'], { queryParams: { lec_title: data.lec_title, lec_id: data.lec_id } });
+
+
+  beginTest(data:any)
+  {
+    const queryParams = {
+      classId: this.classId,
+      lec_id: data.lec_id,
+      lec_title : data.lec_title,
+      contentId: this.contentId,
+      from: '/tabs/home',
+    };
+    this.router.navigate(['/tabs/test'],{queryParams})
   }
 
   toggleMenu() {
