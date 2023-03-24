@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-icon name="chevron-back-outline"  (click)="toggleMenu()"></ion-icon>
+          <ion-icon name="chevron-back-outline" (click)="toggleMenu()"></ion-icon>
         </ion-buttons>
         <ion-title>Notifications</ion-title>
       </ion-toolbar>
@@ -11,9 +11,7 @@
     <ion-content class="ion-padding">
       <ion-item *ngFor="let data of notifications">
         <ion-icon slot="start" [name]="data.icon"></ion-icon>
-        <ion-label class="ion-text-wrap">
-         {{data.info}}
-        </ion-label>
+        <ion-label class="ion-text-wrap">{{data.info}}</ion-label>
       </ion-item>
     </ion-content>
   </ion-menu>
@@ -22,63 +20,75 @@
       <ion-toolbar>
         <ion-buttons slot="end">
           <ion-card-header class="notification-header">
-            <ion-icon (click)="toggleMenu()"
-              style="font-size: 22px"
-              name="notifications-outline"
-            ></ion-icon>
+            <ion-icon (click)="toggleMenu()" style="font-size: 22px" name="notifications-outline"></ion-icon>
             <div class="badge" (click)="toggleMenu()">1</div>
           </ion-card-header>
         </ion-buttons>
         <ion-card-title style="position: relative;margin-left:15px"> 
-          <ion-icon size="large"  [name]="greeting == 'Good morning'?'partly-sunny-outline':'' || greeting == 'Good afternoon'?'sunny-outline':'' || greeting == 'Good night'?'cloudy-night-outline':''"></ion-icon>
+          <ion-icon size="large" [name]="greeting == 'Good morning' ? 'partly-sunny-outline' : greeting == 'Good afternoon' ? 'sunny-outline' : greeting == 'Good night' ? 'cloudy-night-outline' : ''"></ion-icon>
           <span class="greeting">{{greeting}}</span>
         </ion-card-title>
       </ion-toolbar>
     </ion-header>
     <ion-content [fullscreen]="true" class="ion-padding">
       <ion-toolbar>
-        <!-- <ion-searchbar (click)="setOpen()"></ion-searchbar> -->
         <ion-searchbar></ion-searchbar>
       </ion-toolbar>
       <ion-toolbar>
         <div class="space-between">
           <div class="card" *ngFor="let data of menus">
             <ion-icon style="font-size: 22px" [name]="data.icon"></ion-icon>
-            <ion-label>{{ data.title }}</ion-label>
+            <ion-label>{{data.title}}</ion-label>
           </div>
         </div>
       </ion-toolbar>
-      <div class="space-between">
-        <h2>Popular Lectures</h2>
-        <span class="linked" routerLink="/tabs/popular-lectures">See All</span>
-      </div>
-        <div class="slider-container" id="scrollContainer">
-          <div *ngFor="let data of lecturesData" (click)="routeTocontents(data.lec_id)" class="card slide">
+    
+      <section class="popular-lectures">
+        <header>
+          <h2>Popular Lectures</h2>
+          <a routerLink="/tabs/popular-lectures" class="linked">See All</a>
+        </header>
+        <div class="slider-container" id="lecturesContainer">
+          <div *ngFor="let lecture of lecturesData" (click)="routeTocontents(lecture.lec_id)" class="card slide">
             <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+              <img alt="Silhouette of mountains" [src]="lecture.lec_icon" />
             </ion-thumbnail>
-            <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> {{data.ratings}} <ion-icon name="caret-forward-circle-outline"></ion-icon>{{data.contents}}</span>
+            <span class="rating">
+              <ion-icon name="star-outline" color="orange"></ion-icon>
+              {{lecture.ratings}}
+              <ion-icon name="caret-forward-circle-outline"></ion-icon>
+              {{lecture.contents}}
+            </span>
             <div class="content-details">
-              <ion-label>{{data.lec_title}}</ion-label>
+              <ion-label>{{lecture.lec_title}}</ion-label>
             </div>
           </div>
         </div>
-      <div class="space-between">
-        <h2>Popular Skill Tests</h2>
-        <span class="linked" routerLink="/tabs/popular-quiz">See All</span>
-      </div>
-      <div class="slider-container" id="scrollContainer">
-        <div *ngFor="let data of lecturesData" (click)="beginTest(data)" class="card slide">
-          <ion-thumbnail slot="start">
-            <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-          </ion-thumbnail>
-          <span class="rating"><ion-icon name="chatbubbles-outline"></ion-icon> {{data.ratings}} <ion-icon name="person-outline"></ion-icon>{{data.contents}}</span>
-          <div class="content-details">
-            <ion-label>{{data.lec_title}}</ion-label>
+      </section>
+      
+      <section class="popular-quizzes">
+        <header>
+          <h2>Popular Skill Tests</h2>
+          <a href="/tabs/popular-quiz" class="linked">See All</a>
+        </header>
+        <div class="slider-container" id="quizzesContainer">
+          <div *ngFor="let quiz of lecturesData" (click)="beginTest(quiz)" class="card slide">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="quiz.lec_icon" />
+            </ion-thumbnail>
+            <span class="rating">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+              {{quiz.ratings}}
+              <ion-icon name="person-outline"></ion-icon>
+              {{quiz.contents}}
+            </span>
+            <div class="content-details">
+              <ion-label>{{quiz.lec_title}}</ion-label>
+            </div>
           </div>
         </div>
-      </div>
-    </ion-content>
+      </section>
+
     <ion-modal [isOpen]="isModalOpen">
       <ng-template>
         <ion-header>
@@ -103,5 +113,6 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-  </div>
+    </ion-content>
+    </div>
 </ion-app>
