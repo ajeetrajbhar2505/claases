@@ -9,11 +9,13 @@ import { Router } from '@angular/router';
 })
 export class QuizComponent implements OnInit {
   lecturesData:any = []
+  classId = 1
+  contentId = 1
   constructor(public http: HttpClient,public router:Router) {}
  async ngOnInit() {
     let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
       response.filter((data: any) => {
-        if (data.classId == 1) {
+        if (data.classId == this.classId) {
           this.lecturesData = data['subjects']
         }
       })
@@ -23,7 +25,16 @@ export class QuizComponent implements OnInit {
 
   beginTest(data:any)
   {
-    this.router.navigate(['/tabs/test'],{queryParams : { lec_title : data.lec_title,lec_id : data.lec_id}})
-
+    const queryParams = {
+      classId: this.classId,
+      lec_id: data.lec_id,
+      lec_title : data.lec_title,
+      contentId: this.contentId,
+      from: '/tabs/quiz',
+    };
+    this.router.navigate(['/tabs/test'],{queryParams})
   }
+
+
+  
 }

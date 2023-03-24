@@ -1,12 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
+
+interface ContentDetails {
+  nested: string;
+  from: string;
+  classId: string;
+  lec_id: string;
+  contentId: string;
+  content: string;
+}
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
 })
+
+
+
 export class TestComponent implements OnInit {
   currentContent: string = 'video';
   totalScore: number = 0;
@@ -119,7 +131,19 @@ export class TestComponent implements OnInit {
     },
   ];
   lectureDetails =  { lec_title : "",lec_id : ""}
-  constructor(private animationCtrl: AnimationController,public ActivatedRoute:ActivatedRoute) {}
+  contentDetails: ContentDetails = {
+    nested: '',
+    from: '',
+    classId: '',
+    lec_id: '',
+    contentId: '',
+    content: '',
+  };
+  constructor(private animationCtrl: AnimationController,public ActivatedRoute:ActivatedRoute,public router:Router) {
+    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
+      this.contentDetails = param;
+    })
+  }
 
   ngOnInit() {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
@@ -218,5 +242,16 @@ export class TestComponent implements OnInit {
     return this.enterAnimation(baseEl).direction('reverse');
   };
 
+
+  routeToPreviousPage()
+  {
+    const queryParams = {
+      classId: this.contentDetails.classId,
+      lec_id: this.contentDetails.lec_id,
+      contentId: this.contentDetails.contentId,
+      from: this.contentDetails.nested,
+    };
+    this.router.navigate([this.contentDetails.from], { queryParams });
+  }
 
 }
