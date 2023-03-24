@@ -46,7 +46,7 @@
       <section class="popular-lectures">
         <header>
           <h2>Popular Lectures</h2>
-          <a routerLink="/tabs/popular-lectures" class="linked">See All</a>
+          <a slot="end" routerLink="/tabs/popular-lectures" class="linked">See All</a>
         </header>
         <div class="slider-container" id="lecturesContainer">
           <div *ngFor="let lecture of lecturesData" (click)="routeTocontents(lecture.lec_id)" class="card slide">
@@ -69,7 +69,7 @@
       <section class="popular-quizzes">
         <header>
           <h2>Popular Skill Tests</h2>
-          <a href="/tabs/popular-quiz" class="linked">See All</a>
+          <a slot="end" href="/tabs/popular-quiz" class="linked">See All</a>
         </header>
         <div class="slider-container" id="quizzesContainer">
           <div *ngFor="let quiz of lecturesData" (click)="beginTest(quiz)" class="card slide">
