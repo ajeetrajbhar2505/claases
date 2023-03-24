@@ -9,38 +9,38 @@
 
   <ion-content [fullscreen]="true" class="ion-padding" >
           <div  [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
-              <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay  frameborder="0">
+              <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+              (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>
-            <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'document' || contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
-              <audio *ngIf="contentToWatch.content == 'audio'"  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
-              (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
+            <img style="border: 1px solid lightgray;border-radius: 18px;" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'document' || contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
+              <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+              (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
               Your Device does not support the video.
           </audio>
             <ion-card-header *ngIf="contentToWatch.content == 'video' || contentToWatch.content == 'audio'">
               <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
                 [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
-                (ionKnobMoveStart)="onIonKnobMovecontentStart($event)" (ionKnobMoveEnd)="onIonKnobMovecontentEnd($event)">
+                (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
                 <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
                 <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
               </ion-range>
               <div class="contentcontrols">
-                <ion-fab-button (click)="skipbackContent(10)" size="small">
+                <ion-fab-button (click)="rewindContent(10)" size="small">
                   <ion-icon name="play-skip-back-circle-outline"></ion-icon>
                 </ion-fab-button>
                 <ion-fab-button (click)="playPauseContent()" size="small">
                   <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
                 </ion-fab-button>
-                <ion-fab-button (click)="skipnextContent(10)" size="small">
+                <ion-fab-button (click)="skipContent(10)" size="small">
                   <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
                 </ion-fab-button>
               </div>
             </ion-card-header>
           </div>
-            <pdf-viewer (dblclick)="openFullscreencontent()" *ngIf="contentControls.openFullscreen && contentToWatch.content == 'document'"
+            <pdf-viewer (dblclick)="toggleFullscreenContent()" *ngIf="contentControls.openFullscreen && contentToWatch.content == 'document'"
             src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
             [original-size]="false" style="height: 3500px"></pdf-viewer>
           <ion-card-header>

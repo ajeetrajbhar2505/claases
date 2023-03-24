@@ -16,6 +16,24 @@ import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
 
+interface ContentControls {
+  playContent: boolean;
+  openFullscreen: boolean;
+  Rangeduration: number;
+  currentRangeDuration: number;
+  currentDuration: string;
+  duration: string;
+}
+
+interface ContentDetails {
+  nested: string;
+  from: string;
+  classId: string;
+  lec_id: string;
+  contentId: string;
+  content: string;
+}
+
 @Component({
   selector: 'app-content-controls',
   templateUrl: './content-controls.component.html',
@@ -27,7 +45,7 @@ export class ContentControlsComponent {
 
   contentToWatch: any = {};
 
-  contentControls = {
+  contentControls: ContentControls = {
     playContent: false,
     openFullscreen: false,
     Rangeduration: 0,
@@ -36,7 +54,7 @@ export class ContentControlsComponent {
     duration: '',
   };
 
-  contentDetails: any = {
+  contentDetails: ContentDetails = {
     nested: '',
     from: '',
     classId: '',
@@ -45,7 +63,7 @@ export class ContentControlsComponent {
     content: '',
   };
 
-  contentLoaded: boolean = false;
+  contentLoaded = false;
 
   constructor(
     public http: HttpClient,
@@ -65,7 +83,7 @@ export class ContentControlsComponent {
         currentRangeDuration: 0,
         currentDuration: '',
         duration: '',
-      };;
+      };
       this.contentToWatch = {};
       this.contentToWatch = await this.http
         .get(
@@ -75,37 +93,35 @@ export class ContentControlsComponent {
           this.contentDetails.contentId
         )
         .toPromise();
-      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link 
+      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link
 
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
-        this.setClose();
         App.exitApp();
       }
     });
 
   }
 
-
-
-  backToContents() {
-    var content: any = document.getElementById('classContent');
-    if (content) {
-      content.pause()
-    }
-    this.router.navigate([this.contentDetails.from], {
-      queryParams: {
-        classId: this.contentDetails.classId,
-        lec_id: this.contentDetails.lec_id,
-        contentId: this.contentDetails.contentId,
-        from: this.contentDetails.nested,
-      },
-    });
-    this.setClose()
+  private getContentElement(): HTMLVideoElement | null {
+    return document.querySelector<HTMLVideoElement>('#classContent');
   }
 
-  setClose() {
+  backToContents() {
+    const content = this.getContentElement();
+    if (content) {
+      content.pause();
+    }
+
+    const queryParams = {
+      classId: this.contentDetails.classId,
+      lec_id: this.contentDetails.lec_id,
+      contentId: this.contentDetails.contentId,
+      from: this.contentDetails.nested,
+    };
+    this.router.navigate([this.contentDetails.from], { queryParams });
+
     this.contentControls.playContent = false;
     this.contentControls.openFullscreen = false;
   }
@@ -114,77 +130,52 @@ export class ContentControlsComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  onIonKnobMovecontentStart(ev: Event) {
-    this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
-    var content: any = document.getElementById('classContent');
-    if (this.lastEmittedValue) {
-      content.currentTime = this.lastEmittedValue;
-    }
-    this.contentControls.Rangeduration = content.duration;
-    this.contentControls.currentRangeDuration = content.currentTime;
+  onIonKnobMovecontent(ev: Event, ended: boolean) {
+    const detail: any = (ev as CustomEvent<RangeCustomEvent>).detail;
+    const content: any = this.getContentElement();
+    if (content && detail) {
+      content.currentTime = detail.value;
+      this.contentControls.Rangeduration = content.duration;
+      this.contentControls.currentRangeDuration = content.currentTime;
 
-    if (content.paused) {
-      content.play();
-      this.contentControls.playContent = true;
-    } else {
-      content.pause();
-      this.contentControls.playContent = false;
-    }
-  }
+      if (ended || Math.floor(content.currentTime) >= Math.floor(content.duration)) {
+        content.play();
+        this.contentControls.playContent = false;
+      }
+      else {
+        content.pause()
+      }
 
-  onIonKnobMovecontentEnd(ev: Event) {
-    this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
-    var content: any = document.getElementById('classContent');
-    if (this.lastEmittedValue) {
-      content.currentTime = this.lastEmittedValue;
-    }
-    this.contentControls.Rangeduration = content.duration;
-    this.contentControls.currentRangeDuration = content.currentTime;
-
-    if (content.paused) {
-      content.play();
-      this.contentControls.playContent = true;
-    } else {
-      content.pause();
-      this.contentControls.playContent = false;
-    }
-
-    if (
-      Math.floor(this.contentControls.currentRangeDuration) ==
-      Math.floor(this.contentControls.Rangeduration)
-    ) {
-      this.contentControls.playContent = true;
-      content.pause();
     }
   }
 
-  checkContentLoaded(ev: Event) {
+  checkContentLoaded() {
     this.contentLoaded = true;
-    var content: any = document.getElementById('classContent');
-    if (content.paused) {
-      this.contentControls.playContent = true;
-    } else {
-      this.contentControls.playContent = false;
-    }
-    this.contentControls.Rangeduration = content.duration;
-    this.contentControls.duration = this.formatTime(content.duration);
-    console.log({content : content,contentLoaded : this.contentLoaded,contentControls : this.contentControls});
-    
-  }
-
-  checkContinuousContentduration(ev: Event) {
-    var content: any = document.getElementById('classContent');
-    this.contentControls.currentRangeDuration = content.currentTime.toFixed(2);
-    this.contentControls.currentDuration = this.formatTime(
-      content.currentTime.toFixed(2)
-    );
-    if (content.paused) {
-      this.contentControls.playContent = true;
-    } else {
-      this.contentControls.playContent = false;
+    const content = this.getContentElement();
+    if (content) {
+      if (content.paused) {
+        this.contentControls.playContent = true;
+      } else {
+        this.contentControls.playContent = false;
+      }
+      this.contentControls.Rangeduration = content.duration;
+      this.contentControls.duration = this.formatTime(content.duration);
+      console.log({ content, contentLoaded: this.contentLoaded, contentControls: this.contentControls });
     }
   }
 
+  checkContinuousContentduration() {
+    const content = this.getContentElement();
+    if (content) {
+      this.contentControls.currentRangeDuration = parseInt(content.currentTime.toFixed(2));
+      this.contentControls.currentDuration = this.formatTime(content.currentTime.toFixed(2));
+      if (content.paused) {
+        this.contentControls.playContent = true;
+      } else {
+        this.contentControls.playContent = false;
+      }
+    }
+  }
 
   formatTime(duration: any) {
     const hours = Math.floor(duration / 3600);
@@ -213,10 +204,7 @@ export class ContentControlsComponent {
   }
 
   pinFormatter(value: number) {
-    if (!value) {
-      return 0;
-    }
-    return `${value}`;
+    return value ? `${value}` : '0';
   }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
@@ -227,47 +215,45 @@ export class ContentControlsComponent {
     if (!this.contentLoaded) {
       return;
     }
-    var content: any = document.getElementById('classContent');
-    if (content.paused) content.play();
-    else content.pause();
-    this.contentControls.playContent = !this.contentControls.playContent;
+
+    const content = this.getContentElement();
+    if (content) {
+      if (content.paused) {
+        content.play();
+      } else {
+        content.pause();
+      }
+      this.contentControls.playContent = !content.paused;
+    }
   }
 
-  skipnextContent(value: any) {
-    if (!this.contentLoaded) {
-      return;
+
+  skipContent(delta: number) {
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime += delta;
+      this.contentControls.currentRangeDuration = content.currentTime;
     }
-    var content: any = document.getElementById('classContent');
-    content.currentTime += value;
-    this.contentControls.currentRangeDuration = content.currentTime;
   }
 
-  skipbackContent(value: any) {
-    if (!this.contentLoaded) {
-      return;
+  rewindContent(delta: number) {
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime -= delta;
+      this.contentControls.currentRangeDuration = content.currentTime;
     }
-    var content: any = document.getElementById('classContent');
-    content.currentTime = content.currentTime - value;
-    this.contentControls.currentRangeDuration = content.currentTime;
   }
 
   restartContent() {
-    if (!this.contentLoaded) {
-      return;
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime = 0;
+      this.contentControls.currentRangeDuration = content.currentTime;
     }
-    var content: any = document.getElementById('classContent');
-    content.currentTime = 0;
-    this.contentControls.currentRangeDuration = content.currentTime;
   }
 
-  openFullscreencontent() {
-    if (!this.contentLoaded) {
-      return;
-    }
-    this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
+  toggleFullscreenContent() {
+      this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
-
-
-
 
 }
