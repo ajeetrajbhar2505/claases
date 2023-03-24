@@ -36,7 +36,7 @@
       </ion-toolbar>
       <ion-toolbar>
         <div class="space-between">
-          <div class="card" *ngFor="let data of menus">
+          <div class="card" *ngFor="let data of menus" (click)="routeToAchievements()">
             <ion-icon style="font-size: 22px" [name]="data.icon"></ion-icon>
             <ion-label>{{data.title}}</ion-label>
           </div>

@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Achievements
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline" (click)="backToHome()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card-content>
+    <ion-list>
+          <ion-item *ngFor="let data of filteredData" expand="block">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="data.content_icon" />
+            </ion-thumbnail>
+            <ion-label>{{data.content_title}}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-content>
+
+
+

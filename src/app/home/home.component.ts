@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
   menus: MenuItem[] = [
     { icon: 'bar-chart-outline', title: 'Leadership' },
     { icon: 'medal-outline', title: 'Achievements' },
-    { icon: 'heart-outline', title: 'Favorites' },
   ];
   lecturesData: any[] = [];
   courses: Course[] = [
@@ -114,6 +113,11 @@ export class HomeComponent implements OnInit {
       from: "/tabs/home",
     };
     this.router.navigate(['/tabs/content-controls'], { queryParams });
+  }
+
+  routeToAchievements()
+  {
+    this.router.navigate(['/tabs/achievements']);
   }
 
 }
