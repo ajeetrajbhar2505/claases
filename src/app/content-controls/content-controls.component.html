@@ -7,7 +7,7 @@
   </ion-toolbar>
   </ion-header>
 
-  <ion-content [fullscreen]="true" class="ion-padding" >
+  <ion-content  [fullscreen]="true" class="ion-padding" >
           <div  [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
               <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
               (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
@@ -45,7 +45,7 @@
             [original-size]="false" style="height: 3500px"></pdf-viewer>
           <ion-card-header>
             <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
-            <ion-card-subtitle>Auther : {{contentToWatch.teacher | lowercase}}</ion-card-subtitle>
-            <ion-card-subtitle>Published : {{contentToWatch.published_at | lowercase}}</ion-card-subtitle>
+            <ion-card-subtitle>{{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' | lowercase}}</ion-card-subtitle>
+            <ion-card-subtitle>{{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' | lowercase}}</ion-card-subtitle>
           </ion-card-header>
   </ion-content>
