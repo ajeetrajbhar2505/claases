@@ -4,6 +4,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -20,7 +21,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent implements OnInit {
+export class ContentControlsComponent implements OnInit  {
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
 
@@ -65,6 +66,7 @@ export class ContentControlsComponent implements OnInit {
         App.exitApp();
       }
     });
+    
   }
 
   async ngOnInit() {
@@ -77,9 +79,12 @@ export class ContentControlsComponent implements OnInit {
           this.contentDetails.contentId
       )
       .toPromise();
+      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link + '?v=1677959874652'
   }
 
   backToContents() {
+    var content: any = document.getElementById('classContent');
+    content.pause()
     this.router.navigate([this.contentDetails.from], {
       queryParams: {
         classId: this.contentDetails.classId,
@@ -88,6 +93,7 @@ export class ContentControlsComponent implements OnInit {
         from: this.contentDetails.nested,
       },
     });
+    this.setClose()
   }
 
   setClose() {
@@ -109,7 +115,11 @@ export class ContentControlsComponent implements OnInit {
     this.contentControls.currentRangeDuration = content.currentTime;
 
     if (content.paused) {
+      content.play();
       this.contentControls.playContent = true;
+    } else {
+      content.pause();
+      this.contentControls.playContent = false;
     }
   }
 
@@ -126,12 +136,10 @@ export class ContentControlsComponent implements OnInit {
       content.play();
       this.contentControls.playContent = true;
     } else {
+      content.pause();
       this.contentControls.playContent = false;
     }
 
-    if (!content.paused) {
-      this.contentControls.playContent = false;
-    }
     if (
       Math.floor(this.contentControls.currentRangeDuration) ==
       Math.floor(this.contentControls.Rangeduration)
@@ -144,6 +152,11 @@ export class ContentControlsComponent implements OnInit {
   checkContentLoaded(ev: Event) {
     this.contentLoaded = true;
     var content: any = document.getElementById('classContent');
+    if (content.paused) {
+      this.contentControls.playContent = true;
+    } else {
+      this.contentControls.playContent = false;
+    }
     this.contentControls.Rangeduration = content.duration;
     this.contentControls.duration = this.formatTime(content.duration);
   }
@@ -156,6 +169,8 @@ export class ContentControlsComponent implements OnInit {
     );
     if (content.paused) {
       this.contentControls.playContent = true;
+    } else {
+      this.contentControls.playContent = false;
     }
   }
 
@@ -239,4 +254,8 @@ export class ContentControlsComponent implements OnInit {
     }
     this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
+
+
+
+  
 }
