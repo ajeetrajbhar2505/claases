@@ -13,7 +13,7 @@
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>
-            <img style="border: 1px solid lightgray;border-radius: 18px;" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
+            <img class="audio" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
               <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
               (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
