@@ -1,0 +1,78 @@
+ion-card{
+    border-radius: 20px;
+    position: sticky;
+    top: 10px;
+    z-index: 600;
+}
+
+//size
+$size: 5rem;
+
+//colors
+$blue-color:#4285F4;
+$green-color:#34A853;
+$yellow-color:#FBBC05;
+$red-color:#EA4335;
+
+// .donut {
+//   background:transparent;
+//   width: 10rem;
+//   height: 10rem;
+//   border: 0;
+//   border-right: $size solid $green-color;
+//   border-left: $size solid $red-color;
+//   border-bottom: $size solid $yellow-color;
+//   border-top: $size solid $blue-color;
+//   border-radius:25rem;
+//   overflow:hidden;
+//   box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+// }
+
+.donut {
+    background:transparent;
+    width: 10rem;
+    height: 10rem;
+    border: 0;
+    border-right: $size solid $blue-color;
+    border-left: $size solid $red-color;
+    border-bottom: $size solid $blue-color;
+    border-top: $size solid $blue-color;
+    border-radius:25rem;
+    overflow:hidden;
+    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+  }
+
+
+.donut-red {
+    background:transparent;
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border: 5px solid $red-color;
+    border-radius:25rem;
+    overflow:hidden;
+    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+  }
+
+  .donut-blue {
+    background:transparent;
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border: 5px solid $blue-color;
+    border-radius:25rem;
+    overflow:hidden;
+    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+  }
+
+  .donut-details{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+.center{
+ margin: 0 auto;
+ margin-top: 10px;
+}
