@@ -19,7 +19,7 @@ interface Course {
 interface Notification {
   icon: string;
   info: string;
-  from: string;
+  content: string;
 }
 
 @Component({
@@ -43,9 +43,9 @@ export class HomeComponent implements OnInit {
     { icon: 'heart-outline', title: 'Favorites', ratings: '2.6', contents: '35' },
   ];
   notifications: Notification[] = [
-    { icon: 'musical-notes-outline', info: 'Admin uploaded a new audio', from: '' },
-    { icon: 'play-circle-outline', info: 'Admin uploaded a new video', from: '' },
-    { icon: 'document-text-outline', info: 'Admin uploaded a new document', from: '' },
+    { icon: 'musical-notes-outline', info: 'Admin uploaded a new audio', content : 'audio' },
+    { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video' },
+    { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document' },
   ];
 
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
@@ -90,6 +90,30 @@ export class HomeComponent implements OnInit {
   }
 
   routeTocontents(lec_id: any) {
-    this.router.navigate(['/tabs/contents'], { queryParams: { classId: '', lec_id: lec_id, from: '/tabs/home' } });
+
+    const queryParams = { 
+      classId: '', 
+      lec_id: lec_id,
+      from: '/tabs/home' 
+    }
+    this.router.navigate(['/tabs/contents'], { queryParams });
   }
+
+  routeTocontentControls(content:any)
+  {
+    const contentMap:any = {
+      'audio': '9',
+      'video': '3',
+      'document': '11',
+    };
+    const contentId = contentMap[content];
+    const queryParams = {
+      classId: 1,
+      lec_id: 4,
+      contentId: contentId,
+      from: "/tabs/home",
+    };
+    this.router.navigate(['/tabs/content-controls'], { queryParams });
+  }
+
 }
