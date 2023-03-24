@@ -75,7 +75,7 @@ export class ContentControlsComponent {
           this.contentDetails.contentId
         )
         .toPromise();
-      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link + '?v=1677959874652'
+      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link 
 
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
