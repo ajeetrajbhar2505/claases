@@ -173,6 +173,7 @@ export class ContentControlsComponent implements OnInit  {
       this.contentControls.playContent = false;
     }
   }
+  
 
   formatTime(duration: any) {
     const hours = Math.floor(duration / 3600);
