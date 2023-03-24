@@ -14,13 +14,13 @@
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
               Your Device does not support the video.
             </video>
-            <img style="border: 1px solid lightgray;border-radius: 18px;" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'document' || contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
+            <img style="border: 1px solid lightgray;border-radius: 18px;" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
               <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
               (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
               Your Device does not support the video.
           </audio>
-            <ion-card-header *ngIf="contentToWatch.content == 'video' || contentToWatch.content == 'audio'">
+            <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
               <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
                 [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
                 (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
@@ -40,7 +40,7 @@
               </div>
             </ion-card-header>
           </div>
-            <pdf-viewer (dblclick)="toggleFullscreenContent()" *ngIf="contentControls.openFullscreen && contentToWatch.content == 'document'"
+            <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
             src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
             [original-size]="false" style="height: 3500px"></pdf-viewer>
           <ion-card-header>

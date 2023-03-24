@@ -94,7 +94,6 @@ export class ContentControlsComponent {
         )
         .toPromise();
       this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link
-
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -256,4 +255,15 @@ export class ContentControlsComponent {
       this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
 
+
+  
+  isVideoOrAudioContent(content:any)
+  {
+    if (content == 'video' || content == 'audio') {
+      return true
+    }
+    return false
+  }
+
+  
 }
