@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnInit,
   Optional,
   ViewChild,
 } from '@angular/core';
@@ -12,26 +13,18 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-content-controls',
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent {
+export class ContentControlsComponent implements OnInit {
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
 
-  contentToWatch = {
-    content_icon: '',
-    content_id: '',
-    course: '',
-    time: '',
-    content_title: '',
-    content_link: '',
-    teacher: '',
-    published_at: '18/02/2023',
-  };
+  contentToWatch: any = {};
 
   contentControls = {
     playContent: false,
@@ -43,15 +36,16 @@ export class ContentControlsComponent {
   };
 
   contentDetails: any = {
-    nested : '',
+    nested: '',
     from: '',
     classId: '',
     lec_id: '',
     contentId: '',
-    content: ''
-    };
+    content: '',
+  };
 
   contentLoaded: boolean = false;
+
   constructor(
     public http: HttpClient,
     public ActivatedRoute: ActivatedRoute,
@@ -63,17 +57,8 @@ export class ContentControlsComponent {
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
-      this.contentControls.openFullscreen = false
-      let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
-      response.filter((Object:any)=>{
-        if (Object.lec_id == param.lec_id) {
-          let response =  Object['contents'].filter((data:any)=> data.contentId == param.contentId)
-          this.contentToWatch = response[0]
-          this.contentToWatch.content_link = 'https://cdn.glitch.global/77fbbc57-651f-4482-aa3c-97402292b10b/' + response[0].content_link + '?v=1677959874652'
-        }
-      })
-
-
+      this.contentControls.openFullscreen = false;
+      this.contentToWatch = {};
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -83,13 +68,24 @@ export class ContentControlsComponent {
     });
   }
 
+  async ngOnInit() {
+    this.contentToWatch = await this.http
+      .get(
+        'https://cedar-forested-ferryboat.glitch.me/loadVideo/' +
+          this.contentDetails.lec_id +
+          '/' +
+          this.contentDetails.contentId
+      )
+      .toPromise();
+  }
+
   backToContents() {
     this.router.navigate([this.contentDetails.from], {
       queryParams: {
         classId: this.contentDetails.classId,
         lec_id: this.contentDetails.lec_id,
         contentId: this.contentDetails.contentId,
-        from : this.contentDetails.nested
+        from: this.contentDetails.nested,
       },
     });
   }
@@ -115,8 +111,6 @@ export class ContentControlsComponent {
     if (content.paused) {
       this.contentControls.playContent = true;
     }
-
- 
   }
 
   onIonKnobMovecontentEnd(ev: Event) {
@@ -145,7 +139,6 @@ export class ContentControlsComponent {
       this.contentControls.playContent = true;
       content.pause();
     }
-
   }
 
   checkContentLoaded(ev: Event) {
@@ -205,7 +198,7 @@ export class ContentControlsComponent {
 
   playPauseContent() {
     if (!this.contentLoaded) {
-      return
+      return;
     }
     var content: any = document.getElementById('classContent');
     if (content.paused) content.play();
@@ -215,7 +208,7 @@ export class ContentControlsComponent {
 
   skipnextContent(value: any) {
     if (!this.contentLoaded) {
-      return
+      return;
     }
     var content: any = document.getElementById('classContent');
     content.currentTime += value;
@@ -224,7 +217,7 @@ export class ContentControlsComponent {
 
   skipbackContent(value: any) {
     if (!this.contentLoaded) {
-      return
+      return;
     }
     var content: any = document.getElementById('classContent');
     content.currentTime = content.currentTime - value;
@@ -233,7 +226,7 @@ export class ContentControlsComponent {
 
   restartContent() {
     if (!this.contentLoaded) {
-      return
+      return;
     }
     var content: any = document.getElementById('classContent');
     content.currentTime = 0;
@@ -242,7 +235,7 @@ export class ContentControlsComponent {
 
   openFullscreencontent() {
     if (!this.contentLoaded) {
-      return
+      return;
     }
     this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
