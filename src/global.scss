@@ -126,6 +126,7 @@
     justify-content: space-evenly;
   }
   video,.video,.audio{
+    border: 1px solid lightgray;
     border-radius: 10px;
     width: -webkit-fill-available;
     box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
