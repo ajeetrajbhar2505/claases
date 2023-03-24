@@ -10,7 +10,7 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item *ngFor="let data of notifications">
-        <ion-icon slot="start" [name]="data.icons"></ion-icon>
+        <ion-icon slot="start" [name]="data.icon"></ion-icon>
         <ion-label class="ion-text-wrap">
          {{data.info}}
         </ion-label>
@@ -90,7 +90,7 @@
                <option value="">recent uploaded document</option>
             </datalist>
             <ion-buttons slot="start">
-          <ion-icon name="chevron-back-outline"  (click)="setOpen()"></ion-icon>
+          <ion-icon name="chevron-back-outline"  (click)="toggleMenu()"></ion-icon>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
