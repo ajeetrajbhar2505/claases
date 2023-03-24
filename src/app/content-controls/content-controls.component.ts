@@ -58,7 +58,6 @@ export class ContentControlsComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
       this.contentControls.openFullscreen = false;
-      this.contentToWatch = {};
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -69,6 +68,7 @@ export class ContentControlsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.contentToWatch = {};
     this.contentToWatch = await this.http
       .get(
         'https://cedar-forested-ferryboat.glitch.me/loadVideo/' +
