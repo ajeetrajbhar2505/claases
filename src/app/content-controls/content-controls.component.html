@@ -8,7 +8,6 @@
   </ion-header>
 
   <ion-content  [fullscreen]="true" class="ion-padding" >
-          <div  [class]="contentControls.openFullscreen?'fullscreen':'exitfullscreen'">
               <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
               (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
               <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
@@ -21,7 +20,7 @@
               Your Device does not support the video.
           </audio>
             <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
-              <ion-range [style]="contentControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"
+              <ion-range
                 [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
                 (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
                 <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
@@ -39,7 +38,6 @@
                 </ion-fab-button>
               </div>
             </ion-card-header>
-          </div>
             <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
             src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
             [original-size]="false" style="height: 3500px"></pdf-viewer>
