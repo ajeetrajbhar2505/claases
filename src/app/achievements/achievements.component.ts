@@ -7,20 +7,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss'],
 })
-export class AchievementsComponent  {
-  contentsData:any = []
-  filteredData:any = []
+export class AchievementsComponent implements OnInit  {
+  lecturesData:any = []
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router) {
-    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      const lecturesData: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
-        lecturesData.filter((Object:any)=>{
-          if (Object.lec_id == 2) {
-            this.contentsData = Object['contents']
-            this.filteredData =  Object['contents'].filter((object:any)=> object.content == 'video')
-          }
-      })
 
-    })
+  }
+
+  async ngOnInit() {
+    const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
+    const data = response.filter((data: any) => data.classId === 10)[0];
+    this.lecturesData = data.subjects;
   }
 
   backToHome(){
