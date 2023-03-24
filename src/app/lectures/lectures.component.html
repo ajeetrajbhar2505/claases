@@ -12,15 +12,12 @@
 <ion-content [fullscreen]="true">
   <ion-card-content>
     <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
           <ion-item *ngFor="let data of lecturesData" expand="block" (click)="routeTocontents(data.lec_id)">
             <ion-thumbnail slot="start">
               <img alt="Silhouette of mountains" [src]="data.lec_icon" />
             </ion-thumbnail>
             <ion-label>{{data.lec_title}}</ion-label>
-            <ion-reorder slot="end"></ion-reorder>
           </ion-item>
-      </ion-reorder-group>
     </ion-list>
   </ion-card-content>
 </ion-content>
