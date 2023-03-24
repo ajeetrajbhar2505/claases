@@ -76,14 +76,8 @@ export class ContentControlsComponent {
   ) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
-      this.contentControls = {
-        playContent: false,
-        openFullscreen: false,
-        Rangeduration: 0,
-        currentRangeDuration: 0,
-        currentDuration: '',
-        duration: '',
-      };
+      this.contentLoaded = false
+      this.contentControls = this.contentControls;
       this.contentToWatch = {};
       this.contentToWatch = await this.http
         .get(
