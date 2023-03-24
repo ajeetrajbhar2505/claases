@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,12 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./splash.component.scss'],
 })
 export class SplashComponent implements OnInit {
-  constructor(public router:Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigate(['/tabs/home'])
+      this.router.navigate(['/tabs/home']);
     }, 3000);
   }
-
 }
