@@ -27,13 +27,12 @@ export class ContentsComponent  {
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
-      let response: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise().then((response: any) => {
-        response.filter((Object:any)=>{
+      const lecturesData: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
+        lecturesData.filter((Object:any)=>{
           if (Object.lec_id == param.lec_id) {
             this.contentsData = Object['contents']
             this.filteredData =  Object['contents'].filter((object:any)=> object.content == this.currentContent)
           }
-        })
       })
 
     })
