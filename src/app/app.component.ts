@@ -31,9 +31,6 @@ export class AppComponent {
         if (this.getContentElement()) {
           this.getContentElement()?.pause()
         }
-        console.log(routerEvent.url); // This will log the current URL
-
-        
         if (routerEvent.url !== '/tabs/live' && this.getliveContentElement()) {
           this.getliveContentElement()?.pause()
         }
