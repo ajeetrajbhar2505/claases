@@ -17,7 +17,7 @@
             <img style="border: 1px solid lightgray;border-radius: 18px;" (dblclick)="openFullscreencontent()" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'document' || contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
               <audio *ngIf="contentToWatch.content == 'audio'"  (dblclick)="openFullscreencontent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded($event)"
               (timeupdate)="checkContinuousContentduration($event)" class="sticky-top" autoplay frameborder="0">
-              <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp3">
+              <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
               Your Device does not support the video.
           </audio>
             <ion-card-header *ngIf="contentToWatch.content == 'video' || contentToWatch.content == 'audio'">
