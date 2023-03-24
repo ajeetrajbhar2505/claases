@@ -53,11 +53,13 @@
         <span class="linked" routerLink="/tabs/popular-lectures">See All</span>
       </div>
         <div class="slider-container" id="scrollContainer">
-          <div *ngFor="let data of courses" class="card slide">
-            <ion-icon style="font-size: 35px" [name]="data.icon"></ion-icon>
+          <div *ngFor="let data of lecturesData" (click)="routeTocontents(data.lec_id)" class="card slide">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+            </ion-thumbnail>
             <span class="rating"><ion-icon name="star-outline" color="orange"></ion-icon> {{data.ratings}} <ion-icon name="caret-forward-circle-outline"></ion-icon>{{data.contents}}</span>
             <div class="content-details">
-              <ion-label>{{ data.title }}</ion-label>
+              <ion-label>{{data.lec_title}}</ion-label>
             </div>
           </div>
         </div>

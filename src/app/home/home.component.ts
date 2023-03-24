@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     }
     let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
       response.filter((data: any) => {
-        if (data.classId == 1) {
+        if (data.classId == 10) {
           this.lecturesData = data['subjects']
           data['subjects'].forEach((element:any) => {
             element.ratings = 25
@@ -89,9 +89,8 @@ export class HomeComponent implements OnInit {
 
 
   routeTocontents(lec_id: any) {
-    this.router.navigate(['/tabs/contents'],{queryParams : {classId : 1, lec_id : lec_id,from : '/tabs/home'}})
+    this.router.navigate(['/tabs/contents'],{queryParams : {classId : "", lec_id : lec_id,from : '/tabs/home'}})
    }
-
 
 
 }
