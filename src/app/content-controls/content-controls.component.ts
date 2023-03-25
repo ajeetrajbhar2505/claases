@@ -79,16 +79,17 @@ export class ContentControlsComponent {
       this.contentLoaded = false
       this.contentControls = this.contentControls;
       this.contentToWatch = {};
-      this.contentToWatch = await this.http
-        .get(
-          'https://cedar-forested-ferryboat.glitch.me/loadVideo/' +
-          this.contentDetails.lec_id +
-          '/' +
-          this.contentDetails.contentId
-        )
-        .toPromise();
-      this.contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + this.contentToWatch.content_link
-    });
+      const lectures:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
+
+      const matchingLecture = lectures.find((lecture: any) => lecture.lec_id == param.lec_id);
+      if (matchingLecture) {
+        this.contentToWatch = matchingLecture.contents.find((content: any) => content.contentId == param.contentId);
+        if (this.contentToWatch) {
+          this.contentToWatch.content_link = environment.apifirstKey + this.contentToWatch.content_link + environment.apilastkey;
+        }
+      }
+    })
+      
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         App.exitApp();

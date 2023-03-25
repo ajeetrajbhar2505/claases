@@ -13,6 +13,57 @@ dotenv.config();
 app.use(cors());
 const multer = require('multer');
 
+// ChatGpt Integration
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: "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",
+});
+const openai = new OpenAIApi(configuration);
+
+// Integrate Server
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+server.listen(3000, () => {
+  console.log(`app listening on ${3000}`);
+});
+
+app.get("/chat", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
+
+
+
+io.on("connection", (socket) => {
+    // Emit a message to the client
+    socket.on("message", (msg) => {
+      io.emit("message", msg);
+    });
+  
+    socket.on("notification", (msg) => {
+      io.emit("notification", msg);
+    });
+  });
+  
+  const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: function(req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+  
+  
+  const upload = multer({ storage: storage });
+  app.post('/api/upload', upload.single('video'), (req, res) => {
+    res.json({ message: 'File uploaded successfully' });
+  
+  });
+  
+
+
+
 
 var LecturesWiseContents = [
   {
@@ -1018,67 +1069,26 @@ var LecturesWiseContents = [
 ]
 
 
-// ChatGpt Integration
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: "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",
-});
-const openai = new OpenAIApi(configuration);
 
-// Integrate Server
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const path = require("path");
-const io = new Server(server);
-
-const MongoClient = require('mongodb').MongoClient;
-const objectId = require('mongodb').ObjectId
-
-let url = "mongodb+srv://ajeet:ajeet@cluster0.e5pj6.mongodb.net/test"
-
-var database;
-// server.listen(3000, MongoClient.connect(url, {useNewUrlParser : true},(err, db)=>{
-//   if (err) throw err;
-//   console.log('Database connection successful!');
-//   // Use the db object to perform database operations
-// }));
-
-server.listen(3000,()=>{
-  console.log('Database connection successful!');
-});
-
-app.get("/chat", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-
-
-
-io.on("connection", (socket) => {
-  // Emit a message to the client
-  socket.on("message", (msg) => {
-    io.emit("message", msg);
-  });
-
-  socket.on("notification", (msg) => {
-    io.emit("notification", msg);
-  });
-});
-
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: function(req, file, cb) {
-    cb(null, file.originalname);
+app.get('/loadVideo/:lec_id/:contentId',async (req,res)=>{
+  try{
+    var contentToWatch;
+    LecturesWiseContents.filter(async (Object)=>{
+      if (Object.lec_id == req.params.lec_id) {
+        let response =  Object['contents'].filter((data)=> data.contentId == req.params.contentId )
+        contentToWatch = response[0]
+      }
+    })
+    console.log(contentToWatch)
+    res.send(contentToWatch)
   }
-});
+  catch (err)
+  {
+    console.log(err)
+  }
+  
 
-
-const upload = multer({ storage: storage });
-app.post('/api/upload', upload.single('video'), (req, res) => {
-  res.json({ message: 'File uploaded successfully' });
-
-});
-
+})
 
 
 
@@ -1117,24 +1127,7 @@ app.get("/video/:name", (req, res) => {
   }
 });
 
-app.get('/loadVideo/:lec_id/:contentId',async (req,res)=>{
-  try{
-    var contentToWatch;
-    LecturesWiseContents.filter(async (Object)=>{
-      if (Object.lec_id == req.params.lec_id) {
-        let response =  Object['contents'].filter((data)=> data.contentId == req.params.contentId )
-        contentToWatch = response[0]
-        contentToWatch.content_link = 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/' + contentToWatch.content_link + '?v=1677959874652'
-      }
-    })
-    res.send(contentToWatch)
-  }
-  catch (err)
-  {
-    console.log(err)
-  }
 
-})
 
 app.post("/questionResponse", async (req, res) => {
   let question = req.body.question;
@@ -1157,7 +1150,6 @@ app.post("/questionResponse", async (req, res) => {
     console.log("error");
   }
 });
-
 
 
 
