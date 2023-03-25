@@ -11,6 +11,10 @@
     [fullscreen]="true"
     class="ion-padding"
   >
+  <div *ngIf="!quizArray.length" style="display:flex;justify-content:center;margin:0 auto;flex-direction: row;flex-wrap: wrap;">
+    <ion-spinner name="bubbles"></ion-spinner>
+   <p> Please wait. The quiz is auto-generating</p>
+  </div>
     <div class="quiz-card">
       <div *ngFor="let question of quizArray; let i = index">
         <div *ngIf="currentQuestion == i">
@@ -41,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="action-buttons">
+      <div class="action-buttons" *ngIf="quizArray.length">
         <ion-button slot="start" (click)="preQuestion()"
           ><ion-icon name="arrow-back-outline"></ion-icon
         ></ion-button>

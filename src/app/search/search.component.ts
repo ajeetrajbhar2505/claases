@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -59,7 +60,7 @@ export class SearchComponent implements OnInit {
       question : question
     }
     
-   let response:any = await this.http.post('https://married-bloom-snail.glitch.me/questionResponse',body).toPromise()
+   let response:any = await this.http.post(environment.nodeApi + '/questionResponse',body).toPromise()
    console.log(response.data);
    if (response.status == 200) {
     this.loading = false
