@@ -163,58 +163,64 @@ export class TestComponent implements OnInit {
     })
   }
 
-
- async autoGenerateQuiz()
-  {
-    let body = {
-      topic : this.lectureDetails.lec_title,
-      total_questions : "10"
-    }
-     this.quizArray = []
-    let questions:any = await this.http.post(environment.nodeApi + '/quiz',body).toPromise()
-    questions['questions'].forEach((element:any) => {
-      const questionModal: Question = {
-        question_text: element.question,
-        marks: 1,
-        options: []
-        }
-        for (let i = 0; i < element['options'].length; i++) {
-          const options :Option  ={
-            id: i+1,
-            option_text: element['options'][i],
+  async autoGenerateQuiz() {
+    try {
+      let body = {
+        topic: this.lectureDetails.lec_title,
+        total_questions: "10"
+      };
+      this.quizArray = [];
+      let questions: any = await this.http.post(environment.nodeApi + '/quiz', body).toPromise();
+      for (let element of questions.questions) {
+        const questionModal: Question = {
+          question_text: element.question,
+          marks: 1,
+          options: []
+        };
+        for (let i = 0; i < element.options.length; i++) {
+          const options: Option = {
+            id: i + 1,
+            option_text: element.options[i],
             is_correct: false,
             selected: false,
             correct_response: false,
+          };
+          questionModal.options.push(options);
+        }
+  
+        // Search for correct answers
+        const searchQuestion = element.question + element.options.join(' ');
+        const correctOption: any = await this.generateCorrectOption(searchQuestion);
+        console.log(`Question: ${element.question}`);
+        console.log(`Correct option: ${correctOption}`);
+
+        questionModal.options.forEach(option => {
+          if (option.option_text.trim().toLowerCase().includes(correctOption.trim().toLowerCase())) {
+            option.is_correct = true;
           }
-          questionModal.options.push(options)
-        }
-
-
-     //  Search for correct answers
-      const searchquestion = element.question +  element['options'].join(' ');
-      const correctOption:any =  this.generateCorrectOption(searchquestion)
-
-      questionModal.options.forEach(option => {
-        if (option.option_text.includes(correctOption)) {
-          option.is_correct = true;
-        }
-      });
-     this.quizArray.push(questionModal)
-
-    });
-    
-    
-  }
-
-
- async generateCorrectOption(question:any)
-  {
-    let body = {
-      question : question
+          console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
+        });
+        this.quizArray.push(questionModal);
+      }
+    } catch (error) {
+      console.error(`Failed to generate quiz: ${error}`);
+      throw error;
     }
-    let correct_response:any = await this.http.post(environment.nodeApi + '/generateCorrectOption',body).toPromise()
-    return correct_response['result'].replace(/\nA\. /, "");
   }
+  
+  async generateCorrectOption(question: string): Promise<string> {
+    try {
+      const body = { question };
+      const correctResponse: any = await this.http.post(`${environment.nodeApi}/generateCorrectOption`, body).toPromise();
+      const correctOption = correctResponse['result'].replace(/\nA\. /, '');
+      return correctOption;
+    } catch (error) {
+      console.error(`Failed to generate correct option: ${error}`);
+      throw error;
+    }
+  }
+  
+  
 
 
   ngOnInit() {
@@ -222,7 +228,6 @@ export class TestComponent implements OnInit {
       this.lectureDetails.lec_title = param.lec_title
       this.lectureDetails.lec_id = param.lec_id
       this.autoGenerateQuiz()
-     console.log({quizArray : this.quizArray});
 
      this.restartQuiz()
     })
