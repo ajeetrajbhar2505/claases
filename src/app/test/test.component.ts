@@ -197,8 +197,8 @@ export class TestComponent implements OnInit {
         console.log(`Correct option: ${correctOption}`);
 
         questionModal.options.forEach(option => {
-          const optionText = option.option_text.replace(/[^a-zA-Z0-9 ]/g, "").trim().toLowerCase();
-          const correctOptionText = correctOption.replace(/[^a-zA-Z0-9 ]/g, "").trim().toLowerCase();
+          const optionText = option.option_text.replace(/^\s*[a-zA-Z]\.?\)?\s*/g, '').trim().toLowerCase();
+          const correctOptionText = correctOption.replace(/^\s*[a-zA-Z]\.?\)?\s*/g, '').trim().toLowerCase();
           console.log({optionText :optionText ,correctOptionText : correctOptionText});
           
           if (optionText.includes(correctOptionText)) {
@@ -228,13 +228,16 @@ export class TestComponent implements OnInit {
       console.error(`Failed to generate quiz: ${error}`);
       throw error;
     }
+    // console.clear()
+    console.table(this.quizArray);
+    
   }
   
   async generateCorrectOption(question: string): Promise<string> {
     try {
       const body = { question };
       const correctResponse: any = await this.http.post(`${environment.nodeApi}/generateCorrectOption`, body).toPromise();
-      const correctOption = correctResponse['result'].replace(/\nA\. /, '');
+      const correctOption = correctResponse['result'].replace(/\n[।|\.]\s*[A-ः]?[\)|\.]/, '').trim();
       return correctOption;
     } catch (error) {
       console.error(`Failed to generate correct option: ${error}`);
