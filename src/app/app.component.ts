@@ -33,9 +33,15 @@ export class AppComponent {
           contentElement.pause();
         }
         const liveContentElement = this.getliveContentElement();
-        if (routerEvent.url !== '/tabs/live' && liveContentElement) {
-          liveContentElement.pause();
+        if (liveContentElement) {
+          if (routerEvent.url === '/tabs/live') {
+            liveContentElement.play();
+          } else {
+            liveContentElement.pause();
+          }
         }
+        
+      
       } else if (routerEvent instanceof NavigationError) {
         this.router.navigate(['/tabs/home']);
         // handle NavigationError here
