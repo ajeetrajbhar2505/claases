@@ -43,111 +43,6 @@ export class TestComponent implements OnInit {
   isModalOpen: boolean = false;
   viewResult: boolean = false;
   quizArray: any = []
-    
-  // quizArray = [
-  //   {
-  //     question_text: "Which letter does the word 'apple' starts with?",
-  //     marks: 1,
-  //     options: [
-  //       {
-  //         id: 1,
-  //         option_text: 'a',
-  //         is_correct: true,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 2,
-  //         option_text: 'e',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 3,
-  //         option_text: 'o',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 4,
-  //         option_text: 'l',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     question_text: "Which letter does the word 'car' starts with?",
-  //     marks: 1,
-  //     options: [
-  //       {
-  //         id: 1,
-  //         option_text: 'o',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 2,
-  //         option_text: 'c',
-  //         is_correct: true,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 3,
-  //         option_text: 'b',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 4,
-  //         option_text: 'd',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     question_text: "Which letter does the word 'giraffe' starts with?",
-  //     marks: 1,
-  //     options: [
-  //       {
-  //         id: 1,
-  //         option_text: 'o',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 2,
-  //         option_text: 'c',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 3,
-  //         option_text: 'g',
-  //         is_correct: true,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //       {
-  //         id: 4,
-  //         option_text: 'd',
-  //         is_correct: false,
-  //         selected: false,
-  //         correct_response: false,
-  //       },
-  //     ],
-  //   },
-  // ];
   lectureDetails =  { lec_title : "",lec_id : ""}
   contentDetails: ContentDetails = {
     nested: '',
@@ -197,8 +92,9 @@ export class TestComponent implements OnInit {
         console.log(`Correct option: ${correctOption}`);
 
         questionModal.options.forEach(option => {
-          const optionText = option.option_text.replace(/^\s*[a-zA-Z]\.?\)?\s*/g, '').trim().toLowerCase();
-          const correctOptionText = correctOption.replace(/^\s*[a-zA-Z]\.?\)?\s*/g, '').trim().toLowerCase();
+          const optionText = option.option_text.replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "").trim().toLowerCase().replace(/^(answer\s+)?a(\.\)?|\))?\s*/g, '');
+          const correctOptionText = correctOption.replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "").trim().toLowerCase().replace(/^(answer\s+)?a(\.\)?|\))?\s*/g, '');
+          
           console.log({optionText :optionText ,correctOptionText : correctOptionText});
           
           if (optionText.includes(correctOptionText)) {
