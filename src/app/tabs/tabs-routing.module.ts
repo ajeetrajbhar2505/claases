@@ -68,8 +68,8 @@ const routes: Routes = [
         loadChildren : () => import('../achievements/achievements.module').then(m => m.AchievementsModule)
       },
       {
-        path: '',
-        redirectTo: '/tabs/splash',
+        path: '***',
+        redirectTo: '/tabs/home',
         pathMatch: 'full'
       }
     ]
