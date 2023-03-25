@@ -34,9 +34,7 @@ export class AppComponent {
         }
         const liveContentElement = this.getliveContentElement();
         if (liveContentElement) {
-          if (routerEvent.url === '/tabs/live') {
-            liveContentElement.play();
-          } else {
+          if (routerEvent.url !== '/tabs/live') {
             liveContentElement.pause();
           }
         }
