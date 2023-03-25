@@ -43,7 +43,7 @@ export class TestComponent implements OnInit {
   isModalOpen: boolean = false;
   viewResult: boolean = false;
   quizArray: any = []
-  lectureDetails =  { lec_title : "",lec_id : ""}
+  lectureDetails = { lec_title: "", lec_id: "" }
   contentDetails: ContentDetails = {
     nested: '',
     from: '',
@@ -52,7 +52,7 @@ export class TestComponent implements OnInit {
     contentId: '',
     content: '',
   };
-  constructor(private animationCtrl: AnimationController,public ActivatedRoute:ActivatedRoute,public router:Router,public http:HttpClient) {
+  constructor(private animationCtrl: AnimationController, public ActivatedRoute: ActivatedRoute, public router: Router, public http: HttpClient) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
     })
@@ -82,7 +82,7 @@ export class TestComponent implements OnInit {
           };
           questionModal.options.push(options);
         }
-  
+
         // Search for correct answers
         const searchQuestion = element.question + element.options.join(' ');
         const correctOption: any = await this.generateCorrectOption(searchQuestion);
@@ -92,19 +92,33 @@ export class TestComponent implements OnInit {
         console.log(`Correct option: ${correctOption}`);
 
         questionModal.options.forEach(option => {
-          const optionText = option.option_text.replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "").trim().toLowerCase().replace(/^(answer\s+)?a(\.\)?|\))?\s*/g, '');
-          const correctOptionText = correctOption.replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "").trim().toLowerCase().replace(/^(answer\s+)?a(\.\)?|\))?\s*/g, '');
-          
-          console.log({optionText :optionText ,correctOptionText : correctOptionText});
-          
+          const optionText = option.option_text
+            .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
+            .trim()
+            .toLowerCase()
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
+
+          const correctOptionText = correctOption
+            .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
+            .trim()
+            .toLowerCase()
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
+
+          console.log({ optionText: optionText, correctOptionText: correctOptionText });
+
           if (optionText.includes(correctOptionText)) {
             option.is_correct = true;
             isCorrectFound = true;
           }
+          if (optionText.endsWith(correctOptionText)) {
+            option.is_correct = true;
+            isCorrectFound = true;
+          }
+          
           console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
         });
-        
-      
+
+
 
         // If correctOption Options me hii nahi hai to push kar and make them correct as option
         if (!isCorrectFound) {
@@ -126,9 +140,9 @@ export class TestComponent implements OnInit {
     }
     // console.clear()
     console.table(this.quizArray);
-    
+
   }
-  
+
   async generateCorrectOption(question: string): Promise<string> {
     try {
       const body = { question };
@@ -140,9 +154,9 @@ export class TestComponent implements OnInit {
       throw error;
     }
   }
-  
-  
-  
+
+
+
 
 
   ngOnInit() {
@@ -151,12 +165,12 @@ export class TestComponent implements OnInit {
       this.lectureDetails.lec_id = param.lec_id
       this.autoGenerateQuiz()
 
-     this.restartQuiz()
+      this.restartQuiz()
     })
   }
 
   onselectOption(i: any, option: any) {
-    this.quizArray[i].options.forEach((option:any) => {
+    this.quizArray[i].options.forEach((option: any) => {
       option.selected = false;
       option.correct_response = false;
     });
@@ -245,8 +259,7 @@ export class TestComponent implements OnInit {
   };
 
 
-  routeToPreviousPage()
-  {
+  routeToPreviousPage() {
     const queryParams = {
       classId: this.contentDetails.classId,
       lec_id: this.contentDetails.lec_id,
