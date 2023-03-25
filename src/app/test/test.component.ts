@@ -104,7 +104,7 @@ export class TestComponent implements OnInit {
             .toLowerCase()
             .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
 
-          console.log({ optionText: optionText, correctOptionText: correctOptionText });
+          // console.log({ optionText: optionText, correctOptionText: correctOptionText });
 
           if (optionText.includes(correctOptionText)) {
             option.is_correct = true;
@@ -115,7 +115,7 @@ export class TestComponent implements OnInit {
             isCorrectFound = true;
           }
           
-          console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
+          // console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
         });
 
 
@@ -163,7 +163,7 @@ export class TestComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.lectureDetails.lec_title = param.lec_title
       this.lectureDetails.lec_id = param.lec_id
-      this.autoGenerateQuiz()
+      // this.autoGenerateQuiz()
 
       this.restartQuiz()
     })
