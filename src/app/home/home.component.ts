@@ -31,8 +31,7 @@ export class HomeComponent implements OnInit {
   greeting = '';
   isModalOpen = false;
   menus: MenuItem[] = [
-    { icon: 'bar-chart-outline', title: 'Leadership' },
-    { icon: 'medal-outline', title: 'Achievements' },
+    { icon: 'ribbon-outline', title: 'Achievements' },
   ];
   lecturesData: any[] = [];
   courses: Course[] = [
