@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
       question : question
     }
     
-   let response:any = await this.http.post('https://cedar-forested-ferryboat.glitch.me/questionResponse',body).toPromise()
+   let response:any = await this.http.post('https://married-bloom-snail.glitch.me/questionResponse',body).toPromise()
    console.log(response.data);
    if (response.status == 200) {
     this.loading = false
