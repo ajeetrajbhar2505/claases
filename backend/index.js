@@ -13,10 +13,12 @@ dotenv.config();
 app.use(cors());
 const multer = require('multer');
 
+
 // ChatGpt Integration
 const { Configuration, OpenAIApi } = require("openai");
+const modalId = "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";
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: modalId,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -33,1064 +35,16 @@ app.get("/chat", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-
-
-
 io.on("connection", (socket) => {
-    // Emit a message to the client
-    socket.on("message", (msg) => {
-      io.emit("message", msg);
-    });
-  
-    socket.on("notification", (msg) => {
-      io.emit("notification", msg);
-    });
+  // Emit a message to the client
+  socket.on("message", (msg) => {
+    io.emit("message", msg);
   });
-  
-  const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: function(req, file, cb) {
-      cb(null, file.originalname);
-    }
+
+  socket.on("notification", (msg) => {
+    io.emit("notification", msg);
   });
-  
-  
-  const upload = multer({ storage: storage });
-  app.post('/api/upload', upload.single('video'), (req, res) => {
-    res.json({ message: 'File uploaded successfully' });
-  
-  });
-  
-
-
-
-
-var LecturesWiseContents = [
-  {
-    lec_id: 1,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 2,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 3,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 4,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 5,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 6,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 7,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  },
-  {
-    lec_id: 8,
-    contents: [
-      {
-        contentId: "1",
-        content: "video",
-        content_icon: "assets/english.webp",
-        content_link: "A_For_Apple_ABC_Alphabet_Songs_with_Sounds_for_Children.mp4",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "2",
-        content: "video",
-        content_icon: "assets/maths.webp",
-        content_link: "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-        content_title: "Tables1 to 10 || English Table of One to Ten Tables Song ",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "3",
-        content: "video",
-        content_icon: "assets/marathi.webp",
-        content_link: "येरे-येरे-पावसा-म_.mp4",
-        content_title: "येरे येरे पावसा | मजेदार मराठी बालगीत | Marathi Rhymes | Marathi Balgeet | Jingle Toons",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "4",
-        content: "video",
-        content_icon: "assets/hindi.webp",
-        content_link: "क-से-कमल-ka-se-kamal-hindi.mp4",
-        content_title: "क से कमल Ka Se Kamal - Hindi Varnamala Geet 2 - Hindi Phonics Song - Hindi Alphabet Song",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "5",
-        content: "video",
-        content_icon: "assets/gk.webp",
-        content_link: "surprise-eggs-toys-learn-fruits-vegetables-for.mp4",
-        content_title: "Surprise Eggs Toys Learn Fruits & Vegetables for Kids",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "6",
-        content: "video",
-        content_icon: "assets/computer-science.webp",
-        content_link: "computer-parts-more-computer-parts-name-crea.mp4",
-        content_title: "Computer Parts & more | Computer Parts name Creative Learning for Kids Children Early Learning",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "7",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "8",
-        content: "video",
-        content_icon: "assets/evs.webp",
-        content_link: "evs-for-class-3-learn-science-for-kids-envir.mp4",
-        content_title: "Learn Science For Kids | Environmental Science",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "9",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "abcd.mp3",
-        content_title: "A For Apple - ABC Alphabet Songs with Sounds for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "10",
-        content: "audio",
-        content_icon: "assets/english.webp",
-        content_link: "EnglishRhymes.mp3",
-        content_title: "Rain, Rain, Go Away Nursery Rhyme With Lyrics - Cartoon Animation Rhymes & Songs for Children",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "11",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Tot_Time_Notebook_ABC.pdf",
-        content_title: "ABC SONG (THE ALPHABET SONG) PRINTABLE LYRICS – PDF",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      },
-      {
-        contentId: "12",
-        content: "document",
-        content_icon: "assets/english.webp",
-        content_link: "Fingerplays.pdf",
-        content_title: "Nursery Rhymes, Fingerplays and Songs for Circle Time",
-        teacher : "ajeet rajbhar",
-        time : "",
-        published_at: "18/02/2023"
-      }
-    ]
-  }
-]
-
-
-
-app.get('/loadVideo/:lec_id/:contentId',async (req,res)=>{
-  try{
-    var contentToWatch;
-    LecturesWiseContents.filter(async (Object)=>{
-      if (Object.lec_id == req.params.lec_id) {
-        let response =  Object['contents'].filter((data)=> data.contentId == req.params.contentId )
-        contentToWatch = response[0]
-      }
-    })
-    console.log(contentToWatch)
-    res.send(contentToWatch)
-  }
-  catch (err)
-  {
-    console.log(err)
-  }
-  
-
-})
-
-
+});
 
 app.get("/video/:name", (req, res) => {
   let path = "video/" + req.params.name;
@@ -1127,12 +81,10 @@ app.get("/video/:name", (req, res) => {
   }
 });
 
-
-
 app.post("/questionResponse", async (req, res) => {
   let question = req.body.question;
   var question_count = 10;
-  console.log(question);
+  console.log({ question: question });
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -1147,13 +99,12 @@ app.post("/questionResponse", async (req, res) => {
     let answer = response.data.choices[0].text;
     res.send({ status: 200, data: answer });
   } catch {
-    console.log("error");
+    res.send({
+      status: 200,
+      data: "Chatbot is not available, Please contact to our developer Ajeet Rajbhar to fix them ",
+    });
   }
 });
-
-
-
-
 
 // create a Date object for the desired date and time
 const date = new Date("2023-03-19T19:30:46.310Z");
@@ -1172,3 +123,151 @@ const cronSchedule = `${minute} ${hour} ${day} ${month} *`;
 cron.schedule(cronSchedule, () => {
   console.log("Cron job running");
 });
+
+app.post("/quiz", async (req, res) => {
+  // Set the number of questions to generate
+  
+
+  const topic = 'Generate a multiple choice question' + req.body.topic + 'with four options';
+  const numQuestions = req.body.total_questions;
+
+  // Generate questions and answers using OpenAI API
+  await generateQuestions(numQuestions, topic)
+    .then((result) => {
+      // handle resolved Promise
+      const questions = result
+        .map((str) => {
+          const match = str.match(/\n\n(.*\?)\n/g);
+          if (match) {
+            const question = match[0].trim();
+            let options = str.split(question)[1].trim().split("\n");
+            
+            
+            if(options.length == 1)
+              {
+                options[0] = options[0].split("  ")
+                options = options[0][1].split("   ")
+                console.log(options)
+              }
+            
+             // Filter  of the option that contains the empty options
+               options = options.filter(option => option.trim() !== "");
+            
+            // Find the index of the option that contains the answer
+               const answerIndex = options.findIndex(option => option.startsWith("Answer"));
+              if(answerIndex)
+                {
+                  options = options.slice(0, answerIndex);
+                }
+            return {
+              question,
+              options,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+      res.json({ questions });
+    })
+    .catch((error) => {
+      // handle rejected Promise
+      console.log(error);
+    });
+
+  // Send the generated quiz back to the client
+});
+
+// Generate questions and answers using OpenAI API
+async function generateQuestions(numQuestions, topic) {
+  const questions = [];
+
+  for (let i = 0; i < numQuestions; i++) {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: topic,
+      temperature: 0.7,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+
+    const question = response.data.choices[0].text;
+    console.log({question:question});
+    questions.push(question);
+  }
+
+  return questions;
+}
+
+
+app.post("/generateCorrectOption", async (req, res) => {
+  // Set the number of questions to generate
+  
+
+  const question = req.body.question;
+  console.log(question)
+
+  // Generate questions and answers using OpenAI API
+  await generateCorrectOption(question)
+    .then((result) => {
+   
+      res.json({ result });
+    })
+    .catch((error) => {
+      // handle rejected Promise
+      console.log(error);
+    });
+
+  // Send the generated quiz back to the client
+});
+
+
+async function generateCorrectOption(question) {
+   const topic = question;
+      const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: '"'+ topic + '"',
+      temperature: 0.7,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+  
+  return handleResponse(response,question)
+  
+}
+
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+
+const upload = multer({ storage: storage });
+app.post('/api/upload', upload.single('video'), (req, res) => {
+  res.json({ message: 'File uploaded successfully' });
+
+});
+
+
+function handleResponse(response, question) {
+  var correctOption;
+  if (!response || !response.data || !response.data.choices || response.data.choices.length < 1 || !response.data.choices[0].text) {
+    console.log("Error: Invalid response object.");
+    return generateCorrectOption(question);
+  }
+  correctOption = response.data.choices[0].text;
+  console.log("The first choice is not empty: " + correctOption);
+  return correctOption;
+}
+
+
+
+
+
+
+
