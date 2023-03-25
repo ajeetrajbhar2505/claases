@@ -191,15 +191,37 @@ export class TestComponent implements OnInit {
         // Search for correct answers
         const searchQuestion = element.question + element.options.join(' ');
         const correctOption: any = await this.generateCorrectOption(searchQuestion);
+        let isCorrectFound = false;
+
         console.log(`Question: ${element.question}`);
         console.log(`Correct option: ${correctOption}`);
 
         questionModal.options.forEach(option => {
-          if (option.option_text.trim().toLowerCase().includes(correctOption.trim().toLowerCase())) {
+          const optionText = option.option_text.replace(/[^a-zA-Z0-9 ]/g, "").trim().toLowerCase();
+          const correctOptionText = correctOption.replace(/[^a-zA-Z0-9 ]/g, "").trim().toLowerCase();
+          console.log({optionText :optionText ,correctOptionText : correctOptionText});
+          
+          if (optionText.includes(correctOptionText)) {
             option.is_correct = true;
+            isCorrectFound = true;
           }
           console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
         });
+        
+      
+
+        // If correctOption Options me hii nahi hai to push kar and make them correct as option
+        if (!isCorrectFound) {
+          const correctOptionObject: Option = {
+            id: element['options'].length + 1,
+            option_text: correctOption,
+            is_correct: true,
+            selected: false,
+            correct_response: false,
+          };
+          questionModal.options.push(correctOptionObject);
+        }
+
         this.quizArray.push(questionModal);
       }
     } catch (error) {
@@ -219,6 +241,7 @@ export class TestComponent implements OnInit {
       throw error;
     }
   }
+  
   
   
 
