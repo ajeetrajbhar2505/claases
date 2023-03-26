@@ -13,6 +13,8 @@ export class WebService {
     const synth = window.speechSynthesis;
 
     // create a new SpeechSynthesisUtterance object with the desired text
+    console.log(textToSpeech);
+    
     const utterance = new SpeechSynthesisUtterance(textToSpeech);
 
     // get all available voices
@@ -34,7 +36,8 @@ export class WebService {
       utterance.voice = maleVoice;
     }
 
-    utterance.lang = 'hi-IN';
+      utterance.voice = maleVoice;
+      utterance.lang = 'hi-IN';
 
 
     // queue the utterance for synthesis

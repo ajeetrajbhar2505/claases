@@ -53,6 +53,7 @@ export class TestComponent implements OnInit {
     contentId: '',
     content: '',
   };
+  instructions = "Welcome to the auto quiz generation tool! This tool is designed by Ajeet Rajbhar for practice purposes and will generate multiple-choice quizzes for you automatically. Please note that while the correct answer will be provided, it may not always be displayed accurately or may be missing from the options provided. We appreciate your understanding and cooperation in using this tool. Happy practicing"
   constructor(private animationCtrl: AnimationController, public ActivatedRoute: ActivatedRoute, public router: Router, public http: HttpClient,public service:WebService) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
@@ -61,10 +62,16 @@ export class TestComponent implements OnInit {
 
   speech()
   {
-    // this.service.speechToText()
-    const question = this.quizArray[this.currentQuestion].question_text
-    const speechtext = question.replace(/^Q:\s*/, '') +  ' Options are ' +  this.quizArray[this.currentQuestion].options.map((option:any) => option.option_text).join(' ')
-    this.service.speech(speechtext)
+    if (!this.quizArray.length) {
+      const question = this.quizArray[this.currentQuestion].question_text
+      const speechtext = question.replace(/^Q:\s*/, '') +  ' Options are ' +  this.quizArray[this.currentQuestion].options.map((option:any) => option.option_text).join(' ')
+      this.service.speech(speechtext)
+      return
+    }
+
+    this.service.speechToText()
+
+
   }
 
   async autoGenerateQuiz() {

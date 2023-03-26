@@ -14,7 +14,13 @@
     [fullscreen]="true"
     class="ion-padding"
   >
-  <div *ngIf="!quizArray.length" style="display:flex;justify-content:center;margin:0 auto;flex-direction: row;flex-wrap: wrap;">
+  <div *ngIf="!quizArray.length" style="display:flex;justify-content:center;margin:0 auto;flex-direction: row;flex-wrap: wrap;align-items:center;justify-items:center">
+    
+    <ion-card>
+      <ion-card-content>
+        {{instructions}}
+      </ion-card-content>
+    </ion-card>
     <ion-spinner name="bubbles"></ion-spinner>
    <p> Please wait. The quiz is auto-generating</p>
   </div>
