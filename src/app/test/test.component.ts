@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { WebService } from '../web.service';
 
 interface ContentDetails {
   nested: string;
@@ -52,10 +53,20 @@ export class TestComponent implements OnInit {
     contentId: '',
     content: '',
   };
-  constructor(private animationCtrl: AnimationController, public ActivatedRoute: ActivatedRoute, public router: Router, public http: HttpClient) {
+  constructor(private animationCtrl: AnimationController, public ActivatedRoute: ActivatedRoute, public router: Router, public http: HttpClient,public service:WebService) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
     })
+  }
+
+  speech()
+  {
+    // this.service.speechToText()
+    const question = this.quizArray[this.currentQuestion].question_text
+    const updatedQuestion = question.replace(/^Q:\s*/, '');
+    const option = ' Options are ' +  this.quizArray[this.currentQuestion].options.join(' ');
+    const speechtext = updatedQuestion + option
+    this.service.speech(speechtext)
   }
 
   async autoGenerateQuiz() {

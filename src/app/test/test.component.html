@@ -4,7 +4,9 @@
     <ion-buttons slot="start">
       <ion-icon name="arrow-back-outline" (click)="routeToPreviousPage()"></ion-icon>
     </ion-buttons>
-    <ion-icon slot="end" name="volume-high-outline"></ion-icon>
+    <ion-buttons slot="end" style="margin-right: 15px;">
+    <ion-icon size="large" (click)="speech()" name="volume-high-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
   <ion-content
     class="ion-content"
