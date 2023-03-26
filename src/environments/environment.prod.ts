@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apifirstKey : 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/',
-  apilastkey : '?v=1677959874652'
+  apilastkey : '?v=1677959874652',
+  nodeApi : 'https://married-bloom-snail.glitch.me/'
 };
 
 /*
