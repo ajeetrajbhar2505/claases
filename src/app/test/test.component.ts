@@ -63,9 +63,7 @@ export class TestComponent implements OnInit {
   {
     // this.service.speechToText()
     const question = this.quizArray[this.currentQuestion].question_text
-    const updatedQuestion = question.replace(/^Q:\s*/, '');
-    const option = ' Options are ' +  this.quizArray[this.currentQuestion].options.join(' ');
-    const speechtext = updatedQuestion + option
+    const speechtext = question.replace(/^Q:\s*/, '') +  ' Options are ' +  this.quizArray[this.currentQuestion].options.map((option:any) => option.option_text).join(' ')
     this.service.speech(speechtext)
   }
 
@@ -103,13 +101,13 @@ export class TestComponent implements OnInit {
         console.log(`Correct option: ${correctOption}`);
 
         questionModal.options.forEach(option => {
-          const optionText = option.option_text
+          var optionText = option.option_text
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
             .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
 
-          const correctOptionText = correctOption
+          var correctOptionText = correctOption
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
