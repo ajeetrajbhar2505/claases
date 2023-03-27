@@ -1,0 +1,6 @@
+.pdf-viewer{
+    height: 3500px;
+}
+::ng-deep .ng2-pdf-viewer-container{
+    overflow: hidden !important;
+}

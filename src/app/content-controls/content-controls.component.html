@@ -39,8 +39,8 @@
               </div>
             </ion-card-header>
             <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
-            src="https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf" [render-text]="true"
-            [original-size]="false" style="height: 3500px"></pdf-viewer>
+            [src]="contentToWatch.content_link" [render-text]="true"
+            [original-size]="false" class="pdf-viewer"></pdf-viewer>
           <ion-card-header>
             <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
             <ion-card-subtitle>{{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' | lowercase}}</ion-card-subtitle>
