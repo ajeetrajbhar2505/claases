@@ -80,6 +80,7 @@ export class HomeComponent implements OnInit {
     const response:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
     response.forEach((element:any) => {
       element['contents'].forEach((object:any)=>{
+        object.lec_id = element.lec_id
         this.LecturesWiseVideos.push(object)
       })
     });
@@ -89,8 +90,6 @@ export class HomeComponent implements OnInit {
   {
     const text = event.target.value.toLowerCase()
     this.SearchedContents = this.LecturesWiseVideos.filter((element:any)=> element['content_title'].toLowerCase().includes(text))
-    console.log(this.SearchedContents);
-    
   }
 
 
@@ -145,16 +144,10 @@ export class HomeComponent implements OnInit {
 
   routeTocontentControls(content:any)
   {
-    const contentMap:any = {
-      'audio': '9',
-      'video': '3',
-      'document': '11',
-    };
-    const contentId = contentMap[content];
     const queryParams = {
       classId: 1,
-      lec_id: 4,
-      contentId: contentId,
+      lec_id: content.lec_id,
+      contentId: content.contentId,
       from: "/tabs/home",
     };
     this.router.navigate(['/tabs/content-controls'], { queryParams });
