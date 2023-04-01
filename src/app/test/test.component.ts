@@ -114,17 +114,17 @@ export class TestComponent implements OnInit {
         let maxPriority = -1;
 
         questionModal.options.forEach(option => {
-          var optionText = this.removeLeadingLetters(option.option_text
+          var optionText = option.option_text
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
-            .replace(/^(answer\s+)?[a-z]\)\s*/g, ''));
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, '')
 
-          var correctOptionText = this.removeLeadingLetters(correctOption
+          var correctOptionText = correctOption
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
-            .replace(/^(answer\s+)?[a-z]\)\s*/g, ''));
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, '')
 
                 // The correct option is an  match, mark it as correct
             const similarity = this.compareTexts(optionText, correctOptionText).similarity;
@@ -155,6 +155,7 @@ export class TestComponent implements OnInit {
         }
 
         questionModal.options.forEach(option => {
+            option.is_correct = false;
           if (option.priority === maxPriority) {
             option.is_correct = true;
           }
