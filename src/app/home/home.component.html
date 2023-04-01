@@ -93,6 +93,7 @@
 </ion-app>
 
 
+
 <ion-modal [isOpen]="isSearchOpen">
   <ng-template>
     <ion-header>
@@ -107,9 +108,7 @@
       <ion-list>
             <ion-item *ngFor="let data of SearchedContents" expand="block"
               (click)="routeTocontentControls(data,'other');toggleSeachmenu()">
-              <ion-thumbnail slot="start">
-                <img alt="Silhouette of mountains" [src]="data.content_icon" />
-              </ion-thumbnail>
+              <ion-icon slot="start" [name]="data.content == 'video'?'play-circle-outline' : data.content == 'audio'?'musical-notes-outline' : data.content == 'document'?'document-text-outline' : ''"></ion-icon>
               <ion-label>{{data.content_title}}</ion-label>
               <ion-reorder slot="end"></ion-reorder>
             </ion-item>
