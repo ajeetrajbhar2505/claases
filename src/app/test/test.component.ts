@@ -120,7 +120,7 @@ export class TestComponent implements OnInit {
             .toLowerCase()
             .replace(/^(answer\s+)?[a-z]\)\s*/g, '')
 
-          var correctOptionText = correctOption
+          var correctOptionText = this.removeLeadingLetters(correctOption)
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
