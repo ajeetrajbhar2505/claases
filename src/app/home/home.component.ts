@@ -143,7 +143,6 @@ export class HomeComponent implements OnInit {
   }
 
   routeTocontentControls(content: string | { lec_id: number; contentId: number }, from: 'notification' | 'other') {
-    this.isSearchOpen = false;
     const contentMap:any = {
       audio: '9',
       video: '3',
@@ -153,9 +152,11 @@ export class HomeComponent implements OnInit {
       classId: 1,
       lec_id: typeof content === 'string' ? 4 : content.lec_id,
       contentId: typeof content === 'string' ? contentMap[content] : content.contentId,
-      from: `/tabs/${from}`,
+      from: `/tabs/home`,
     };
+    setTimeout(() => {
     this.router.navigate(['/tabs/content-controls'], { queryParams });
+  }, 10);
   }
   
 
