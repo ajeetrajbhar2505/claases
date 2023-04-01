@@ -32,7 +32,7 @@
     </ion-header>
     <ion-content [fullscreen]="true" class="ion-padding">
       <ion-toolbar>
-        <ion-searchbar></ion-searchbar>
+        <ion-searchbar (input)="searchData($event)" (click)="toggleSeachmenu()" ></ion-searchbar>
       </ion-toolbar>
       <ion-toolbar>
         <div class="space-between">
@@ -89,18 +89,14 @@
         </div>
       </section>
 
-    <ion-modal [isOpen]="isModalOpen">
+
+    <ion-modal [isOpen]="isSearchOpen">
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-searchbar></ion-searchbar>
-            <datalist id="search">
-               <option value="">recent uploaded video</option>
-               <option value="">recent uploaded audio</option>
-               <option value="">recent uploaded document</option>
-            </datalist>
+            <ion-searchbar #searchBar id="searchBar"></ion-searchbar>
             <ion-buttons slot="start">
-          <ion-icon name="chevron-back-outline"  (click)="toggleMenu()"></ion-icon>
+               <ion-icon name="chevron-back-outline" (click)="toggleSeachmenu()"></ion-icon>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
@@ -113,6 +109,8 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-    </ion-content>
+
+    
+  </ion-content>
     </div>
 </ion-app>

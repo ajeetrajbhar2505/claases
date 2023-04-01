@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ScrollDetail } from '@ionic/angular';
+import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 
 interface MenuItem {
@@ -28,8 +28,11 @@ interface Notification {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('searchBar', { static: false }) searchBar!: IonSearchbar;
+
   greeting = '';
   isModalOpen = false;
+  isSearchOpen: boolean = false;
   menus: MenuItem[] = [
     { icon: 'ribbon-outline', title: 'Achievements' },
   ];
@@ -47,6 +50,7 @@ export class HomeComponent implements OnInit {
   ];
   contentId = 10
   classId = 10
+  LecturesWiseVideos:any = []
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
 
   async ngOnInit() {
@@ -66,9 +70,33 @@ export class HomeComponent implements OnInit {
       element.ratings = 25;
       element.contents = 16;
     });
+    this.getLecturesWiseVideos()
   }
 
 
+  async getLecturesWiseVideos()
+  {
+    const response:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
+    response.forEach((element:any) => {
+      element['contents'].forEach((object:any)=>{
+        this.LecturesWiseVideos.push(object)
+      })
+    });
+  }
+
+  searchData(event:any)
+  {
+    const text = event.target.value.toLowerCase()
+    let searched = this.LecturesWiseVideos.filter((element:any)=> element['content_title'].toLowerCase().includes(text))
+    
+  }
+
+
+  focusSearchBar() {
+    setTimeout(() => {
+      this.searchBar.setFocus();
+    }, 10);
+  }
 
   beginTest(data:any)
   {
@@ -84,6 +112,11 @@ export class HomeComponent implements OnInit {
 
   toggleMenu() {
     this.menuCtrl.toggle();
+  }
+  toggleSeachmenu()
+  {
+    this.isSearchOpen = ! this.isSearchOpen
+    this.focusSearchBar()
   }
 
   handleScrollStart() {
