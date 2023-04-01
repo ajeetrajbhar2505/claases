@@ -5,6 +5,12 @@ import { AnimationController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
 
+interface TextComparisonResult {
+  similarity: number;
+  tokens1: string[];
+  tokens2: string[];
+}
+
 interface ContentDetails {
   nested: string;
   from: string;
@@ -91,7 +97,7 @@ export class TestComponent implements OnInit {
         for (let i = 0; i < element.options.length; i++) {
           const options: Option = {
             id: i + 1,
-            option_text: element.options[i],
+            option_text: this.removeLeadingLetters(element.options[i]),
             is_correct: false,
             selected: false,
             correct_response: false,
@@ -104,34 +110,24 @@ export class TestComponent implements OnInit {
         const correctOption: any = await this.generateCorrectOption(searchQuestion);
         let isCorrectFound = false;
 
-        console.log(`Question: ${element.question}`);
-        console.log(`Correct option: ${correctOption}`);
-
         questionModal.options.forEach(option => {
-          var optionText = option.option_text
+          var optionText = this.removeLeadingLetters(option.option_text
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
-            .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, ''));
 
-          var correctOptionText = correctOption
+          var correctOptionText = this.removeLeadingLetters(correctOption
             .replace(/^(answer:\s*[a-zA-Z]\))?\s*/i, "")
             .trim()
             .toLowerCase()
-            .replace(/^(answer\s+)?[a-z]\)\s*/g, '');
+            .replace(/^(answer\s+)?[a-z]\)\s*/g, ''));
 
-          // console.log({ optionText: optionText, correctOptionText: correctOptionText });
-
-          if (optionText.includes(correctOptionText)) {
-            option.is_correct = true;
-            isCorrectFound = true;
-          }
-          if (optionText.endsWith(correctOptionText)) {
-            option.is_correct = true;
-            isCorrectFound = true;
-          }
-          
-          // console.log(`Option: ${option.option_text}, is_correct: ${option.is_correct}`);
+            if (!isNaN(this.compareTexts(optionText,correctOptionText).similarity)) {
+              option.is_correct = true;
+              isCorrectFound = true;
+            }
+            
         });
 
 
@@ -140,7 +136,7 @@ export class TestComponent implements OnInit {
         if (!isCorrectFound) {
           const correctOptionObject: Option = {
             id: element['options'].length + 1,
-            option_text: correctOption,
+            option_text: this.removeLeadingLetters(correctOption),
             is_correct: true,
             selected: false,
             correct_response: false,
@@ -154,8 +150,7 @@ export class TestComponent implements OnInit {
       console.error(`Failed to generate quiz: ${error}`);
       throw error;
     }
-    // console.clear()
-    console.table(this.quizArray);
+    console.log(this.quizArray);
 
   }
 
@@ -170,6 +165,7 @@ export class TestComponent implements OnInit {
       throw error;
     }
   }
+
 
 
 
@@ -284,5 +280,55 @@ export class TestComponent implements OnInit {
     };
     this.router.navigate([this.contentDetails.from], { queryParams });
   }
+
+
+  // removing A) , a. like this from options
+  removeLeadingLetters(str: string): string {
+    return str.replace(/^[a-zA-Z]\.?\)?\s*/i, '');
+
+  }
+
+
+// comparing two text 
+    compareTexts(text1: string, text2: string): TextComparisonResult {
+    const tokens1 = this.tokenize(text1);
+    const tokens2 = this.tokenize(text2);
+    const commonTokens = this.getCommonTokens(tokens1, tokens2);
+    const similarity = this.cosineSimilarity(commonTokens, tokens1, tokens2);
+    return { similarity, tokens1, tokens2 };
+  }
+  
+    tokenize(text: string): string[] {
+    // Split text into tokens (words)
+    return text.split(/[\s,]+/).filter(token => token.length > 0);
+  }
+  
+    getCommonTokens(tokens1: string[], tokens2: string[]): string[] {
+    // Get the set of common tokens between the two texts
+    return Array.from(new Set(tokens1.filter(token => tokens2.includes(token))));
+  }
+  
+    cosineSimilarity(commonTokens: string[], tokens1: string[], tokens2: string[]): number {
+    // Compute the cosine similarity between the two texts
+    const vector1 = this.getVector(commonTokens, tokens1);
+    const vector2 = this.getVector(commonTokens, tokens2);
+    return this.dotProduct(vector1, vector2) / (this.magnitude(vector1) * this.magnitude(vector2));
+  }
+  
+    getVector(commonTokens: string[], tokens: string[]): number[] {
+    // Compute the vector representation of the text
+    return commonTokens.map(token => tokens.includes(token) ? 1 : 0);
+  }
+  
+    dotProduct(vector1: number[], vector2: number[]): number {
+    // Compute the dot product of two vectors
+    return vector1.reduce((sum, value, i) => sum + value * vector2[i], 0);
+  }
+  
+    magnitude(vector: number[]): number {
+    // Compute the magnitude of a vector
+    return Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0));
+  }
+
 
 }
