@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
   contentId = 10
   classId = 10
   LecturesWiseVideos:any = []
+  SearchedContents:any = []
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
 
   async ngOnInit() {
@@ -87,7 +88,8 @@ export class HomeComponent implements OnInit {
   searchData(event:any)
   {
     const text = event.target.value.toLowerCase()
-    let searched = this.LecturesWiseVideos.filter((element:any)=> element['content_title'].toLowerCase().includes(text))
+    this.SearchedContents = this.LecturesWiseVideos.filter((element:any)=> element['content_title'].toLowerCase().includes(text))
+    console.log(this.SearchedContents);
     
   }
 
