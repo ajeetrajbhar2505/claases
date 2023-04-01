@@ -25,6 +25,7 @@ interface Option {
   option_text: string;
   is_correct: boolean;
   selected: boolean;
+  priority : number,
   correct_response: boolean;
 }
 
@@ -100,6 +101,7 @@ export class TestComponent implements OnInit {
             option_text: this.removeLeadingLetters(element.options[i]),
             is_correct: false,
             selected: false,
+            priority : 0,
             correct_response: false,
           };
           questionModal.options.push(options);
@@ -109,6 +111,7 @@ export class TestComponent implements OnInit {
         const searchQuestion = element.question + element.options.join(' ');
         const correctOption: any = await this.generateCorrectOption(searchQuestion);
         let isCorrectFound = false;
+        let maxPriority = -1;
 
         questionModal.options.forEach(option => {
           var optionText = this.removeLeadingLetters(option.option_text
@@ -123,13 +126,19 @@ export class TestComponent implements OnInit {
             .toLowerCase()
             .replace(/^(answer\s+)?[a-z]\)\s*/g, ''));
 
-            if (!isNaN(this.compareTexts(optionText,correctOptionText).similarity)) {
+                // The correct option is an  match, mark it as correct
+            const similarity = this.compareTexts(optionText, correctOptionText).similarity;
+            if (!isNaN(similarity)) {
               option.is_correct = true;
+              option.priority = similarity
               isCorrectFound = true;
+              if (similarity > maxPriority) {
+                maxPriority = similarity;
+              }
+
             }
             
         });
-
 
 
         // If correctOption Options me hii nahi hai to push kar and make them correct as option
@@ -139,10 +148,17 @@ export class TestComponent implements OnInit {
             option_text: this.removeLeadingLetters(correctOption),
             is_correct: true,
             selected: false,
+            priority : 4,
             correct_response: false,
           };
           questionModal.options.push(correctOptionObject);
         }
+
+        questionModal.options.forEach(option => {
+          if (option.priority === maxPriority) {
+            option.is_correct = true;
+          }
+        });
 
         this.quizArray.push(questionModal);
       }
