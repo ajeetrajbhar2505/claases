@@ -141,6 +141,15 @@ export class TestComponent implements OnInit {
         });
 
 
+
+      // Highest priority option will be true
+        questionModal.options.forEach(option => {
+          option.is_correct = false;
+        if (option.priority === maxPriority) {
+          option.is_correct = true;
+        }
+      });
+
         // If correctOption Options me hii nahi hai to push kar and make them correct as option
         if (!isCorrectFound) {
           const correctOptionObject: Option = {
@@ -154,12 +163,7 @@ export class TestComponent implements OnInit {
           questionModal.options.push(correctOptionObject);
         }
 
-        questionModal.options.forEach(option => {
-            option.is_correct = false;
-          if (option.priority === maxPriority) {
-            option.is_correct = true;
-          }
-        });
+
 
         this.quizArray.push(questionModal);
       }
