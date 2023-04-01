@@ -114,10 +114,10 @@ export class HomeComponent implements OnInit {
   toggleMenu() {
     this.menuCtrl.toggle();
   }
+
   toggleSeachmenu()
   {
     this.isSearchOpen = ! this.isSearchOpen
-    this.focusSearchBar()
   }
 
   handleScrollStart() {
@@ -135,23 +135,29 @@ export class HomeComponent implements OnInit {
   routeTocontents(lec_id: any) {
 
     const queryParams = { 
-      classId: '', 
+      classId: 1, 
       lec_id: lec_id,
       from: '/tabs/home' 
     }
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
-  routeTocontentControls(content:any)
-  {
-    const queryParams = {
+  routeTocontentControls(content: string | { lec_id: number; contentId: number }, from: 'notification' | 'other') {
+    this.isSearchOpen = false;
+    const contentMap:any = {
+      audio: '9',
+      video: '3',
+      document: '11',
+    };
+    const queryParams: { classId: number; lec_id: number; contentId: string | number; from: string } = {
       classId: 1,
-      lec_id: content.lec_id,
-      contentId: content.contentId,
-      from: "/tabs/home",
+      lec_id: typeof content === 'string' ? 4 : content.lec_id,
+      contentId: typeof content === 'string' ? contentMap[content] : content.contentId,
+      from: `/tabs/${from}`,
     };
     this.router.navigate(['/tabs/content-controls'], { queryParams });
   }
+  
 
   routeToAchievements()
   {
