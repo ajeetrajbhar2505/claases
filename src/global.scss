@@ -43,94 +43,116 @@
 //     --color: black;
 //   }
 
-  .videocontrols,.Audiocontrols,.Documentcontrols{
-    display: flex;
-    justify-content: space-between;
-    input[type=range]{
-      width: 100%;
-    }
-  }
-  .space-between{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .imagediv{
-    display: flex;
-    justify-content: center;
-  }
+:root {
+  --space-between: space-between;
+  --center: center;
+  --full-width: 100%;
+  --border-radius: 8px;
+}
 
-  .fullscreen{
-    height: 100%;
-    position: absolute;
-    background: black;
+.videocontrols,
+.Audiocontrols,
+.Documentcontrols {
+  display: flex;
+  justify-content: var(--space-between);
+  input[type=range] {
+    width: var(--full-width);
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: var(--space-between);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.imagediv {
+  display: flex;
+  justify-content: var(--center);
+}
+
+/* Video-related classes */
+.videocontrols,
+.Audiocontrols,
+.Documentcontrols {
+  display: flex;
+  justify-content: space-between;
+
+  input[type=range] {
     width: 100%;
-    color: black;
-    z-index: 12;
-    align-items: self-end;
-    display: grid;
-    justify-content: center;
   }
+}
 
-  .exitfullscreen{
-    text-align: center;
-    padding: 10px;
-    video{
-      border-radius: 17px;
-      border: 1px solid lightgray;
-    }
-  }
+video,
+.audio {
+  border: 1px solid lightgray;
+  border-radius: var(--border-radius);
+  width: -webkit-fill-available;
+}
 
-  .sticky-bottom{
-    bottom: 0;
-    width: 100%;
-    position: sticky;
-    background-color: white;
-  }
+.fullscreen {
+  height: 100%;
+  position: absolute;
+  background: black;
+  width: 100%;
+  color: black;
+  z-index: 12;
+  align-items: self-end;
+  display: grid;
+  justify-content: center;
+}
 
+.exitfullscreen {
+  text-align: center;
+  padding: 10px;
 
-  .quize-cards{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: white;
-    box-shadow: rgb(0 0 0 / 25%) 0px 30px 60px -12px, rgb(255 143 143 / 17%) 0px 18px 36px -18px;
-  }
-
-  .card{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 8px;
-    margin: 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  }
-
-  
-  .linked{
-    color: blue;
-    cursor: pointer;
-  }
-
-  .contentcontrols{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  video,.video,.audio{
+  video {
+    border-radius: var(--border-radius);
     border: 1px solid lightgray;
-    border-radius: 10px;
-    width: -webkit-fill-available;
-    // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
   }
-  a{
-    text-decoration: none;
-  }
+}
+
+/* Quiz-related classes */
+.quize-cards,
+.card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background-color: white;
+}
+
+.quize-cards {
+  box-shadow: rgb(0 0 0 / 25%) 0px 30px 60px -12px, rgb(255 143 143 / 17%) 0px 18px 36px -18px;
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.linked {
+  color: blue;
+  cursor: pointer;
+}
+
+/* Miscellaneous classes */
+.sticky-bottom {
+  bottom: 0;
+  width: 100%;
+  position: sticky;
+  background-color: white;
+}
+
+.contentcontrols {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+a {
+  text-decoration: none;
+}
