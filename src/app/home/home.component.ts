@@ -22,6 +22,18 @@ interface Notification {
   content: string;
 }
 
+interface LectureWiseVideosData {
+  lec_id: number;
+  contents: {
+    title: string;
+    desc: string;
+    duration: number;
+    thumbnail: string;
+    url: string;
+    lec_id?: number; // optional property
+  }[];
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -55,6 +67,7 @@ export class HomeComponent implements OnInit {
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
 
   async ngOnInit() {
+    // Get the current hour to determine the greeting message
     const now = new Date();
     const hour = now.getHours();
     if (hour >= 5 && hour < 12) {
@@ -64,39 +77,48 @@ export class HomeComponent implements OnInit {
     } else {
       this.greeting = 'Good night';
     }
-    const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
-    const data = response.filter((data: any) => data.classId === this.classId)[0];
-    this.lecturesData = data.subjects;
-    this.lecturesData.forEach((element: any) => {
-      element.ratings = 25;
-      element.contents = 16;
+    
+    // Fetch class wise lectures data and update the UI
+    const response:any = await this.http.get('assets/classWiseLectures.json').toPromise();
+    const classData = response.find((data:any) => data.classId === this.classId);
+    if (classData) {
+      this.lecturesData = classData.subjects.map((subject:any) => {
+        return {
+          ...subject,
+          ratings: 25,
+          contents: 16
+        };
+      });
+    }
+    
+    // Fetch lectures wise videos
+    this.getLecturesWiseVideos();
+  }
+  
+
+
+  async getLecturesWiseVideos() {
+    const response:any = await this.http.get<LectureWiseVideosData[]>('assets/LecturesWiseVideos.json').toPromise();
+    const lecturesWiseVideos = response.map((lectureData:any) =>
+      lectureData.contents.map((videoData:any) => ({ ...videoData, lec_id: lectureData.lec_id }))
+    );
+    this.LecturesWiseVideos = lecturesWiseVideos.flat();
+  }
+
+  searchData(event: any) {
+    const text = event.target.value.trim().toLowerCase();
+    this.SearchedContents = this.LecturesWiseVideos.filter((element:any) => {
+      const contentTitle = element.content_title.trim().toLowerCase();
+      return contentTitle.includes(text);
     });
-    this.getLecturesWiseVideos()
   }
-
-
-  async getLecturesWiseVideos()
-  {
-    const response:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
-    response.forEach((element:any) => {
-      element['contents'].forEach((object:any)=>{
-        object.lec_id = element.lec_id
-        this.LecturesWiseVideos.push(object)
-      })
-    });
-  }
-
-  searchData(event:any)
-  {
-    const text = event.target.value.toLowerCase()
-    this.SearchedContents = this.LecturesWiseVideos.filter((element:any)=> element['content_title'].toLowerCase().includes(text))
-  }
+  
 
 
   focusSearchBar() {
     setTimeout(() => {
       this.searchBar.setFocus();
-    }, 10);
+    }, 20);
   }
 
   beginTest(data:any)
