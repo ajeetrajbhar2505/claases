@@ -9,9 +9,13 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item *ngFor="let data of notifications" (click)="routeTocontentControls(data.content,'notification');toggleMenu()">
-        <ion-icon slot="start" [name]="data.icon"></ion-icon>
-        <ion-label class="ion-text-wrap">{{data.info}}</ion-label>
+      <ion-item *ngFor="let data of notifications" (click)="routeTocontentControls(data);toggleMenu()">
+        <ion-icon slot="start" [name]="notifications.length?data.icon:'notifications-off-circle-outline'"></ion-icon>
+        <ion-label class="ion-text-wrap">{{notifications.length?data.info:'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="notifications.length == 0">
+        <ion-icon slot="start" name="notifications-off-circle-outline"></ion-icon>
+        <ion-label class="ion-text-wrap">{{'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
       </ion-item>
     </ion-content>
   </ion-menu>
@@ -21,7 +25,7 @@
         <ion-buttons slot="end">
           <ion-card-header class="notification-header">
             <ion-icon (click)="toggleMenu()" style="font-size: 22px" name="notifications-outline"></ion-icon>
-            <div class="badge" (click)="toggleMenu()">1</div>
+            <div class="badge" *ngIf="notification_count > 0" (click)="toggleMenu()">{{notification_count}}</div>
           </ion-card-header>
         </ion-buttons>
         <ion-card-title style="position: relative;margin-left:15px"> 
@@ -107,7 +111,7 @@
     <ion-content class="ion-padding">
       <ion-list>
             <ion-item *ngFor="let data of SearchedContents" expand="block"
-              (click)="routeTocontentControls(data,'other');toggleSeachmenu()">
+              (click)="routeTocontentControls(data);toggleSeachmenu()">
               <ion-icon slot="start" [name]="data.content == 'video'?'play-circle-outline' : data.content == 'audio'?'musical-notes-outline' : data.content == 'document'?'document-text-outline' : ''"></ion-icon>
               <ion-label>{{data.content_title}}</ion-label>
               <ion-reorder slot="end"></ion-reorder>

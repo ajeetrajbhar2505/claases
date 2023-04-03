@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+import { io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebService {
-
-  constructor() { }
+  socket:any
+  constructor() {
+    this.socket = io('http://192.168.31.159:3000', {
+      transports: ['websocket']
+    });
+   }
 
 
   speech(textToSpeech: string) {

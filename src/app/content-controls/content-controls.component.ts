@@ -80,8 +80,8 @@ export class ContentControlsComponent {
       this.contentControls = this.contentControls;
       this.contentToWatch = {};
       const lectures:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
-
       const matchingLecture = lectures.find((lecture: any) => lecture.lec_id == param.lec_id);
+      
       if (matchingLecture) {
         this.contentToWatch = matchingLecture.contents.find((content: any) => content.contentId == param.contentId);
         if (this.contentToWatch) {

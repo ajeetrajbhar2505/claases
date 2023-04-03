@@ -14,7 +14,7 @@ import { HomeComponent } from './home.component';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    HomeRoutingModule
+    HomeRoutingModule,
   ]
 })
 export class HomeModule { }

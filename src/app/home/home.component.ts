@@ -3,6 +3,10 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { WebService } from '../web.service';
+
+
 
 interface MenuItem {
   icon: string;
@@ -20,6 +24,10 @@ interface Notification {
   icon: string;
   info: string;
   content: string;
+  classId : any,
+  lec_id : any,
+  contentId : any,
+  from : string,
 }
 
 interface LectureWiseVideosData {
@@ -41,8 +49,9 @@ interface LectureWiseVideosData {
 })
 export class HomeComponent implements OnInit {
   @ViewChild('searchBar', { static: false }) searchBar!: IonSearchbar;
-
+  socket: any;
   greeting = '';
+  notification_count = 0
   isModalOpen = false;
   isSearchOpen: boolean = false;
   menus: MenuItem[] = [
@@ -55,16 +64,15 @@ export class HomeComponent implements OnInit {
     { icon: 'medal-outline', title: 'Achievements', ratings: '5', contents: '10' },
     { icon: 'heart-outline', title: 'Favorites', ratings: '2.6', contents: '35' },
   ];
-  notifications: Notification[] = [
-    { icon: 'musical-notes-outline', info: 'Admin uploaded a new audio', content : 'audio' },
-    { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video' },
-    { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document' },
-  ];
+
+  notifications: Notification[] = [];
   contentId = 10
   classId = 10
   LecturesWiseVideos:any = []
   SearchedContents:any = []
-  constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController) {}
+  constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController,public service:WebService) {
+    this.socket = service.socket
+  }
 
   async ngOnInit() {
     // Get the current hour to determine the greeting message
@@ -93,6 +101,9 @@ export class HomeComponent implements OnInit {
     
     // Fetch lectures wise videos
     this.getLecturesWiseVideos();
+
+    // socket connection
+    this.getMessage()
   }
   
 
@@ -135,6 +146,7 @@ export class HomeComponent implements OnInit {
 
   toggleMenu() {
     this.menuCtrl.toggle();
+    this.notification_count = 0
   }
 
   toggleSeachmenu()
@@ -165,27 +177,35 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
-  routeTocontentControls(content: string | { lec_id: number; contentId: number }, from: 'notification' | 'other') {
-    const contentMap:any = {
-      audio: '9',
-      video: '3',
-      document: '11',
-    };
-    const queryParams: { classId: number; lec_id: number; contentId: string | number; from: string } = {
-      classId: 1,
-      lec_id: typeof content === 'string' ? 4 : content.lec_id,
-      contentId: typeof content === 'string' ? contentMap[content] : content.contentId,
-      from: `/tabs/home`,
-    };
+  routeTocontentControls(content: any) {
+    const queryParams = { ...content };
+    delete queryParams.icon;
+    delete queryParams.info;
+    
+    // Delay navigation by 10 milliseconds to ensure that the 
+    // UI updates before navigating to the next page
     setTimeout(() => {
-    this.router.navigate(['/tabs/content-controls'], { queryParams });
-  }, 10);
+      this.router.navigate(['/tabs/content-controls'], { queryParams });
+    }, 10);
   }
+  
   
 
   routeToAchievements()
   {
     this.router.navigate(['/tabs/achievements']);
   }
+
+
+
+  getMessage(){
+    this.socket.on('message', (data: any) => {
+      this.notifications.push(data)
+      this.notification_count = this.notification_count +  1
+    });
+
+  }
+
+
 
 }
