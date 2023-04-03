@@ -31,6 +31,30 @@ server.listen(3000, () => {
   console.log(`app listening on ${3000}`);
 });
 
+
+// Mongodb connection
+const { MongoClient } = require('mongodb');
+const uri = 'mongodb+srv://ajeet:TQZ5o8v6NnPsA8w5@cluster0.e5pj6.mongodb.net/?retryWrites=true&w=majority';
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+var database;
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log('Connected to the database');
+    database = client.db('app-store');
+    // perform database operations here
+  } catch (error) {
+    console.error(error);
+  }
+  // } finally {
+  //   await client.close();
+  //   console.log('Disconnected from the database');
+  // }
+}
+
+connectToDatabase();
+
 app.get("/chat", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
@@ -270,7 +294,11 @@ function handleResponse(response, question) {
 
 
 
-
+app.get('/getlikedproduct',async (req,res)=>{
+  const collection = database.collection('likedProduct');
+  let response = await collection.find().toArray()
+  res.send({status : 200,data : response})
+})
 
 
 
