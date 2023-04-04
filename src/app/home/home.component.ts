@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit {
   }
 
   routeTocontentControls(content: any) {
-    const queryParams = { ...content };
+    const queryParams = { ...content,from : '/tabs/home' };
     delete queryParams.icon;
     delete queryParams.info;
     
