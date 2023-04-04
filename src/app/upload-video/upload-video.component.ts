@@ -23,7 +23,7 @@ export class UploadVideoComponent implements OnInit {
     contentId : new FormControl(''),
     content : new FormControl('video'),
     published_at : new FormControl(''),
-    video : new FormControl(''),
+    content_file : new FormControl(''),
   })
   currentContent = "video"
   uploading:boolean = false
@@ -37,7 +37,7 @@ export class UploadVideoComponent implements OnInit {
  }
 
  readUrl(event: any) {
-  this.uploadVideogroup.get("video")?.patchValue(event.target.files[0]);
+  this.uploadVideogroup.get("content_file")?.patchValue(event.target.files[0]);
   this.uploadVideogroup.get("content_link")?.patchValue(event.target.files[0].name);
 }
 
