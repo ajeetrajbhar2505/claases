@@ -22,9 +22,11 @@ export class UploadVideoComponent implements OnInit {
     content_title : new FormControl(''),
     contentId : new FormControl(''),
     content : new FormControl('video'),
-    published_at : new FormControl('')
+    published_at : new FormControl(''),
+    video : new FormControl(''),
   })
   currentContent = "video"
+  uploading:boolean = false
 
   constructor(public http:HttpClient,private sanitizer: DomSanitizer,public router:Router,public service:WebService) {
    this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
@@ -35,6 +37,7 @@ export class UploadVideoComponent implements OnInit {
  }
 
  readUrl(event: any) {
+  this.uploadVideogroup.get("video")?.patchValue(event.target.files[0]);
   this.uploadVideogroup.get("content_link")?.patchValue(event.target.files[0].name);
 }
 
@@ -78,9 +81,29 @@ getImgContent(url: any): SafeUrl {
 
 async uploadContent()
  {
-  let body = {...this.uploadVideogroup.value}
+
+  this.uploading = true
+  let body:any = {...this.uploadVideogroup.value}
   console.log({body  :body});
-  //  let response:any = await this.http.post(environment.nodeApi + '/uploadVideo',body).toPromise()
+
+// create a new FormData object
+const formData = new FormData();
+for (const key in body) {
+  if (body.hasOwnProperty(key)) {
+    formData.append(key, body[key]);
+  }
+}
+
+  // formData can now be sent in an HTTP request
+  // try {
+  //   let response:any = await this.http.post(environment.nodeApi + '/uploadVideo',formData).toPromise()
+  //   if (response.status == 204) {
+  //    this.uploading = false
+  //   }
+  // } catch (error) {
+  //   this.uploading = false
+  // }
+
  }
 
 }
