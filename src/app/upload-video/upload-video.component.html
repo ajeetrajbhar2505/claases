@@ -1,16 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Upload video
+      Upload
     </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline" (click)="backToHome()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="currentContent" (ngModelChange)="switchContent(currentContent)" value="video">
+      <ion-segment-button value="video">
+        <ion-label>Video</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="audio">
+        <ion-label>Audio</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="document">
+        <ion-label>Document</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card-content [formGroup]="uploadVideogroup">
     <ion-item fill="outline">
-      <ion-label position="floating">Video title</ion-label>
-      <ion-input formControlName="video_title" placeholder="Enter text"></ion-input>
+      <ion-label position="floating">Content title</ion-label>
+      <ion-input formControlName="content_title" placeholder="Enter text"></ion-input>
     </ion-item>
     <ion-list>
       <ion-item fill="outline">
@@ -23,15 +39,17 @@
     <ion-list>
       <ion-item fill="outline">
       <ion-label position="floating">Lecture</ion-label>
-        <ion-select formControlName="lec_title" placeholder="Select Lecture" [multiple]="false">
-          <ion-select-option *ngFor="let data of lecturesData" [value]="data.lec_title">{{data.lec_title}}</ion-select-option>
+        <ion-select  formControlName="lec_id" placeholder="Select Lecture" (ionChange)="onchange_lecture($event)" [multiple]="false">
+          <ion-select-option *ngFor="let data of lecturesData" [value]="data.lec_id">{{data.lec_title}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>
     <ion-item fill="outline">
-      <ion-input type="file" accept="video/*" (change)="readUrl($event)" formControlName="video_link" placeholder="Enter text"></ion-input>
+      <ion-input type="file" [accept]="currentContent=='video'?'video/mp4':currentContent=='audio'?'audio/mp3':currentContent=='document'?'application/pdf':''" (change)="readUrl($event)" formControlName="content_link"></ion-input>
     </ion-item>
-    
+
+    <ion-button style="margin-top: 20px;" (click)="uploadContent()" expand="block">Upload</ion-button>
+
    </ion-card-content>
 </ion-content>
 

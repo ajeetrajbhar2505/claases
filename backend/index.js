@@ -71,7 +71,7 @@ io.on("connection", (socket) => {
   });
 });
 
-let videourl = "https://married-bloom-snail.glitch.me/videos/green-screen-29684.mp4"
+let videourl = "https://rowan-classy-dilophosaurus.glitch.me/videos/green-screen-29684.mp4"
 
 app.get('/videos/:videoName', (req, res) => {
   const videoPath = __dirname + '/Assets/' + req.params.videoName;

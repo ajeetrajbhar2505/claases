@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-upload-video',
@@ -13,27 +16,26 @@ export class UploadVideoComponent implements OnInit {
   classData:any = []
   uploadVideogroup = new FormGroup({
     classId : new FormControl(''),
-    lec_title : new FormControl(''),
-    video_link : new FormControl(''),
-    video_title : new FormControl('')
+    lec_id : new FormControl(''),
+    content_icon : new FormControl(''),
+    content_link : new FormControl(''),
+    content_title : new FormControl(''),
+    contentId : new FormControl(''),
+    content : new FormControl('video'),
+    published_at : new FormControl('')
   })
-  constructor(public http:HttpClient,private sanitizer: DomSanitizer) { }
+  currentContent = "video"
+
+  constructor(public http:HttpClient,private sanitizer: DomSanitizer,public router:Router,public service:WebService) {
+   this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
+   }
 
  async ngOnInit() {
   this.classData = await this.http.get('assets/classWiseLectures.json').toPromise()
  }
 
  readUrl(event: any) {
-  if (event.target.files && event.target.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = (event: ProgressEvent) => {
-      let url:any = (<FileReader>event.target).result;
-      this.uploadVideogroup.get("video_link")?.patchValue(url);
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-  }
+  this.uploadVideogroup.get("content_link")?.patchValue(event.target.files[0].name);
 }
 
 
@@ -52,6 +54,33 @@ getImgContent(url: any): SafeUrl {
       })
       
   })
+ }
+
+ switchContent(content:any)
+ {
+   this.currentContent = content
+   this.uploadVideogroup.get('content')?.patchValue(content)
+ }
+ 
+ onchange_lecture(event:any)
+ {
+ 
+  this.lecturesData.filter((data:any) =>  { 
+    if (data.lec_id ==  this.uploadVideogroup.get('lec_id')?.value) {
+      this.uploadVideogroup.get('content_icon')?.patchValue(data.lec_icon)
+    }})
+ }
+
+ backToHome()
+ {
+  this.router.navigate(['/tabs/home'])
+ }
+
+async uploadContent()
+ {
+  let body = {...this.uploadVideogroup.value}
+  console.log({body  :body});
+  //  let response:any = await this.http.post(environment.nodeApi + '/uploadVideo',body).toPromise()
  }
 
 }

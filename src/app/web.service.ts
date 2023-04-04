@@ -80,4 +80,14 @@ export class WebService {
 
   }
 
+
+  getCurrentDate(){
+    const today: Date = new Date();
+    const dd: string = String(today.getDate()).padStart(2, '0');
+    const mm: string = String(today.getMonth() + 1).padStart(2, '0');
+    const yy: string = String(today.getFullYear());
+    const formattedDate: string = `${dd}-${mm}-${yy}`;
+   return formattedDate
+  }
+
 }
