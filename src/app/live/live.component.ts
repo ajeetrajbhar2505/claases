@@ -9,20 +9,34 @@ import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
 
+interface selectedVideoToWatch  {
+  lec_id: number,
+  lec_icon: string,
+  lec_title: string,
+  content_link: string,
+  content_title: string,
+  teacher: string,
+  published_at: string
+}
+
 @Component({
   selector: 'app-live',
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.scss'],
 })
-export class LiveComponent  {
+
+
+export class LiveComponent {
   @ViewChild("videoPlayer", { static: true }) videoplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
-  selectedVideoToWatch =  {
+  socket: any;
+
+  selectedVideoToWatch: selectedVideoToWatch = {
     "lec_id": 7,
     "lec_icon": "assets/evs.webp",
     "lec_title": "EVS PART 1",
-    "video_link": environment.apifirstKey + "evs-for-class-3-learn-science-for-kids-envir.mp4" + environment.apilastkey,
-    "video_title": "Learn Science For Kids | Environmental Science",
+    "content_link": environment.apifirstKey + "evs-for-class-3-learn-science-for-kids-envir.mp4" + environment.apilastkey,
+    "content_title": "Learn Science For Kids | Environmental Science",
     "teacher" : "ajeet rajbhar",
     "published_at": "18/02/2023"
   }
@@ -31,11 +45,11 @@ export class LiveComponent  {
     playVideo: false,
     openFullscreen: false,
     Rangeduration: 0,
-    currentRangeDuration : 0,
-    currentDuration : '',
-    duration : ''
+    currentRangeDuration: 0,
+    currentDuration: '',
+    duration: ''
   }
-  videoLoaded:boolean = false
+  videoLoaded: boolean = false
 
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
@@ -62,8 +76,7 @@ export class LiveComponent  {
   }
 
 
-  onIonKnobMoveStart(ev:Event)
-  {
+  onIonKnobMoveStart(ev: Event) {
     this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
     var myVideo: any = document.getElementById("liveVideo");
     if (this.lastEmittedValue) {
@@ -75,15 +88,14 @@ export class LiveComponent  {
     if (myVideo.paused) {
       this.videoControls.playVideo = true
     }
-    
+
     if (!myVideo.paused) {
       myVideo.pause();
       this.videoControls.playVideo = true
     }
   }
 
-  onIonKnobMoveEnd(ev:Event)
-  {
+  onIonKnobMoveEnd(ev: Event) {
     this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
     var myVideo: any = document.getElementById("liveVideo");
     if (this.lastEmittedValue) {
@@ -111,48 +123,46 @@ export class LiveComponent  {
   }
 
 
-  checkvideoLoaded(ev:Event)
-  {
+  checkvideoLoaded(ev: Event) {
     var myVideo: any = document.getElementById("liveVideo");
     this.videoControls.Rangeduration = myVideo.duration
     this.videoControls.duration = this.formatTime(myVideo.duration)
     this.videoLoaded = true
   }
 
-  checkContinuousVideoduration(ev:Event)
-  {
+  checkContinuousVideoduration(ev: Event) {
     var myVideo: any = document.getElementById("liveVideo");
     this.videoControls.currentRangeDuration = myVideo.currentTime.toFixed(2)
-   this.videoControls.currentDuration =  this.formatTime(myVideo.currentTime.toFixed(2))
-   if (myVideo.paused) {
-    this.videoControls.playVideo = true
-  }
+    this.videoControls.currentDuration = this.formatTime(myVideo.currentTime.toFixed(2))
+    if (myVideo.paused) {
+      this.videoControls.playVideo = true
+    }
   }
 
 
-  formatTime(duration:any) {
+  formatTime(duration: any) {
     const hours = Math.floor(duration / 3600);
     const minutes = Math.floor((duration % 3600) / 60);
     const seconds = duration % 60;
-    
+
     let formattedDuration = '';
-    
+
     if (hours > 0) {
       formattedDuration += `${hours}:`;
     }
-    
+
     if (minutes < 10) {
       formattedDuration += `0${minutes}:`;
     } else {
       formattedDuration += `${minutes}:`;
     }
-    
+
     if (seconds < 10) {
       formattedDuration += `0${Math.floor(seconds)}`;
     } else {
       formattedDuration += `${Math.floor(seconds)}`;
     }
-   
+
     return formattedDuration
   }
 
@@ -207,11 +217,21 @@ export class LiveComponent  {
   }
 
 
-  handleRefresh(event:any) {
+  handleRefresh(event: any) {
     setTimeout(() => {
       // Any calls to load data go here
       event.target.complete();
     }, 2000);
   };
+
+
+  getMessage() {
+    this.socket.on('live', (data: any) => {
+      this.selectedVideoToWatch = data
+      this.selectedVideoToWatch.content_link = environment.apifirstKey + data.content_link + environment.apilastkey
+
+    });
+
+  }
 
 }

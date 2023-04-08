@@ -107,7 +107,6 @@ export class HomeComponent implements OnInit {
           subject.ratings = 25
           subject.contents = 25
         });
-        console.log(this.lecturesData);
         
       } else {
       this.lecturesData = []

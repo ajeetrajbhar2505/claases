@@ -61,7 +61,6 @@ export class SearchComponent implements OnInit {
     }
     
    let response:any = await this.http.post(environment.nodeApi + '/questionResponse',body).toPromise()
-   console.log(response.data);
    if (response.status == 200) {
     this.loading = false
      this.scrollToBottomOnInit();

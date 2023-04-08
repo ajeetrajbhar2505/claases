@@ -14,7 +14,7 @@
   <ion-content>
     <div [class]="videoControls.openFullscreen?'fullscreen':'exitfullscreen'">
       <video  (dblclick)="openFullscreen()" width="100%"  id="liveVideo" (loadeddata)="checkvideoLoaded($event)" (timeupdate)="checkContinuousVideoduration($event)" class="sticky-top"  autoplay frameborder="0">
-        <source [src]="getImgContent(selectedVideoToWatch.video_link)"   type="video/mp4">
+        <source [src]="getImgContent(selectedVideoToWatch.content_link)"   type="video/mp4">
         Your Device does not support the video.
       </video>
       <ion-card-header>
@@ -39,7 +39,7 @@
       </ion-card-header>
     </div>
     <ion-card-header>
-      <ion-card-subtitle>{{selectedVideoToWatch.video_title}}</ion-card-subtitle>
+      <ion-card-subtitle>{{selectedVideoToWatch.content_title}}</ion-card-subtitle>
       <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
       <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
     </ion-card-header>
