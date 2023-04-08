@@ -5,6 +5,7 @@ import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { WebService } from '../web.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -87,17 +88,7 @@ export class HomeComponent implements OnInit {
     }
     
     // Fetch class wise lectures data and update the UI
-    const response:any = await this.http.get('assets/classWiseLectures.json').toPromise();
-    const classData = response.find((data:any) => data.classId === this.classId);
-    if (classData) {
-      this.lecturesData = classData.subjects.map((subject:any) => {
-        return {
-          ...subject,
-          ratings: 25,
-          contents: 16
-        };
-      });
-    }
+    this.getLecturesClasseswise(this.classId)
     
     // Fetch lectures wise videos
     this.getLecturesWiseVideos();
@@ -107,13 +98,37 @@ export class HomeComponent implements OnInit {
   }
   
 
+  async getLecturesClasseswise(classId:any) {
+    try {
+      let response:any =  await this.http.get(environment.nodeApi + 'lectures/' + classId).toPromise();
+      if (response.status == 200) {
+        this.lecturesData =  response['message']
+        this.lecturesData.forEach((subject:any) => {
+          subject.ratings = 25
+          subject.contents = 25
+        });
+        console.log(this.lecturesData);
+        
+      } else {
+      this.lecturesData = []
+    }
+    } catch (error) {
+      this.lecturesData = []
+    }
+  }
+
 
   async getLecturesWiseVideos() {
-    const response:any = await this.http.get<LectureWiseVideosData[]>('assets/LecturesWiseVideos.json').toPromise();
-    const lecturesWiseVideos = response.map((lectureData:any) =>
+    const response:any = await this.http.get<LectureWiseVideosData[]>(environment.nodeApi + 'lectures').toPromise();
+    if (response.status == 200) {
+      const lecturesWiseVideos = response['message'].map((lectureData:any) =>
       lectureData.contents.map((videoData:any) => ({ ...videoData, lec_id: lectureData.lec_id }))
     );
     this.LecturesWiseVideos = lecturesWiseVideos.flat();
+    } else {
+      this.LecturesWiseVideos = []
+    }
+
   }
 
   searchData(event: any) {
