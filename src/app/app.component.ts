@@ -35,7 +35,10 @@ export class AppComponent {
         const liveContentElement = this.getliveContentElement();
         if (liveContentElement) {
           if (routerEvent.url !== '/tabs/live') {
-            liveContentElement.pause();
+            liveContentElement.muted = true;
+          }
+          if (routerEvent.url == '/tabs/live') {
+            liveContentElement.muted = false;
           }
         }
         

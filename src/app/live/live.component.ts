@@ -243,6 +243,7 @@ export class LiveComponent {
       var video:any = document.getElementById("liveVideo"); // select the video element by ID
       video.src = this.selectedVideoToWatch.content_link; // set the source URL of the video
       video.load(); // load the video
+      video.muted = true;
     });
 
   }
