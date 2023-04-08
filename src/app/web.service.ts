@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
@@ -91,5 +92,25 @@ export class WebService {
     const formattedDate: string = `${dd}-${mm}-${yy}`;
    return formattedDate
   }
+
+
+
+
+
+
+
+
+
+
+  // async getContentsToWatch(classId:any,lec_id:any,contentId:any) {
+  //   try {
+  //     return await this.http.get(environment.nodeApi + 'contentsToWatch/' + classId + '/' + lec_id + '/' + contentId).toPromise();
+  //   } catch (error) {
+  //     return [];
+  //   }
+  // }
+
+  
+
 
 }

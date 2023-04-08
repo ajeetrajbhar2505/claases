@@ -79,15 +79,7 @@ export class ContentControlsComponent {
       this.contentLoaded = false
       this.contentControls = this.contentControls;
       this.contentToWatch = {};
-      const lectures:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
-      const matchingLecture = lectures.find((lecture: any) => lecture.lec_id == param.lec_id);
-      
-      if (matchingLecture) {
-        this.contentToWatch = matchingLecture.contents.find((content: any) => content.contentId == param.contentId);
-        if (this.contentToWatch) {
-          this.contentToWatch.content_link = environment.apifirstKey + this.contentToWatch.content_link + environment.apilastkey;
-        }
-      }
+     await this.getContentsLectureswise(param.classId,param.lec_id,param.contentId)
     })
       
     this.platform.backButton.subscribeWithPriority(-1, () => {
@@ -96,6 +88,22 @@ export class ContentControlsComponent {
       }
     });
 
+  }
+
+  async getContentsLectureswise(classId:any,lec_id:any,contentId:any) {
+    try {
+      let response:any =  await this.http.get(environment.nodeApi + 'contents/' + classId + '/' + lec_id).toPromise();
+      if (response.status == 200) {
+          this.contentToWatch = response['message'].find((content: any) => content.contentId == contentId);
+          if (this.contentToWatch) {
+            this.contentToWatch.content_link = environment.apifirstKey + this.contentToWatch.content_link + environment.apilastkey;
+          }
+      } else {
+      this.contentToWatch = {}
+    }
+    } catch (error) {
+      this.contentToWatch = {}
+    }
   }
 
   private getContentElement(): HTMLVideoElement | null {

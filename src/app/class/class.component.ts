@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-class',
@@ -8,15 +10,26 @@ import { Router } from '@angular/router';
 })
 export class ClassComponent implements OnInit {
   classes:any= []
-  constructor(public router:Router) { }
+  constructor(public router:Router,public http:HttpClient) { }
   
   routeTosubjects(classId: any) {
    this.router.navigate(['/tabs/lectures'],{queryParams : { classId : classId}})
   }
    
   ngOnInit() {
-    for (let i = 1; i  <= 10; i++) {
-      this.classes.push({ classNamme : 'Standard '+i, classId : i, std_icon : "assets/std_icon.webp"})
+   this.getAllClasses()
+  }
+
+  async getAllClasses() {
+    try {
+      let response:any = await this.http.get(environment.nodeApi + 'classes').toPromise();
+      if (response.status == 200) {
+        this.classes =  response['message']
+      } else {
+      this.classes = []
+    }
+    } catch (error) {
+      this.classes = []
     }
   }
 

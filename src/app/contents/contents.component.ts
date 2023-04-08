@@ -5,6 +5,7 @@ import { App } from '@capacitor/app';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-contents',
@@ -27,13 +28,7 @@ export class ContentsComponent  {
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
-      const lecturesData: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
-        lecturesData.filter((Object:any)=>{
-          if (Object.lec_id == param.lec_id) {
-            this.contentsData = Object['contents']
-            this.filteredData =  Object['contents'].filter((object:any)=> object.content == this.currentContent)
-          }
-      })
+     await this.getContentsLectureswise(param.classId,param.lec_id)
 
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
@@ -42,6 +37,21 @@ export class ContentsComponent  {
       }
     });
 
+  }
+
+  async getContentsLectureswise(classId:any,lec_id:any) {
+    try {
+      let response:any =  await this.http.get(environment.nodeApi + 'contents/' + classId + '/' + lec_id).toPromise();
+      if (response.status == 200) {
+        this.contentsData =  response['message']
+        this.filteredData =  response['message'].filter((object:any)=> object.content == this.currentContent)
+
+      } else {
+      this.contentsData = []
+    }
+    } catch (error) {
+      this.contentsData = []
+    }
   }
 
   backTolectures() {

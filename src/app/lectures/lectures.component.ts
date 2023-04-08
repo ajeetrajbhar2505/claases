@@ -6,6 +6,7 @@ import { App } from '@capacitor/app';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-lectures',
   templateUrl: './lectures.component.html',
@@ -20,15 +21,7 @@ export class LecturesComponent  {
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.classId = param.classId
-      this.lecturesData = []
-      let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-        response.filter((data: any) => {
-          if (data.classId == param.classId) {
-            this.lecturesData = data['subjects']
-          }
-        })
-
-      })
+       await this.getLecturesClasseswise(this.classId)
 
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
@@ -37,6 +30,19 @@ export class LecturesComponent  {
       }
     });
 
+  }
+
+  async getLecturesClasseswise(classId:any) {
+    try {
+      let response:any =  await this.http.get(environment.nodeApi + 'lectures/' + classId).toPromise();
+      if (response.status == 200) {
+        this.lecturesData =  response['message']
+      } else {
+      this.lecturesData = []
+    }
+    } catch (error) {
+      this.lecturesData = []
+    }
   }
 
 
