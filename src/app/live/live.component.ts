@@ -4,7 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { ItemReorderEventDetail } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
@@ -54,7 +54,7 @@ export class LiveComponent {
 
   constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer,public service:WebService, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
-    this.getMessage()
+    this.getMessage(null)
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         this.videoLoaded = false
@@ -227,7 +227,7 @@ export class LiveComponent {
   };
 
 
-  getMessage() {
+  getMessage(routerEvent:any) {
     this.service.socket.on('live', (data: any) => {
       this.selectedVideoToWatch = {
         lec_id: 0,
@@ -243,7 +243,19 @@ export class LiveComponent {
       var video:any = document.getElementById("liveVideo"); // select the video element by ID
       video.src = this.selectedVideoToWatch.content_link; // set the source URL of the video
       video.load(); // load the video
-      video.muted = true;
+      video.play()
+      if (routerEvent instanceof NavigationStart) {
+        if (video) {
+          if (routerEvent.url !== '/tabs/live') {
+            video.muted = true;
+          }
+          if (routerEvent.url == '/tabs/live') {
+            video.muted = false;
+          }
+        }
+        
+      
+      }
     });
 
   }
