@@ -162,7 +162,7 @@ export class ContentControlsComponent {
       }
       this.contentControls.Rangeduration = content.duration;
       this.contentControls.duration = this.formatTime(content.duration);
-      console.log({ content, contentLoaded: this.contentLoaded, contentControls: this.contentControls });
+      // console.log({ content, contentLoaded: this.contentLoaded, contentControls: this.contentControls });
     }
   }
 
