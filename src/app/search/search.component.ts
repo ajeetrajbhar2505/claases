@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-search',
@@ -11,9 +12,10 @@ import { environment } from 'src/environments/environment';
 export class SearchComponent implements OnInit {
   searchGroup!:FormGroup
   loading = false
+  socket:any
   @ViewChild('content') private content: any;
 
-  constructor(public http:HttpClient,public formbuilder:FormBuilder) { }
+  constructor(public http:HttpClient,public formbuilder:FormBuilder,public service:WebService) { }
    
   ngOnInit() {
     this.createFormgroup()
@@ -79,6 +81,22 @@ export class SearchComponent implements OnInit {
 
   scrollToTopOnInit() {
     this.content.scrollToTop(300);
+  }
+
+  sendMessage()
+  {
+    const message = {
+      "contentId": "2",
+      "content": "video",
+      "content_icon": "assets/maths.webp",
+      "content_link": "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
+      "content_title": "Tables1 to 10 || English Table of One to Ten Tables Song ",
+      "published_at": "18/02/2023",
+      "teacher" : "ajeet rajbhar",
+    }
+
+    this.service.socket.emit('live',message)
+
   }
 
 }

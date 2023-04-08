@@ -25,7 +25,7 @@
   <div formArrayName="array" class="arraydiv" *ngFor="let data of searchArrayControl();let i = index;let last = last">
     <div *ngIf="last" [formGroupName]="i"  class="chat-footer" slot="bottom" >
       <input type="text" formControlName="question"  placeholder="Type your message here">
-       <button (click)="getResponse(i)">Send</button>
+       <button (click)="sendMessage()">Send</button>
      </div>
   </div>
 </ion-footer>

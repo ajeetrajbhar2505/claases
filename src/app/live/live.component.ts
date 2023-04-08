@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
+import { WebService } from '../web.service';
 
 interface selectedVideoToWatch  {
   lec_id: number,
@@ -51,8 +52,9 @@ export class LiveComponent {
   }
   videoLoaded: boolean = false
 
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
+  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer,public service:WebService, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
+    this.getMessage()
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         this.videoLoaded = false
@@ -226,10 +228,21 @@ export class LiveComponent {
 
 
   getMessage() {
-    this.socket.on('live', (data: any) => {
+    this.service.socket.on('live', (data: any) => {
+      this.selectedVideoToWatch = {
+        lec_id: 0,
+        lec_icon: '',
+        lec_title: '',
+        content_link: '',
+        content_title: '',
+        teacher: '',
+        published_at: ''
+      }
       this.selectedVideoToWatch = data
       this.selectedVideoToWatch.content_link = environment.apifirstKey + data.content_link + environment.apilastkey
-
+      var video:any = document.getElementById("liveVideo"); // select the video element by ID
+      video.src = this.selectedVideoToWatch.content_link; // set the source URL of the video
+      video.load(); // load the video
     });
 
   }
