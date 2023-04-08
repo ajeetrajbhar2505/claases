@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebService {
+  local = "http://192.168.31.159:3000"
   socket:any
   constructor() {
-    this.socket = io('http://192.168.31.159:3000', {
+    this.socket = io(environment.nodeApi, {
       transports: ['websocket']
     });
    }
