@@ -76,8 +76,21 @@ export class ContentsComponent  {
   }
 
 
-  sendMessage(message:any)
+ async goLive(data:any)
   {
-    this.service.socket.emit('live',message)
+    this.service.socket.emit('live',data)
+    
+    this.filteredData.forEach((content:any) => {
+      if (content.contentId == data.contentId) {
+        content.live = true;
+      } else {
+        content.live = false;
+      }
+    });
+
+    let body = { contentId :  data.contentId,lec_id : this.params.lec_id,live:true}
+    let response:any =  await this.http.post(environment.nodeApi + 'live',body).toPromise();
+    console.log(response);
+    
   }
 }
