@@ -85,7 +85,7 @@ export class LiveComponent {
 
 
   private getContentElement(): HTMLVideoElement | null {
-    return document.querySelector<HTMLVideoElement>('#classContent');
+    return document.querySelector<HTMLVideoElement>('#liveVideo');
   }
 
   onIonKnobMovecontent(ev: Event, ended: boolean) {
@@ -111,13 +111,13 @@ export class LiveComponent {
 
   checkContentLoaded() {
     this.contentLoaded = true
-    var myVideo: any = document.getElementById("classContent");
+    var myVideo: any = document.getElementById("liveVideo");
     this.contentControls.Rangeduration = myVideo.duration
     this.contentControls.duration = this.formatTime(myVideo.duration)
   }
 
   checkContinuousContentduration() {
-    var myVideo: any = document.getElementById("classContent");
+    var myVideo: any = document.getElementById("liveVideo");
     this.contentControls.currentRangeDuration = myVideo.currentTime.toFixed(2)
     this.contentControls.currentDuration = this.formatTime(myVideo.currentTime.toFixed(2))
     if (myVideo.paused) {
@@ -166,14 +166,14 @@ export class LiveComponent {
   }
 
   playPause() {
-    var myVideo: any = document.getElementById("classContent");
+    var myVideo: any = document.getElementById("liveVideo");
     if (myVideo.paused) myVideo.play();
     else myVideo.pause();
     this.contentControls.playContent = !this.contentControls.playContent
   }
 
   makeBig() {
-    var myVideo: any = document.getElementById("classContent");
+    var myVideo: any = document.getElementById("liveVideo");
     myVideo.width = '100%';
     myVideo.height = '100%';
   }
@@ -255,7 +255,7 @@ export class LiveComponent {
       }
       this.contentToWatch = data
       this.contentToWatch.content_link = environment.apifirstKey + data.content_link + environment.apilastkey
-      var content: any = document.getElementById('classContent'); // select the content element by ID
+      var content: any = document.getElementById('liveVideo'); // select the content element by ID
       content.src = this.contentToWatch.content_link; // set the source URL of the content
       content.load(); // load the content
       content.play()

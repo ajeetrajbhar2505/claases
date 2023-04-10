@@ -13,13 +13,13 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-            <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+            <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="liveVideo" (loadeddata)="checkContentLoaded()"
             (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
             <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
             Your Device does not support the video.
           </video>
           <img class="audio" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
-            <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+            <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="liveVideo" (loadeddata)="checkContentLoaded()"
             (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
             <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
             Your Device does not support the video.
