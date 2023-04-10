@@ -6,6 +6,7 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-contents',
@@ -24,7 +25,7 @@ export class ContentsComponent  {
     content: ''
     };
   params:any = ""
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, private platform: Platform,
+  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, private platform: Platform,public service:WebService,
     @Optional() private routerOutlet?: IonRouterOutlet) {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
@@ -72,5 +73,11 @@ export class ContentsComponent  {
   routeTocontentControls(contentDetails:any)
   {
     this.router.navigate(['/tabs/content-controls'],{queryParams : { nested : this.params.from, from : '/tabs/contents', classId : this.params.classId,lec_id : this.params.lec_id,contentId : contentDetails.contentId,content : contentDetails.content}})
+  }
+
+
+  sendMessage(message:any)
+  {
+    this.service.socket.emit('live',message)
   }
 }

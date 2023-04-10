@@ -25,17 +25,14 @@
 <ion-content [fullscreen]="true">
   <ion-card-content>
     <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-      </ion-reorder-group>
       <div [ngSwitch]="currentContent">
         <div *ngSwitchDefault>
-          <ion-item *ngFor="let data of filteredData" expand="block"
-            (click)="routeTocontentControls(data)">
+          <ion-item *ngFor="let data of filteredData" expand="block">
             <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" [src]="data.content_icon" />
+              <img (click)="routeTocontentControls(data)" alt="Silhouette of mountains" [src]="data.content_icon" />
             </ion-thumbnail>
-            <ion-label>{{data.content_title}}</ion-label>
-            <ion-reorder slot="end"></ion-reorder>
+            <ion-label (click)="routeTocontentControls(data)">{{data.content_title}}</ion-label>
+            <ion-badge (click)="sendMessage(data)" slot="end">Live</ion-badge>
           </ion-item>
         </div>
       </div>

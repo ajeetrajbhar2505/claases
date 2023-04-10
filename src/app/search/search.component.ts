@@ -83,20 +83,4 @@ export class SearchComponent implements OnInit {
     this.content.scrollToTop(300);
   }
 
-  sendMessage()
-  {
-    const message = {
-      "contentId": "2",
-      "content": "video",
-      "content_icon": "assets/maths.webp",
-      "content_link": "Tables1_to_10 __ English_Table_of One_to_Ten_Tables_Song_Maths.mp4",
-      "content_title": "Tables1 to 10 || English Table of One to Ten Tables Song ",
-      "published_at": "18/02/2023",
-      "teacher" : "ajeet rajbhar",
-    }
-
-    this.service.socket.emit('live',message)
-
-  }
-
 }
