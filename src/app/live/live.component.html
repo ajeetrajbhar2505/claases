@@ -3,45 +3,52 @@
     <ion-title>
       Streaming 
     </ion-title>
-    <ion-progress-bar *ngIf="!videoLoaded" type="indeterminate"></ion-progress-bar>
+    <ion-progress-bar *ngIf="!contentLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+
+<ion-content  [fullscreen]="true" class="ion-padding" >
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-content>
-    <div [class]="videoControls.openFullscreen?'fullscreen':'exitfullscreen'">
-      <video  (dblclick)="openFullscreen()" width="100%"  id="liveVideo" (loadeddata)="checkvideoLoaded($event)" (timeupdate)="checkContinuousVideoduration($event)" class="sticky-top"  autoplay frameborder="0">
-        <source [src]="getImgContent(selectedVideoToWatch.content_link)"   type="video/mp4">
-        Your Device does not support the video.
-      </video>
-      <ion-card-header>
-        <ion-range  [style]="videoControls.openFullscreen?'padding: unset;color:white':'padding: unset;'"  [value]="videoControls.currentRangeDuration"  [min]="0" [max]="videoControls.Rangeduration" (ionKnobMoveStart)="onIonKnobMoveStart($event)" (ionKnobMoveEnd)="onIonKnobMoveEnd($event)">
-        <span slot="start">{{videoControls.currentDuration?videoControls.currentDuration:'00:00'}}</span>
-        <span slot="end"> {{videoControls.duration?videoControls.duration:'00:00'}}</span>
-        </ion-range>
-        <div class="videocontrols">
-          <ion-fab-button (click)="skipback(10)" size="small">
-            <ion-icon  name="play-skip-back-circle-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button (click)="playPause()" size="small">
-            <ion-icon [name]="videoControls.playVideo?'play-circle-outline':'pause-circle-outline'"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button  (click)="skipnext(10)" size="small">
-            <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
-          </ion-fab-button>
-          <!-- <ion-fab-button slot="end"  (click)="openFullscreen()" size="small">
-            <ion-icon [name]="videoControls.openFullscreen?'open-outline':'tv-outline'"></ion-icon>
-          </ion-fab-button> -->
-        </div>
-      </ion-card-header>
-    </div>
-    <ion-card-header>
-      <ion-card-subtitle>{{selectedVideoToWatch.content_title}}</ion-card-subtitle>
-      <ion-card-subtitle>Auther : {{selectedVideoToWatch.teacher | lowercase}}</ion-card-subtitle>
-      <ion-card-subtitle>Published : {{selectedVideoToWatch.published_at | lowercase}}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-content>
+            <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+            (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
+            <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
+            Your Device does not support the video.
+          </video>
+          <img class="audio" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
+            <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+            (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
+            <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
+            Your Device does not support the video.
+        </audio>
+          <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
+            <ion-range
+              [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
+              (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
+              <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
+              <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
+            </ion-range>
+            <div class="contentcontrols">
+              <ion-fab-button (click)="rewindContent(10)" size="small">
+                <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button (click)="playPauseContent()" size="small">
+                <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button (click)="skipContent(10)" size="small">
+                <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+              </ion-fab-button>
+            </div>
+          </ion-card-header>
+          <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
+          [src]="contentToWatch.content_link" [render-text]="true"
+          [original-size]="false" class="pdf-viewer"></pdf-viewer>
+        <ion-card-header>
+          <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
+          <ion-card-subtitle>{{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' | lowercase}}</ion-card-subtitle>
+          <ion-card-subtitle>{{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' | lowercase}}</ion-card-subtitle>
+        </ion-card-header>
 </ion-content>

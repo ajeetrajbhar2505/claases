@@ -10,10 +10,12 @@ import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
 
-interface selectedVideoToWatch  {
+interface contentToWatch {
   lec_id: number,
   lec_icon: string,
   lec_title: string,
+  content: string,
+  content_icon: string,
   content_link: string,
   content_title: string,
   teacher: string,
@@ -32,32 +34,36 @@ export class LiveComponent {
   lastEmittedValue!: RangeValue;
   socket: any;
 
-  selectedVideoToWatch: selectedVideoToWatch = {
+  contentLoaded = false;
+
+
+  contentToWatch: contentToWatch = {
     "lec_id": 7,
     "lec_icon": "assets/evs.webp",
     "lec_title": "EVS PART 1",
+    "content": "video",
+    "content_icon": "",
     "content_link": environment.apifirstKey + "evs-for-class-3-learn-science-for-kids-envir.mp4" + environment.apilastkey,
     "content_title": "Learn Science For Kids | Environmental Science",
-    "teacher" : "ajeet rajbhar",
+    "teacher": "ajeet rajbhar",
     "published_at": "18/02/2023"
   }
 
-  videoControls = {
-    playVideo: false,
+  contentControls = {
+    playContent: false,
     openFullscreen: false,
     Rangeduration: 0,
     currentRangeDuration: 0,
     currentDuration: '',
     duration: ''
   }
-  videoLoaded: boolean = false
 
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer,public service:WebService, public fb: FormBuilder, private platform: Platform,
+  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public service: WebService, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
+    this.contentLoaded = false
     this.getMessage(null)
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
-        this.videoLoaded = false
         App.exitApp();
       }
     });
@@ -78,66 +84,44 @@ export class LiveComponent {
   }
 
 
-  onIonKnobMoveStart(ev: Event) {
-    this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
-    var myVideo: any = document.getElementById("liveVideo");
-    if (this.lastEmittedValue) {
-      myVideo.currentTime = this.lastEmittedValue
-    }
-    this.videoControls.Rangeduration = myVideo.duration
-    this.videoControls.currentRangeDuration = myVideo.currentTime
+  private getContentElement(): HTMLVideoElement | null {
+    return document.querySelector<HTMLVideoElement>('#classContent');
+  }
 
-    if (myVideo.paused) {
-      this.videoControls.playVideo = true
-    }
+  onIonKnobMovecontent(ev: Event, ended: boolean) {
+    const detail: any = (ev as CustomEvent<RangeCustomEvent>).detail;
+    const content: any = this.getContentElement();
+    if (content && detail) {
+      content.currentTime = detail.value;
+      this.contentControls.Rangeduration = content.duration;
+      this.contentControls.currentRangeDuration = content.currentTime;
 
-    if (!myVideo.paused) {
-      myVideo.pause();
-      this.videoControls.playVideo = true
+      if (ended || Math.floor(content.currentTime) >= Math.floor(content.duration)) {
+        content.play();
+        this.contentControls.playContent = false;
+      }
+      else {
+        content.pause()
+      }
+
     }
   }
 
-  onIonKnobMoveEnd(ev: Event) {
-    this.lastEmittedValue = (ev as RangeCustomEvent).detail.value;
+
+
+  checkContentLoaded() {
+    this.contentLoaded = true
     var myVideo: any = document.getElementById("liveVideo");
-    if (this.lastEmittedValue) {
-      myVideo.currentTime = this.lastEmittedValue
-    }
-    this.videoControls.Rangeduration = myVideo.duration
-    this.videoControls.currentRangeDuration = myVideo.currentTime
-
-    if (myVideo.paused) {
-      myVideo.play();
-      this.videoControls.playVideo = true
-    }
-    else {
-      this.videoControls.playVideo = false
-    }
-
-    if (!myVideo.paused) {
-      this.videoControls.playVideo = false
-    }
-    if (Math.floor(this.videoControls.currentRangeDuration) == Math.floor(this.videoControls.Rangeduration)) {
-      this.videoControls.playVideo = true
-      myVideo.pause();
-    }
-
+    this.contentControls.Rangeduration = myVideo.duration
+    this.contentControls.duration = this.formatTime(myVideo.duration)
   }
 
-
-  checkvideoLoaded(ev: Event) {
+  checkContinuousContentduration() {
     var myVideo: any = document.getElementById("liveVideo");
-    this.videoControls.Rangeduration = myVideo.duration
-    this.videoControls.duration = this.formatTime(myVideo.duration)
-    this.videoLoaded = true
-  }
-
-  checkContinuousVideoduration(ev: Event) {
-    var myVideo: any = document.getElementById("liveVideo");
-    this.videoControls.currentRangeDuration = myVideo.currentTime.toFixed(2)
-    this.videoControls.currentDuration = this.formatTime(myVideo.currentTime.toFixed(2))
+    this.contentControls.currentRangeDuration = myVideo.currentTime.toFixed(2)
+    this.contentControls.currentDuration = this.formatTime(myVideo.currentTime.toFixed(2))
     if (myVideo.paused) {
-      this.videoControls.playVideo = true
+      this.contentControls.playContent = true
     }
   }
 
@@ -185,7 +169,7 @@ export class LiveComponent {
     var myVideo: any = document.getElementById("liveVideo");
     if (myVideo.paused) myVideo.play();
     else myVideo.pause();
-    this.videoControls.playVideo = !this.videoControls.playVideo
+    this.contentControls.playContent = !this.contentControls.playContent
   }
 
   makeBig() {
@@ -194,28 +178,50 @@ export class LiveComponent {
     myVideo.height = '100%';
   }
 
-  skipnext(value: any) {
-    let video: any = document.getElementById("liveVideo");
-    video.currentTime += value;
-    this.videoControls.currentRangeDuration = video.currentTime
+
+  playPauseContent() {
+    if (!this.contentLoaded) {
+      return;
+    }
+
+    const content = this.getContentElement();
+    if (content) {
+      if (content.paused) {
+        content.play();
+      } else {
+        content.pause();
+      }
+      this.contentControls.playContent = !content.paused;
+    }
   }
 
-  skipback(value: any) {
-    let video: any = document.getElementById("liveVideo");
-    video.currentTime = video.currentTime - value;
-    this.videoControls.currentRangeDuration = video.currentTime
-
+  skipContent(delta: number) {
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime += delta;
+      this.contentControls.currentRangeDuration = content.currentTime;
+    }
   }
 
-  restart() {
-    let video: any = document.getElementById("liveVideo");
-    video.currentTime = 0;
-    this.videoControls.currentRangeDuration = video.currentTime
+  rewindContent(delta: number) {
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime -= delta;
+      this.contentControls.currentRangeDuration = content.currentTime;
+    }
+  }
+
+  restartContent() {
+    const content = this.getContentElement();
+    if (content) {
+      content.currentTime = 0;
+      this.contentControls.currentRangeDuration = content.currentTime;
+    }
   }
 
 
-  openFullscreen() {
-    this.videoControls.openFullscreen = !this.videoControls.openFullscreen
+  toggleFullscreenContent() {
+    this.contentControls.openFullscreen = !this.contentControls.openFullscreen
   }
 
 
@@ -226,35 +232,44 @@ export class LiveComponent {
     }, 2000);
   };
 
+  isVideoOrAudioContent(content: any) {
+    if (content == 'video' || content == 'audio') {
+      return true
+    }
+    return false  
+  }
 
-  getMessage(routerEvent:any) {
+
+  getMessage(routerEvent: any) {
     this.service.socket.on('live', (data: any) => {
-      this.selectedVideoToWatch = {
+      this.contentToWatch = {
         lec_id: 0,
         lec_icon: '',
         lec_title: '',
+        content: '',
+        content_icon: '',
         content_link: '',
         content_title: '',
         teacher: '',
         published_at: ''
       }
-      this.selectedVideoToWatch = data
-      this.selectedVideoToWatch.content_link = environment.apifirstKey + data.content_link + environment.apilastkey
-      var video:any = document.getElementById("liveVideo"); // select the video element by ID
-      video.src = this.selectedVideoToWatch.content_link; // set the source URL of the video
-      video.load(); // load the video
-      video.play()
+      this.contentToWatch = data
+      this.contentToWatch.content_link = environment.apifirstKey + data.content_link + environment.apilastkey
+      var content: any = document.getElementById('classContent'); // select the content element by ID
+      content.src = this.contentToWatch.content_link; // set the source URL of the content
+      content.load(); // load the content
+      content.play()
       if (routerEvent instanceof NavigationStart) {
-        if (video) {
+        if (content) {
           if (routerEvent.url !== '/tabs/live') {
-            video.muted = true;
+            content.muted = true;
           }
           if (routerEvent.url == '/tabs/live') {
-            video.muted = false;
+            content.muted = false;
           }
         }
-        
-      
+
+
       }
     });
 
