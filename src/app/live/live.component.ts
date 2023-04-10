@@ -111,13 +111,13 @@ export class LiveComponent {
 
   checkContentLoaded() {
     this.contentLoaded = true
-    var myVideo: any = document.getElementById("liveVideo");
+    var myVideo: any = document.getElementById("classContent");
     this.contentControls.Rangeduration = myVideo.duration
     this.contentControls.duration = this.formatTime(myVideo.duration)
   }
 
   checkContinuousContentduration() {
-    var myVideo: any = document.getElementById("liveVideo");
+    var myVideo: any = document.getElementById("classContent");
     this.contentControls.currentRangeDuration = myVideo.currentTime.toFixed(2)
     this.contentControls.currentDuration = this.formatTime(myVideo.currentTime.toFixed(2))
     if (myVideo.paused) {
@@ -166,14 +166,14 @@ export class LiveComponent {
   }
 
   playPause() {
-    var myVideo: any = document.getElementById("liveVideo");
+    var myVideo: any = document.getElementById("classContent");
     if (myVideo.paused) myVideo.play();
     else myVideo.pause();
     this.contentControls.playContent = !this.contentControls.playContent
   }
 
   makeBig() {
-    var myVideo: any = document.getElementById("liveVideo");
+    var myVideo: any = document.getElementById("classContent");
     myVideo.width = '100%';
     myVideo.height = '100%';
   }
