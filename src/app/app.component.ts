@@ -28,6 +28,8 @@ export class AppComponent {
     
     checkRouterEvent(routerEvent: any): void {
       if (routerEvent instanceof NavigationStart) {
+        console.log(routerEvent.url);
+        
         const contentElement = this.getContentElement();
         if (contentElement) {
           contentElement.pause();
@@ -41,7 +43,7 @@ export class AppComponent {
         
       
       } else if (routerEvent instanceof NavigationError) {
-        this.router.navigate(['/tabs/home']);
+        // this.router.navigate(['/tabs/home']);
         // handle NavigationError here
       }
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-splash',
@@ -14,4 +14,5 @@ export class SplashComponent implements OnInit {
       this.router.navigate(['/tabs/home']);
     }, 3000);
   }
+
 }
