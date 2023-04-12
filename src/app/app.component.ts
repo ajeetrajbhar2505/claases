@@ -28,8 +28,6 @@ export class AppComponent {
     
     checkRouterEvent(routerEvent: any): void {
       if (routerEvent instanceof NavigationStart) {
-        console.log(routerEvent.url);
-        
         const contentElement = this.getContentElement();
         if (contentElement) {
           contentElement.pause();
