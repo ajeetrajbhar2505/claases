@@ -212,13 +212,6 @@ export class HomeComponent implements OnInit {
 
   }
 
-  scrollLeft()
-  {
-    const slider:any = document.getElementById('slider');
-    console.log(slider);
-    
-    
-  }
 
 
 
