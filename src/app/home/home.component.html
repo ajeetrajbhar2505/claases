@@ -31,5 +31,25 @@
         </span>
       </div>
      </div>
+     <header class="space-between">
+     <h4 (click)="scrollLeft()">Popular Skill Tests</h4>
+     <a slot="end" href="/tabs/popular-quiz" class="linked">See All</a>
+    </header>
+     <div class="slider-container" id="slider">
+      <div  class="card slide" *ngFor="let quiz of lecturesData;let i = index">
+        <img slot="start" alt="Silhouette of mountains" style="height: 85px;" [src]="quiz.lec_icon" />
+        <span style="text-align: center;">
+          <span class="rating">
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+            {{quiz.ratings + (i+2)}}
+            <ion-icon name="person-outline"></ion-icon>
+            {{quiz.contents}}
+          </span>
+          <span>
+            <ion-label>{{quiz.lec_title}}</ion-label>
+          </span>
+        </span>
+      </div>
+     </div>
      </ion-content>
 </ion-content>
