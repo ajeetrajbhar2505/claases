@@ -1,5 +1,25 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-    <ion-toolbar>
+  <ion-menu side="end"  contentId="main-content" style="--width:100% !important">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="chevron-back-outline" (click)="toggleMenu()"></ion-icon>
+        </ion-buttons>
+        <ion-title>Notifications</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item *ngFor="let data of notifications" (click)="routeTocontentControls(data);toggleMenu()">
+        <ion-icon slot="start" [name]="notifications.length?data.icon:'notifications-off-circle-outline'"></ion-icon>
+        <ion-label class="ion-text-wrap">{{notifications.length?data.info:'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="notifications.length == 0">
+        <ion-icon slot="start" name="notifications-off-circle-outline"></ion-icon>
+        <ion-label class="ion-text-wrap">{{'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
+      </ion-item>
+    </ion-content>
+  </ion-menu>
+    <ion-toolbar id="main-content">
       <ion-buttons slot="end">
         <ion-card-header class="notification-header">
           <ion-icon color="white" (click)="toggleMenu()" style="font-size: 25px" name="notifications-outline"></ion-icon>
@@ -37,7 +57,7 @@
       </div>
      </div>
 
-     
+
      <h4>Popular Skill Tests</h4>
      <div class="slider-container" id="slider">
       <div  class="card slide" *ngFor="let quiz of lecturesData;let i = index">
@@ -61,3 +81,28 @@
      </div>
      </ion-content>
 </ion-content>
+
+
+
+<ion-modal [isOpen]="isSearchOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-searchbar (input)="searchData($event)" #searchBar id="searchBar"></ion-searchbar>
+        <ion-buttons slot="start">
+           <ion-icon name="chevron-back-outline" (click)="toggleSeachmenu()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+            <ion-item *ngFor="let data of SearchedContents" expand="block"
+              (click)="routeTocontentControls(data);toggleSeachmenu()">
+              <ion-icon slot="start" [name]="data.content == 'video'?'play-circle-outline' : data.content == 'audio'?'musical-notes-outline' : data.content == 'document'?'document-text-outline' : ''"></ion-icon>
+              <ion-label>{{data.content_title}}</ion-label>
+              <ion-reorder slot="end"></ion-reorder>
+            </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

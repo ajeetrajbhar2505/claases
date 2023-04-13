@@ -1,0 +1,122 @@
+<ion-app>
+  <ion-menu side="end"  contentId="main-content" style="--width:100% !important">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="chevron-back-outline" (click)="toggleMenu()"></ion-icon>
+        </ion-buttons>
+        <ion-title>Notifications</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item *ngFor="let data of notifications" (click)="routeTocontentControls(data);toggleMenu()">
+        <ion-icon slot="start" [name]="notifications.length?data.icon:'notifications-off-circle-outline'"></ion-icon>
+        <ion-label class="ion-text-wrap">{{notifications.length?data.info:'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="notifications.length == 0">
+        <ion-icon slot="start" name="notifications-off-circle-outline"></ion-icon>
+        <ion-label class="ion-text-wrap">{{'Looks like your notifications are all caught up. No new messages to see here!'}}</ion-label>
+      </ion-item>
+    </ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-card-header class="notification-header">
+            <ion-icon (click)="toggleMenu()" style="font-size: 22px" name="notifications-outline"></ion-icon>
+            <div class="badge" *ngIf="notification_count > 0" (click)="toggleMenu()">{{notification_count}}</div>
+          </ion-card-header>
+        </ion-buttons>
+        <ion-card-title style="position: relative;margin-left:15px"> 
+          <ion-icon size="large" [name]="greeting == 'Good morning' ? 'partly-sunny-outline' : greeting == 'Good afternoon' ? 'sunny-outline' : greeting == 'Good night' ? 'cloudy-night-outline' : ''"></ion-icon>
+          <span class="greeting">{{greeting}}</span>
+        </ion-card-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content [fullscreen]="true" class="ion-padding">
+      <ion-toolbar>
+        <ion-searchbar  (click)="toggleSeachmenu();focusSearchBar()" ></ion-searchbar>
+      </ion-toolbar>
+      <ion-toolbar>
+        <div class="space-between">
+          <div class="card" *ngFor="let data of menus" (click)="routeToAchievements()">
+            <ion-icon style="font-size: 22px" [name]="data.icon"></ion-icon>
+            <ion-label>{{data.title}}</ion-label>
+          </div>
+        </div>
+      </ion-toolbar>
+    
+      <section class="popular-lectures">
+        <header class="space-between">
+          <h2>Popular Lectures</h2>
+          <a slot="end" routerLink="/tabs/popular-lectures" class="linked">See All</a>
+        </header>
+        <div class="slider-container" id="lecturesContainer">
+          <div *ngFor="let lecture of lecturesData" (click)="routeTocontents(lecture.lec_id)" class="card slide">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="lecture.lec_icon" />
+            </ion-thumbnail>
+            <span class="rating">
+              <ion-icon name="star-outline" color="orange"></ion-icon>
+              {{lecture.ratings}}
+              <ion-icon name="caret-forward-circle-outline"></ion-icon>
+              {{lecture.contents}}
+            </span>
+            <div class="content-details">
+              <ion-label>{{lecture.lec_title}}</ion-label>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="popular-quizzes">
+        <header class="space-between">
+          <h2>Popular Skill Tests</h2>
+          <a slot="end" href="/tabs/popular-quiz" class="linked">See All</a>
+        </header>
+        <div class="slider-container" id="quizzesContainer">
+          <div *ngFor="let quiz of lecturesData" (click)="beginTest(quiz)" class="card slide">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="quiz.lec_icon" />
+            </ion-thumbnail>
+            <span class="rating">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+              {{quiz.ratings}}
+              <ion-icon name="person-outline"></ion-icon>
+              {{quiz.contents}}
+            </span>
+            <div class="content-details">
+              <ion-label>{{quiz.lec_title}}</ion-label>
+            </div>
+          </div>
+        </div>
+      </section>
+  </ion-content>
+    </div>
+</ion-app>
+
+
+
+<ion-modal [isOpen]="isSearchOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-searchbar (input)="searchData($event)" #searchBar id="searchBar"></ion-searchbar>
+        <ion-buttons slot="start">
+           <ion-icon name="chevron-back-outline" (click)="toggleSeachmenu()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+            <ion-item *ngFor="let data of SearchedContents" expand="block"
+              (click)="routeTocontentControls(data);toggleSeachmenu()">
+              <ion-icon slot="start" [name]="data.content == 'video'?'play-circle-outline' : data.content == 'audio'?'musical-notes-outline' : data.content == 'document'?'document-text-outline' : ''"></ion-icon>
+              <ion-label>{{data.content_title}}</ion-label>
+              <ion-reorder slot="end"></ion-reorder>
+            </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
