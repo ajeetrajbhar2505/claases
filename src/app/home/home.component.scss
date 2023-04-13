@@ -112,9 +112,10 @@ ul.rb li .timestamp {
   background-color: rgba(229, 229, 229, 255) !important;
 }
 
-ion-content {
-  --ion-background-color: rgba(243, 243, 243, 255);
-}
+// ion-content {
+//   --ion-background-color: rgba(243, 243, 243, 255);
+// }
+
 
 .slider-container {
   overflow-x: auto;
@@ -136,7 +137,7 @@ ion-content {
   justify-content: space-between;
   align-items: flex-start;
   height: 110px;
-  width: 230px !important;
+  width: 200px !important;
   max-height: max-content;
   flex-shrink: 0;
   scroll-snap-align: start;

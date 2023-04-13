@@ -48,6 +48,12 @@
   --center: center;
   --full-width: 100%;
   --border-radius: 8px;
+  --color-icon : blue;
+}
+
+*{
+  font-family: math;
+
 }
 
 .videocontrols,
@@ -131,7 +137,8 @@ video,
 }
 
 .card {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 .linked {

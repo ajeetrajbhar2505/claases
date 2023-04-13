@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('searchBar', { static: false }) searchBar!: IonSearchbar;
   socket: any;
   greeting = '';
-  notification_count = 0
+  notification_count = 1
   isModalOpen = false;
   isSearchOpen: boolean = false;
   menus: MenuItem[] = [
@@ -70,6 +70,12 @@ export class HomeComponent implements OnInit {
   classId = 10
   LecturesWiseVideos:any = []
   SearchedContents:any = []
+  colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
+  
+  getColor()
+  {
+    return  this.colors[Math.floor(Math.random() * this.colors.length)];
+  }
   constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController,public service:WebService) {
     this.socket = service.socket
   }
@@ -204,6 +210,14 @@ export class HomeComponent implements OnInit {
       this.notification_count = this.notification_count +  1
     });
 
+  }
+
+  scrollLeft()
+  {
+    const slider:any = document.getElementById('slider');
+    console.log(slider);
+    
+    
   }
 
 
