@@ -66,6 +66,10 @@ const routes: Routes = [
       {
         path : 'achievements',
         loadChildren : () => import('../achievements/achievements.module').then(m => m.AchievementsModule)
+      },
+      {
+        path : 'features',
+        loadChildren : () => import('../features/features.module').then(m => m.FeaturesModule)
       }
     ]
   },

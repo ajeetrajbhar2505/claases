@@ -202,6 +202,17 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/tabs/achievements']);
   }
 
+  routeToPupularLectures()
+  {
+    this.router.navigate(['/tabs/popular-lectures']);
+  }
+
+
+  routeToPupularQuiz()
+  {
+    this.router.navigate(['/tabs/popular-quiz']);
+  }
+
 
 
   getMessage(){

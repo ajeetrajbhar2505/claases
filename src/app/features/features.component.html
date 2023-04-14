@@ -1,0 +1,67 @@
+<ion-content [fullscreen]="true">
+  <ion-toolbar>
+    <div class="space-between">
+    <ion-card-header slot="start">
+      <ion-card-title>{{ greeting | titlecase }}</ion-card-title>
+      <ion-card-subtitle>Ajeet Rajbhar</ion-card-subtitle>
+    </ion-card-header>
+    <ion-icon size="large" (click)="backToHome()" name="person-circle-outline"></ion-icon>
+    </div>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-card-header class="feature-w-title">
+      <img src="assets\feature-boy.jpg" width="100px" alt="" />
+      <div><span>F</span>eatures available in class</div>
+    </ion-card-header>
+  </ion-toolbar>
+
+  <div class="container">
+    <div class="rightbox">
+      <div class="rb-container">
+        <ul class="rb">
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Video<br />
+              Classroom
+            </div>
+            <div class="item-title">
+              Video Classroom videos can be accessed at any time and from
+              anywhere, allowing learners to learn at their own pace and
+              convenience.
+            </div>
+          </li>
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Live<br />
+              Classroom
+            </div>
+            <div class="item-title">
+              Live video sessions can be accessed from anywhere with an internet
+              connection, allowing learners to participate in classes from
+              remote locations.
+            </div>
+          </li>
+
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Chat<br />
+              Room
+            </div>
+            <div class="item-title">
+              @The chat feature allows learners to ask questions in real-time
+              and receive answers from their instructors or peers quickly.<br />
+              @The chat feature provides privacy to learners who may not feel
+              comfortable asking questions in a public forum.<br />
+              @The chat feature allows learners who may have difficulty speaking
+              or hearing to participate in class discussions and ask
+              questions.<br />
+              @The chat feature records all messages sent and received, making
+              it easy for learners to refer back to previous questions and
+              answers.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ion-content>
