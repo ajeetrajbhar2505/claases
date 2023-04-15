@@ -37,7 +37,7 @@
 
      <h4>Course Categories</h4>
      <div class="slider-container" id="slider">
-      <div  class="card slide" *ngFor="let lecture of lecturesData">
+      <div  class="card slide" *ngFor="let lecture of lecturesData" (click)="routeTocontents(lecture.lec_id)">
         <img slot="start" alt="Silhouette of mountains" style="height: 85px;" [src]="lecture.lec_icon" />
         <span style="text-align: center;">
           <span class="rating">
@@ -51,7 +51,7 @@
           </span>
         </span>
       </div>
-      <div (click)="routeToPupularLectures()" class="card slide" style="display:flex;justify-content:center;align-items:center">
+      <div *ngIf="lecturesData.length" (click)="routeToPupularLectures()" class="card slide" style="display:flex;justify-content:center;align-items:center">
         <a slot="end"  class="linked">See All</a>
         <ion-icon style="color:blue" name="arrow-forward-outline"></ion-icon>
       </div>
@@ -60,7 +60,7 @@
 
      <h4>Popular Skill Tests</h4>
      <div class="slider-container" id="slider">
-      <div  class="card slide" *ngFor="let quiz of lecturesData;let i = index">
+      <div  class="card slide" *ngFor="let quiz of lecturesData;let i = index" (click)="beginTest(quiz)">
         <img slot="start" alt="Silhouette of mountains" style="height: 85px;" [src]="quiz.lec_icon" />
         <span style="text-align: center;">
           <span class="rating">
@@ -74,7 +74,7 @@
           </span>
         </span>
       </div>
-      <div (click)="routeToPupularQuiz()" class="card slide" style="display:flex;justify-content:center;align-items:center">
+      <div *ngIf="lecturesData.length"  (click)="routeToPupularQuiz()" class="card slide" style="display:flex;justify-content:center;align-items:center">
         <a slot="end"  class="linked">See All</a>
         <ion-icon style="color:blue" name="arrow-forward-outline"></ion-icon>
       </div>
