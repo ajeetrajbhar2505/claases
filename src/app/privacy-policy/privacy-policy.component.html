@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true">
+  <ion-toolbar>
+    <ion-icon  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-card-header class="feature-w-title">
+      <img src="assets\feature-boy.jpg" width="100px" alt="" />
+      <div><span>P</span>rivacy Policy of Online Classroom</div>
+    </ion-card-header>
+  </ion-toolbar>
+
+  <div class="container">
+    <div class="rightbox">
+      <div class="rb-container">
+        <ul class="rb">
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Collection of Information
+            </div>
+            <div class="item-title">
+              We collect personal information such as name, email address, and other contact information when you register for our online classroom services. We may also collect information about your usage of our platform, including IP addresses, device type, and browser type.
+            </div>
+          </li>
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Use of Information
+            </div>
+            <div class="item-title">
+              We use personal information to provide our online classroom services, communicate with users, and improve our platform. We may also use aggregated information for analytical purposes.
+            </div>
+          </li>
+
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Disclosure of Information
+            </div>
+            <div class="item-title">
+              We do not sell or rent personal information to third parties. However, we may disclose personal information to our service providers, such as hosting providers and payment processors, in connection with the provision of our online classroom services. We may also disclose personal information to comply with legal requirements or protect our rights and interests.
+            </div>
+          </li>
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Security
+            </div>
+            <div class="item-title">
+              We take reasonable measures to protect personal information from unauthorized access, use, or disclosure. We use secure server software and encryption protocols to ensure the security of our platform.
+            </div>
+          </li>
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Changes to Privacy Policy
+            </div>
+            <div class="item-title">
+              We may update this Privacy Policy from time to time. We will notify users of any material changes to the Privacy Policy by posting a notice on our platform or sending an email.
+            </div>
+          </li>
+          <li class="rb-item" ng-repeat="itembx">
+            <div class="timestamp">
+              Contact Us
+            </div>
+            <div class="item-title">
+              If you have any questions or concerns about this Privacy Policy, please contact us at 
+              <a href="mailto:ajeetrajbhar2504@gmail.com"><u>ajeetrajbhar2504@gmail.com</u></a>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</ion-content>

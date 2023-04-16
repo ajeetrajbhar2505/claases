@@ -12,9 +12,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {}
 
-  navigateToFeatures()
+  navigateTo(path:any)
   {
-    this.router.navigate(['/tabs/features'])
+    this.router.navigate(['/tabs/' + path])
   }
   
 

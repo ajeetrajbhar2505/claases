@@ -71,6 +71,11 @@ const routes: Routes = [
         path : 'features',
         loadChildren : () => import('../features/features.module').then(m => m.FeaturesModule)
       }
+      ,
+      {
+        path : 'privacy-policy',
+        loadChildren : () => import('../privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule)
+      }
     ]
   },
   {
