@@ -9,12 +9,16 @@ import { Router } from '@angular/router';
 export class FeaturesComponent implements OnInit {
   greeting = ''
 
-  constructor(public router:Router) { }
+  constructor(public router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
 
-  backToHome()
-  {
+  }
+
+
+
+
+  backToHome() {
     this.router.navigate(['/tabs/profile'])
   }
 

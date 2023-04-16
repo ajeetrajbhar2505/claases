@@ -77,7 +77,10 @@ ion-card-header.ios {
   
   .item-title {
     color: black;
+    transition: opacity 1s ease-in-out;
   }
+
+
   
   .feature-w-title{
     display: flex;
@@ -87,3 +90,10 @@ ion-card-header.ios {
       font-size: 25px;
     }
   }
+
+  .rb-item:nth-of-type(1){
+    .item-title{
+     opacity: 1;
+    }
+   }
+
