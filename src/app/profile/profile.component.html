@@ -1,49 +1,69 @@
-
-
 <ion-content [fullscreen]="true">
-  <div class="wrapper">
-  <label for="profile-photo">
+  <div class="wrapper" (click)="toggleMenu()">
     <ng-container *ngIf="getImgSrc()">
       <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
     </ng-container>
-  <div *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
-    <ion-icon  name="person"></ion-icon>
-    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+    <div id="open-modal" expand="block" *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
+      <ion-icon name="person"></ion-icon>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+    </div>
+    <span class="edit-icon">
+      <ion-icon name="camera-outline"></ion-icon>
+    </span>
   </div>
-</label>
- <span class="edit-icon">
-  <label for="profile-photo">
-    <ion-icon name="camera-outline"></ion-icon>
-  </label>
-</span>
-<input type="file" (change)="previewPhoto($event)" accept="image/*" id="profile-photo" style="display: none;">
-</div>
 
-<ion-list>
-  <ion-item>
-    <ion-icon  slot="start" name="information-circle-outline"></ion-icon>
-    <ion-label>Personal Details</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-icon slot="start" name="call-outline"></ion-icon>
-    <ion-label>Contact Us</ion-label>
-  </ion-item>
-  <ion-item (click)="navigateTo('features')">
-    <ion-icon slot="start" name="logo-buffer"></ion-icon>
-    <ion-label>Features</ion-label>
-  </ion-item>
-  <ion-item (click)="navigateTo('privacy-policy')">
-    <ion-icon slot="start" name="shield-half-outline"></ion-icon>
-    <ion-label>PrivacyPolicy</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-icon slot="start" name="logo-vimeo"></ion-icon>
-    <ion-label>Version2.4</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-icon  slot="start"  style="transform: translate(180deg);" name="log-out-outline"></ion-icon>
-    <ion-label>Logout</ion-label>
-  </ion-item>
-</ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+      <ion-label>Personal Details</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="call-outline"></ion-icon>
+      <ion-label>Contact Us</ion-label>
+    </ion-item>
+    <ion-item (click)="navigateTo('features')">
+      <ion-icon slot="start" name="logo-buffer"></ion-icon>
+      <ion-label>Features</ion-label>
+    </ion-item>
+    <ion-item (click)="navigateTo('privacy-policy')">
+      <ion-icon slot="start" name="shield-half-outline"></ion-icon>
+      <ion-label>PrivacyPolicy</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="logo-vimeo"></ion-icon>
+      <ion-label>Version2.4</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" style="transform: translate(180deg);" name="log-out-outline"></ion-icon>
+      <ion-label>Logout</ion-label>
+    </ion-item>
+  </ion-list>
 
+  <ion-modal [isOpen]="isModelOpen">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button color="light" (click)="toggleMenu()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+        <ion-list>
+          <label for="profile-photo">
+            <ion-item>
+              <ion-label>
+                <input type="file" (change)="previewPhoto($event)" accept="image/*" id="profile-photo"
+                  style="display: none;">
+                Choose Photo
+              </ion-label>
+            </ion-item>
+          </label>
+          <ion-item (click)="removepreviewPhoto()">
+            <ion-label>
+              Delete Photo
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -7,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-
-  constructor(public router:Router) { }
+  isModelOpen = false
+  constructor(public router:Router,public menuCtrl: MenuController) { }
 
   ngOnInit() {}
 
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
       console.log(error);
     }
     reader.readAsDataURL(file);
+    this.isModelOpen = false
   }
   
 
@@ -36,6 +38,15 @@ export class ProfileComponent implements OnInit {
     return localStorage.getItem('imageSrc')
   }
 
+  removepreviewPhoto()
+  {
+    localStorage.removeItem('imageSrc')
+    this.isModelOpen = false
+  }
+  
+  toggleMenu() {
+    this.isModelOpen = ! this.isModelOpen
+  }
   
 
 }
