@@ -3,8 +3,11 @@
 <ion-content [fullscreen]="true">
   <div class="wrapper">
   <label for="profile-photo">
-  <div class="ion-activatable ripple-parent circle">
-    <ion-icon name="person"></ion-icon>
+    <ng-container *ngIf="getImgSrc()">
+      <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
+    </ng-container>
+  <div *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
+    <ion-icon  name="person"></ion-icon>
     <ion-ripple-effect type="unbounded"></ion-ripple-effect>
   </div>
 </label>
@@ -13,13 +16,13 @@
     <ion-icon name="camera-outline"></ion-icon>
   </label>
 </span>
-<input type="file" id="profile-photo" style="display: none;">
+<input type="file" (change)="previewPhoto($event)" accept="image/*" id="profile-photo" style="display: none;">
 </div>
 
 <ion-list>
   <ion-item>
     <ion-icon  slot="start" name="information-circle-outline"></ion-icon>
-    <ion-label>Personal Details</ion-label>
+    <ion-label>Personal Details {{getImgSrc()}}</ion-label>
   </ion-item>
   <ion-item>
     <ion-icon slot="start" name="call-outline"></ion-icon>

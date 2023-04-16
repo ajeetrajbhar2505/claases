@@ -18,4 +18,24 @@ export class ProfileComponent implements OnInit {
   }
   
 
+  previewPhoto(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      localStorage.setItem('imageSrc',reader.result as string)
+    };
+    reader.onerror = (error) => {
+      console.log(error);
+    }
+    reader.readAsDataURL(file);
+  }
+  
+
+  getImgSrc()
+  {
+    return localStorage.getItem('imageSrc')
+  }
+
+  
+
 }
