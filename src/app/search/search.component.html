@@ -24,7 +24,7 @@
 <ion-footer [formGroup]="searchGroup">
   <div formArrayName="array" class="arraydiv" *ngFor="let data of searchArrayControl(); let i = index; let last = last">
     <div [formGroupName]="i" *ngIf="last" class="chat-footer" slot="bottom">
-      <ion-icon size="large"  (mouseover)="startFunction(i)" (mouseout)="stopFunction(i)" name="mic-outline"></ion-icon>
+      <!-- <ion-icon size="large"  (mouseover)="startFunction(i)" (mouseout)="stopFunction(i)" name="mic-outline"></ion-icon> -->
       <span *ngIf="recordingStarted">{{ data.get('minutes')?.value< 10 ? '0' + data.get('minutes')?.value : '00' }}:{{ data.get('seconds')?.value < 10 ? '0' + data.get('seconds')?.value : '00' }}</span>
       <div *ngIf="recordingStarted" id="bars">
         <div class="bar" *ngFor="let bar of [1,2,3,4,5,6]"></div>

@@ -90,32 +90,60 @@ export class SearchComponent implements OnInit {
 
 
   startFunction(index: any) {
-    this.recordingStarted = true;
     const array: any = this.searchGroup.get('array') as FormArray;
-    this.recognition.start();
-    let secondsElapsed = 0;
-    array.at(index).get('minutes')?.setValue(0);
-    array.at(index).get('seconds')?.setValue(0);
-    interval(1000)
-      .pipe(takeUntil(this.stopRecording$))
-      .subscribe(() => {
-        secondsElapsed++;
-        array.at(index).get('minutes')?.patchValue(Math.floor(secondsElapsed / 60));
-        array.at(index).get('seconds')?.patchValue(secondsElapsed % 60);
-      });
+    if (!this.recognition || this.recognition && this.recognition.grammars.length === 0) {
+      this.recognition.continuous = false;
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'en-US';
+      this.recognition.maxAlternatives = 1;
+    }
+    if (!this.recordingStarted) {
+      try {
+        this.recordingStarted = true;
+        let secondsElapsed = 0;
+        array.at(index).get('minutes')?.setValue(0);
+        array.at(index).get('seconds')?.setValue(0);
+        let timerInterval = setInterval(() => {
+          secondsElapsed++;
+          array.at(index).get('minutes')?.patchValue(Math.floor(secondsElapsed / 60));
+          array.at(index).get('seconds')?.patchValue(secondsElapsed % 60);
+          if (!this.recordingStarted) {
+            clearInterval(timerInterval);
+          }
+        }, 1000);
+  
+        this.recognition.onresult = (event: any) => {
+          const result = event.results[0][0].transcript;
+          array.at(index).get('question')?.patchValue(result);
+          this.getResponse(index);
+          this.recordingStarted = false;
+          console.log(this.recordingStarted);
+        };
+        this.recognition.start();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
   
+  
   stopFunction(index: any) {
-    this.recognition.stop();
-    this.recordingStarted = false;
     const array: any = this.searchGroup.get('array') as FormArray;
-    this.recognition.onresult = (event: any) => {
-      const result = event.results[event.results.length - 1][0].transcript;
-      array.at(index).get('question')?.patchValue(result);
-      this.getResponse(index);
-    };
-    this.stopRecording$.next();
+    if (this.recognition && this.recordingStarted) {
+      try {
+        this.recognition.stop();
+        this.recordingStarted = false;
+        this.recognition.onresult = (event: any) => {
+          const result = event.results[0][0].transcript;
+          array.at(index).get('question')?.patchValue(result);
+          this.getResponse(index);
+        };
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
+  
 
 
 }
