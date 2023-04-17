@@ -7,7 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class WebService {
-  private token: string = '';
+  private isLoggedIn = false;
+
 
   local = "http://192.168.31.159:3000"
   socket:any
@@ -97,21 +98,22 @@ export class WebService {
 
 
   login(): void {
-    // TODO: Make API call to retrieve token
-    this.token = 'sample-token';
-    // Redirect to home page after login
+    // TODO: Implement login logic
+    this.isLoggedIn = true;
     this.router.navigate(['/tabs/home']);
   }
 
   logout(): void {
-    // Clear token
-    this.token = '';
-    // Redirect to login page after logout
-    this.router.navigate(['/tabs/login']);
+    // Clear login status
+    this.isLoggedIn = false;
+    // Clear cache and redirect to login page
+    this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
-  getToken(): string {
-    return this.token;
+  checkLoggedIn(): boolean {
+    return this.isLoggedIn;
   }
 
 }

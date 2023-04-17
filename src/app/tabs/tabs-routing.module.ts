@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { LoginGuard } from '../login.guard';
 
 const routes: Routes = [
   {
+    path : 'login',
+    loadChildren : () => import('../login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path : 'register',
+    loadChildren : () => import('../register/register.module').then(m => m.RegisterModule)
+  },
+  {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [LoginGuard],
     children: [
       {
         path: 'home',
@@ -75,16 +85,6 @@ const routes: Routes = [
       {
         path : 'privacy-policy',
         loadChildren : () => import('../privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule)
-      }
-      ,
-      {
-        path : 'login',
-        loadChildren : () => import('../login/login.module').then(m => m.LoginModule)
-      }
-      ,
-      {
-        path : 'register',
-        loadChildren : () => import('../register/register.module').then(m => m.RegisterModule)
       }
     ]
   },

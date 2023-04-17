@@ -59,7 +59,7 @@ export class TabsPage implements OnInit {
 
   ngOnInit(): void {
 // Set initial state of sidebar
-if (this.service.getToken()) {
+if (this.service.checkLoggedIn()) {
   this.showSidebar();
 } else {
   this.hideSidebar();
@@ -68,7 +68,7 @@ if (this.service.getToken()) {
 
   ngDoCheck(): void {
     // Check for changes to login status
-    if (this.service.getToken()) {
+    if (this.service.checkLoggedIn()) {
       this.showSidebar();
     } else {
       this.hideSidebar();
