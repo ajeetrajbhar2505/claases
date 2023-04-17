@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="login-card">
+    <img
+      mat-card-image
+      src="assets/login/login.webp"
+      alt="Photo of a login page"
+    />
+    <form>
+      <div class="field">
+        <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+        <input type="text" required placeholder="Enter your username" autocomplete="off" />
+      </div>
+      <div class="field">
+        <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+        <input [type]="visiblepass?'text':'password'" placeholder="Enter your Password" autocomplete="off" />
+      </div>
+      <div class="field">
+        <span class="prefix"><img src="assets/login/code.png" style="margin-top: 18px;" alt="" width="21px"></span>
+        <input type="number" numberOnly placeholder="Enter class code" autocomplete="off" />
+      </div>
+   <div class="center">
+    <ion-button expand="block" color="warn" shape="round" class="submit" (click)="login()">Login</ion-button>
+   </div>
+    </form>
+  </div>
+</div>

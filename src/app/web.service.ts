@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 
@@ -6,9 +7,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class WebService {
+  private token: string = '';
+
   local = "http://192.168.31.159:3000"
   socket:any
-  constructor() {
+  constructor(private router:Router) {
     this.socket = io(environment.nodeApi, {
       transports: ['websocket']
     });
@@ -90,6 +93,25 @@ export class WebService {
     const yy: string = String(today.getFullYear());
     const formattedDate: string = `${dd}-${mm}-${yy}`;
    return formattedDate
+  }
+
+
+  login(): void {
+    // TODO: Make API call to retrieve token
+    this.token = 'sample-token';
+    // Redirect to home page after login
+    this.router.navigate(['/tabs/home']);
+  }
+
+  logout(): void {
+    // Clear token
+    this.token = '';
+    // Redirect to login page after logout
+    this.router.navigate(['/tabs/login']);
+  }
+
+  getToken(): string {
+    return this.token;
   }
 
 }

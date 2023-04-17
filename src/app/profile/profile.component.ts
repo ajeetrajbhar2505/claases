@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class ProfileComponent implements OnInit {
   isModelOpen = false
-  constructor(public router:Router,public menuCtrl: MenuController) { }
+  constructor(public router:Router,public menuCtrl: MenuController,public service:WebService) { }
 
   ngOnInit() {}
 
@@ -46,6 +47,11 @@ export class ProfileComponent implements OnInit {
   
   toggleMenu() {
     this.isModelOpen = ! this.isModelOpen
+  }
+
+  logout()
+  {
+     this.service.logout()
   }
   
 

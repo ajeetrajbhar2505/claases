@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-tabs',
@@ -10,7 +11,7 @@ import { ActionSheetController } from '@ionic/angular';
 export class TabsPage implements OnInit {
   result:string = ""
   splash_loaded = false
-  constructor(private actionSheetCtrl: ActionSheetController,public router:Router) {}
+  constructor(private actionSheetCtrl: ActionSheetController,public router:Router,public service:WebService) {}
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -57,9 +58,39 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-     this.splash_loaded =  true
-    }, 3000);
+// Set initial state of sidebar
+if (this.service.getToken()) {
+  this.showSidebar();
+} else {
+  this.hideSidebar();
+}
+  }
+
+  ngDoCheck(): void {
+    // Check for changes to login status
+    if (this.service.getToken()) {
+      this.showSidebar();
+    } else {
+      this.hideSidebar();
+    }
+  }
+
+  private showSidebar(): void {
+    // Show sidebar
+    this.splash_loaded = true
+
+  }
+
+  private hideSidebar(): void {
+    // Hide sidebar
+    this.splash_loaded = false
+
+  }
+
+
+  routesTo(path:any)
+  {
+    this.router.navigate(['/tabs/' + path])
   }
 
 }

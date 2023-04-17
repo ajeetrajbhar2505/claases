@@ -1,11 +1,11 @@
 <ion-router-outlet></ion-router-outlet>
 <ion-tabs *ngIf="splash_loaded">
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
+    <ion-tab-button (click)="routesTo('home')">
       <ion-icon name="home"></ion-icon>
       Home
     </ion-tab-button>
-    <ion-tab-button tab="class">
+    <ion-tab-button (click)="routesTo('class')">
       <ion-icon name="play-circle"></ion-icon>
       Course
     </ion-tab-button>
@@ -14,15 +14,15 @@
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-tab-button> -->
-    <ion-tab-button tab="live">
+    <ion-tab-button (click)="routesTo('live')">
       <ion-icon name="radio"></ion-icon>
       Live
     </ion-tab-button>
-    <ion-tab-button tab="search">
+    <ion-tab-button (click)="routesTo('search')">
       <ion-icon name="chatbox-ellipses-outline"></ion-icon>
       Chat
     </ion-tab-button>
-    <ion-tab-button tab="profile">
+    <ion-tab-button (click)="routesTo('profile')">
       <ion-icon name="person-outline"></ion-icon>
       Profile
     </ion-tab-button>
