@@ -107,9 +107,11 @@ export class WebService {
     // Clear login status
     this.isLoggedIn = false;
     // Clear cache and redirect to login page
-    this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/login']);
-    });
+     setTimeout(() => {
+      this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/login']);
+     });
+    },100);
   }
 
   checkLoggedIn(): boolean {

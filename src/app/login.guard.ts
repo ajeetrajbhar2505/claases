@@ -20,9 +20,11 @@ export class LoginGuard implements CanActivate {
       return true;
     } else {
       // Clear cache and redirect to login page
-      this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/login']);
-      });
+      setTimeout(() => {
+        this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/login']);
+       });
+      },100);
       return false;
     }
   }
