@@ -1,3 +1,4 @@
+<ion-content [fullscreen]="true">
 <div class="container">
   <div class="login-card">
     <img mat-card-image src="assets/login/login.webp" height="250px" alt="Photo of a login page" />
@@ -25,6 +26,14 @@
           <ion-icon name="logo-apple"></ion-icon>
         </span>
       </div>
+      <hr>
+      <div class="signin">
+        <span>Don't have an account?</span>
+        <span class="link">
+          <a routerLink="/register">Register here</a>
+        </span>
+      </div>
     </form>
   </div>
 </div>
+</ion-content>

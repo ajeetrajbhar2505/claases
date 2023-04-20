@@ -1,3 +1,48 @@
-<p>
-  register works!
-</p>
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="login-card">
+      <img mat-card-image src="assets/login/login.webp" height="250px" alt="Photo of a login page" />
+      <form>
+        <div class="field">
+          <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+          <input type="text" required placeholder="Enter First Name" autocomplete="off" />
+        </div>
+        <div class="field">
+          <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+          <input type="text" placeholder="Enter Last Name" autocomplete="off" />
+        </div>
+        <div class="field">
+          <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+          <input type="number" placeholder="Enter username" autocomplete="off" />
+        </div>
+        <div class="field">
+          <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+          <input [type]="visiblepass?'text':'password'" placeholder="Enter password" autocomplete="off" />
+        </div>
+        <div class="field">
+          <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+          <input [type]="visiblepass?'text':'password'" placeholder="Confirm password" autocomplete="off" />
+        </div>
+        <div class="center">
+          <ion-button expand="block" color="warn" shape="round" class="submit"
+            (click)="register()">Register</ion-button>
+        </div>
+        <div class="signin">
+          <p>Or sign up with</p>
+          <span class="icons">
+            <ion-icon name="logo-google"></ion-icon>
+            <ion-icon name="logo-facebook"></ion-icon>
+            <ion-icon name="logo-apple"></ion-icon>
+          </span>
+        </div>
+        <hr>
+        <div class="signin">
+          <span>Already have an account?</span>
+          <span class="link">
+            <a routerLink="/login">Login here</a>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

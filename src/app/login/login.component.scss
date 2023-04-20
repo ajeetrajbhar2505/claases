@@ -79,6 +79,7 @@
   
   .signin{
     display: grid;
+    margin-bottom: 20px;
     .icons{
       display: flex;
       justify-content: center;
@@ -88,3 +89,10 @@
     }
   }
   
+
+  hr {
+    border: none; /* remove the default border */
+    height: 2px; /* set the height of the HR line */
+    background-color: #ccc; /* set the background color of the HR line */
+    margin: 20px 20px; /* add margin on the left and right sides of the HR line */
+  }
