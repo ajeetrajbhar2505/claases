@@ -94,23 +94,23 @@
           <form>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" required placeholder="Enter First Name" autocomplete="off" />
+              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" placeholder="Enter Last Name" autocomplete="off" />
+              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" placeholder="Enter username" autocomplete="off" />
+              <input type="text" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
-              <input [type]="visiblepass?'text':'password'" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" placeholder="Enter password" autocomplete="off" />
+              <input [type]="visiblepass?'text':'password'" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
-              <input [type]="visiblepass?'text':'password'" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" placeholder="Confirm password" autocomplete="off" />
+              <input [type]="visiblepass?'text':'password'" [style.border]="!loading?'1px solid #ffffff':'1px solid #ccc'" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
             </div>
             <div class="center">
               <ion-button (click)="update()" expand="block" color="warn" shape="round" class="submit">
