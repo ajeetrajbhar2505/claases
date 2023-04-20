@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div class="wrapper" (click)="toggleMenu()">
+  <div class="wrapper">
     <ng-container *ngIf="getImgSrc()">
       <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
     </ng-container>
@@ -7,13 +7,10 @@
       <ion-icon name="person"></ion-icon>
       <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </div>
-    <span class="edit-icon">
-      <ion-icon name="camera-outline"></ion-icon>
-    </span>
   </div>
 
   <ion-list>
-    <ion-item>
+    <ion-item (click)="togglePersonalDetails()">
       <ion-icon slot="start" name="information-circle-outline"></ion-icon>
       <ion-label>Personal Details</ion-label>
     </ion-item>
@@ -39,12 +36,12 @@
     </ion-item>
   </ion-list>
 
-  <ion-modal [isOpen]="isModelOpen">
+  <ion-modal class="isProfileModelOpen" [isOpen]="isProfileModelOpen">
     <ng-template>
       <ion-content>
         <ion-toolbar>
-          <ion-buttons slot="end">
-            <ion-button color="light" (click)="toggleMenu()">Close</ion-button>
+          <ion-buttons slot="start">
+            <ion-button (click)="toggleprofileMenu()">Cancel</ion-button>
           </ion-buttons>
         </ion-toolbar>
         <ion-list>
@@ -67,3 +64,62 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+
+
+<ion-modal [isOpen]="isPersonalDetailsModelOpen">
+  <ng-template>
+      <ion-toolbar>
+        <ion-title>
+          Personal Details
+        </ion-title>
+        <ion-buttons slot="start">
+          <ion-icon name="chevron-back-outline" (click)="togglePersonalDetails()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    <ion-content  [fullscreen]="true">
+      <div class="container">
+        <div class="login-card">
+          <div class="wrapper" (click)="toggleprofileMenu()">
+            <ng-container *ngIf="getImgSrc()">
+              <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
+            </ng-container>
+            <div id="open-modal" expand="block" *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
+              <ion-icon name="person"></ion-icon>
+              <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+            </div>
+            <span class="edit-icon">
+              <ion-icon name="camera-outline"></ion-icon>
+            </span>
+          </div>
+          <form>
+            <div class="field">
+              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+              <input type="text" required placeholder="Enter First Name" autocomplete="off" />
+            </div>
+            <div class="field">
+              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+              <input type="text" placeholder="Enter Last Name" autocomplete="off" />
+            </div>
+            <div class="field">
+              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
+              <input type="number" placeholder="Enter username" autocomplete="off" />
+            </div>
+            <div class="field">
+              <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+              <input [type]="visiblepass?'text':'password'" placeholder="Enter password" autocomplete="off" />
+            </div>
+            <div class="field">
+              <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+              <input [type]="visiblepass?'text':'password'" placeholder="Confirm password" autocomplete="off" />
+            </div>
+            <div class="center">
+              <ion-button (click)="update()" expand="block" color="warn" shape="round" class="submit">
+              <ion-icon *ngIf="!loading" slot="start" name="create-outline"></ion-icon>
+                {{loading?'Update':'Edit'}}</ion-button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

@@ -53,18 +53,113 @@
 
 
 
-  ion-modal {
+ ::ng-deep .isProfileModelOpen {
     --height: 35%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    
   }
   
-  ion-modal::part(backdrop) {
+  ::ng-deep .isProfileModelOpen::part(backdrop) {
     background: rgba(209, 213, 219);
     opacity: 1;
   }
   
-  ion-modal ion-toolbar {
+  ::ng-deep .isProfileModelOpen ion-toolbar {
     --background: rgb(14 116 144);
     --color: white;
   }
+
+
+  
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: unset !important;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.pb-2 {
+  padding-bottom: 10px !important;
+}
+
+
+.login-card {
+  max-width: 100%;
+  position: unset;
+  top: unset;
+  left: unset;
+  transform: unset;
+  -webkit-transform: unset;
+  -moz-transform: unset;
+  -ms-transform: unset;
+  -o-transform: unset;
+}
+input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
+form {
+  text-align: center;
+}
+input {
+  padding: 10px 20px;
+  padding-left: 40px;
+  width: 85%;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+input:focus {
+  border: 1px solid #ccc;
+  outline: unset;
+}
+
+button:focus {
+  color: #3498db;
+  box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #ffffff73;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.submit {
+  margin-top: 15px;
+  width: 60%;
+  background-color: #f44336;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+.prefix img {
+  position: absolute;
+  margin: 16px 16px 16px 13px;
+}
+
+.signin{
+  display: grid;
+  margin-bottom: 20px;
+  .icons{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    cursor: pointer;
+  }
+}

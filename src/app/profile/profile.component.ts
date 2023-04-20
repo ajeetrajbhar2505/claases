@@ -9,7 +9,15 @@ import { WebService } from '../web.service';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  isModelOpen = false
+  isProfileModelOpen = false
+  isPersonalDetailsModelOpen = false
+  visiblepass = false
+  loading = false
+
+  showpassword()
+  {
+     this.visiblepass = ! this.visiblepass
+  }
   constructor(public router:Router,public menuCtrl: MenuController,public service:WebService) { }
 
   ngOnInit() {}
@@ -30,7 +38,7 @@ export class ProfileComponent implements OnInit {
       console.log(error);
     }
     reader.readAsDataURL(file);
-    this.isModelOpen = false
+    this.isProfileModelOpen = false
   }
   
 
@@ -42,16 +50,29 @@ export class ProfileComponent implements OnInit {
   removepreviewPhoto()
   {
     localStorage.removeItem('imageSrc')
-    this.isModelOpen = false
+    this.isProfileModelOpen = false
   }
   
-  toggleMenu() {
-    this.isModelOpen = ! this.isModelOpen
+
+  toggleprofileMenu()
+  {
+    this.isProfileModelOpen = ! this.isProfileModelOpen
   }
+
+  togglePersonalDetails()
+  {
+    this.isPersonalDetailsModelOpen = ! this.isPersonalDetailsModelOpen
+  }
+
 
   logout()
   {
      this.service.logout()
+  }
+
+  update()
+  {
+   this.loading = ! this.loading
   }
   
 
