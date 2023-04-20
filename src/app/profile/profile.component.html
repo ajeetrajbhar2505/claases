@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div class="wrapper">
+  <div class="wrapper" (click)="togglePersonalDetails()">
     <ng-container *ngIf="getImgSrc()">
       <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
     </ng-container>
