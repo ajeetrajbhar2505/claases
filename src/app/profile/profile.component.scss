@@ -162,3 +162,8 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
   }
 }
+
+
+ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
+  --backdrop-opacity: 0.5;
+}
