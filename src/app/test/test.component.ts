@@ -88,7 +88,7 @@ export class TestComponent implements OnInit {
         total_questions: "10"
       };
       this.quizArray = [];
-      let questions: any = await this.http.post(environment.nodeApi + '/quiz', body).toPromise();
+      let questions: any = await this.http.post(environment.nodeApi + 'quiz', body).toPromise();
       for (let element of questions.questions) {
         const questionModal: Question = {
           question_text: element.question,
@@ -168,7 +168,7 @@ export class TestComponent implements OnInit {
         this.quizArray.push(questionModal);
       }
     } catch (error) {
-      console.error(`Failed to generate quiz: ${error}`);
+      console.error(`Failed to generate quiz: ${JSON.stringify(error)}`);
       throw error;
     }
     console.log(this.quizArray);
@@ -178,7 +178,7 @@ export class TestComponent implements OnInit {
   async generateCorrectOption(question: string): Promise<string> {
     try {
       const body = { question };
-      const correctResponse: any = await this.http.post(`${environment.nodeApi}/generateCorrectOption`, body).toPromise();
+      const correctResponse: any = await this.http.post(`${environment.nodeApi}generateCorrectOption`, body).toPromise();
       const correctOption = correctResponse['result'].replace(/\n[।|\.]\s*[A-ः]?[\)|\.]/, '').trim();
       return correctOption;
     } catch (error) {
