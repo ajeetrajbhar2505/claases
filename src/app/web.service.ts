@@ -20,6 +20,9 @@ export class WebService {
    }
 
 
+   
+
+
   speech(textToSpeech: string) {
     // create a new instance of the SpeechSynthesis interface
     const synth = window.speechSynthesis;
