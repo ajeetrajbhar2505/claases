@@ -11,13 +11,15 @@ import { WebService } from '../web.service';
 export class ProfileComponent implements OnInit {
   isProfileModelOpen = false
   isPersonalDetailsModelOpen = false
-  visiblepass = false
   loading = false
 
-  showpassword()
-  {
-     this.visiblepass = ! this.visiblepass
+  visiblepass = [false, false];
+
+  showpassword(index: number) {
+    this.visiblepass[index] = !this.visiblepass[index];
   }
+  
+
   constructor(public router:Router,public menuCtrl: MenuController,public service:WebService) { }
 
   ngOnInit() {}
