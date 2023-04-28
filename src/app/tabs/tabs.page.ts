@@ -8,7 +8,7 @@ import { WebService } from '../web.service';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage implements OnInit {
+export class TabsPage  {
   result:string = ""
   splash_loaded = false
   constructor(private actionSheetCtrl: ActionSheetController,public router:Router,public service:WebService) {}
@@ -57,14 +57,7 @@ export class TabsPage implements OnInit {
     
   }
 
-  ngOnInit(): void {
-// Set initial state of sidebar
-if (this.service.checkLoggedIn()) {
-  this.showSidebar();
-} else {
-  this.hideSidebar();
-}
-  }
+
 
   ngDoCheck(): void {
     // Check for changes to login status
@@ -77,13 +70,17 @@ if (this.service.checkLoggedIn()) {
 
   private showSidebar(): void {
     // Show sidebar
-    this.splash_loaded = true
+    setTimeout(() => {
+      this.splash_loaded = true
+    }, 3000);
 
   }
 
   private hideSidebar(): void {
     // Hide sidebar
-    this.splash_loaded = false
+    setTimeout(() => {
+      this.splash_loaded = false
+    }, 3000);
 
   }
 

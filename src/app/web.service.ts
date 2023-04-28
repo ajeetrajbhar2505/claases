@@ -100,12 +100,14 @@ export class WebService {
   login(): void {
     // TODO: Implement login logic
     this.isLoggedIn = true;
+    localStorage.setItem('isLoggedIn','true')
     this.router.navigate(['/tabs/home']);
   }
 
   logout(): void {
     // Clear login status
     this.isLoggedIn = false;
+    localStorage.setItem('isLoggedIn','false')
     // Clear cache and redirect to login page
      setTimeout(() => {
       this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
@@ -115,7 +117,8 @@ export class WebService {
   }
 
   checkLoggedIn(): boolean {
-    return this.isLoggedIn;
+    // return this.isLoggedIn;
+    return localStorage.getItem('isLoggedIn') == 'true'?true:false;
   }
 
 }
