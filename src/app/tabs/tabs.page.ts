@@ -53,8 +53,6 @@ export class TabsPage  {
       this.router.navigate(['/tabs/live'])
     }
        
-
-    
   }
 
 
@@ -62,27 +60,12 @@ export class TabsPage  {
   ngDoCheck(): void {
     // Check for changes to login status
     if (this.service.checkLoggedIn()) {
-      this.showSidebar();
+      this.splash_loaded = true
     } else {
-      this.hideSidebar();
+      this.splash_loaded = false
     }
   }
 
-  private showSidebar(): void {
-    // Show sidebar
-    setTimeout(() => {
-      this.splash_loaded = true
-    }, 3000);
-
-  }
-
-  private hideSidebar(): void {
-    // Hide sidebar
-    setTimeout(() => {
-      this.splash_loaded = false
-    }, 3000);
-
-  }
 
 
   routesTo(path:any)

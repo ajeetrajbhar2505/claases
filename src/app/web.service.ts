@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class WebService {
   private isLoggedIn = false;
+  public isSplashLoaded = false;
 
 
   local = "http://192.168.31.159:3000"
