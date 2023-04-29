@@ -28,7 +28,6 @@ export class ContentsComponent  {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
       const lecturesData: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
-      this.currentContent = 'video'
         lecturesData.filter((Object:any)=>{
           if (Object.lec_id == param.lec_id) {
             this.contentsData = Object['contents']
