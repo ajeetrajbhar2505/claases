@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit {
 
   togglePersonalDetails()
   {
+    this.loading = false
     this.isPersonalDetailsModelOpen = ! this.isPersonalDetailsModelOpen
   }
 
