@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
   <div class="quize-cards" *ngFor="let data of lecturesData" (click)="beginTest(data)">
     <ion-thumbnail slot="start">
       <img alt="Silhouette of mountains" [src]="data.lec_icon" />

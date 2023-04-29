@@ -6,7 +6,8 @@
     <ion-progress-bar *ngIf="!contentLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
   </ion-header>
-
+  <!-- api key -->
+  <!-- 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 -->
   <ion-content  [fullscreen]="true" class="ion-padding" >
               <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
               (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
