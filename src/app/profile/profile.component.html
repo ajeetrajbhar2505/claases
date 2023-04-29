@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div class="wrapper" (click)="togglePersonalDetails()">
+  <div class="wrapper" (click)="toggleprofileMenu()">
     <ng-container *ngIf="getImgSrc()">
       <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
     </ng-container>
@@ -7,6 +7,9 @@
       <ion-icon name="person"></ion-icon>
       <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </div>
+    <span class="edit-icon">
+      <ion-icon name="camera-outline"></ion-icon>
+    </span>
   </div>
 
   <ion-list>
