@@ -58,6 +58,9 @@ export class ContentsComponent  {
    this.filteredData =  this.contentsData.filter((object:any)=> object.content == content)
   }
   
+  public uploadContent(content:any){
+    this.router.navigate(['/tabs/uploadVideo/' + content],{queryParams : {nested : this.params.from, from : '/tabs/contents',classId : this.params.classId,}})
+  }
 
   routeTocontentControls(contentDetails:any)
   {

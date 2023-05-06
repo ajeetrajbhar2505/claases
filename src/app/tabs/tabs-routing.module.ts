@@ -50,6 +50,10 @@ const routes: Routes = [
         loadChildren: () => import('../upload-video/upload-video.module').then(m => m.UploadVideoModule)
       },
       {
+        path: 'uploadVideo/:content',
+        loadChildren: () => import('../upload-video/upload-video.module').then(m => m.UploadVideoModule)
+      },
+      {
         path: 'search',
         loadChildren: () => import('../search/search.module').then(m => m.SearchModule)
       },

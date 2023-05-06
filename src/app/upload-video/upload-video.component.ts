@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
 
@@ -25,12 +25,14 @@ export class UploadVideoComponent implements OnInit {
     published_at : new FormControl(''),
     content_file : new FormControl(''),
   })
-  currentContent = "video"
+  currentContent:any = ""
   uploading:boolean = false
 
-  constructor(public http:HttpClient,private sanitizer: DomSanitizer,public router:Router,public service:WebService) {
+  constructor(public http:HttpClient,private sanitizer: DomSanitizer,public router:Router,public service:WebService,public ActivatedRoute:ActivatedRoute) {
    this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
-   }
+   this.currentContent = this.ActivatedRoute.snapshot.paramMap.get('content')
+   this.uploadVideogroup.get('content')?.patchValue(this.ActivatedRoute.snapshot.paramMap.get('content'))
+  }
 
  async ngOnInit() {
   this.classData = await this.http.get('assets/classWiseLectures.json').toPromise()
@@ -74,9 +76,9 @@ getImgContent(url: any): SafeUrl {
     }})
  }
 
- backToHome()
+ backToContent()
  {
-  this.router.navigate(['/tabs/home'])
+  this.router.navigate(['/tabs/contents'])
  }
 
 async uploadContent()
