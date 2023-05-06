@@ -59,7 +59,15 @@ export class ContentsComponent  {
   }
   
   public uploadContent(content:any){
-    this.router.navigate(['/tabs/uploadVideo/' + content],{queryParams : {nested : this.params.from, from : '/tabs/contents',classId : this.params.classId,}})
+    const queryParams = {
+      classId: this.params.classId,
+      lec_id: this.params.lec_id,
+      contentId: this.params.contentId,
+      from: '/tabs/contents',
+      content  : content,
+      nested: this.params.nested,
+    };
+    this.router.navigate(['/tabs/uploadVideo'],{queryParams})
   }
 
   routeTocontentControls(contentDetails:any)

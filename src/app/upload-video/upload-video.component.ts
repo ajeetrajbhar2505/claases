@@ -14,6 +14,7 @@ import { WebService } from '../web.service';
 export class UploadVideoComponent implements OnInit {
   lecturesData:any[] = []
   classData:any = []
+  params:any = {}
   uploadVideogroup = new FormGroup({
     classId : new FormControl(''),
     lec_id : new FormControl(''),
@@ -30,8 +31,10 @@ export class UploadVideoComponent implements OnInit {
 
   constructor(public http:HttpClient,private sanitizer: DomSanitizer,public router:Router,public service:WebService,public ActivatedRoute:ActivatedRoute) {
    this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
-   this.currentContent = this.ActivatedRoute.snapshot.paramMap.get('content')
-   this.uploadVideogroup.get('content')?.patchValue(this.ActivatedRoute.snapshot.paramMap.get('content'))
+   ActivatedRoute.queryParams.subscribe((params:any)=>{
+    this.params = params
+   this.uploadVideogroup.get('content')?.patchValue(params.content)
+  })
   }
 
  async ngOnInit() {
@@ -78,7 +81,13 @@ getImgContent(url: any): SafeUrl {
 
  backToContent()
  {
-  this.router.navigate(['/tabs/contents'])
+  const queryParams = {
+    classId: this.params.classId,
+    lec_id: this.params.lec_id,
+    contentId: this.params.contentId,
+    from : '/tabs/lectures'
+  };
+  this.router.navigate([this.params.from], { queryParams });
  }
 
 async uploadContent()
