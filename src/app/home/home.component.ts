@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
   @ViewChild('searchBar', { static: false }) searchBar!: IonSearchbar;
   socket: any;
   greeting = '';
-  notification_count = 1
   isModalOpen = false;
   isSearchOpen: boolean = false;
   menus: MenuItem[] = [
@@ -70,6 +69,7 @@ export class HomeComponent implements OnInit {
     { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video',classId : 1,lec_id : 1,contentId  :8 ,from  :'/tabs/home' },
     { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document',classId : 1,lec_id : 1,contentId  :11 ,from  :'/tabs/home' },
   ];
+  notification_count = this.notifications.length
   contentId = 10
   classId = 10
   LecturesWiseVideos:any = []
