@@ -65,7 +65,11 @@ export class HomeComponent implements OnInit {
     { icon: 'heart-outline', title: 'Favorites', ratings: '2.6', contents: '35' },
   ];
 
-  notifications: Notification[] = [];
+  notifications: Notification[] = [
+    { icon: 'musical-notes-outline', info: 'Admin uploaded a new audio', content : 'audio',classId : 1,lec_id : 1,contentId  :9 ,from  :'/tabs/home' },
+    { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video',classId : 1,lec_id : 1,contentId  :8 ,from  :'/tabs/home' },
+    { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document',classId : 1,lec_id : 1,contentId  :11 ,from  :'/tabs/home' },
+  ];
   contentId = 10
   classId = 10
   LecturesWiseVideos:any = []
