@@ -4,37 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
-
-interface TextComparisonResult {
-  similarity: number;
-  tokens1: string[];
-  tokens2: string[];
-}
-
-interface ContentDetails {
-  nested: string;
-  from: string;
-  classId: string;
-  lec_id: string;
-  contentId: string;
-  content: string;
-}
-
-interface Option {
-  id: number;
-  option_text: string;
-  is_correct: boolean;
-  selected: boolean;
-  priority : number,
-  correct_response: boolean;
-}
-
-interface Question {
-  question_text: string;
-  marks: number;
-  options: Option[];
-}
-
+import { commonNavigation,Option,Question,TextComparisonResult } from '../models/commonObjects.module';
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -52,7 +22,7 @@ export class TestComponent implements OnInit {
   viewResult: boolean = false;
   quizArray: any = []
   lectureDetails = { lec_title: "", lec_id: "" }
-  contentDetails: ContentDetails = {
+  contentDetails: commonNavigation = {
     nested: '',
     from: '',
     classId: '',

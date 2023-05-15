@@ -15,24 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
-
-interface ContentControls {
-  playContent: boolean;
-  openFullscreen: boolean;
-  Rangeduration: number;
-  currentRangeDuration: number;
-  currentDuration: string;
-  duration: string;
-}
-
-interface ContentDetails {
-  nested: string;
-  from: string;
-  classId: string;
-  lec_id: string;
-  contentId: string;
-  content: string;
-}
+import { commonNavigation,ContentControls } from '../models/commonObjects.module';
 
 @Component({
   selector: 'app-content-controls',
@@ -54,7 +37,7 @@ export class ContentControlsComponent {
     duration: '',
   };
 
-  contentDetails: ContentDetails = {
+  contentDetails: commonNavigation = {
     nested: '',
     from: '',
     classId: '',
@@ -108,7 +91,7 @@ export class ContentControlsComponent {
       content.pause();
     }
 
-    const queryParams = {
+    const queryParams:commonNavigation = {
       classId: this.contentDetails.classId,
       lec_id: this.contentDetails.lec_id,
       contentId: this.contentDetails.contentId,

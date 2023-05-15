@@ -3,8 +3,8 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
-import { Observable } from 'rxjs';
 import { WebService } from '../web.service';
+import { commonNavigation } from '../models/commonObjects.module';
 
 
 
@@ -70,8 +70,8 @@ export class HomeComponent implements OnInit {
     { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document',classId : 1,lec_id : 1,contentId  :11 ,from  :'/tabs/home' },
   ];
   notification_count = this.notifications.length
-  contentId = 10
-  classId = 10
+  contentId:any = 10
+  classId:any = 10
   LecturesWiseVideos:any = []
   SearchedContents:any = []
   colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
 
   beginTest(data:any)
   {
-    const queryParams = {
+    const queryParams:commonNavigation = {
       classId: this.classId,
       lec_id: data.lec_id,
       lec_title : data.lec_title,
@@ -179,8 +179,8 @@ export class HomeComponent implements OnInit {
 
   routeTocontents(lec_id: any) {
 
-    const queryParams = { 
-      classId: 1, 
+    const queryParams:commonNavigation = { 
+      classId: '1', 
       lec_id: lec_id,
       from: '/tabs/home' 
     }
