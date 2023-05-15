@@ -117,7 +117,6 @@ export class SearchComponent implements OnInit {
           array.at(index).get('question')?.patchValue(result);
           this.getResponse(index);
           this.recordingStarted = false;
-          console.log(this.recordingStarted);
         };
         this.recognition.start();
       } catch (e) {

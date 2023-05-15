@@ -141,8 +141,6 @@ export class TestComponent implements OnInit {
       console.error(`Failed to generate quiz: ${JSON.stringify(error)}`);
       throw error;
     }
-    console.log(this.quizArray);
-
   }
 
   async generateCorrectOption(question: string): Promise<string> {

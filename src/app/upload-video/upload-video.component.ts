@@ -95,7 +95,6 @@ async uploadContent()
 
   this.uploading = true
   let body:any = {...this.uploadVideogroup.value}
-  console.log({body  :body});
 
 // create a new FormData object
 const formData = new FormData();
