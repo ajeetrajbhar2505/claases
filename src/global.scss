@@ -246,7 +246,6 @@ ul.rb li .timestamp {
 
 .feature-w-title{
   display: flex;
-  justify-content: space-between;
   align-items: center;
   span{
     font-size: 25px;
@@ -259,3 +258,8 @@ ul.rb li .timestamp {
   }
  }
 
+
+ ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
+  --backdrop-opacity: 0.5;
+  padding: 10px;
+}
