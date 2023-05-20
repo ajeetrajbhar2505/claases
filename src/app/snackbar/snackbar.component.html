@@ -1,3 +1,4 @@
-<div class="card" *ngIf="uploadStatus.status">
-  {{uploadStatus.message}}
+<div class="card">
+  <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+  <span class="message">{{uploadStatus.message}}</span>
 </div>

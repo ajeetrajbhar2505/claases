@@ -28,7 +28,7 @@ export class UploadVideoComponent implements OnInit {
   })
   currentContent: any = ""
   uploading: boolean = false
-  uploadStatus: any = { status: false, message: '' }
+  uploadStatus: any = { status: false, message: '',statusType: '', }
 
   constructor(public http: HttpClient, private sanitizer: DomSanitizer, public router: Router, public service: WebService, public ActivatedRoute: ActivatedRoute) {
     this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())

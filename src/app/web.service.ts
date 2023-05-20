@@ -174,7 +174,7 @@ export class WebService {
 
 
   async uploadExcelFile(file: File) {
-    let uploadResponse = {status : 200,message : 'File was successfully uploaded'}
+    let uploadResponse = {status : 500,message : 'File was successfully uploaded',statusType: 'success'}
     // let response:any = ""
     // try {
     //   if (file) {
