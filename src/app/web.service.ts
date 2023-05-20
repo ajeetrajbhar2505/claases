@@ -174,21 +174,21 @@ export class WebService {
 
 
   async uploadExcelFile(file: File) {
-    let uploadResponse = {status : null,message : ''}
-    let response:any = ""
-    try {
-      if (file) {
-        const excelData = await this.readExcelFile(file);
-        const headerData = this.extractHeadersData(excelData);
-        let body  = { data : headerData}
-        response = await this.postData(environment.nodeApi, body).toPromise();
+    let uploadResponse = {status : 200,message : 'File was successfully uploaded'}
+    // let response:any = ""
+    // try {
+    //   if (file) {
+    //     const excelData = await this.readExcelFile(file);
+    //     const headerData = this.extractHeadersData(excelData);
+    //     let body  = { data : headerData}
+    //     response = await this.postData(environment.nodeApi, body).toPromise();
   
-        uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
-      }
-    } catch (error) {
-      uploadResponse.message = 'Error reading Excel file';
-    }
-    return uploadResponse.status = response.status
+    //     uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
+    //   }
+    // } catch (error) {
+    //   uploadResponse.message = 'Error reading Excel file';
+    // }
+    return uploadResponse
   }
   
 

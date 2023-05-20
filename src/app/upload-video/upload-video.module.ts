@@ -6,6 +6,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { UploadVideoRoutingModule } from './upload-video-routing.module';
 import { UploadVideoComponent } from './upload-video.component';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 
 @NgModule({
@@ -17,6 +18,6 @@ import { UploadVideoComponent } from './upload-video.component';
     ExploreContainerComponentModule,
     ReactiveFormsModule
   ],
-  declarations: [UploadVideoComponent]
+  declarations: [UploadVideoComponent,SnackbarComponent]
 })
 export class UploadVideoModule { }

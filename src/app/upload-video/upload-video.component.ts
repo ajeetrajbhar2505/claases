@@ -28,6 +28,7 @@ export class UploadVideoComponent implements OnInit {
   })
   currentContent: any = ""
   uploading: boolean = false
+  uploadStatus: any = { status: false, message: '' }
 
   constructor(public http: HttpClient, private sanitizer: DomSanitizer, public router: Router, public service: WebService, public ActivatedRoute: ActivatedRoute) {
     this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
@@ -113,10 +114,12 @@ export class UploadVideoComponent implements OnInit {
   }
 
   async uploadExcel(event: any) {
-   let uploadExcelResponse = await this.service.uploadExcelFile(event.target.files[0])
-   console.log(uploadExcelResponse);
-   
+    this.uploadStatus.status = true
+    this.uploadStatus = await this.service.uploadExcelFile(event.target.files[0])
   }
 
+  getSnackbarStatus(status:any){
+    this.uploadStatus.status = status
+  }
 
 }
