@@ -97,23 +97,23 @@
           <form>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (mouseenter)="ableToText(true)" (mouseleave)="ableToText(false)"  [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)"  [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (mouseenter)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (mouseenter)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(1)" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[1]?'text':'password'" (mouseenter)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[1]?'text':'password'" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(2)" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[2]?'text':'password'" (mouseenter)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[2]?'text':'password'" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
             </div>
             <div class="center">
               <ion-button (click)="update()" expand="block" color="warn" shape="round" #shakebutton id="shakebutton" class="submit {{shakeButton?'disabled-shake':''}}">

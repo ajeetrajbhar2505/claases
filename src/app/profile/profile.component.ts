@@ -81,18 +81,8 @@ export class ProfileComponent implements OnInit {
 
    ableToText(show:boolean) {
     this.shakeButton =  this.service.shakeButton(this.loading,show)
-    this.vibrateOnError()
   }
   
-  vibrateOnError() {
-    // Check if the Vibration API is supported
-    if ('vibrate' in navigator) {
-      // Vibrate for 500ms
-      navigator.vibrate(500);
-      console.log(navigator);
-      
-    }
-  }
   
 
 }

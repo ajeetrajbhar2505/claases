@@ -205,7 +205,19 @@ export class WebService {
      if (!ableToEdit) {
       return show
      }
+     this.vibrateOnError()
      return false
+  }
+
+
+  vibrateOnError() {
+    // Check if the Vibration API is supported
+    if ('vibrate' in navigator) {
+      // Vibrate for 500ms
+      navigator.vibrate(500);
+      console.log(navigator);
+      
+    }
   }
 
 
