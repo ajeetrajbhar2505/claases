@@ -1,4 +1,4 @@
-import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-snackbar',
@@ -6,23 +6,24 @@ import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
   styleUrls: ['./snackbar.component.scss'],
 })
 export class SnackbarComponent implements OnInit {
-  @Input() set getuploadStatus(value:any) {
-  this.currentStatusIcon = this.statusIcons.filter(obj=> obj.status == value.statusType)[0].name
+  uploadStatus = { status: false, statusType: '', message: '' }
+  @Input() set getuploadStatus(value: any) {
+    this.uploadStatus = value
+    this.currentStatusIcon = this.statusIcons.filter(obj => obj.status == this.uploadStatus.statusType)[0].name
   }
-  @Input() uploadStatus = { status : false ,statusType: '', message : ''}
   @Output() snackbarStatus = new EventEmitter()
   statusIcons = [
-    {name : 'checkmark-circle-outline',status : 'success'},
-    {name : 'close-circle-outline',status : 'failed'},
-    {name : 'information-circle-outline',status : 'info'},
+    { name: 'checkmark-circle-outline', status: 'success' },
+    { name: 'close-circle-outline', status: 'failed' },
+    { name: 'information-circle-outline', status: 'info' },
   ]
-  currentStatusIcon:any = ""
+  currentStatusIcon: any = ""
   constructor() {
     setTimeout(() => {
       this.snackbarStatus.emit(false)
     }, 2000);
-   }
-   
-  ngOnInit() {}
+  }
+
+  ngOnInit() { }
 
 }

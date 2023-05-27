@@ -40,6 +40,6 @@
     </ion-button>
 
    </ion-card-content>
-  <app-snackbar *ngIf="uploadStatus.status" (snackbarStatus)="getSnackbarStatus($event)" [uploadStatus]="uploadStatus"></app-snackbar>
+  <app-snackbar *ngIf="uploadStatus.status" (snackbarStatus)="getSnackbarStatus($event)" [getuploadStatus]="uploadStatus"></app-snackbar>
 </ion-content>
 
