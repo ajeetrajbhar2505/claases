@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   loading = false
 
   visiblepass = [false, false];
+  shakeButton:boolean = false
 
   showpassword(index: number) {
     this.visiblepass[index] = !this.visiblepass[index];
@@ -76,6 +77,21 @@ export class ProfileComponent implements OnInit {
   update()
   {
    this.loading = ! this.loading
+  }
+
+   ableToText(show:boolean) {
+    this.shakeButton =  this.service.shakeButton(this.loading,show)
+    this.vibrateOnError()
+  }
+  
+  vibrateOnError() {
+    // Check if the Vibration API is supported
+    if ('vibrate' in navigator) {
+      // Vibrate for 500ms
+      navigator.vibrate(500);
+      console.log(navigator);
+      
+    }
   }
   
 

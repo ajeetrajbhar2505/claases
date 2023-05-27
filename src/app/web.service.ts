@@ -201,6 +201,12 @@ export class WebService {
   }
 
 
+  shakeButton(ableToEdit:boolean,show:boolean):boolean {
+     if (!ableToEdit) {
+      return show
+     }
+     return false
+  }
 
 
 }
