@@ -203,9 +203,9 @@ export class WebService {
 
   shakeButton(ableToEdit:boolean,show:boolean):boolean {
      if (!ableToEdit) {
+     this.vibrateOnError()
       return show
      }
-     this.vibrateOnError()
      return false
   }
 
