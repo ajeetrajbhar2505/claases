@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
   focusSearchBar() {
     setTimeout(() => {
       this.searchBar.setFocus();
-    }, 20);
+    }, 100);
   }
 
   beginTest(data:any)
