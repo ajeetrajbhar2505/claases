@@ -6,6 +6,9 @@ import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
   styleUrls: ['./snackbar.component.scss'],
 })
 export class SnackbarComponent implements OnInit {
+  @Input() set getuploadStatus(value:any) {
+  this.currentStatusIcon = this.statusIcons.filter(obj=> obj.status == value.statusType)[0].name
+  }
   @Input() uploadStatus = { status : false ,statusType: '', message : ''}
   @Output() snackbarStatus = new EventEmitter()
   statusIcons = [
@@ -20,10 +23,6 @@ export class SnackbarComponent implements OnInit {
     }, 2000);
    }
    
- ngOnChanges(){
-  this.currentStatusIcon = this.statusIcons.filter(obj=> obj.status == this.uploadStatus.statusType)[0].name
- }
-
   ngOnInit() {}
 
 }
