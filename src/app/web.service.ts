@@ -159,28 +159,61 @@ export class WebService {
   extractHeadersData(data: any[][]): { header: string, array: any[] }[] {
     const headers = data[0];
     const values = data.slice(1);
-    const result = [];
-
-    for (let i = 0; i < headers.length; i++) {
+    const result:any = [];
+  
+    const headerIndices = {
+      question: headers.indexOf('question'),
+      option1: headers.indexOf('option1'),
+      option2: headers.indexOf('option2'),
+      option3: headers.indexOf('option3'),
+      option4: headers.indexOf('option4'),
+      correct_ans: headers.indexOf('correct_ans'),
+      mark: headers.indexOf('mark'),
+      neg_mark: headers.indexOf('neg_mark'),
+      question_type: headers.indexOf('question_type'),
+      file_upload: headers.indexOf('file_upload')
+    };
+  
+    for (let i = 0; i < values.length; i++) {
+      const row = values[i];
+      const questionText = row[headerIndices.question];
+      const options = [
+        row[headerIndices.option1],
+        row[headerIndices.option2],
+        row[headerIndices.option3],
+        row[headerIndices.option4]
+      ];
+      const correctAnswer = row[headerIndices.correct_ans];
+      const mark = row[headerIndices.mark];
+      const negMark = row[headerIndices.neg_mark];
+      const questionType = row[headerIndices.question_type];
+      const fileUpload = row[headerIndices.file_upload];
+  
       result.push({
-        header: headers[i],
-        array: values.map((row) => row[i]),
+        question: questionText,
+        options: options,
+        correct_ans: correctAnswer,
+        mark: mark,
+        neg_mark: negMark,
+        question_type: questionType,
+        file_upload: fileUpload
       });
     }
-
+  
     return result;
   }
-
+  
 
 
   async uploadExcelFile(file: File) {
     let uploadResponse = {status : 500,message : 'File was successfully uploaded',statusType: 'success'}
     // let response:any = ""
     // try {
-    //   if (file) {
-    //     const excelData = await this.readExcelFile(file);
-    //     const headerData = this.extractHeadersData(excelData);
-    //     let body  = { data : headerData}
+      // if (file) {
+      //   const excelData = await this.readExcelFile(file);
+      //   const headerData = this.extractHeadersData(excelData);
+      //   let body  = { data : headerData}
+        
     //     response = await this.postData(environment.nodeApi, body).toPromise();
   
     //     uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
