@@ -5,6 +5,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-upload-video',
@@ -12,6 +14,7 @@ import { WebService } from '../web.service';
   styleUrls: ['./upload-video.component.scss'],
 })
 export class UploadVideoComponent implements OnInit {
+  private _unsubscribeAll: Subject<any>;
   lecturesData: any[] = []
   classData: any = []
   params: any = {}
@@ -31,6 +34,7 @@ export class UploadVideoComponent implements OnInit {
   uploadStatus: any = { status: false, message: '',statusType: '', }
 
   constructor(public http: HttpClient, private sanitizer: DomSanitizer, public router: Router, public service: WebService, public ActivatedRoute: ActivatedRoute) {
+    this._unsubscribeAll = new Subject()
     this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
     ActivatedRoute.queryParams.subscribe((params: any) => {
       this.params = params
@@ -39,8 +43,38 @@ export class UploadVideoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.classData = await this.http.get('assets/classWiseLectures.json').toPromise()
+    this.fetchClassDetails()
   }
+
+  async fetchClassDetails() {
+    const req = new Requestmodels()
+    req.RequestUrl = `classDetails`;
+    req.RequestObject = ""
+  
+    await this.service
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch
+         this.classData = data.response || []
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+    }
 
   readUrl(event: any) {
     this.uploadVideogroup.get("content_file")?.patchValue(event.target.files[0]);

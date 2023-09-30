@@ -62,10 +62,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/src/assets
-/.assets
-.assets/
-/assets
 backend/node_modules
 # System files
 .DS_Store
