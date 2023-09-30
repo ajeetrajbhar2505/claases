@@ -16,6 +16,9 @@ import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
 import { commonNavigation,ContentControls } from '../models/commonObjects.module';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-content-controls',
@@ -23,6 +26,7 @@ import { commonNavigation,ContentControls } from '../models/commonObjects.module
   styleUrls: ['./content-controls.component.scss'],
 })
 export class ContentControlsComponent {
+  private _unsubscribeAll: Subject<any>;
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
 
@@ -53,24 +57,17 @@ export class ContentControlsComponent {
     public ActivatedRoute: ActivatedRoute,
     public router: Router,
     private sanitizer: DomSanitizer,
-    public fb: FormBuilder,
+    public fb: FormBuilder,public _https:WebService,
     private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
+    this._unsubscribeAll = new Subject()
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
       this.contentLoaded = false
       this.contentControls = this.contentControls;
       this.contentToWatch = {};
-      const lectures:any = await this.http.get('assets/LecturesWiseVideos.json').toPromise();
-      const matchingLecture = lectures.find((lecture: any) => lecture.lec_id == param.lec_id);
-      
-      if (matchingLecture) {
-        this.contentToWatch = matchingLecture.contents.find((content: any) => content.contentId == param.contentId);
-        if (this.contentToWatch) {
-          this.contentToWatch.content_link = environment.apifirstKey + this.contentToWatch.content_link + environment.apilastkey;
-        }
-      }
+      this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
     })
       
     this.platform.backButton.subscribeWithPriority(-1, () => {
@@ -80,6 +77,39 @@ export class ContentControlsComponent {
     });
 
   }
+
+
+  async fetchContentDetails(classId:any,lec_id:any,contentId:any) {
+    const req = new Requestmodels()
+    req.RequestUrl = `content/` + classId + '/' + lec_id + '/' + contentId;
+    req.RequestObject = ""
+  
+    await this._https
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch 
+        this.contentToWatch = data.response[0] || {}
+
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+    }
+
 
   private getContentElement(): HTMLVideoElement | null {
     return document.querySelector<HTMLVideoElement>('#classContent');

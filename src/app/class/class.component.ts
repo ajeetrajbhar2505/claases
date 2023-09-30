@@ -42,7 +42,7 @@ export class ClassComponent implements OnInit {
       }
 
       
-      // fetch banklist
+      // fetch
        this.classes = data.response || []
      }
     },

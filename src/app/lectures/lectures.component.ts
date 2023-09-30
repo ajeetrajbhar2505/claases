@@ -52,7 +52,7 @@ export class LecturesComponent  {
         }
   
         
-        // fetch banklist
+        // fetch
          this.lecturesData = data.response || []
        }
       },

@@ -33,7 +33,7 @@ export class ContentsComponent {
     this._unsubscribeAll = new Subject()
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
-      this.fetchlectureDetails(param.classId,param.lec_id)
+      this.fetchContentDetails(param.classId,param.lec_id)
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -43,7 +43,7 @@ export class ContentsComponent {
 
   }
 
-  async fetchlectureDetails(classId:any,lec_id:any) {
+  async fetchContentDetails(classId:any,lec_id:any) {
     const req = new Requestmodels()
     req.RequestUrl = `contentDetails/` + classId + '/' + lec_id;
     req.RequestObject = ""
@@ -59,7 +59,7 @@ export class ContentsComponent {
         }
   
         
-        // fetch banklist
+        // fetch
          this.contentsData = data.response || []
          this.filteredData = data.response.filter((object: any) => object.content == this.currentContent)
 
@@ -101,6 +101,6 @@ export class ContentsComponent {
   }
 
   routeTocontentControls(contentDetails: any) {
-    this.router.navigate(['/tabs/content-controls'], { queryParams: { nested: this.params.from, from: '/tabs/contents', classId: this.params.classId, lec_id: this.params.lec_id, contentId: contentDetails.contentId, content: contentDetails.content } })
+    this.router.navigate(['/tabs/content-controls'], { queryParams: { nested: this.params.from, from: '/tabs/contents', classId: this.params.classId, lec_id: this.params.lec_id, contentId: contentDetails._id, content: contentDetails.content } })
   }
 }

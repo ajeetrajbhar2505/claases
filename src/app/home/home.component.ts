@@ -5,6 +5,8 @@ import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
 import { commonNavigation } from '../models/commonObjects.module';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
 
 
 
@@ -48,6 +50,7 @@ interface LectureWiseVideosData {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  private _unsubscribeAll: Subject<any>;
   @ViewChild('searchBar', { static: false }) searchBar!: IonSearchbar;
   socket: any;
   greeting = '';
@@ -80,7 +83,8 @@ export class HomeComponent implements OnInit {
   {
     return  this.colors[Math.floor(Math.random() * this.colors.length)];
   }
-  constructor(public http: HttpClient,public ActivatedRoute:ActivatedRoute, public router: Router, public menuCtrl: MenuController,public service:WebService) {
+  constructor(public http: HttpClient,public _https:WebService,public ActivatedRoute:ActivatedRoute, public router: Router, public menuCtrl: MenuController,public service:WebService) {
+    this._unsubscribeAll = new Subject()
     this.socket = service.socket
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       if (param.userId && param.token) {
@@ -104,28 +108,57 @@ export class HomeComponent implements OnInit {
     
 
     // Fetch class wise lectures data and update the UI
-    const response:any = await this.http.get('assets/classWiseLectures.json').toPromise();
-    const classData = response.find((data:any) => data.classId === this.classId);
-    if (classData) {
-      this.lecturesData = classData.subjects.map((subject:any) => {
-        return {
-          ...subject,
-          ratings: 25,
-          contents: 16
-        };
-      });
-    }
+    this.fetchMostWatched()
     
 
     // socket connection
     this.getMessage()
   }
 
+ async fetchMostWatched(){
+    const req = new Requestmodels()
+    req.RequestUrl = `mostWatched`;
+    req.RequestObject = ""
+  
+    await this._https
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch
+        this.lecturesData = data.response.map((data:any) => {
+          return {
+            ...data,
+            ratings: 25,
+            contents: 16
+          };
+        })
+        console.log(this.lecturesData);
+        
+
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+  }
+
 
   searchData(event: any) {
     const text = event.target.value.trim().toLowerCase();
-    this.SearchedContents = this.LecturesWiseVideos.filter((element:any) => {
-      const contentTitle = element.content_title.trim().toLowerCase();
+    this.SearchedContents = this.lecturesData.filter((element:any) => {
+      const contentTitle = element.content_title?element.content_title.toLowerCase():'';
       return contentTitle.includes(text);
     });
   }
