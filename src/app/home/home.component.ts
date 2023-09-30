@@ -206,10 +206,10 @@ export class HomeComponent implements OnInit {
     console.log('scroll end');
   }
 
-  routeTocontents(lec_id: any) {
+  routeTocontents(classId:any,lec_id: any) {
 
     const queryParams:commonNavigation = { 
-      classId: '1', 
+      classId: classId, 
       lec_id: lec_id,
       from: '/tabs/home' 
     }
