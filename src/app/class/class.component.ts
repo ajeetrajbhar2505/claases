@@ -40,6 +40,8 @@ export class ClassComponent implements OnInit {
       if (data.status !== 200) {
        return
       }
+
+      
       // fetch banklist
        this.classes = data.response || []
      }
