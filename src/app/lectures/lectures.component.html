@@ -9,37 +9,15 @@
   </ion-toolbar>
 </ion-header>
 
-<<<<<<< HEAD
-<ion-content [fullscreen]="true">
-  <ion-card-content>
-    <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-          <ion-item *ngFor="let data of lecturesData" expand="block" (click)="routeTocontents(data.lec_id)">
-            <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-            </ion-thumbnail>
-            <ion-label>{{data.lec_title}}</ion-label>
-            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-          </ion-item>
-      </ion-reorder-group>
-    </ion-list>
-  </ion-card-content>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button size="small">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-=======
 <ion-content #content [fullscreen]="true" class="ion-padding">
   <div
     class="quize-cards"
     *ngFor="let data of lecturesData"
-    (click)="routeTocontents(data.lec_id)"
+    (click)="routeTocontents(data._id)"
   >
     <ion-thumbnail slot="start">
       <img alt="Silhouette of mountains" [src]="data.lec_icon" />
     </ion-thumbnail>
     <ion-label>{{ data.lec_title }}</ion-label>
   </div>
->>>>>>> a06c8b933095ef8e2609e3bbfcafe2d14477f61d
 </ion-content>

@@ -3,33 +3,30 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
+import { Subject,takeUntil } from 'rxjs';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { WebService } from '../web.service';
 @Component({
   selector: 'app-lectures',
   templateUrl: './lectures.component.html',
   styleUrls: ['./lectures.component.scss'],
 })
 export class LecturesComponent  {
+  private _unsubscribeAll: Subject<any>;
   lecturesData: any[] = []
   classId = ''
   
 
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
+  constructor(public http: HttpClient, public _https:WebService,public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
+    this._unsubscribeAll = new Subject()
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.classId = param.classId
       this.lecturesData = []
-      let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-        response.filter((data: any) => {
-          if (data.classId == param.classId) {
-            this.lecturesData = data['subjects']
-          }
-        })
-
-      })
-
+      this.fetchlectureDetails(param.classId)
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -38,6 +35,36 @@ export class LecturesComponent  {
     });
 
   }
+
+  async fetchlectureDetails(classId:any) {
+    const req = new Requestmodels()
+    req.RequestUrl = `lectureDetails/` + classId;
+    req.RequestObject = ""
+  
+    await this._https
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch banklist
+         this.lecturesData = data.response || []
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+    }
 
 
   routeTocontents(lec_id: any) {

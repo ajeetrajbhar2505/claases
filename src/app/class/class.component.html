@@ -6,28 +6,8 @@
   </ion-toolbar>
 </ion-header>
 
-<<<<<<< HEAD
-<ion-content [fullscreen]="true">
-  <ion-card-content>
-    <ion-list>
-      <ion-item *ngFor="let data of classes" expand="block" (click)="routeTosubjects(data._id)">
-        <ion-thumbnail slot="start">
-          <img [src]="data.std_icon" />
-        </ion-thumbnail>
-        <ion-label>{{data.classNamme}}</ion-label>
-        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button size="small">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-</ion-content>
-=======
 <ion-content #content [fullscreen]="true" class="ion-padding">
-  <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data.classId)">
+  <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data._id)">
     <ion-thumbnail slot="start">
       <img  [src]="data.std_icon" />
     </ion-thumbnail>
@@ -36,4 +16,3 @@
 </ion-content>
 
 
->>>>>>> a06c8b933095ef8e2609e3bbfcafe2d14477f61d
