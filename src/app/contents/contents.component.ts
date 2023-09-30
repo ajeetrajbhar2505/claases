@@ -6,6 +6,9 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { commonNavigation, ContentControls } from '../models/commonObjects.module';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
+import { WebService } from '../web.service';
 
 @Component({
   selector: 'app-contents',
@@ -13,6 +16,7 @@ import { commonNavigation, ContentControls } from '../models/commonObjects.modul
   styleUrls: ['./contents.component.scss'],
 })
 export class ContentsComponent {
+  private _unsubscribeAll: Subject<any>;
   contentsData: any = []
   filteredData: any = []
   currentContent = "video"
@@ -24,18 +28,12 @@ export class ContentsComponent {
     content: ''
   };
   params: any = ""
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, private platform: Platform,
+  constructor(public http: HttpClient, public _https:WebService,public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
+    this._unsubscribeAll = new Subject()
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param
-      const lecturesData: any = await this.http.get('assets/LecturesWiseVideos.json').toPromise()
-      lecturesData.filter((Object: any) => {
-        if (Object.lec_id == param.lec_id) {
-          this.contentsData = Object['contents']
-          this.filteredData = Object['contents'].filter((object: any) => object.content == this.currentContent)
-        }
-      })
-
+      this.fetchlectureDetails(param.classId,param.lec_id)
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -44,6 +42,38 @@ export class ContentsComponent {
     });
 
   }
+
+  async fetchlectureDetails(classId:any,lec_id:any) {
+    const req = new Requestmodels()
+    req.RequestUrl = `contentDetails/` + classId + '/' + lec_id;
+    req.RequestObject = ""
+  
+    await this._https
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch banklist
+         this.contentsData = data.response || []
+         this.filteredData = data.response.filter((object: any) => object.content == this.currentContent)
+
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+    }
 
   backTolectures() {
     this.router.navigate([this.params.from], { queryParams: { classId: this.params.classId } })
