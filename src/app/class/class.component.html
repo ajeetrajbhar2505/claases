@@ -6,6 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
+<<<<<<< HEAD
 <ion-content [fullscreen]="true">
   <ion-card-content>
     <ion-list>
@@ -24,3 +25,15 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+=======
+<ion-content #content [fullscreen]="true" class="ion-padding">
+  <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data.classId)">
+    <ion-thumbnail slot="start">
+      <img  [src]="data.std_icon" />
+    </ion-thumbnail>
+    <ion-label>{{data.classNamme}}</ion-label>
+</div>
+</ion-content>
+
+
+>>>>>>> a06c8b933095ef8e2609e3bbfcafe2d14477f61d
