@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
@@ -80,8 +80,14 @@ export class HomeComponent implements OnInit {
   {
     return  this.colors[Math.floor(Math.random() * this.colors.length)];
   }
-  constructor(public http: HttpClient, public router: Router, public menuCtrl: MenuController,public service:WebService) {
+  constructor(public http: HttpClient,public ActivatedRoute:ActivatedRoute, public router: Router, public menuCtrl: MenuController,public service:WebService) {
     this.socket = service.socket
+    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
+      if (param.userId && param.token) {
+        localStorage.setItem('userId', param.userId);
+        localStorage.setItem('token', param.token);
+      }
+    })
   }
 
   async ngOnInit() {
@@ -96,6 +102,7 @@ export class HomeComponent implements OnInit {
       this.greeting = 'Good night';
     }
     
+
     // Fetch class wise lectures data and update the UI
     const response:any = await this.http.get('assets/classWiseLectures.json').toPromise();
     const classData = response.find((data:any) => data.classId === this.classId);
@@ -109,22 +116,11 @@ export class HomeComponent implements OnInit {
       });
     }
     
-    // Fetch lectures wise videos
-    this.getLecturesWiseVideos();
 
     // socket connection
     this.getMessage()
   }
-  
 
-
-  async getLecturesWiseVideos() {
-    const response:any = await this.http.get<LectureWiseVideosData[]>('assets/LecturesWiseVideos.json').toPromise();
-    const lecturesWiseVideos = response.map((lectureData:any) =>
-      lectureData.contents.map((videoData:any) => ({ ...videoData, lec_id: lectureData.lec_id }))
-    );
-    this.LecturesWiseVideos = lecturesWiseVideos.flat();
-  }
 
   searchData(event: any) {
     const text = event.target.value.trim().toLowerCase();

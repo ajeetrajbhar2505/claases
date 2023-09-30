@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebService } from '../web.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
+  LogiinWithGoogle(){ 
+    window.location.href = environment.nodeApi + 'google'
+  }
+
+
   login() {
     this.service.login()
   }

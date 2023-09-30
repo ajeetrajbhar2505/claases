@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-card-content>
     <ion-list>
-      <ion-item *ngFor="let data of classes" expand="block" (click)="routeTosubjects(data.classId)">
+      <ion-item *ngFor="let data of classes" expand="block" (click)="routeTosubjects(data._id)">
         <ion-thumbnail slot="start">
           <img [src]="data.std_icon" />
         </ion-thumbnail>
