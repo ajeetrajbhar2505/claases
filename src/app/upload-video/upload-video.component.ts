@@ -24,10 +24,9 @@ export class UploadVideoComponent implements OnInit {
     content_icon: new FormControl(''),
     content_link: new FormControl(''),
     content_title: new FormControl(''),
-    contentId: new FormControl(''),
     content: new FormControl('video'),
     published_at: new FormControl(''),
-    content_file: new FormControl(''),
+    file: new FormControl(''),
   })
   currentContent: any = ""
   uploading: boolean = false
@@ -61,7 +60,6 @@ export class UploadVideoComponent implements OnInit {
          return
         }
   
-        
         // fetch
          this.classData = data.response || []
        }
@@ -77,7 +75,7 @@ export class UploadVideoComponent implements OnInit {
     }
 
   readUrl(event: any) {
-    this.uploadVideogroup.get("content_file")?.patchValue(event.target.files[0]);
+    this.uploadVideogroup.get("file")?.patchValue(event.target.files[0]);
     this.uploadVideogroup.get("content_link")?.patchValue(event.target.files[0].name);
   }
 
@@ -87,16 +85,39 @@ export class UploadVideoComponent implements OnInit {
   }
 
   async getSubjectsByclassId(event: any) {
-    let classId = event.target.value
-    await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-      response.filter((data: any) => {
-        if (data.classId == classId) {
-          this.lecturesData = data['subjects']
-        }
-      })
-
-    })
+    const classId = event.target.value
+    this.fetchlectureDetails(classId)
   }
+
+  async fetchlectureDetails(classId:any) {
+    const req = new Requestmodels()
+    req.RequestUrl = `lectureDetails/` + classId;
+    req.RequestObject = ""
+  
+    await this.service
+     .fetchData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        
+        // fetch
+         this.lecturesData = data.response || []
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
+    }
 
   switchContent(content: any) {
     this.currentContent = content
@@ -134,6 +155,35 @@ export class UploadVideoComponent implements OnInit {
         formData.append(key, body[key]);
       }
     }
+
+
+    const req = new Requestmodels()
+    req.RequestUrl = `upload`;
+    req.RequestObject = formData
+  
+    await this.service
+     .PostData(req)
+     .pipe(takeUntil(this._unsubscribeAll))
+     .subscribe(
+      (data) => {
+       if (data != null) {
+        if (data.status !== 200) {
+         return
+        }
+  
+        // fetch
+      this.uploading = false
+         
+       }
+      },
+      (_error) => {
+       return;
+      },
+      () => {
+  
+      }
+  
+     )
 
     // formData can now be sent in an HTTP request
     // try {

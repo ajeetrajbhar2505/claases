@@ -16,7 +16,9 @@ export class LoginGuard implements CanActivate {
   }
 
   IsLogged(): boolean {
-    if (this.service.checkLoggedIn()) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
       return true;
     } else {
       // Clear cache and redirect to login page

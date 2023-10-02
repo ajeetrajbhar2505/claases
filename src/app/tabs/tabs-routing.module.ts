@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren : () => import('../register/register.module').then(m => m.RegisterModule)
   },
   {
+    path : 'sucessfull/:userId/:token',
+    loadChildren : () => import('../sucessful-page/sucessful-page.module').then(m => m.SucessfulPageModule)
+  },
+  {
     path: 'tabs',
     component: TabsPage,
     canActivate: [LoginGuard],

@@ -1,9 +1,9 @@
 <ion-content [fullscreen]="true">
   <div class="wrapper">
-    <ng-container *ngIf="getImgSrc()">
-      <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
+    <ng-container *ngIf="UserProfileDetails.profile_picture">
+      <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
     </ng-container>
-    <div id="open-modal" expand="block" *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
+    <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
       <ion-icon name="person"></ion-icon>
       <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </div>
@@ -80,10 +80,10 @@
       <div class="container">
         <div class="login-card">
           <div class="wrapper" (click)="loading?toggleprofileMenu():null">
-            <ng-container *ngIf="getImgSrc()">
-              <img id="preview" class="circle" [src]="getImgSrc()" alt="Profile Photo" width="200">
+            <ng-container *ngIf="UserProfileDetails.profile_picture">
+              <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
             </ng-container>
-            <div id="open-modal" expand="block" *ngIf="!getImgSrc()" class="ion-activatable ripple-parent circle">
+            <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
               <ion-icon name="person"></ion-icon>
               <ion-ripple-effect type="unbounded"></ion-ripple-effect>
             </div>
@@ -91,33 +91,31 @@
               <ion-icon name="camera-outline"></ion-icon>
             </span>
           </div>
-          <form>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)"  [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.first_name" (mouseleave)="ableToText(false)"  [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.last_name" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.username" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(1)" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[1]?'text':'password'" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[1]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
             </div>
             <div class="field">
               <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(2)" alt="" width="20px"></span>
-              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[2]?'text':'password'" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
+              <input class="{{!loading?'disabled':''}}" [type]="visiblepass[2]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
             </div>
             <div class="center">
               <ion-button (click)="update()" expand="block" color="warn" shape="round" #shakebutton id="shakebutton" class="submit {{shakeButton?'disabled-shake':''}}">
               <ion-icon *ngIf="!loading" slot="start" name="create-outline"></ion-icon>
                 {{loading?'Update':'Edit'}}</ion-button>
             </div>
-          </form>
         </div>
       </div>
     </ion-content>

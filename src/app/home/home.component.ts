@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonSearchbar, ScrollDetail } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
@@ -7,8 +7,6 @@ import { WebService } from '../web.service';
 import { commonNavigation } from '../models/commonObjects.module';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
-
-
 
 interface MenuItem {
   icon: string;
@@ -26,10 +24,10 @@ interface Notification {
   icon: string;
   info: string;
   content: string;
-  classId : any,
-  lec_id : any,
-  contentId : any,
-  from : string,
+  classId: any;
+  lec_id: any;
+  contentId: any;
+  from: string;
 }
 
 interface LectureWiseVideosData {
@@ -56,45 +54,84 @@ export class HomeComponent implements OnInit {
   greeting = '';
   isModalOpen = false;
   isSearchOpen: boolean = false;
-  menus: MenuItem[] = [
-    { icon: 'ribbon-outline', title: 'Achievements' },
-  ];
-  lecturesData: any[] = [];
+  menus: MenuItem[] = [{ icon: 'ribbon-outline', title: 'Achievements' }];
+  mostWatched: any[] = [];
+  contentDetails:any[] = []
   courses: Course[] = [
     { icon: 'layers-outline', title: 'Shop', ratings: '4.2', contents: '24' },
-    { icon: 'bar-chart-outline', title: 'Leadership', ratings: '3.5', contents: '15' },
-    { icon: 'medal-outline', title: 'Achievements', ratings: '5', contents: '10' },
-    { icon: 'heart-outline', title: 'Favorites', ratings: '2.6', contents: '35' },
+    {
+      icon: 'bar-chart-outline',
+      title: 'Leadership',
+      ratings: '3.5',
+      contents: '15',
+    },
+    {
+      icon: 'medal-outline',
+      title: 'Achievements',
+      ratings: '5',
+      contents: '10',
+    },
+    {
+      icon: 'heart-outline',
+      title: 'Favorites',
+      ratings: '2.6',
+      contents: '35',
+    },
   ];
 
   notifications: Notification[] = [
-    { icon: 'musical-notes-outline', info: 'Admin uploaded a new audio', content : 'audio',classId : 1,lec_id : 1,contentId  :9 ,from  :'/tabs/home' },
-    { icon: 'play-circle-outline', info: 'Admin uploaded a new video', content : 'video',classId : 1,lec_id : 1,contentId  :8 ,from  :'/tabs/home' },
-    { icon: 'document-text-outline', info: 'Admin uploaded a new document', content : 'document',classId : 1,lec_id : 1,contentId  :11 ,from  :'/tabs/home' },
+    {
+      icon: 'musical-notes-outline',
+      info: 'Admin uploaded a new audio',
+      content: 'audio',
+      classId: 1,
+      lec_id: 1,
+      contentId: 9,
+      from: '/tabs/home',
+    },
+    {
+      icon: 'play-circle-outline',
+      info: 'Admin uploaded a new video',
+      content: 'video',
+      classId: 1,
+      lec_id: 1,
+      contentId: 8,
+      from: '/tabs/home',
+    },
+    {
+      icon: 'document-text-outline',
+      info: 'Admin uploaded a new document',
+      content: 'document',
+      classId: 1,
+      lec_id: 1,
+      contentId: 11,
+      from: '/tabs/home',
+    },
   ];
-  notification_count = this.notifications.length
-  contentId:any = 10
-  classId:any = 10
-  LecturesWiseVideos:any = []
-  SearchedContents:any = []
+  notification_count = this.notifications.length;
+  contentId: any = 10;
+  classId: any = 10;
+  LecturesWiseVideos: any = [];
+  SearchedContents: any = [];
   colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
-  
-  getColor()
-  {
-    return  this.colors[Math.floor(Math.random() * this.colors.length)];
+
+  getColor() {
+    return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
-  constructor(public http: HttpClient,public _https:WebService,public ActivatedRoute:ActivatedRoute, public router: Router, public menuCtrl: MenuController,public service:WebService) {
-    this._unsubscribeAll = new Subject()
-    this.socket = service.socket
-    this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      if (param.userId && param.token) {
-        localStorage.setItem('userId', param.userId);
-        localStorage.setItem('token', param.token);
-      }
-    })
+  constructor(
+    public http: HttpClient,
+    public _https: WebService,
+    public ActivatedRoute: ActivatedRoute,
+    public router: Router,
+    public menuCtrl: MenuController,
+    public service: WebService
+  ) {
+    this._unsubscribeAll = new Subject();
+    this.socket = service.socket;
   }
 
   async ngOnInit() {
+
     // Get the current hour to determine the greeting message
     const now = new Date();
     const hour = now.getHours();
@@ -105,65 +142,82 @@ export class HomeComponent implements OnInit {
     } else {
       this.greeting = 'Good night';
     }
-    
 
     // Fetch class wise lectures data and update the UI
-    this.fetchMostWatched()
-    
+    this.fetchMostWatched();
+    this.fetchcontentDetails()
 
     // socket connection
-    this.getMessage()
+    this.getMessage();
   }
 
- async fetchMostWatched(){
-    const req = new Requestmodels()
+  async fetchMostWatched() {
+    const req = new Requestmodels();
     req.RequestUrl = `mostWatched`;
-    req.RequestObject = ""
-  
-    await this._https
-     .fetchData(req)
-     .pipe(takeUntil(this._unsubscribeAll))
-     .subscribe(
-      (data) => {
-       if (data != null) {
-        if (data.status !== 200) {
-         return
-        }
-  
-        
-        // fetch
-        this.lecturesData = data.response.map((data:any) => {
-          return {
-            ...data,
-            ratings: 25,
-            contents: 16
-          };
-        })
-        console.log(this.lecturesData);
-        
+    req.RequestObject = '';
 
-       }
-      },
-      (_error) => {
-       return;
-      },
-      () => {
-  
-      }
-  
-     )
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.mostWatched = data.response.map((data: any) => {
+              return {
+                ...data,
+                ratings: 25,
+                contents: 16,
+              };
+            });
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
   }
 
+  async fetchcontentDetails() {
+    const req = new Requestmodels();
+    req.RequestUrl = `contentDetails`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.contentDetails = data.response || []
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
 
   searchData(event: any) {
     const text = event.target.value.trim().toLowerCase();
-    this.SearchedContents = this.lecturesData.filter((element:any) => {
-      const contentTitle = element.content_title?element.content_title.toLowerCase():'';
+    this.SearchedContents = this.contentDetails.filter((element: any) => {
+      const contentTitle = element.content_title
+        ? element.content_title.toLowerCase()
+        : '';
       return contentTitle.includes(text);
     });
   }
-  
-
 
   focusSearchBar() {
     setTimeout(() => {
@@ -171,27 +225,26 @@ export class HomeComponent implements OnInit {
     }, 100);
   }
 
-  beginTest(data:any)
-  {
-    const queryParams:commonNavigation = {
+  beginTest(data: any) {
+    const queryParams: commonNavigation = {
       classId: this.classId,
       lec_id: data.lec_id,
-      lec_title : data.lec_title,
+      lec_title: data.lec_title,
       contentId: this.contentId,
       from: '/tabs/home',
     };
-    this.router.navigate(['/tabs/test'],{queryParams})
+    this.router.navigate(['/tabs/test'], { queryParams });
   }
 
   toggleMenu() {
     this.menuCtrl.toggle();
-    this.notification_count = 0
+    this.notification_count = 0;
   }
 
-  toggleSeachmenu()
-  {
-    this.SearchedContents = []
-    this.isSearchOpen = !this.isSearchOpen
+  toggleSeachmenu() {
+    this.SearchedContents = [];
+    this.isSearchOpen = !this.isSearchOpen;
+    this.fetchcontentDetails()
   }
 
   handleScrollStart() {
@@ -206,57 +259,43 @@ export class HomeComponent implements OnInit {
     console.log('scroll end');
   }
 
-  routeTocontents(classId:any,lec_id: any) {
-
-    const queryParams:commonNavigation = { 
-      classId: classId, 
+  routeTocontents(classId: any, lec_id: any) {
+    const queryParams: commonNavigation = {
+      classId: classId,
       lec_id: lec_id,
-      from: '/tabs/home' 
-    }
+      from: '/tabs/home',
+    };
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
   routeTocontentControls(content: any) {
-    const queryParams = { ...content,from : '/tabs/home' };
+    const queryParams = { ...content, from: '/tabs/home' };
     delete queryParams.icon;
     delete queryParams.info;
-    
-    // Delay navigation by 10 milliseconds to ensure that the 
+
+    // Delay navigation by 10 milliseconds to ensure that the
     // UI updates before navigating to the next page
     setTimeout(() => {
       this.router.navigate(['/tabs/content-controls'], { queryParams });
     }, 10);
   }
-  
-  
 
-  routeToAchievements()
-  {
+  routeToAchievements() {
     this.router.navigate(['/tabs/achievements']);
   }
 
-  routeToPupularLectures()
-  {
+  routeToPupularLectures() {
     this.router.navigate(['/tabs/popular-lectures']);
   }
 
-
-  routeToPupularQuiz()
-  {
+  routeToPupularQuiz() {
     this.router.navigate(['/tabs/popular-quiz']);
   }
 
-
-
-  getMessage(){
+  getMessage() {
     this.socket.on('message', (data: any) => {
-      this.notifications.push(data)
-      this.notification_count = this.notification_count +  1
+      this.notifications.push(data);
+      this.notification_count = this.notification_count + 1;
     });
-
   }
-
-
-
-
 }

@@ -19,7 +19,7 @@
       <ion-item fill="outline">
       <ion-label position="floating">Class</ion-label>
         <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
-          <ion-select-option *ngFor="let data of classData" [value]="data.classId">{{'Standard ' + data.classId}}</ion-select-option>
+          <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -27,7 +27,7 @@
       <ion-item fill="outline">
       <ion-label position="floating">Lecture</ion-label>
         <ion-select  formControlName="lec_id" placeholder="Select Lecture" (ionChange)="onchange_lecture($event)" [multiple]="false">
-          <ion-select-option *ngFor="let data of lecturesData" [value]="data.lec_id">{{data.lec_title}}</ion-select-option>
+          <ion-select-option *ngFor="let data of lecturesData" [value]="data._id">{{data.lec_title}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -15,15 +17,22 @@ export class ProfileComponent implements OnInit {
 
   visiblepass = [false, false];
   shakeButton:boolean = false
+  UserProfileDetails:UserProfileDetails = new UserProfileDetails()
+  private _unsubscribeAll: Subject<any>;
+
 
   showpassword(index: number) {
     this.visiblepass[index] = !this.visiblepass[index];
   }
   
 
-  constructor(public router:Router,public menuCtrl: MenuController,public service:WebService) { }
+  constructor(public _https:WebService,public router:Router,public menuCtrl: MenuController,public service:WebService) {
+    this._unsubscribeAll = new Subject();
+   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchcontentDetails()
+  }
 
   navigateTo(path:any)
   {
@@ -45,10 +54,6 @@ export class ProfileComponent implements OnInit {
   }
   
 
-  getImgSrc()
-  {
-    return localStorage.getItem('imageSrc')
-  }
 
   removepreviewPhoto()
   {
@@ -79,10 +84,58 @@ export class ProfileComponent implements OnInit {
    this.loading = ! this.loading
   }
 
+  async fetchcontentDetails() {
+    const req = new Requestmodels();
+    req.RequestUrl = `profile`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+              this.UserProfileDetails.first_name = data.response.given_name
+              this.UserProfileDetails.last_name = data.response.family_name
+              this.UserProfileDetails.email = data.response.email
+              this.UserProfileDetails.username = data.response.email
+              this.UserProfileDetails.profile_picture = data.response.picture
+
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
    ableToText(show:boolean) {
     this.shakeButton =  this.service.shakeButton(this.loading,show)
   }
   
   
 
+}
+
+
+export class UserProfileDetails{
+  first_name:string;
+  last_name:string;
+  username:string;
+  email:string;
+  profile_picture:string
+
+  constructor(){
+    this.first_name = "";
+    this.last_name = "";
+    this.username = "";
+    this.email = "";
+    this.profile_picture = ""
+  }
 }

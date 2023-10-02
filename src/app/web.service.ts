@@ -27,13 +27,28 @@ export class WebService {
   constructor(private router: Router, public http: HttpClient) {
     this.fetchUserProfileDetails();
     // add token to headers of all apis
+    this.setHeaders(this.UserProfile.token, this.UserProfile.userId);
+    this.socket = io(environment.nodeApi, {
+      transports: ['websocket'],
+    });
+  }
+
+  setlocalstorage(token: any, userId: any) {
+    console.log(token);
+    console.log(userId);
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+    this.setHeaders(token, userId);
+    this.fetchUserProfileDetails();
+    this.login();
+  }
+
+  setHeaders(token: any, userId: any) {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
       accept: ' text/plain',
-      Authorization: 'Bearer ' + this.UserProfile.token,
-    });
-    this.socket = io(environment.nodeApi, {
-      transports: ['websocket'],
+      Authorization: 'Bearer ' + token,
     });
   }
 
@@ -121,28 +136,27 @@ export class WebService {
 
   login(): void {
     // TODO: Implement login logic
-    this.isLoggedIn = true;
-    localStorage.setItem('isLoggedIn', 'true');
-    this.router.navigate(['/tabs/home']);
+    setTimeout(() => {
+      this.router
+        .navigateByUrl('/tabs/home', { skipLocationChange: false })
+        .then(() => {
+          this.router.navigate(['/tabs/home']);
+        });
+    }, 1000);
   }
 
   logout(): void {
-    // Clear login status
-    this.isLoggedIn = false;
-    localStorage.setItem('isLoggedIn', 'false');
+    // Clear login status and perform other necessary actions
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     // Clear cache and redirect to login page
     setTimeout(() => {
       this.router
-        .navigateByUrl('/login', { skipLocationChange: true })
+        .navigateByUrl('/login', { skipLocationChange: false })
         .then(() => {
           this.router.navigate(['/login']);
         });
     }, 100);
-  }
-
-  checkLoggedIn(): boolean {
-    // return this.isLoggedIn;
-    return localStorage.getItem('isLoggedIn') ? true : true;
   }
 
   // Function to read the Excel file and retrieve headers and data
@@ -273,6 +287,11 @@ export class WebService {
   }
 
   private handleError(error: HttpErrorResponse) {
+    // Handle HTTP errors and log out the user
+    if (error.status == 401) {
+      // Unauthorized (e.g., token expired)
+      this.logout();
+    }
     // this.spinner.hide();
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);

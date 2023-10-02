@@ -59,7 +59,7 @@ export class TabsPage  {
 
   ngDoCheck(): void {
     // Check for changes to login status
-    if (this.service.checkLoggedIn()) {
+    if (localStorage.getItem('token')) {
       this.splash_loaded = true
     } else {
       this.splash_loaded = false
