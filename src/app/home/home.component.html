@@ -95,6 +95,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+      <img src="assets/search.webp" *ngIf="!SearchedContents.length" alt="">
       <ion-list>
             <ion-item *ngFor="let data of SearchedContents" expand="block"
               (click)="routeTocontentControls(data);toggleSeachmenu()">
