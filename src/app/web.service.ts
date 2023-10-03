@@ -41,7 +41,7 @@ export class WebService {
     localStorage.setItem('userId', userId);
     this.setHeaders(token, userId);
     this.fetchUserProfileDetails();
-    this.login();
+    // this.login();
   }
 
   setHeaders(token: any, userId: any) {
