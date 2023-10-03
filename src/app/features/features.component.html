@@ -1,11 +1,13 @@
 <ion-content [fullscreen]="true">
   <ion-toolbar>
-    <ion-icon  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
+    <ion-title (click)="backToHome()">
+      Features
+    </ion-title>
+    <ion-icon slot="start"  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
   </ion-toolbar>
   <ion-toolbar>
     <ion-card-header class="feature-w-title">
-      <img src="assets\feature-boy.jpg" width="100px" alt="" />
-      <div><span>F</span>eatures available in class</div>
+      <img src="assets\features.webp" width="200px" alt="" />
     </ion-card-header>
   </ion-toolbar>
 

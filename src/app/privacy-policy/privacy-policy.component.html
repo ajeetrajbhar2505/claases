@@ -1,11 +1,13 @@
 <ion-content [fullscreen]="true">
   <ion-toolbar>
-    <ion-icon  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
+    <ion-title (click)="backToHome()">
+      Privacy Policy
+    </ion-title>
+    <ion-icon slot="start"  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
   </ion-toolbar>
   <ion-toolbar>
     <ion-card-header class="feature-w-title">
-      <img src="assets\feature-boy.jpg" width="100px" alt="" />
-      <div><span>P</span>rivacy Policy of Online Classroom</div>
+      <img src="assets\privacy.webp" width="200px" alt="" />
     </ion-card-header>
   </ion-toolbar>
 
