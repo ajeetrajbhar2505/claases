@@ -12,7 +12,7 @@
 <ion-content [fullscreen]="true">
     <ion-card-content>
       <ion-list>
-            <ion-item *ngFor="let data of lecturesData" expand="block" (click)="routeTocontents(data.lec_id)">
+            <ion-item *ngFor="let data of lecturesData" expand="block" (click)="routeTocontents(data.classId,data._id)">
               <ion-thumbnail slot="start">
                 <img alt="Silhouette of mountains" [src]="data.lec_icon" />
               </ion-thumbnail>

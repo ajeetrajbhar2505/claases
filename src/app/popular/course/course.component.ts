@@ -5,6 +5,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonRouterOutlet, ItemReorderEventDetail, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
+import { Requestmodels } from 'src/app/models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
+import { WebService } from 'src/app/web.service';
 
 @Component({
   selector: 'app-course',
@@ -12,12 +15,13 @@ import { App } from '@capacitor/app';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit  {
+  private _unsubscribeAll: Subject<any>;
   lecturesData: any[] = []
-  classId = ''
   
 
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
+  constructor(public _https:WebService,public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
+      this._unsubscribeAll = new Subject()
       
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -29,19 +33,39 @@ export class CourseComponent implements OnInit  {
 
 
  async ngOnInit() {
-    this.lecturesData = []
-    let response: any = await this.http.get('assets/classWiseLectures.json').toPromise().then((response: any) => {
-      response.filter((data: any) => {
-        if (data.classId == 10) {
-          this.lecturesData = data['subjects']
-        }
-      })
-    }) 
+  this.fetchMostWatched()
   }
 
 
-  routeTocontents(lec_id: any) {
-    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lec_id : lec_id,from : '/tabs/popular-lectures'}})
+  async fetchMostWatched() {
+    const req = new Requestmodels();
+    req.RequestUrl = `mostWatched`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.lecturesData = data.response || []
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+
+  routeTocontents(classId:any,lec_id: any) {
+    this.router.navigate(['/tabs/contents'],{queryParams : {classId : classId, lec_id : lec_id,from : '/tabs/popular-lectures'}})
    }
 
 
