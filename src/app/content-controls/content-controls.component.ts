@@ -80,6 +80,7 @@ export class ContentControlsComponent {
 
 
   async fetchContentDetails(classId:any,lec_id:any,contentId:any) {
+    this.contentLoaded = false
     const req = new Requestmodels()
     req.RequestUrl = `content/` + classId + '/' + lec_id + '/' + contentId;
     req.RequestObject = ""
@@ -97,6 +98,7 @@ export class ContentControlsComponent {
         
         // fetch 
         this.contentToWatch = data.response[0] || {}
+        this.contentLoaded = true
 
        }
       },
