@@ -301,7 +301,10 @@ export class WebService {
   }
 
   UploadFile(req: Requestmodels, file: FormData): Observable<any> {
-    return this.http.post(environment.nodeApi + req.RequestUrl, file);
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.UserProfile.token,
+    });
+    return this.http.post(environment.nodeApi + req.RequestUrl, file,{headers : headers});
   }
 
   fetchData(req: Requestmodels): Observable<any> {

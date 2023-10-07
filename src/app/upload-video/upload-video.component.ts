@@ -144,11 +144,9 @@ export class UploadVideoComponent implements OnInit {
     this.router.navigate([this.params.from], { queryParams });
   }
 
-  async uploadContent() {
-    console.log(this.uploadVideogroup.value);
-
+  async uploadContent(): Promise<string> {
     this.uploading = true;
-
+    const req = new Requestmodels();
     // create a new FormData object
     const formData = new FormData();
 
@@ -171,41 +169,23 @@ export class UploadVideoComponent implements OnInit {
     formData.append('published_at', published_at);
     formData.append('file', file);
 
-    const req = new Requestmodels();
     req.RequestUrl = `upload`;
-    req.RequestObject = formData;
 
-    await this.service
-      .PostData(req)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(
-        (data) => {
-          if (data != null) {
-            if (data.status !== 200) {
-              return;
-            }
+    try {
+      const data: any = await this.service.UploadFile(req, formData).toPromise();
+      if (data != null) {
+        if (data.error) {
+          return '';
+        }
+        this.uploading = false;
 
-            // fetch
-            this.uploading = false;
-          }
-        },
-        (_error) => {
-          return;
-        },
-        () => {}
-      );
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
-    // formData can now be sent in an HTTP request
-    // try {
-    //   let response:any = await this.http.post(environment.nodeApi + '/uploadVideo',formData).toPromise()
-    //   if (response.status == 204) {
-    //    this.uploading = false
-    //   }
-    // } catch (error) {
-    //   this.uploading = false
-    // }
+    return '';
   }
-
   async uploadExcel(event: any) {
     this.uploadStatus.status = true;
     this.uploadStatus = await this.service.uploadExcelFile(
