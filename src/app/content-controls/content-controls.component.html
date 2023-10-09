@@ -5,19 +5,42 @@
     </ion-buttons>
     <ion-progress-bar *ngIf="!contentLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
-  </ion-header>
-  <!-- api key -->
-  <!-- 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 -->
-  <ion-content  [fullscreen]="true" class="ion-padding" >
-    <iframe [src]="getImgContent(contentToWatch.content_link)" width="100%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay"></iframe>
-            <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
-            </ion-card-header>
-            <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
-            [src]="contentToWatch.content_link" [render-text]="true"
-            [original-size]="false" class="pdf-viewer"></pdf-viewer>
-          <ion-card-header>
-            <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
-            <ion-card-subtitle>{{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' | lowercase}}</ion-card-subtitle>
-            <ion-card-subtitle>{{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' | lowercase}}</ion-card-subtitle>
-          </ion-card-header>
-  </ion-content>
+</ion-header>
+<!-- api key -->
+<!-- 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 -->
+<ion-content [fullscreen]="true" class="ion-padding">
+    <iframe [src]="getImgContent(contentToWatch.content_link)" width="100%" frameborder="0" webkitallowfullscreen
+      mozallowfullscreen allowfullscreen allow="autoplay" id="myIframe"></iframe>
+  <div class="tabs">
+    <div class="tab">
+      <input type="checkbox" id="chck0">
+      <label class="tab-label default-rotated" for="chck0">Description</label>
+      <div class="tab-content default-opened">
+        {{contentToWatch.content_title | titlecase}}<br>
+        {{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' |
+        lowercase}}
+        {{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' |
+      lowercase}}<br>
+
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <h2><b>FAQ</b></h2>
+  <div class="tabs">
+    <div class="tab">
+      <input type="checkbox" id="chck1">
+      <label class="tab-label" for="chck1">Who invented OOP?</label>
+      <div class="tab-content">
+        Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP
+      </div>
+    </div>
+    <div class="tab">
+      <input type="checkbox" id="chck2">
+      <label class="tab-label" for="chck2">Which is not a feature of OOP in general definitions?</label>
+      <div class="tab-content">
+        Duplicate/Redundant data is dependent on programmer and hence can’t be guaranteed by OOP. Code reusability is done using inheritance. Modularity is supported by using different code files and classes. Codes are more efficient because of features of OOP.
+      </div>
+    </div>
+  </div>
+</ion-content>

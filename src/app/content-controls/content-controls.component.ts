@@ -25,7 +25,7 @@ import { WebService } from '../web.service';
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent {
+export class ContentControlsComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
@@ -78,6 +78,11 @@ export class ContentControlsComponent {
 
   }
 
+
+  ngOnInit(): void {
+
+  }
+  
 
   async fetchContentDetails(classId:any,lec_id:any,contentId:any) {
     this.contentLoaded = false
