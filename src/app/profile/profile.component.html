@@ -104,11 +104,11 @@
               <input class="{{!loading?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.username" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
             </div>
             <div class="field">
-              <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(1)" alt="" width="20px"></span>
+              <span class="prefix"><img [src]="visiblepass[1]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(1)" alt="" width="20px"></span>
               <input class="{{!loading?'':''}}" [type]="visiblepass[1]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
             </div>
             <div class="field">
-              <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword(2)" alt="" width="20px"></span>
+              <span class="prefix"><img [src]="visiblepass[2]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(2)" alt="" width="20px"></span>
               <input class="{{!loading?'':''}}" [type]="visiblepass[2]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
             </div>
             <div class="center">

@@ -9,17 +9,16 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  visiblepass: boolean = false;
-  showpassword() {
-    this.visiblepass = !this.visiblepass;
-  }
+  visiblepass = [false, false];
   constructor(public router:Router,public service:WebService) {}
 
   ngOnInit(): void {
 
   }
 
-
+  showpassword(index: number) {
+    this.visiblepass[index] = !this.visiblepass[index];
+  }
   
   LogiinWithGoogle(){ 
     window.location.href = environment.nodeApi + 'google'

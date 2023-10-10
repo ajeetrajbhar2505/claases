@@ -16,12 +16,12 @@
           <input type="number" placeholder="Enter username" autocomplete="off" />
         </div>
         <div class="field">
-          <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
-          <input [type]="visiblepass?'text':'password'" placeholder="Enter password" autocomplete="off" />
+          <span class="prefix"><img [src]="visiblepass[1]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(1)" alt="" width="20px"></span>
+          <input [type]="visiblepass[1]?'text':'password'" placeholder="Enter password" autocomplete="off" />
         </div>
         <div class="field">
-          <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
-          <input [type]="visiblepass?'text':'password'" placeholder="Confirm password" autocomplete="off" />
+          <span class="prefix"><img [src]="visiblepass[2]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(2)" alt="" width="20px"></span>
+          <input [type]="visiblepass[2]?'text':'password'" placeholder="Confirm password" autocomplete="off" />
         </div>
         <div class="center">
           <ion-button expand="block" color="warn" shape="round" class="submit"
@@ -35,7 +35,7 @@
             <ion-icon name="logo-apple"></ion-icon>
           </span> -->
           <div class="center">
-            <ion-button expand="block" (click)="LogiinWithGoogle()"  color="light" shape="round" class="submit"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
+          <ion-button expand="block"  (click)="LogiinWithGoogle()"  color="light" shape="round"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
           </div>
         </div>
         <hr>

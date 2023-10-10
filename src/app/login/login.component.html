@@ -8,7 +8,7 @@
         <input type="text" required placeholder="Enter Username" autocomplete="off" />
       </div>
       <div class="field">
-        <span class="prefix"><img src="assets/login/lock.png" (click)="showpassword()" alt="" width="20px"></span>
+        <span class="prefix"><img [src]="visiblepass?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword()" alt="" width="20px"></span>
         <input [type]="visiblepass?'text':'password'" placeholder="Enter Password" autocomplete="off" />
       </div>
       <div class="field">
@@ -19,14 +19,14 @@
         <ion-button expand="block" color="warn" shape="round" class="submit" (click)="login()">Login</ion-button>
       </div>
       <div class="signin">
-        <p style="padding: unset;margin: unset;margin-top: 15px;">Or sign in with</p>
+        <p style="padding: unset;margin: unset;margin-top: 10px;margin-bottom: 10px;">Or sign in with</p>
         <!-- <span class="icons">
           <ion-icon (click)="LogiinWithGoogle()" name="logo-google"></ion-icon>
           <ion-icon name="logo-facebook"></ion-icon>
           <ion-icon name="logo-apple"></ion-icon>
         </span> -->
         <div class="center">
-          <ion-button expand="block" (click)="LogiinWithGoogle()"  color="light" shape="round" class="submit"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
+          <ion-button expand="block"  (click)="LogiinWithGoogle()"  color="light" shape="round"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
         </div>
       </div>
       <hr>
