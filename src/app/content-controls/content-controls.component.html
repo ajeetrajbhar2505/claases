@@ -5,46 +5,42 @@
     </ion-buttons>
     <ion-progress-bar *ngIf="!contentLoaded" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
-  </ion-header>
-  <!-- api key -->
-  <!-- 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 -->
-  <ion-content  [fullscreen]="true" class="ion-padding" >
-              <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
-              (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
-              <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
-              Your Device does not support the video.
-            </video>
-            <img class="audio" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
-              <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
-              (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
-              <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
-              Your Device does not support the video.
-          </audio>
-            <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
-              <ion-range
-                [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
-                (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
-                <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
-                <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
-              </ion-range>
-              <div class="contentcontrols">
-                <ion-fab-button (click)="rewindContent(10)" size="small">
-                  <ion-icon name="play-skip-back-circle-outline"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button (click)="playPauseContent()" size="small">
-                  <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button (click)="skipContent(10)" size="small">
-                  <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
-                </ion-fab-button>
-              </div>
-            </ion-card-header>
-            <pdf-viewer (after-load-complete)="checkContentLoaded()" (dblclick)="toggleFullscreenContent()" *ngIf="contentToWatch.content == 'document'"
-            [src]="contentToWatch.content_link" [render-text]="true"
-            [original-size]="false" class="pdf-viewer"></pdf-viewer>
-          <ion-card-header>
-            <ion-card-subtitle>{{contentToWatch.content_title}}</ion-card-subtitle>
-            <ion-card-subtitle>{{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' | lowercase}}</ion-card-subtitle>
-            <ion-card-subtitle>{{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' | lowercase}}</ion-card-subtitle>
-          </ion-card-header>
-  </ion-content>
+</ion-header>
+<!-- api key -->
+<!-- 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 -->
+<ion-content [fullscreen]="true" class="ion-padding">
+    <iframe [src]="getImgContent(contentToWatch.content_link)" width="100%" frameborder="0" webkitallowfullscreen
+      mozallowfullscreen allowfullscreen allow="autoplay" id="myIframe"></iframe>
+  <div class="tabs">
+    <div class="tab">
+      <input type="checkbox" id="chck0">
+      <label class="tab-label default-rotated" for="chck0">Description</label>
+      <div class="tab-content default-opened">
+        {{contentToWatch.content_title | titlecase}}<br>
+        {{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' |
+        lowercase}}
+        {{contentToWatch.teacher? 'Auther : ' + contentToWatch.teacher : '' |
+      lowercase}}<br>
+
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <h2><b>FAQ</b></h2>
+  <div class="tabs">
+    <div class="tab">
+      <input type="checkbox" id="chck1">
+      <label class="tab-label" for="chck1">Who invented OOP?</label>
+      <div class="tab-content">
+        Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP
+      </div>
+    </div>
+    <div class="tab">
+      <input type="checkbox" id="chck2">
+      <label class="tab-label" for="chck2">Which is not a feature of OOP in general definitions?</label>
+      <div class="tab-content">
+        Duplicate/Redundant data is dependent on programmer and hence can’t be guaranteed by OOP. Code reusability is done using inheritance. Modularity is supported by using different code files and classes. Codes are more efficient because of features of OOP.
+      </div>
+    </div>
+  </div>
+</ion-content>
