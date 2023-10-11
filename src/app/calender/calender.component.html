@@ -10,13 +10,7 @@
   <div class="main-container-wrapper">
     <header>
       <button class="header__btn header__btn--left" title="Menu">
-        <svg
-          class="icon"
-          width="20px"
-          viewBox="0 0 20 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="icon" width="20px" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill="#fff" d="M0 0h20v2H0zM0 7h20v2H0zM0 14h20v2H0z" />
         </svg>
       </button>
@@ -42,15 +36,15 @@
             title="Previous"
             (click)="goToPreviousMonth()"
           >
-            <i class="icon ion-ios-arrow-back"></i>
+            <ion-icon name="chevron-back-outline"></ion-icon>
           </button>
-          <h2 class="calendar-container__title">October 2018</h2>
+          <h2 class="calendar-container__title">{{currentMonthName}} {{currentYear}}</h2>
           <button
             class="calendar-container__btn calendar-container__btn--right"
             title="Next"
             (click)="goToNextMonth()"
           >
-            <i class="icon ion-ios-arrow-forward"></i>
+          <ion-icon name="chevron-back-outline" style="transform: rotate(180deg);"></ion-icon>
           </button>
         </div>
         <div class="calendar-container__body">
@@ -68,9 +62,9 @@
               <div class="calendar-table__body">
                 <div *ngFor="let row of calendarDates" class="calendar-table__row">
                   <div *ngFor="let date of row" [class]="
-                  currentDay === date?'calendar-table__col calendar-table__today':'calendar-table__col'  && checkSeriesDateExists(date, date + 2)?'calendar-table__col calendar-table__event calendar-table__event--long calendar-table__event--start':'calendar-table__col' && isBetweenSeries(date)?'calendar-table__col calendar-table__event calendar-table__event--long':'calendar-table__col' && isSeriesEnd(date)?'calendar-table__col calendar-table__event calendar-table__event--long calendar-table__event--end':'calendar-table__col' && checkDateExists(date)?'calendar-table__col calendar-table__event':'calendar-table__col'">
-                    <div class="calendar-table__item">
-                      <span>{{ date }}</span>
+                  currentDay === date.day?'calendar-table__col calendar-table__today':'calendar-table__col'  && checkSeriesDateExists(date.day, date.day + 2)?'calendar-table__col calendar-table__event calendar-table__event--long calendar-table__event--start':'calendar-table__col' && isBetweenSeries(date.day)?'calendar-table__col calendar-table__event calendar-table__event--long':'calendar-table__col' && isSeriesEnd(date.day)?'calendar-table__col calendar-table__event calendar-table__event--long calendar-table__event--end':'calendar-table__col' && checkDateExists(date.day)?'calendar-table__col calendar-table__event':'calendar-table__col' && checkLargestDayEndsAndNextDayStarts(date.day)?'calendar-table__col':'calendar-table__col'">
+                  <div class="calendar-table__item">
+                      <span>{{ date.day }}</span>
                     </div>
                   </div>
                 </div>
