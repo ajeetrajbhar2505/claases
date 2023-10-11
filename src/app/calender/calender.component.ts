@@ -111,12 +111,6 @@ export class CalenderComponent {
   }
   
 
-  
-  
-
-
-  
-
   // Function to chunk an array into sub-arrays
   chunkArray(array: number[], size: number): number[][] {
     const result = [];

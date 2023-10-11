@@ -263,14 +263,14 @@
       <div class="events-container">
         <span class="events__title">Upcoming events this month</span>
         <ul class="events__list">
-          <li class="events__item">
+          <li class="events__item" *ngFor="let event of transformedCalenderEvents;">
             <div class="events__item--left">
-              <span class="events__name">Town hall meeting</span>
-              <span class="events__date">Oct 5</span>
+              <span class="events__name">{{event.titile}}</span>
+              <span class="events__date">{{event.month}}</span>
             </div>
-            <span class="events__tag">16:00</span>
+            <span class="events__tag">{{event.time}}</span>
           </li>
-          <li class="events__item">
+          <!-- <li class="events__item">
             <div class="events__item--left">
               <span class="events__name">Meet with George</span>
               <span class="events__date">Oct 7</span>
@@ -289,7 +289,7 @@
               <span class="events__name">Visit Grandma</span>
               <span class="events__date">Oct 27 - Oct 28</span>
             </div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </main>
