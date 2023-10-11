@@ -5,5 +5,8 @@
     </ion-title>
     <ion-icon slot="start"  (click)="backToHome()" name="chevron-back-outline"></ion-icon>
   </ion-toolbar>
+  <full-calendar #fullCalendar
+  [events]="calendarEvents"
+   [options]="calendarOptions"></full-calendar>
 
   </ion-content>

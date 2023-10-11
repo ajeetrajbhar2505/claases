@@ -7,6 +7,7 @@ import { TabsPageRoutingModule } from './tabs-routing.module';
 import { HttpClientModule } from '@angular/common/http'
 
 import { TabsPage } from './tabs.page';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TabsPage } from './tabs.page';
     FormsModule,
     TabsPageRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FullCalendarModule
   ],
   declarations: [TabsPage]
 })

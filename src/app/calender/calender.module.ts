@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ContentControlsRoutingModule } from '../content-controls/content-controls-routing.module';
 import { CalenderComponent } from './calender.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CalenderComponent } from './calender.component';
     CalenderRoutingModule,
     ContentControlsRoutingModule,
     IonicModule,
-    FormsModule
+    FormsModule,
+    FullCalendarModule
   ]
 })
 export class CalenderModule { }
