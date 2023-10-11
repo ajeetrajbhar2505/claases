@@ -8,7 +8,7 @@ import { WebService } from '../web.service';
   styleUrls: ['./calender.component.scss'],
 })
 export class CalenderComponent {
-  currentDay: number = 1;
+  currentDate: string = '';
   calendarDates: any[][] = [];
   currentMonth: number;
   currentMonthName: any;
@@ -20,42 +20,42 @@ export class CalenderComponent {
       time: '14.00',
       month: 'Oct',
       titile: 'Biology Test',
-      date: this.service.getCurrentDate(),
+      date: '01-10-2023',
     },
     {
       day: 5,
       time: '14.00',
       month: 'Oct',
       titile: 'English Test',
-      date: this.service.getCurrentDate(),
+      date: '05-10-2023',
     },
     {
       day: 7,
       time: '14.00',
       month: 'Oct',
       titile: 'History Test',
-      date: this.service.getCurrentDate(),
+      date: '07-10-2023',
     },
     {
       day: 25,
       time: '12.00',
       month: 'Oct',
       titile: 'Zoom Meeting',
-      date: this.service.getCurrentDate(),
+      date: '25-10-2023',
     },
     {
       day: 26,
       time: '16.00',
       month: 'Oct',
       titile: 'Maths Test',
-      date: this.service.getCurrentDate(),
+      date: '26-10-2023',
     },
     {
       day: 27,
       time: '10.00',
       month: 'Oct',
       titile: 'History Test',
-      date: this.service.getCurrentDate(),
+      date: '27-10-2023',
     },
   ];
 
@@ -94,7 +94,7 @@ export class CalenderComponent {
     
   
     // Set the current day
-    this.currentDay = new Date().getDate();
+    this.currentDate = this.service.getCurrentDate();
   
     
     // Call the function to transform the array
@@ -119,6 +119,9 @@ export class CalenderComponent {
         };
       });
     });
+
+    console.log(this.calendarDates);
+    
     
   }
   
@@ -136,50 +139,41 @@ export class CalenderComponent {
   }
 
 
-  checkDateExists(date:number):boolean{
-    return this.calenderEvents.some(item => item.day === date);
+  checkDateExists(day:number,date:string):boolean{
+    return this.calenderEvents.some(item => item.day === day && item.date === date);
   }
 
-  checkCurrentMonthExists(date:number):boolean{
-    return true
-  }
-
-  checkSeriesDateExists(startDate: number, endDate: number): boolean {
+  checkSeriesDateExists(startDate: number, endDate: number,date:any): boolean {
     // Check if the series of consecutive dates exists in the `transformedCalenderEvents` array
-    for (let date = startDate; date <= endDate; date++) {
-      if (!this.calenderEvents.some(item => item.day === date)) {
+    for (let day = startDate; day <= endDate; day++) {
+      if (!this.calenderEvents.some(item => item.day === day && item.date === date)) {
         return false;
       }
     }
     return true;
   }
 
-  isBetweenSeries(date: number): boolean {
+  isBetweenSeries(day: number,date:string): boolean {
     // Check if the current date falls in between a series
-    return this.checkSeriesDateExists(date - 1, date + 1) && !this.checkSeriesDateExists(date - 2, date + 2);
+    return this.checkSeriesDateExists(day - 1, day + 1,date) && !this.checkSeriesDateExists(day - 2, day + 2,date);
   }
 
-  isSeriesEnd(date: number): boolean {
+  isSeriesEnd(day: number,date:string): boolean {
     // Check if the current date ends a series
-    return this.checkSeriesDateExists(date - 2, date);
+    return this.checkSeriesDateExists(day - 2, day,date);
   }
 
-  checkLargestDayEndsAndNextDayStarts(endDate: number): boolean {
+  checkLargestDayEndsAndNextDayStarts(endDate: number,date:string): boolean {
     // Check if the largest day in the series ends and the next day starts
     if (
-      this.calenderEvents.some(item => item.day === endDate) &&
-      !this.calenderEvents.some(item => item.day === endDate + 1)
+      this.calenderEvents.some(item => item.day === endDate && item.date === date) &&
+      !this.calenderEvents.some(item => item.day === endDate + 1 && item.date === date)
     ) {
       return true;
     }
     return false;
   }
 
-
-  isPreviousValueGreater(prev: number, current: number): boolean {
-    return prev > current;
-  }
-  
   
 
   goToPreviousMonth() {
