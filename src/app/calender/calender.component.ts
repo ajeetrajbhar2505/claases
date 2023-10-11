@@ -20,7 +20,7 @@ export class CalenderComponent {
       time: '14.00',
       month: 'Oct',
       titile: 'Biology Test',
-      date: '01-10-2023',
+      date: '01-11-2023',
     },
     {
       day: 5,
@@ -67,6 +67,8 @@ export class CalenderComponent {
   }
 
   generateCalendarDates(year: number, month: number) {
+    this.calendarDates = [];
+  
     // Calculate the number of days in the current month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
   
@@ -76,54 +78,40 @@ export class CalenderComponent {
     // Calculate the number of days from the previous month to include
     const daysFromPreviousMonth = firstDayOfWeek;
   
-    // Calculate the number of days from the next month to include
-    const totalDays = daysInMonth + daysFromPreviousMonth;
-    console.log(totalDays);
-    
-    const daysFromNextMonth = Math.ceil(totalDays / 7) * 7 - totalDays;
-  
     // Create an array containing days from the previous month
-    const daysArray = [
-      ...Array.from({ length: daysFromPreviousMonth }, (_, i) => daysInMonth - daysFromPreviousMonth + i + 1),
-      ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-      ...Array.from({ length: daysFromNextMonth }, (_, i) => i + 1),
-    ];
+    const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   
     // Chunk the array into rows
     this.calendarDates = this.chunkArray(daysArray, 7);
-    
   
     // Set the current day
     this.currentDate = this.service.getCurrentDate();
   
-    
     // Call the function to transform the array
     this.transformedCalenderEvents = this.transformCalendarEvents(this.calenderEvents);
-    let count = 1; // Initialize count outside the map function
+  
+    let count = 0; // Initialize count to 0
+    const nextMonth = month + 1;
+  
     this.calendarDates = this.calendarDates.map(row => {
       return row.map(date => {
-        const dateObj = new Date(year, month, date);
-        const localday = dateObj.getDate().toString().padStart(2, '0');
-        
-        if (totalDays === date) {
-          count++;
-        }
-        
-        const localmonth = (totalDays === date)?(dateObj.getMonth() + 1).toString().padStart(2, '0'):(dateObj.getMonth() + count).toString().padStart(2, '0');
-        const localyear = dateObj.getFullYear();
+        count++;
+  
+        const localday = date.toString().padStart(2, '0');
+        const localmonth = (count > daysInMonth) ? (nextMonth).toString().padStart(2, '0') : (month + 1).toString().padStart(2, '0');
+        const localyear = year;
         const formattedDate = `${localday}-${localmonth}-${localyear}`;
-        
+  
         return {
           day: date,
           date: formattedDate
         };
       });
     });
-
-    console.log(this.calendarDates);
-    
-    
   }
+  
+
+  
   
 
 
