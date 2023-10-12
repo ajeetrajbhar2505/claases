@@ -1,86 +1,57 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebService } from '../web.service';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-calender',
   templateUrl: './calender.component.html',
   styleUrls: ['./calender.component.scss'],
 })
-export class CalenderComponent {
+export class CalenderComponent implements OnInit {
+  private _unsubscribeAll: Subject<any>;
+
   currentDate: string = '';
   calendarDates: any[][] = [];
   currentMonth: number;
   currentMonthName: any;
   currentYear: number;
   transformedCalenderEvents: CalendarEvent[] = [];
-  calenderEvents: CalendarEvent[] = [
-    {
-      day: 1,
-      time: '14.00',
-      month: 'Oct',
-      titile: 'Biology Test',
-      date: '01-11-2023',
-    },
-    {
-      day: 5,
-      time: '14.00',
-      month: 'Oct',
-      titile: 'English Test',
-      date: '05-10-2023',
-    },
-    {
-      day: 7,
-      time: '14.00',
-      month: 'Oct',
-      titile: 'History Test',
-      date: '07-10-2023',
-    },
-    {
-      day: 25,
-      time: '12.00',
-      month: 'Oct',
-      titile: 'Zoom Meeting',
-      date: '25-10-2023',
-    },
-    {
-      day: 26,
-      time: '16.00',
-      month: 'Oct',
-      titile: 'Maths Test',
-      date: '26-10-2023',
-    },
-    {
-      day: 27,
-      time: '10.00',
-      month: 'Oct',
-      titile: 'History Test',
-      date: '27-10-2023',
-    },
-  ];
+  calenderEvents: CalendarEvent[] = [];
 
-  constructor(public router: Router,public service:WebService) {
+  constructor(public router: Router, public service: WebService) {
+    this._unsubscribeAll = new Subject();
     this.currentMonth = new Date().getMonth();
-    this.currentMonthName = new Date().toLocaleString('default', { month: 'long' });
+    this.currentMonthName = new Date().toLocaleString('default', {
+      month: 'long',
+    });
     this.currentYear = new Date().getFullYear();
+  }
+
+  ngOnInit(): void {
     this.generateCalendarDates(this.currentYear, this.currentMonth);
   }
 
   generateCalendarDates(year: number, month: number) {
+    const desiredMonth = new Date(2023, month, 1).toLocaleString('default', {
+      month: 'short',
+    });
+    this.getMonthWiseCalenderDetails(desiredMonth);
     this.calendarDates = [];
     const firstDayOfWeek = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
+
     let currentWeek = [];
     let day = 1;
-  
+
     // Add day names as the first row
-  
+
     // Add empty slots for days from the previous month
     for (let i = 0; i < firstDayOfWeek; i++) {
       currentWeek.push('');
     }
-  
+
     while (day <= daysInMonth) {
       currentWeek.push(day);
       if (currentWeek.length === 7) {
@@ -89,45 +60,75 @@ export class CalenderComponent {
       }
       day++;
     }
-  
+
     // Add empty slots for days from the next month
     while (currentWeek.length < 7) {
       currentWeek.push('');
     }
-  
+
     if (currentWeek.length === 7) {
       this.calendarDates.push([...currentWeek]);
     }
-  
-    // Call the function to transform the array
-    this.transformedCalenderEvents = []
-    this.transformedCalenderEvents = this.transformCalendarEvents(this.calenderEvents);
-  
 
     // Your date transformation logic here
     let count = 0; // Initialize count to 0
     const nextMonth = month + 1;
-    
-    this.calendarDates = this.calendarDates.map(row => {
-      return row.map(date => {
+
+    this.calendarDates = this.calendarDates.map((row) => {
+      return row.map((date) => {
         count++;
-  
+
         const localday = date.toString().padStart(2, '0');
-        const localmonth = (count > daysInMonth) ? (nextMonth).toString().padStart(2, '0') : (month + 1).toString().padStart(2, '0');
+        const localmonth =
+          count > daysInMonth
+            ? nextMonth.toString().padStart(2, '0')
+            : (month + 1).toString().padStart(2, '0');
         const localyear = year;
         const formattedDate = `${localday}-${localmonth}-${localyear}`;
-  
+
         return {
           day: date,
-          date: formattedDate
+          date: formattedDate,
         };
       });
     });
-  
-    console.log(this.calendarDates);
+
   }
-  
-  
+
+  async getMonthWiseCalenderDetails(desiredMonth: string) {
+
+    this.calenderEvents = []
+    this.transformedCalenderEvents = []
+    
+    const req = new Requestmodels();
+    req.RequestUrl = `CalenderDetails/${desiredMonth}`;
+    req.RequestObject = '';
+
+    await this.service
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.calenderEvents = data.response || [];
+            // Call the function to transform the array
+            this.transformedCalenderEvents = [];
+            this.transformedCalenderEvents = this.transformCalendarEvents(
+              this.calenderEvents
+            );
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
 
   // Function to chunk an array into sub-arrays
   chunkArray(array: number[], size: number): number[][] {
@@ -138,43 +139,57 @@ export class CalenderComponent {
     return result;
   }
 
-
-  checkDateExists(day:number,date:string):boolean{
-    return this.calenderEvents.some(item => item.day === day && item.date === date);
+  checkDateExists(day: number, date: string): boolean {
+    return this.calenderEvents.some(
+      (item) => item.day === day && item.date === date
+    );
   }
 
-  checkSeriesDateExists(startDate: number, endDate: number,date:any): boolean {
+  checkSeriesDateExists(
+    startDate: number,
+    endDate: number,
+    date: any
+  ): boolean {
     // Check if the series of consecutive dates exists in the `transformedCalenderEvents` array
     for (let day = startDate; day <= endDate; day++) {
-      if (!this.calenderEvents.some(item => item.day === day && item.date === date)) {
+      if (
+        !this.calenderEvents.some(
+          (item) => item.day === day && item.date === date
+        )
+      ) {
         return false;
       }
     }
     return true;
   }
 
-  isBetweenSeries(day: number,date:string): boolean {
+  isBetweenSeries(day: number, date: string): boolean {
     // Check if the current date falls in between a series
-    return this.checkSeriesDateExists(day - 1, day + 1,date) && !this.checkSeriesDateExists(day - 2, day + 2,date);
+    return (
+      this.checkSeriesDateExists(day - 1, day + 1, date) &&
+      !this.checkSeriesDateExists(day - 2, day + 2, date)
+    );
   }
 
-  isSeriesEnd(day: number,date:string): boolean {
+  isSeriesEnd(day: number, date: string): boolean {
     // Check if the current date ends a series
-    return this.checkSeriesDateExists(day - 2, day,date);
+    return this.checkSeriesDateExists(day - 2, day, date);
   }
 
-  checkLargestDayEndsAndNextDayStarts(endDate: number,date:string): boolean {
+  checkLargestDayEndsAndNextDayStarts(endDate: number, date: string): boolean {
     // Check if the largest day in the series ends and the next day starts
     if (
-      this.calenderEvents.some(item => item.day === endDate && item.date === date) &&
-      !this.calenderEvents.some(item => item.day === endDate + 1 && item.date === date)
+      this.calenderEvents.some(
+        (item) => item.day === endDate && item.date === date
+      ) &&
+      !this.calenderEvents.some(
+        (item) => item.day === endDate + 1 && item.date === date
+      )
     ) {
       return true;
     }
     return false;
   }
-
-  
 
   goToPreviousMonth() {
     if (this.currentMonth === 0) {
@@ -183,14 +198,18 @@ export class CalenderComponent {
     } else {
       this.currentMonth--;
     }
-    this.currentMonthName = new Date(this.currentYear, this.currentMonth, 1).toLocaleString('default', { month: 'long' });
+    this.currentMonthName = new Date(
+      this.currentYear,
+      this.currentMonth,
+      1
+    ).toLocaleString('default', { month: 'long' });
     this.generateCalendarDates(this.currentYear, this.currentMonth);
   }
-  
+
   backToHome() {
     this.router.navigate(['/tabs/home']);
   }
-  
+
   goToNextMonth() {
     if (this.currentMonth === 11) {
       this.currentMonth = 0;
@@ -198,7 +217,11 @@ export class CalenderComponent {
     } else {
       this.currentMonth++;
     }
-    this.currentMonthName = new Date(this.currentYear, this.currentMonth, 1).toLocaleString('default', { month: 'long' });
+    this.currentMonthName = new Date(
+      this.currentYear,
+      this.currentMonth,
+      1
+    ).toLocaleString('default', { month: 'long' });
     this.generateCalendarDates(this.currentYear, this.currentMonth);
   }
 
