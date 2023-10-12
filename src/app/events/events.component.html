@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Create Events
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="chevron-back-outline" (click)="backToCalender()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card-content [formGroup]="calenderGroup">
+    <ion-item fill="outline">
+      <ion-label position="floating">Event Name</ion-label>
+      <ion-input formControlName="title" placeholder="Enter text"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Pick a date and time</ion-label>
+      <ion-datetime (ionChange)="dateTimeUpdated($event)"
+        displayFormat="DD.MM.YYYY HH:mm" [showDefaultButtons]="true"
+      ></ion-datetime>
+    </ion-item>
+    <ion-list>
+      <ion-item fill="outline">
+      <ion-label position="floating">Class</ion-label>
+        <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
+          <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item fill="outline">
+      <ion-label position="floating">Lecture</ion-label>
+        <ion-select  formControlName="lec_id" placeholder="Select Lecture" [multiple]="false">
+          <ion-select-option *ngFor="let data of lecturesData" [value]="data._id">{{data.lec_title}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-button style="margin-top: 20px;" (click)="createEvent();" expand="block">{{uploading?'Uploading ':'Upload'}}  <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
+    </ion-button>
+
+    <!-- snackbar card -->
+    <div class="card" *ngIf="uploadStatus.status">
+      <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+      <span class="message">{{uploadStatus.message}}</span>
+    </div>
+   </ion-card-content>
+</ion-content>
+

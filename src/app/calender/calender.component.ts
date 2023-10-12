@@ -20,6 +20,7 @@ export class CalenderComponent implements OnInit {
   transformedCalenderEvents: CalendarEvent[] = [];
   calenderEvents: CalendarEvent[] = [];
   spinner: boolean = false;
+  
 
   constructor(public router: Router, public service: WebService) {
     this._unsubscribeAll = new Subject();
@@ -211,6 +212,11 @@ export class CalenderComponent implements OnInit {
     this.router.navigate(['/tabs/home']);
   }
 
+  routeToEvents(){
+    this.router.navigate(['/tabs/Events']);
+
+  }
+
   goToNextMonth() {
     if (this.currentMonth === 11) {
       this.currentMonth = 0;
@@ -227,42 +233,48 @@ export class CalenderComponent implements OnInit {
   }
 
   // Function to transform the array
-  transformCalendarEvents(events: CalendarEvent[]): CalendarEvent[] {
-    const transformedEvents: CalendarEvent[] = [];
+transformCalendarEvents(events: CalendarEvent[]): CalendarEvent[] {
+  const transformedEvents: CalendarEvent[] = [];
 
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
+  for (let i = 0; i < events.length; i++) {
+    const event = events[i];
 
-      // Check if there are consecutive days
-      let startDay = event.day;
-      let endDay = event.day;
-      while (i + 1 < events.length && events[i + 1].day === endDay + 1) {
-        endDay = events[i + 1].day;
-        i++;
-      }
+    // Check if there are consecutive days
+    let startDay = event.day;
+    let endDay = event.day;
+    const startMonth = event.month; // Store the start month
 
-      // Create a range if there are consecutive days
-      if (startDay !== endDay) {
-        event.month = `${event.month} ${startDay} - ${event.month} ${endDay}`;
-      }
-
-      transformedEvents.push({
-        day: startDay,
-        time: event.time,
-        month: event.month,
-        titile: event.titile,
-        date: event.date,
-      });
+    while (i + 1 < events.length && events[i + 1].day === endDay + 1) {
+      endDay = events[i + 1].day;
+      i++;
     }
 
-    return transformedEvents;
+    event.month = `${startMonth} ${startDay}`
+
+    // Create a range if there are consecutive days
+    if (startDay !== endDay) {
+      event.month = `${startMonth} ${startDay} - ${endDay}`;
+    }
+
+    transformedEvents.push({
+      day: startDay,
+      time: event.time,
+      month: event.month,
+      title: event.title,
+      date: event.date,
+    });
   }
+
+  return transformedEvents;
+}
+
+
 }
 
 export interface CalendarEvent {
   day: number;
   time: string;
   month: string;
-  titile: string;
+  title: string;
   date: string;
 }
