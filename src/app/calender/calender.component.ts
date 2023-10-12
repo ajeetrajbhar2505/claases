@@ -19,6 +19,7 @@ export class CalenderComponent implements OnInit {
   currentYear: number;
   transformedCalenderEvents: CalendarEvent[] = [];
   calenderEvents: CalendarEvent[] = [];
+  spinner: boolean = false;
 
   constructor(public router: Router, public service: WebService) {
     this._unsubscribeAll = new Subject();
@@ -92,14 +93,13 @@ export class CalenderComponent implements OnInit {
         };
       });
     });
-
   }
 
   async getMonthWiseCalenderDetails(desiredMonth: string) {
+    this.spinner = true
+    this.calenderEvents = [];
+    this.transformedCalenderEvents = [];
 
-    this.calenderEvents = []
-    this.transformedCalenderEvents = []
-    
     const req = new Requestmodels();
     req.RequestUrl = `CalenderDetails/${desiredMonth}`;
     req.RequestObject = '';
@@ -115,6 +115,7 @@ export class CalenderComponent implements OnInit {
             }
 
             // fetch
+            this.spinner = false
             this.calenderEvents = data.response || [];
             // Call the function to transform the array
             this.transformedCalenderEvents = [];

@@ -261,8 +261,11 @@
         </div>
       </div>
       <div class="events-container">
-        <span class="events__title">Upcoming events this month</span>
+        <span class="events__title">{{!transformedCalenderEvents.length && !spinner?'No ':''}} Upcoming events this month</span>
         <ul class="events__list">
+          <div style="text-align: center;" *ngIf="spinner">
+            <img src="assets\loader\spin.gif" width="50px" alt="">
+          </div>
           <li class="events__item" *ngFor="let event of transformedCalenderEvents;">
             <div class="events__item--left">
               <span class="events__name">{{event.titile}}</span>
