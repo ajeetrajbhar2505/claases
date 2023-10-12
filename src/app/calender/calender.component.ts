@@ -68,31 +68,41 @@ export class CalenderComponent {
 
   generateCalendarDates(year: number, month: number) {
     this.calendarDates = [];
-  
-    // Calculate the number of days in the current month
+    const firstDayOfWeek = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
   
-    // Get the day of the week for the 1st day of the month (0: Sunday, 1: Monday, ..., 6: Saturday)
-    const firstDayOfWeek = new Date(year, month, 1).getDay();
+    let currentWeek = [];
+    let day = 1;
   
-    // Calculate the number of days from the previous month to include
-    const daysFromPreviousMonth = firstDayOfWeek;
+    // Add day names as the first row
   
-    // Create an array containing days from the previous month
-    const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+    // Add empty slots for days from the previous month
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      currentWeek.push('');
+    }
   
-    // Chunk the array into rows
-    this.calendarDates = this.chunkArray(daysArray, 7);
+    while (day <= daysInMonth) {
+      currentWeek.push(day);
+      if (currentWeek.length === 7) {
+        this.calendarDates.push([...currentWeek]);
+        currentWeek = [];
+      }
+      day++;
+    }
   
-    // Set the current day
-    this.currentDate = this.service.getCurrentDate();
+    // Add empty slots for days from the next month
+    while (currentWeek.length < 7) {
+      currentWeek.push('');
+    }
   
-    // Call the function to transform the array
-    this.transformedCalenderEvents = this.transformCalendarEvents(this.calenderEvents);
+    if (currentWeek.length === 7) {
+      this.calendarDates.push([...currentWeek]);
+    }
   
+    // Your date transformation logic here
     let count = 0; // Initialize count to 0
     const nextMonth = month + 1;
-  
+    
     this.calendarDates = this.calendarDates.map(row => {
       return row.map(date => {
         count++;
@@ -108,7 +118,10 @@ export class CalenderComponent {
         };
       });
     });
+  
+    console.log(this.calendarDates);
   }
+  
   
 
   // Function to chunk an array into sub-arrays
