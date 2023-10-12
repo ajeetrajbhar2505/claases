@@ -99,6 +99,11 @@ export class CalenderComponent {
       this.calendarDates.push([...currentWeek]);
     }
   
+    // Call the function to transform the array
+    this.transformedCalenderEvents = []
+    this.transformedCalenderEvents = this.transformCalendarEvents(this.calenderEvents);
+  
+
     // Your date transformation logic here
     let count = 0; // Initialize count to 0
     const nextMonth = month + 1;
