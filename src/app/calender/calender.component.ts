@@ -233,40 +233,47 @@ export class CalenderComponent implements OnInit {
   }
 
   // Function to transform the array
-transformCalendarEvents(events: CalendarEvent[]): CalendarEvent[] {
-  const transformedEvents: CalendarEvent[] = [];
+  transformCalendarEvents(events: CalendarEvent[]): CalendarEvent[] {
+    const transformedEvents: CalendarEvent[] = [];
+  
+    let i = 0;
+  
+    while (i < events.length) {
+      const event = events[i];
+  
+      // Check if there are consecutive days with the same event name
+      let startDay = event.day;
+      let endDay = event.day;
+      const startMonth = event.month; // Store the start month
+      const eventName = event.title; // Store the event name
+  
+      while (i + 1 < events.length && events[i + 1].day === endDay + 1 && events[i + 1].title === eventName) {
+        endDay = events[i + 1].day;
+        i++;
+      }
+  
+      event.month = `${startMonth} ${startDay}`
 
-  for (let i = 0; i < events.length; i++) {
-    const event = events[i];
-
-    // Check if there are consecutive days
-    let startDay = event.day;
-    let endDay = event.day;
-    const startMonth = event.month; // Store the start month
-
-    while (i + 1 < events.length && events[i + 1].day === endDay + 1) {
-      endDay = events[i + 1].day;
-      i++;
+      // Create a range if there are consecutive days
+      if (startDay !== endDay) {
+        event.month = `${startMonth} ${startDay} - ${endDay}`;
+      }
+  
+      transformedEvents.push({
+        day: startDay,
+        time: event.time,
+        month: event.month,
+        title: eventName, // Use the stored event name
+        date: event.date,
+      });
+  
+      i++; // Move to the next event
     }
-
-    event.month = `${startMonth} ${startDay}`
-
-    // Create a range if there are consecutive days
-    if (startDay !== endDay) {
-      event.month = `${startMonth} ${startDay} - ${endDay}`;
-    }
-
-    transformedEvents.push({
-      day: startDay,
-      time: event.time,
-      month: event.month,
-      title: event.title,
-      date: event.date,
-    });
+  
+    return transformedEvents;
   }
-
-  return transformedEvents;
-}
+  
+  
 
 
 }
