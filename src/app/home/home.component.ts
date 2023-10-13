@@ -84,27 +84,27 @@ export class HomeComponent implements OnInit {
       icon: 'musical-notes-outline',
       info: 'Admin uploaded a new audio',
       content: 'audio',
-      classId: 1,
-      lec_id: 1,
-      contentId: 9,
+      classId: "642f2337de637e0827864e06",
+      lec_id: "642f2a79eb0a076652aa32fc",
+      contentId: "6529140a98e2dda6637e57aa",
       from: '/tabs/home',
     },
     {
       icon: 'play-circle-outline',
       info: 'Admin uploaded a new video',
       content: 'video',
-      classId: 1,
-      lec_id: 1,
-      contentId: 8,
+      classId: '642f2337de637e0827864e06',
+      lec_id: "642f2a79eb0a076652aa32fc",
+      contentId: "652913c098e2dda6637e57a9",
       from: '/tabs/home',
     },
     {
       icon: 'document-text-outline',
       info: 'Admin uploaded a new document',
       content: 'document',
-      classId: 1,
-      lec_id: 1,
-      contentId: 11,
+      classId: "642f2337de637e0827864e06",
+      lec_id: "642f2a79eb0a076652aa32fc",
+      contentId: "6529143c98e2dda6637e57ab",
       from: '/tabs/home',
     },
   ];
@@ -269,7 +269,7 @@ export class HomeComponent implements OnInit {
   }
 
   routeTocontentControls(content: any) {
-    const queryParams = { ...content,contentId : content._id, from: '/tabs/home' };
+    const queryParams = { ...content,contentId : content.contentId, from: '/tabs/home' };
     delete queryParams.icon;
     delete queryParams.info;
 
