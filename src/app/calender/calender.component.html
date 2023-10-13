@@ -74,12 +74,12 @@
           <div style="text-align: center;" *ngIf="spinner">
             <img src="assets\loader\spin.gif" width="50px" alt="">
           </div>
-          <li class="events__item" *ngFor="let event of transformedCalenderEvents;">
+          <li class="events__item" *ngFor="let event of transformedCalenderEvents;let i = index">
             <div class="events__item--left">
               <span class="events__name">{{event.title}}</span>
               <span class="events__date">{{event.month}}</span>
             </div>
-            <span class="events__tag">{{event.time}}</span>
+            <span class="events__tag" [ngClass]="i % 2 === 0 ? 'events__tag--highlighted' : ''">{{event.time}}</span>
           </li>
         </ul>
       </div>
