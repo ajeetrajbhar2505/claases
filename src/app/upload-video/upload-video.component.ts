@@ -22,7 +22,12 @@ export class UploadVideoComponent implements OnInit {
   currentContent: any = '';
   uploading: boolean = false;
   uploadStatus: any = { status: false, message: '', statusType: '' };
-
+  statusIcons = [
+    { name: 'checkmark-circle-outline', status: 'success' },
+    { name: 'close-circle-outline', status: 'failed' },
+    { name: 'information-circle-outline', status: 'info' },
+  ];
+  currentStatusIcon: any = '';
   constructor(
     public http: HttpClient,
     private sanitizer: DomSanitizer,
@@ -147,9 +152,11 @@ export class UploadVideoComponent implements OnInit {
 
   async uploadContent(): Promise<string> {
     if (!this.uploadVideogroup.valid) {
-      this.uploadStatus.status = true;
-      this.uploadStatus.message = 'Fill all the details!'
-      this.uploadStatus.statusType = 'failed'
+      this.openSnackbar({
+        status: true,
+        message: 'Fill all the details!',
+        statusType: 'failed',
+      });
       return ''
     }
     this.uploading = true
@@ -186,10 +193,11 @@ export class UploadVideoComponent implements OnInit {
           return '';
         }
         this.uploading = false
-        this.uploadStatus.status = true;
-        this.uploadStatus.message = data.response || 'File uploaded successfully!'
-        this.uploadStatus.statusType = 'info'
-
+        this.openSnackbar({
+          status: true,
+          message: data.response || 'File uploaded successfully!',
+          statusType: 'info',
+        });
         this.uploadVideogroup.get('classId')?.setValue('')
         this.uploadVideogroup.get('lec_id')?.setValue('')
         this.uploadVideogroup.get('content_icon')?.setValue('')
@@ -207,4 +215,16 @@ export class UploadVideoComponent implements OnInit {
   getSnackbarStatus(status: any) {
     this.uploadStatus.status = status;
   }
+
+  openSnackbar(uploadStatus: any) {
+    this.uploadStatus = uploadStatus;
+    this.currentStatusIcon = this.statusIcons.filter(
+      (obj) => obj.status == this.uploadStatus.statusType
+    )[0].name;
+    this.uploadStatus.status = true;
+    setTimeout(() => {
+      this.uploadStatus.status = false;
+    }, 2000);
+  }
+
 }

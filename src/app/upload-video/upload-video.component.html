@@ -39,6 +39,10 @@
     </ion-button>
 
    </ion-card-content>
-  <app-snackbar *ngIf="uploadStatus.status" (snackbarStatus)="getSnackbarStatus($event)" [getuploadStatus]="uploadStatus"></app-snackbar>
+       <!-- snackbar card -->
+       <div class="card" *ngIf="uploadStatus.status">
+        <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+        <span class="message">{{uploadStatus.message}}</span>
+      </div>
 </ion-content>
 
