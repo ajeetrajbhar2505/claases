@@ -4,7 +4,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -15,7 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
 import { environment } from 'src/environments/environment';
-import { commonNavigation,ContentControls } from '../models/commonObjects.module';
+import {
+  commonNavigation,
+  ContentControls,
+} from '../models/commonObjects.module';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { WebService } from '../web.service';
@@ -29,7 +32,7 @@ const navigationExtras: NavigationExtras = {
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent  {
+export class ContentControlsComponent {
   private _unsubscribeAll: Subject<any>;
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
@@ -61,72 +64,65 @@ export class ContentControlsComponent  {
     public ActivatedRoute: ActivatedRoute,
     public router: Router,
     private sanitizer: DomSanitizer,
-    public fb: FormBuilder,public _https:WebService,
+    public fb: FormBuilder,
+    public _https: WebService,
     private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
-    this._unsubscribeAll = new Subject()
+    this._unsubscribeAll = new Subject();
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
-      this.contentLoaded = false
-      this.contentControls =  {
+      this.contentLoaded = false;
+      this.contentControls = {
         playContent: false,
         openFullscreen: false,
         Rangeduration: 0,
         currentRangeDuration: 0,
         currentDuration: '',
         duration: '',
-      }
+      };
       this.contentToWatch = {};
-      this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
-      this.ActivatedRoute.queryParams.subscribe((params: any) => {
-        if (params.reload === 'true') {
-          this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
-        }
-      });
-    })
-      
+
+      this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+      if (param.reload === 'true') {
+        this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+      }
+    });
+
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         App.exitApp();
       }
     });
-
   }
 
-  async fetchContentDetails(classId:any,lec_id:any,contentId:any) {
-    this.contentLoaded = false
-    const req = new Requestmodels()
+  async fetchContentDetails(classId: any, lec_id: any, contentId: any) {
+    this.contentLoaded = false;
+    const req = new Requestmodels();
     req.RequestUrl = `content/` + classId + '/' + lec_id + '/' + contentId;
-    req.RequestObject = ""
-  
+    req.RequestObject = '';
+
     await this._https
-     .fetchData(req)
-     .pipe(takeUntil(this._unsubscribeAll))
-     .subscribe(
-      (data) => {
-       if (data != null) {
-        if (data.status !== 200) {
-         return
-        }
-  
-        
-        // fetch 
-        this.contentToWatch = data.response[0] || {}
-        this.contentLoaded = true
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
 
-       }
-      },
-      (_error) => {
-       return;
-      },
-      () => {
-  
-      }
-  
-     )
-    }
-
+            // fetch
+            this.contentToWatch = data.response[0] || {};
+            this.contentLoaded = true;
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
 
   private getContentElement(): HTMLVideoElement | null {
     return document.querySelector<HTMLVideoElement>('#classContent');
@@ -138,11 +134,12 @@ export class ContentControlsComponent  {
       content.pause();
     }
 
-    const queryParams:commonNavigation = {
+    const queryParams: commonNavigation = {
       classId: this.contentDetails.classId,
       lec_id: this.contentDetails.lec_id,
       contentId: this.contentDetails.contentId,
       from: this.contentDetails.nested,
+      reload: 'true',
     };
     this.router.navigate([this.contentDetails.from], { queryParams });
 
@@ -162,14 +159,15 @@ export class ContentControlsComponent  {
       this.contentControls.Rangeduration = content.duration;
       this.contentControls.currentRangeDuration = content.currentTime;
 
-      if (ended || Math.floor(content.currentTime) >= Math.floor(content.duration)) {
+      if (
+        ended ||
+        Math.floor(content.currentTime) >= Math.floor(content.duration)
+      ) {
         content.play();
         this.contentControls.playContent = false;
+      } else {
+        content.pause();
       }
-      else {
-        content.pause()
-      }
-
     }
   }
 
@@ -190,8 +188,12 @@ export class ContentControlsComponent  {
   checkContinuousContentduration() {
     const content = this.getContentElement();
     if (content) {
-      this.contentControls.currentRangeDuration = parseInt(content.currentTime.toFixed(2));
-      this.contentControls.currentDuration = this.formatTime(content.currentTime.toFixed(2));
+      this.contentControls.currentRangeDuration = parseInt(
+        content.currentTime.toFixed(2)
+      );
+      this.contentControls.currentDuration = this.formatTime(
+        content.currentTime.toFixed(2)
+      );
       if (content.paused) {
         this.contentControls.playContent = true;
       } else {
@@ -250,7 +252,6 @@ export class ContentControlsComponent  {
     }
   }
 
-
   skipContent(delta: number) {
     const content = this.getContentElement();
     if (content) {
@@ -276,18 +277,13 @@ export class ContentControlsComponent  {
   }
 
   toggleFullscreenContent() {
-      this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
+    this.contentControls.openFullscreen = !this.contentControls.openFullscreen;
   }
 
-
-  
-  isVideoOrAudioContent(content:any)
-  {
+  isVideoOrAudioContent(content: any) {
     if (content == 'video' || content == 'audio') {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
-
-  
 }
