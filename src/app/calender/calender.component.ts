@@ -256,7 +256,7 @@ export class CalenderComponent implements OnInit {
 
       // Create a range if there are consecutive days
       if (startDay !== endDay) {
-        event.month = `${startMonth} ${startDay} - ${endDay}`;
+        event.month = `${startMonth} ${startDay} - ${startMonth} ${endDay}`;
       }
   
       transformedEvents.push({
