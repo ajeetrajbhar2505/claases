@@ -6,6 +6,7 @@ export interface commonNavigation{
     from?:string;
     content?:string;
     nested?:string
+    reload?:string
 }
 
 export interface ContentControls {

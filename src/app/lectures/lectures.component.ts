@@ -9,6 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { WebService } from '../web.service';
+import { NavigationExtras } from '@angular/router';
+
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
+
 @Component({
   selector: 'app-lectures',
   templateUrl: './lectures.component.html',
@@ -27,6 +33,10 @@ export class LecturesComponent  {
       this.classId = param.classId
       this.lecturesData = []
       this.fetchlectureDetails(param.classId)
+
+      if (param.reload === 'true') {
+        this.fetchlectureDetails(param.classId)
+      }
     })
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
@@ -35,6 +45,7 @@ export class LecturesComponent  {
     });
 
   }
+
 
   async fetchlectureDetails(classId:any) {
     const req = new Requestmodels()
@@ -68,11 +79,11 @@ export class LecturesComponent  {
 
 
   routeTocontents(lec_id: any) {
-    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lec_id : lec_id,from : '/tabs/lectures'}})
+    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lec_id : lec_id,from : '/tabs/lectures',reload : 'true'}})
    }
 
   backToclass() {
-    this.router.navigate(['/tabs/class'])
+    this.router.navigate(['/tabs/class'],navigationExtras)
   }
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {

@@ -17,6 +17,14 @@ export class AchievementsComponent implements OnInit  {
     const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
     const data = response.filter((data: any) => data.classId === 10)[0];
     this.lecturesData = data.subjects;
+    
+    this.ActivatedRoute.queryParams.subscribe(async (params: any) => {
+      if (params.reload === 'true') {
+        const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
+        const data = response.filter((data: any) => data.classId === 10)[0];
+        this.lecturesData = data.subjects;
+      }
+    });
   }
 
   backToHome(){

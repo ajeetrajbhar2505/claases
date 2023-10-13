@@ -7,7 +7,11 @@ import { WebService } from '../web.service';
 import { commonNavigation } from '../models/commonObjects.module';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
+import { NavigationExtras } from '@angular/router';
 
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
 interface MenuItem {
   icon: string;
   title: string;
@@ -144,11 +148,16 @@ export class HomeComponent implements OnInit {
     }
 
     // Fetch class wise lectures data and update the UI
-    this.fetchMostWatched();
-    this.fetchcontentDetails()
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      if (params.reload === 'true') {
+        this.fetchMostWatched();
+        this.fetchcontentDetails()
+    
+        // socket connection
+        this.getMessage();
+      }
+    });
 
-    // socket connection
-    this.getMessage();
   }
 
   async fetchMostWatched() {
@@ -232,6 +241,7 @@ export class HomeComponent implements OnInit {
       lec_title: data.lec_title,
       contentId: this.contentId,
       from: '/tabs/home',
+      reload: 'true'
     };
     this.router.navigate(['/tabs/test'], { queryParams });
   }
@@ -264,15 +274,15 @@ export class HomeComponent implements OnInit {
       classId: classId,
       lec_id: lec_id,
       from: '/tabs/home',
+      reload: 'true'
     };
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
   routeTocontentControls(content: any) {
-    const queryParams = { ...content,contentId : content.contentId, from: '/tabs/home' };
+    const queryParams = { ...content,contentId : content.contentId?content.contentId:content._id, from: '/tabs/home',reload: 'true' };
     delete queryParams.icon;
     delete queryParams.info;
-
     // Delay navigation by 10 milliseconds to ensure that the
     // UI updates before navigating to the next page
     setTimeout(() => {
@@ -281,15 +291,15 @@ export class HomeComponent implements OnInit {
   }
 
   routeToAchievements() {
-    this.router.navigate(['/tabs/achievements']);
+    this.router.navigate(['/tabs/achievements'],navigationExtras);
   }
 
   routeToPupularLectures() {
-    this.router.navigate(['/tabs/popular-lectures']);
+    this.router.navigate(['/tabs/popular-lectures'],navigationExtras);
   }
 
   routeToPupularQuiz() {
-    this.router.navigate(['/tabs/popular-quiz']);
+    this.router.navigate(['/tabs/popular-quiz'],navigationExtras);
   }
 
   getMessage() {

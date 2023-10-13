@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -18,7 +23,7 @@ export class UploadVideoComponent implements OnInit {
   lecturesData: any[] = [];
   classData: any = [];
   params: any = {};
-  uploadVideogroup!: FormGroup
+  uploadVideogroup!: FormGroup;
   currentContent: any = '';
   uploading: boolean = false;
   uploadStatus: any = { status: false, message: '', statusType: '' };
@@ -46,7 +51,7 @@ export class UploadVideoComponent implements OnInit {
       content: ['', Validators.required],
       published_at: ['', Validators.required],
       file: ['', Validators.required],
-    })
+    });
     this.uploadVideogroup
       .get('published_at')
       ?.patchValue(this.service.getCurrentDate());
@@ -58,6 +63,11 @@ export class UploadVideoComponent implements OnInit {
 
   async ngOnInit() {
     this.fetchClassDetails();
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      if (params.reload === 'true') {
+        this.fetchClassDetails();
+      }
+    });
   }
 
   async fetchClassDetails() {
@@ -82,7 +92,7 @@ export class UploadVideoComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => { }
+        () => {}
       );
   }
 
@@ -95,9 +105,9 @@ export class UploadVideoComponent implements OnInit {
   }
 
   async getSubjectsByclassId(event: any) {
-    const classId = event?event.target.value:null;
+    const classId = event ? event.target.value : null;
     if (classId) {
-    this.fetchlectureDetails(classId);
+      this.fetchlectureDetails(classId);
     }
   }
 
@@ -123,7 +133,7 @@ export class UploadVideoComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => { }
+        () => {}
       );
   }
 
@@ -133,11 +143,15 @@ export class UploadVideoComponent implements OnInit {
   }
 
   onchange_lecture(event: any) {
-    this.uploadVideogroup.get('content_icon')?.patchValue(this.getContent_icon());
+    this.uploadVideogroup
+      .get('content_icon')
+      ?.patchValue(this.getContent_icon());
   }
 
   getContent_icon(): string {
-    return this.lecturesData.find(object => object._id == this.uploadVideogroup.get('lec_id')?.value).lec_icon
+    return this.lecturesData.find(
+      (object) => object._id == this.uploadVideogroup.get('lec_id')?.value
+    ).lec_icon;
   }
 
   backToContent() {
@@ -146,6 +160,7 @@ export class UploadVideoComponent implements OnInit {
       lec_id: this.params.lec_id,
       contentId: this.params.contentId,
       from: '/tabs/lectures',
+      reload : 'true'
     };
     this.router.navigate([this.params.from], { queryParams });
   }
@@ -157,17 +172,18 @@ export class UploadVideoComponent implements OnInit {
         message: 'Fill all the details!',
         statusType: 'failed',
       });
-      return ''
+      return '';
     }
-    this.uploading = true
-    this.uploadStatus.status = false
+    this.uploading = true;
+    this.uploadStatus.status = false;
     const req = new Requestmodels();
     // create a new FormData object
     const formData = new FormData();
 
     const classId = this.uploadVideogroup.get('classId')?.value || '';
     const lec_id = this.uploadVideogroup.get('lec_id')?.value || '';
-    const content_icon = this.uploadVideogroup.get('content_icon')?.value || '' || '';
+    const content_icon =
+      this.uploadVideogroup.get('content_icon')?.value || '' || '';
     const content_link = this.uploadVideogroup.get('content_link')?.value || '';
     const content_title =
       this.uploadVideogroup.get('content_title')?.value || '';
@@ -187,23 +203,27 @@ export class UploadVideoComponent implements OnInit {
     req.RequestUrl = `upload`;
 
     try {
-      const data: any = await this.service.UploadFile(req, formData).toPromise();
+      const data: any = await this.service
+        .UploadFile(req, formData)
+        .toPromise();
       if (data != null) {
         if (data.error) {
           return '';
         }
-        this.uploading = false
+        this.uploading = false;
         this.openSnackbar({
           status: true,
           message: data.response || 'File uploaded successfully!',
           statusType: 'info',
         });
-        this.uploadVideogroup.get('classId')?.setValue('')
-        this.uploadVideogroup.get('lec_id')?.setValue('')
-        this.uploadVideogroup.get('content_icon')?.setValue('')
-        this.uploadVideogroup.get('content_title')?.setValue('')
-        this.uploadVideogroup.get('published_at')?.patchValue(this.service.getCurrentDate())
-        this.uploadVideogroup.get('file')?.setValue('')
+        this.uploadVideogroup.get('classId')?.setValue('');
+        this.uploadVideogroup.get('lec_id')?.setValue('');
+        this.uploadVideogroup.get('content_icon')?.setValue('');
+        this.uploadVideogroup.get('content_title')?.setValue('');
+        this.uploadVideogroup
+          .get('published_at')
+          ?.patchValue(this.service.getCurrentDate());
+        this.uploadVideogroup.get('file')?.setValue('');
       }
     } catch (error) {
       console.error(error);
@@ -226,5 +246,4 @@ export class UploadVideoComponent implements OnInit {
       this.uploadStatus.status = false;
     }, 2000);
   }
-
 }

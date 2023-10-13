@@ -14,10 +14,10 @@ import { environment } from 'src/environments/environment';
   templateUrl: './live.component.html',
   styleUrls: ['./live.component.scss'],
 })
-export class LiveComponent  {
+export class LiveComponent implements OnInit  {
   @ViewChild("videoPlayer", { static: true }) videoplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
-  selectedVideoToWatch =  {
+  selectedVideoToWatch = {
     "lec_id": 7,
     "lec_icon": "assets/evs.webp",
     "lec_title": "EVS PART 1",
@@ -46,6 +46,38 @@ export class LiveComponent  {
       }
     });
 
+    this.videoControls = {
+      playVideo: false,
+      openFullscreen: false,
+      Rangeduration: 0,
+      currentRangeDuration : 0,
+      currentDuration : '',
+      duration : ''
+    }
+
+  }
+
+
+  fetchLiveLectureDetails(){
+   this.selectedVideoToWatch = {
+    "lec_id": 7,
+    "lec_icon": "assets/evs.webp",
+    "lec_title": "EVS PART 1",
+    "video_link": environment.apifirstKey + "evs-for-class-3-learn-science-for-kids-envir.mp4" + environment.apilastkey,
+    "video_title": "Learn Science For Kids | Environmental Science",
+    "teacher" : "ajeet rajbhar",
+    "published_at": "18/02/2023"
+  }
+  }
+
+
+  ngOnInit(): void {
+    this.fetchLiveLectureDetails()
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      if (params.reload === 'true') {
+        this.fetchLiveLectureDetails();
+      }
+    });
   }
 
   backToStandard() {

@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { WebService } from '../web.service';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Router,NavigationExtras } from '@angular/router';
 
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
 @Component({
   selector: 'app-calender',
   templateUrl: './calender.component.html',
@@ -20,9 +24,12 @@ export class CalenderComponent implements OnInit {
   transformedCalenderEvents: CalendarEvent[] = [];
   calenderEvents: CalendarEvent[] = [];
   spinner: boolean = false;
-  
 
-  constructor(public router: Router, public service: WebService) {
+  constructor(
+    public router: Router,
+    public service: WebService,
+    public ActivatedRoute: ActivatedRoute
+  ) {
     this._unsubscribeAll = new Subject();
     this.currentMonth = new Date().getMonth();
     this.currentMonthName = new Date().toLocaleString('default', {
@@ -33,6 +40,11 @@ export class CalenderComponent implements OnInit {
 
   ngOnInit(): void {
     this.generateCalendarDates(this.currentYear, this.currentMonth);
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      if (params.reload === 'true') {
+        this.generateCalendarDates(this.currentYear, this.currentMonth);
+      }
+    });
   }
 
   generateCalendarDates(year: number, month: number) {
@@ -97,7 +109,7 @@ export class CalenderComponent implements OnInit {
   }
 
   async getMonthWiseCalenderDetails(desiredMonth: string) {
-    this.spinner = true
+    this.spinner = true;
     this.calenderEvents = [];
     this.transformedCalenderEvents = [];
 
@@ -116,7 +128,7 @@ export class CalenderComponent implements OnInit {
             }
 
             // fetch
-            this.spinner = false
+            this.spinner = false;
             this.calenderEvents = data.response || [];
             // Call the function to transform the array
             this.transformedCalenderEvents = [];
@@ -209,12 +221,11 @@ export class CalenderComponent implements OnInit {
   }
 
   backToHome() {
-    this.router.navigate(['/tabs/home']);
+    this.router.navigate(['/tabs/home'],navigationExtras);
   }
 
-  routeToEvents(){
-    this.router.navigate(['/tabs/Events']);
-
+  routeToEvents() {
+    this.router.navigate(['/tabs/Events'],navigationExtras);
   }
 
   goToNextMonth() {
@@ -235,30 +246,34 @@ export class CalenderComponent implements OnInit {
   // Function to transform the array
   transformCalendarEvents(events: CalendarEvent[]): CalendarEvent[] {
     const transformedEvents: CalendarEvent[] = [];
-  
+
     let i = 0;
-  
+
     while (i < events.length) {
       const event = events[i];
-  
+
       // Check if there are consecutive days with the same event name
       let startDay = event.day;
       let endDay = event.day;
       const startMonth = event.month; // Store the start month
       const eventName = event.title; // Store the event name
-  
-      while (i + 1 < events.length && events[i + 1].day === endDay + 1 && events[i + 1].title === eventName) {
+
+      while (
+        i + 1 < events.length &&
+        events[i + 1].day === endDay + 1 &&
+        events[i + 1].title === eventName
+      ) {
         endDay = events[i + 1].day;
         i++;
       }
-  
-      event.month = `${startMonth} ${startDay}`
+
+      event.month = `${startMonth} ${startDay}`;
 
       // Create a range if there are consecutive days
       if (startDay !== endDay) {
         event.month = `${startMonth} ${startDay} - ${startMonth} ${endDay}`;
       }
-  
+
       transformedEvents.push({
         day: startDay,
         time: event.time,
@@ -266,16 +281,12 @@ export class CalenderComponent implements OnInit {
         title: eventName, // Use the stored event name
         date: event.date,
       });
-  
+
       i++; // Move to the next event
     }
-  
+
     return transformedEvents;
   }
-  
-  
-
-
 }
 
 export interface CalendarEvent {

@@ -2,7 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { WebService } from '../web.service';
+import { NavigationExtras } from '@angular/router';
 
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -47,10 +51,10 @@ export class TabsPage  {
     const result = await actionSheet.onDidDismiss();
     this.result = JSON.stringify(result, null, 2);
     if (result.role == 'upload') {
-      this.router.navigate(['/tabs/uploadVideo'])
+      this.router.navigate(['/tabs/uploadVideo'],navigationExtras)
     }
     else if (result.role == 'live') {
-      this.router.navigate(['/tabs/live'])
+      this.router.navigate(['/tabs/live'],navigationExtras)
     }
        
   }
@@ -70,7 +74,7 @@ export class TabsPage  {
 
   routesTo(path:any)
   {
-    this.router.navigate(['/tabs/' + path])
+    this.router.navigate(['/tabs/' + path],navigationExtras)
   }
 
 }

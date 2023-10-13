@@ -19,13 +19,17 @@ import { commonNavigation,ContentControls } from '../models/commonObjects.module
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { WebService } from '../web.service';
+import { NavigationExtras } from '@angular/router';
 
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
 @Component({
   selector: 'app-content-controls',
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent implements OnInit {
+export class ContentControlsComponent  {
   private _unsubscribeAll: Subject<any>;
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
@@ -75,6 +79,11 @@ export class ContentControlsComponent implements OnInit {
       }
       this.contentToWatch = {};
       this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
+      this.ActivatedRoute.queryParams.subscribe((params: any) => {
+        if (params.reload === 'true') {
+          this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
+        }
+      });
     })
       
     this.platform.backButton.subscribeWithPriority(-1, () => {
@@ -84,12 +93,6 @@ export class ContentControlsComponent implements OnInit {
     });
 
   }
-
-
-  ngOnInit(): void {
-
-  }
-  
 
   async fetchContentDetails(classId:any,lec_id:any,contentId:any) {
     this.contentLoaded = false

@@ -165,8 +165,15 @@ export class TestComponent implements OnInit {
       this.lectureDetails.lec_title = param.lec_title
       this.lectureDetails.lec_id = param.lec_id
       this.autoGenerateQuiz()
-
       this.restartQuiz()
+
+      
+      if (param.reload === 'true') {
+        this.lectureDetails.lec_title = param.lec_title
+        this.lectureDetails.lec_id = param.lec_id
+        this.autoGenerateQuiz()
+        this.restartQuiz()
+      }
     })
   }
 

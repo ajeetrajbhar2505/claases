@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { WebService } from '../web.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+
+const navigationExtras: NavigationExtras = {
+  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+};
 
 @Component({
   selector: 'app-events',
@@ -28,7 +32,8 @@ export class EventsComponent implements OnInit {
   constructor(
     public router: Router,
     public service: WebService,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public ActivatedRoute:ActivatedRoute
   ) {
     this._unsubscribeAll = new Subject();
     this.createCalenderGroup();
@@ -36,6 +41,11 @@ export class EventsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchClassDetails();
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      if (params.reload === 'true') {
+        this.fetchClassDetails();
+      }
+    });
   }
 
   dateTimeUpdated(event: any) {
@@ -149,7 +159,7 @@ export class EventsComponent implements OnInit {
   }
 
   backToCalender() {
-    this.router.navigate(['/tabs/calender']);
+    this.router.navigate(['/tabs/calender'], navigationExtras);
   }
 
   async getSubjectsByclassId(event: any) {
