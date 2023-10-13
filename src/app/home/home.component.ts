@@ -147,6 +147,12 @@ export class HomeComponent implements OnInit {
       this.greeting = 'Good night';
     }
 
+    this.fetchMostWatched();
+    this.fetchcontentDetails()
+
+    // socket connection
+    this.getMessage();
+    
     // Fetch class wise lectures data and update the UI
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {
