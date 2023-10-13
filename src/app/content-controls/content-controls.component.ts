@@ -65,7 +65,14 @@ export class ContentControlsComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.contentDetails = param;
       this.contentLoaded = false
-      this.contentControls = this.contentControls;
+      this.contentControls =  {
+        playContent: false,
+        openFullscreen: false,
+        Rangeduration: 0,
+        currentRangeDuration: 0,
+        currentDuration: '',
+        duration: '',
+      }
       this.contentToWatch = {};
       this.fetchContentDetails(param.classId,param.lec_id,param.contentId)
     })
