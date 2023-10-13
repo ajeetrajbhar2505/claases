@@ -92,7 +92,7 @@ export class ContentsComponent {
 
   backTolectures() {
     this.router.navigate([this.params.from], {
-      queryParams: { classId: this.params.classId },
+      queryParams: { classId: this.params.classId, reload: 'true' },
     });
   }
 
@@ -114,7 +114,7 @@ export class ContentsComponent {
       from: '/tabs/contents',
       content: content,
       nested: this.params.nested,
-      reload : 'true'
+      reload: 'true',
     };
     this.router.navigate(['/tabs/uploadVideo'], { queryParams });
   }
@@ -128,7 +128,7 @@ export class ContentsComponent {
         lec_id: this.params.lec_id,
         contentId: contentDetails._id,
         content: contentDetails.content,
-        reload :  'true'
+        reload: 'true',
       },
     });
   }
