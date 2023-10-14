@@ -1,12 +1,16 @@
-<ion-content [fullscreen]="true">
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title (click)="backToHome()"> Scheduled Lecturess </ion-title>
-    <ion-icon
-      slot="start"
-      (click)="backToHome()"
-      name="chevron-back-outline"
-    ></ion-icon>
+    <ion-title>
+      Scheduled Lectures
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="chevron-back-outline" (click)="backToHome()"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
+  </ion-header>
+
+
+<ion-content [fullscreen]="true">
   <div class="main-container-wrapper">
     <header>
       <button class="header__btn header__btn--right" title="Add event" (click)="routeToEvents()">
