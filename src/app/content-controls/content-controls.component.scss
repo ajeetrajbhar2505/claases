@@ -100,10 +100,6 @@ input:checked {
   }
 }
 
-iframe{
-  border-radius: 15px;
-}
-
 .default-rotated{
   background: darken($midnight, 10%);
   &::after {

@@ -11,12 +11,12 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card-content [formGroup]="uploadVideogroup">
-    <ion-item fill="outline">
+    <ion-item fill="">
       <ion-label position="floating">Content title</ion-label>
       <ion-input formControlName="content_title" placeholder="Enter text"></ion-input>
     </ion-item>
     <ion-list>
-      <ion-item fill="outline">
+      <ion-item fill="">
       <ion-label position="floating">Class</ion-label>
         <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
           <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
@@ -24,16 +24,22 @@
       </ion-item>
     </ion-list>
     <ion-list>
-      <ion-item fill="outline">
+      <ion-item fill="">
       <ion-label position="floating">Lecture</ion-label>
         <ion-select  formControlName="lec_id" placeholder="Select Lecture" (ionChange)="onchange_lecture($event)" [multiple]="false">
           <ion-select-option *ngFor="let data of lecturesData" [value]="data._id">{{data.lec_title}}</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>
-    <ion-item fill="outline">
-      <ion-input type="file" [accept]="uploadVideogroup.get('content')?.value =='video'?'video/mp4':uploadVideogroup.get('content')?.value =='audio'?'audio/mp3':uploadVideogroup.get('content')?.value =='document'?'application/pdf':''"  (change)="readUrl($event)" formControlName="file"></ion-input>
-    </ion-item>
+		<div class="drag-file-area">
+      <label for="choose-file">
+			<span class="material-icons-outlined upload-icon"><img src="assets\upload.png" alt="" width="30px"> </span>
+			<h3 class="dynamic-message browse-files-text"> Choose file here </h3>
+      <input type="file" id="choose-file" [accept]="uploadVideogroup.get('content')?.value =='video'?'video/mp4':uploadVideogroup.get('content')?.value =='audio'?'audio/mp3':uploadVideogroup.get('content')?.value =='document'?'application/pdf':''"  (change)="readUrl($event)" formControlName="file" class="default-file-input"/> 
+      {{uploadVideogroup.get('file')?.value.name}}
+      </label>
+		</div>
+
 
     <ion-button style="margin-top: 20px;" (click)="uploadContent();" expand="block">{{uploading?'Uploading ':'Upload'}}  <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
     </ion-button>

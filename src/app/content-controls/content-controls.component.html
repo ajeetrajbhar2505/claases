@@ -9,7 +9,7 @@
 <!-- api key -->
 <!-- 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 -->
 <ion-content [fullscreen]="true" class="ion-padding">
-  <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+  <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
   (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
   <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
   Your Device does not support the video.

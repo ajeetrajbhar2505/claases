@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">c
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Create Events
@@ -11,20 +11,32 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-card-content [formGroup]="calenderGroup">
-    <ion-item fill="outline">
+    <ion-list>
+    <ion-item fill="">
       <ion-label position="floating">Event Name</ion-label>
       <ion-input formControlName="title" placeholder="Enter text"></ion-input>
     </ion-item>
+</ion-list>
 
-
-    <ion-item>
-      <ion-label>Pick a date and time</ion-label>
-      <ion-datetime (ionChange)="dateTimeUpdated($event)"
-        displayFormat="DD.MM.YYYY HH:mm" [showDefaultButtons]="true"
-      ></ion-datetime>
+<ion-list>
+    <ion-item fill="">
+      <div class="tabs">
+        <div class="tab">
+          <label class="tab-label" for="chck3">Date & Time</label>
+        </div>
+      </div>
     </ion-item>
+      <div class="tab">
+        <input type="checkbox" id="chck3">
+        <div class="tab-content">
+          <ion-datetime (ionChange)="dateTimeUpdated($event)"
+          displayFormat="DD.MM.YYYY HH:mm" [showDefaultButtons]="true"
+        ></ion-datetime>
+        </div>
+      </div>
+</ion-list>
     <ion-list>
-      <ion-item fill="outline">
+      <ion-item fill="">
       <ion-label position="floating">Class</ion-label>
         <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
           <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
@@ -32,7 +44,7 @@
       </ion-item>
     </ion-list>
     <ion-list>
-      <ion-item fill="outline">
+      <ion-item fill="">
       <ion-label position="floating">Lecture</ion-label>
         <ion-select  formControlName="lec_id" placeholder="Select Lecture" [multiple]="false">
           <ion-select-option *ngFor="let data of lecturesData" [value]="data._id">{{data.lec_title}}</ion-select-option>

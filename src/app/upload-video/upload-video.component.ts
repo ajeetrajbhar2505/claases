@@ -46,6 +46,7 @@ export class UploadVideoComponent implements OnInit {
       classId: ['', Validators.required],
       lec_id: ['', Validators.required],
       content_icon: ['', Validators.required],
+      content_link_duplicate: [''],
       content_link: [''],
       content_title: ['', Validators.required],
       content: ['', Validators.required],
