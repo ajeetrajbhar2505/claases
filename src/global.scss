@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,14 +25,12 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
-.sticky-top
-{
-    top: 0;
-    width: 100%;
-    position: sticky;
-    z-index: 1500;
-    background-color: #ffffff;
+.sticky-top {
+  top: 0;
+  width: 100%;
+  position: sticky;
+  z-index: 1500;
+  background-color: #ffffff;
 }
 
 // ion-fab-button {
@@ -49,12 +47,11 @@
   --center: center;
   --full-width: 100%;
   --border-radius: 8px;
-  --color-icon : blue;
+  --color-icon: blue;
 }
 
-*{
+* {
   font-family: math;
-
 }
 
 .videocontrols,
@@ -62,7 +59,7 @@
 .Documentcontrols {
   display: flex;
   justify-content: var(--space-between);
-  input[type=range] {
+  input[type="range"] {
     width: var(--full-width);
   }
 }
@@ -86,7 +83,7 @@
   display: flex;
   justify-content: space-between;
 
-  input[type=range] {
+  input[type="range"] {
     width: 100%;
   }
 }
@@ -134,11 +131,13 @@ video,
 }
 
 .quize-cards {
-  box-shadow: rgb(0 0 0 / 25%) 0px 30px 60px -12px, rgb(255 143 143 / 17%) 0px 18px 36px -18px;
+  box-shadow: rgb(0 0 0 / 25%) 0px 30px 60px -12px,
+    rgb(255 143 143 / 17%) 0px 18px 36px -18px;
 }
 
 .card {
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   // box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
@@ -165,7 +164,6 @@ a {
   text-decoration: none;
 }
 
-
 /* iOS places the subtitle above the title */
 ion-card-header.ios {
   display: flex;
@@ -177,7 +175,6 @@ ion-card-header.ios {
   position: relative;
   margin-top: 10%;
 }
-
 
 .rightbox {
   padding: 0em 34rem 0em 0em;
@@ -196,7 +193,7 @@ ion-card-header.ios {
   margin: 2.5em 0;
   padding: 0;
   display: inline-block;
-  width : 250px;
+  width: 250px;
 }
 
 .rb-container ul.rb li {
@@ -243,25 +240,22 @@ ul.rb li .timestamp {
   transition: opacity 1s ease-in-out;
 }
 
-
-
-.feature-w-title{
+.feature-w-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  span{
+  span {
     font-size: 25px;
   }
 }
 
-.rb-item:nth-of-type(1){
-  .item-title{
-   opacity: 1;
+.rb-item:nth-of-type(1) {
+  .item-title {
+    opacity: 1;
   }
- }
+}
 
-
- ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
+ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
   --backdrop-opacity: 0.5;
   padding: 10px;
 }
@@ -273,40 +267,114 @@ ul.rb li .timestamp {
   // pointer-events: ;
 }
 .disabled-shake {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
   perspective: 1000px;
 }
 
 @keyframes shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-1px, 0, 0);
   }
-  20%, 80% {
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0);
   }
-  
-  30%, 50%, 70% {
+
+  30%,
+  50%,
+  70% {
     transform: translate3d(-2px, 0, 0);
   }
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(2px, 0, 0);
-}}
-
+  }
+}
 
 img.vert-move {
-  -webkit-animation: mover 1s infinite  alternate;
-  animation: mover 1s infinite  alternate;
+  -webkit-animation: mover 1s infinite alternate;
+  animation: mover 1s infinite alternate;
 }
 img.vert-move {
-  -webkit-animation: mover 1s infinite  alternate;
-  animation: mover 1s infinite  alternate;
+  -webkit-animation: mover 1s infinite alternate;
+  animation: mover 1s infinite alternate;
 }
 @-webkit-keyframes mover {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-15px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
 }
 @keyframes mover {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-15px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+:root {
+  --loader-background-color: #eeeeee;
+  --loader-highlight-color: #dedede;
+}
+
+.skeleton {
+  width: 100%;
+}
+.skeleton-loader {
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--loader-background-color) 25%,
+    var(--loader-highlight-color) 50%,
+    var(--loader-background-color) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 2s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+.avatar-skeleton {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(
+    90deg,
+    var(--loader-background-color) 25%,
+    var(--loader-highlight-color) 50%,
+    var(--loader-background-color) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 2s infinite ease-in-out;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.cover-image-skeleton {
+  height: 51px;
+  width: 51px;
+  background: linear-gradient(
+    90deg,
+    var(--loader-background-color) 25%,
+    var(--loader-highlight-color) 50%,
+    var(--loader-background-color) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 2s infinite ease-in-out;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }

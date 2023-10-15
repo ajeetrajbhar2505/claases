@@ -11,14 +11,19 @@ import { WebService } from '../web.service';
 })
 export class ClassComponent implements OnInit {
   classes: any = [];
+  skeleton: boolean = false;
   private _unsubscribeAll: Subject<any>;
-  constructor(public router: Router, public _https: WebService,public ActivatedRoute:ActivatedRoute) {
+  constructor(
+    public router: Router,
+    public _https: WebService,
+    public ActivatedRoute: ActivatedRoute
+  ) {
     this._unsubscribeAll = new Subject();
   }
 
   routeTosubjects(classId: any) {
     this.router.navigate(['/tabs/lectures'], {
-      queryParams: { classId: classId,reload : 'true' },
+      queryParams: { classId: classId, reload: 'true' },
     });
   }
 
@@ -32,6 +37,7 @@ export class ClassComponent implements OnInit {
   }
 
   async fetchClassDetails() {
+    this.skeleton = true;
     const req = new Requestmodels();
     req.RequestUrl = `classDetails`;
     req.RequestObject = '';
@@ -42,6 +48,7 @@ export class ClassComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.skeleton = false;
             if (data.status !== 200) {
               return;
             }

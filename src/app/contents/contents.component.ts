@@ -37,6 +37,7 @@ export class ContentsComponent {
     content: '',
   };
   params: any = '';
+  skeleton:boolean = false
   constructor(
     public http: HttpClient,
     public _https: WebService,
@@ -62,6 +63,7 @@ export class ContentsComponent {
   }
 
   async fetchContentDetails(classId: any, lec_id: any) {
+    this.skeleton = true
     const req = new Requestmodels();
     req.RequestUrl = `contentDetails/` + classId + '/' + lec_id;
     req.RequestObject = '';
@@ -72,6 +74,7 @@ export class ContentsComponent {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.skeleton = false
             if (data.status !== 200) {
               return;
             }

@@ -1,8 +1,6 @@
-<ion-header  [translucent]="true">
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Lectures
-    </ion-title>
+    <ion-title> Lectures </ion-title>
     <ion-buttons slot="start">
       <ion-icon name="chevron-back-outline" (click)="backToclass()"></ion-icon>
     </ion-buttons>
@@ -10,14 +8,28 @@
 </ion-header>
 
 <ion-content #content [fullscreen]="true" class="ion-padding">
-  <div
-    class="quize-cards"
-    *ngFor="let data of lecturesData"
-    (click)="routeTocontents(data._id)"
-  >
-    <ion-thumbnail slot="start">
-      <img alt="Silhouette of mountains" [src]="data.lec_icon" />
-    </ion-thumbnail>
-    <ion-label>{{ data.lec_title }}</ion-label>
+  <!-- loading -->
+  <div *ngIf="skeleton">
+    <div class="quize-cards" *ngFor="let data of [1, 2, 3, 4, 5, 6, 7]">
+      <ion-thumbnail slot="start">
+        <div class="cover-image-skeleton"></div>
+      </ion-thumbnail>
+      <ion-label class="skeleton"
+        ><div class="skeleton-loader"></div
+      ></ion-label>
+    </div>
+  </div>
+
+  <div *ngIf="!skeleton">
+    <div
+      class="quize-cards"
+      *ngFor="let data of lecturesData"
+      (click)="routeTocontents(data._id)"
+    >
+      <ion-thumbnail slot="start">
+        <img alt="Silhouette of mountains" [src]="data.lec_icon" />
+      </ion-thumbnail>
+      <ion-label>{{ data.lec_title }}</ion-label>
+    </div>
   </div>
 </ion-content>

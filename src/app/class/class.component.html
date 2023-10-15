@@ -1,18 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Standards
-    </ion-title>
+    <ion-title> Standards </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content #content [fullscreen]="true" class="ion-padding">
-  <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data._id)">
+  <!-- loading -->
+  <div *ngIf="skeleton">
+    <div class="quize-cards" *ngFor="let data of [1, 2, 3, 4, 5, 6, 7]">
+      <ion-thumbnail slot="start">
+        <div class="cover-image-skeleton"></div>
+      </ion-thumbnail>
+      <ion-label class="skeleton"
+        ><div class="skeleton-loader"></div
+      ></ion-label>
+    </div>
+  </div>
+
+  <div *ngIf="!skeleton">
+    <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data._id)">
     <ion-thumbnail slot="start">
       <img  [src]="data.std_icon" />
     </ion-thumbnail>
     <ion-label>{{data.classNamme}}</ion-label>
 </div>
+</div>
 </ion-content>
-
-

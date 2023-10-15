@@ -24,7 +24,7 @@ export class LecturesComponent  {
   private _unsubscribeAll: Subject<any>;
   lecturesData: any[] = []
   classId = ''
-  
+  skeleton:boolean = false
 
   constructor(public http: HttpClient, public _https:WebService,public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet) {
@@ -48,6 +48,7 @@ export class LecturesComponent  {
 
 
   async fetchlectureDetails(classId:any) {
+    this.skeleton = true
     const req = new Requestmodels()
     req.RequestUrl = `lectureDetails/` + classId;
     req.RequestObject = ""
@@ -58,6 +59,7 @@ export class LecturesComponent  {
      .subscribe(
       (data) => {
        if (data != null) {
+        this.skeleton = false
         if (data.status !== 200) {
          return
         }

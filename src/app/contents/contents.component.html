@@ -1,14 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Contents
-    </ion-title>
+    <ion-title> Contents </ion-title>
     <ion-buttons slot="start">
-      <ion-icon name="chevron-back-outline" (click)="backTolectures()"></ion-icon>
+      <ion-icon
+        name="chevron-back-outline"
+        (click)="backTolectures()"
+      ></ion-icon>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="currentContent" (ngModelChange)="switchContent(currentContent)" value="video">
+    <ion-segment
+      [(ngModel)]="currentContent"
+      (ngModelChange)="switchContent(currentContent)"
+      value="video"
+    >
       <ion-segment-button value="video">
         <ion-label>Video</ion-label>
       </ion-segment-button>
@@ -23,25 +28,45 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card-content>
-    <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
-      </ion-reorder-group>
-      <div [ngSwitch]="currentContent">
-        <div *ngSwitchDefault>
-          <ion-item *ngFor="let data of filteredData" expand="block"
-            (click)="routeTocontentControls(data)">
-            <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" [src]="data.content_icon" />
-            </ion-thumbnail>
-            <ion-label>{{data.content_title}}</ion-label>
-            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-            <!-- <ion-reorder slot="end"></ion-reorder> -->
-          </ion-item>
+  <!-- loading -->
+  <div *ngIf="skeleton">
+    <div class="quize-cards" *ngFor="let data of [1, 2, 3, 4, 5, 6, 7]">
+      <ion-thumbnail slot="start">
+        <div class="cover-image-skeleton"></div>
+      </ion-thumbnail>
+      <ion-label class="skeleton"
+        ><div class="skeleton-loader"></div
+      ></ion-label>
+    </div>
+  </div>
+
+  <div *ngIf="!skeleton">
+    <ion-card-content>
+      <ion-list>
+        <ion-reorder-group
+          [disabled]="false"
+          (ionItemReorder)="handleReorder($any($event))"
+        >
+        </ion-reorder-group>
+        <div [ngSwitch]="currentContent">
+          <div *ngSwitchDefault>
+            <ion-item
+              *ngFor="let data of filteredData"
+              expand="block"
+              (click)="routeTocontentControls(data)"
+            >
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" [src]="data.content_icon" />
+              </ion-thumbnail>
+              <ion-label>{{ data.content_title }}</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              <!-- <ion-reorder slot="end"></ion-reorder> -->
+            </ion-item>
+          </div>
         </div>
-      </div>
-    </ion-list>
-  </ion-card-content>
+      </ion-list>
+    </ion-card-content>
+  </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button size="small">
@@ -58,8 +83,5 @@
         <ion-icon name="document-text-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>  
-
+  </ion-fab>
 </ion-content>
-
-
