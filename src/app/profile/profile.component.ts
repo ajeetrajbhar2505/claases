@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   showpassword(index: number) {
     this.visiblepass[index] = !this.visiblepass[index];
   }
-
+  skeleton: boolean = false;
   constructor(
     public _https: WebService,
     public router: Router,
@@ -83,6 +83,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async fetchcontentDetails() {
+    this.skeleton = true;
     const req = new Requestmodels();
     req.RequestUrl = `profile`;
     req.RequestObject = '';
@@ -93,6 +94,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.skeleton = false;
             if (data.status !== 200) {
               return;
             }

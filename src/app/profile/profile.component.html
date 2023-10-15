@@ -4,6 +4,7 @@
       <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
     </ng-container>
     <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
+      <div class="avatar-skeleton" *ngIf="skeleton"></div>
       <ion-icon name="person"></ion-icon>
       <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </div>
@@ -84,7 +85,8 @@
               <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
             </ng-container>
             <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
-              <ion-icon name="person"></ion-icon>
+      <div class="avatar-skeleton" *ngIf="skeleton"></div>
+      <ion-icon name="person"></ion-icon>
               <ion-ripple-effect type="unbounded"></ion-ripple-effect>
             </div>
             <span class="edit-icon" *ngIf="loading">
