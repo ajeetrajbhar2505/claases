@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   isSearchOpen: boolean = false;
   menus: MenuItem[] = [{ icon: 'ribbon-outline', title: 'Achievements' }];
   mostWatched: any[] = [];
-  contentDetails:any[] = []
+  contentDetails: any[] = [];
   courses: Course[] = [
     { icon: 'layers-outline', title: 'Shop', ratings: '4.2', contents: '24' },
     {
@@ -88,9 +88,9 @@ export class HomeComponent implements OnInit {
       icon: 'musical-notes-outline',
       info: 'Admin uploaded a new audio',
       content: 'audio',
-      classId: "642f2337de637e0827864e06",
-      lec_id: "642f2a79eb0a076652aa32fc",
-      contentId: "6529140a98e2dda6637e57aa",
+      classId: '642f2337de637e0827864e06',
+      lec_id: '642f2a79eb0a076652aa32fc',
+      contentId: '6529140a98e2dda6637e57aa',
       from: '/tabs/home',
     },
     {
@@ -98,17 +98,17 @@ export class HomeComponent implements OnInit {
       info: 'Admin uploaded a new video',
       content: 'video',
       classId: '642f2337de637e0827864e06',
-      lec_id: "642f2a79eb0a076652aa32fc",
-      contentId: "652913c098e2dda6637e57a9",
+      lec_id: '642f2a79eb0a076652aa32fc',
+      contentId: '652913c098e2dda6637e57a9',
       from: '/tabs/home',
     },
     {
       icon: 'document-text-outline',
       info: 'Admin uploaded a new document',
       content: 'document',
-      classId: "642f2337de637e0827864e06",
-      lec_id: "642f2a79eb0a076652aa32fc",
-      contentId: "6529143c98e2dda6637e57ab",
+      classId: '642f2337de637e0827864e06',
+      lec_id: '642f2a79eb0a076652aa32fc',
+      contentId: '6529143c98e2dda6637e57ab',
       from: '/tabs/home',
     },
   ];
@@ -118,7 +118,9 @@ export class HomeComponent implements OnInit {
   LecturesWiseVideos: any = [];
   SearchedContents: any = [];
   colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
-
+  skeleton = {
+    mostWatched: false,
+  };
   getColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
@@ -135,7 +137,6 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     // Get the current hour to determine the greeting message
     const now = new Date();
     const hour = now.getHours();
@@ -148,25 +149,25 @@ export class HomeComponent implements OnInit {
     }
 
     this.fetchMostWatched();
-    this.fetchcontentDetails()
+    this.fetchcontentDetails();
 
     // socket connection
     this.getMessage();
-    
+
     // Fetch class wise lectures data and update the UI
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {
         this.fetchMostWatched();
-        this.fetchcontentDetails()
-    
+        this.fetchcontentDetails();
+
         // socket connection
         this.getMessage();
       }
     });
-
   }
 
   async fetchMostWatched() {
+    this.skeleton.mostWatched = true;
     const req = new Requestmodels();
     req.RequestUrl = `mostWatched`;
     req.RequestObject = '';
@@ -177,6 +178,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.skeleton.mostWatched = false;
             if (data.status !== 200) {
               return;
             }
@@ -214,7 +216,7 @@ export class HomeComponent implements OnInit {
             }
 
             // fetch
-            this.contentDetails = data.response || []
+            this.contentDetails = data.response || [];
           }
         },
         (_error) => {
@@ -247,7 +249,7 @@ export class HomeComponent implements OnInit {
       lec_title: data.lec_title,
       contentId: this.contentId,
       from: '/tabs/home',
-      reload: 'true'
+      reload: 'true',
     };
     this.router.navigate(['/tabs/test'], { queryParams });
   }
@@ -260,7 +262,7 @@ export class HomeComponent implements OnInit {
   toggleSeachmenu() {
     this.SearchedContents = [];
     this.isSearchOpen = !this.isSearchOpen;
-    this.fetchcontentDetails()
+    this.fetchcontentDetails();
   }
 
   handleScrollStart() {
@@ -280,13 +282,18 @@ export class HomeComponent implements OnInit {
       classId: classId,
       lec_id: lec_id,
       from: '/tabs/home',
-      reload: 'true'
+      reload: 'true',
     };
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
   routeTocontentControls(content: any) {
-    const queryParams = { ...content,contentId : content.contentId?content.contentId:content._id, from: '/tabs/home',reload: 'true' };
+    const queryParams = {
+      ...content,
+      contentId: content.contentId ? content.contentId : content._id,
+      from: '/tabs/home',
+      reload: 'true',
+    };
     delete queryParams.icon;
     delete queryParams.info;
     // Delay navigation by 10 milliseconds to ensure that the
@@ -297,15 +304,15 @@ export class HomeComponent implements OnInit {
   }
 
   routeToAchievements() {
-    this.router.navigate(['/tabs/achievements'],navigationExtras);
+    this.router.navigate(['/tabs/achievements'], navigationExtras);
   }
 
   routeToPupularLectures() {
-    this.router.navigate(['/tabs/popular-lectures'],navigationExtras);
+    this.router.navigate(['/tabs/popular-lectures'], navigationExtras);
   }
 
   routeToPupularQuiz() {
-    this.router.navigate(['/tabs/popular-quiz'],navigationExtras);
+    this.router.navigate(['/tabs/popular-quiz'], navigationExtras);
   }
 
   getMessage() {
