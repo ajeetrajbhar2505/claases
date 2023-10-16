@@ -9,14 +9,19 @@
 <!-- api key -->
 <!-- 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 -->
 <ion-content [fullscreen]="true" class="ion-padding">
+  <div class="card" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" >
+    <figure class="card__thumbnail">
+      <img [src]="contentToWatch.content_icon">
+    </figure>
+  </div>
+    <!-- <div class="quize-cards" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [style]="generateStyle(contentToWatch.content_icon)"></div> -->
   <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
-  (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay  frameborder="0">
+  (timeupdate)="checkContinuousContentduration()"  autoplay  frameborder="0">
   <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
   Your Device does not support the video.
 </video>
-<img class="audio" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [src]="contentToWatch.content_icon" height="150px" alt="">
   <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
-  (timeupdate)="checkContinuousContentduration()" class="sticky-top" autoplay frameborder="0">
+  (timeupdate)="checkContinuousContentduration()"  autoplay frameborder="0">
   <source [src]="getImgContent(contentToWatch.content_link)" type="audio/mp3">
   Your Device does not support the video.
 </audio>

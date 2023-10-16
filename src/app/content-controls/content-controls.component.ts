@@ -245,10 +245,12 @@ export class ContentControlsComponent {
     if (content) {
       if (content.paused) {
         content.play();
+        this.contentControls.playContent = false
       } else {
         content.pause();
+        this.contentControls.playContent = true
+
       }
-      this.contentControls.playContent = !content.paused;
     }
   }
 
@@ -285,5 +287,10 @@ export class ContentControlsComponent {
       return true;
     }
     return false;
+  }
+
+
+  generateStyle(icon:any) {
+   return `background-image: url('${icon}');`
   }
 }

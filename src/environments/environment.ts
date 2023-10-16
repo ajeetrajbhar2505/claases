@@ -7,7 +7,7 @@ export const environment = {
   apifirstKey : 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/',
   apilastkey : '?v=1677959874652',
   // nodeApi : 'https://rowan-classy-dilophosaurus.glitch.me/'
-  nodeApi : 'http://192.168.0.102:3000/'
+  nodeApi : 'http://192.168.0.107:3000/'
 };
 
 /*
