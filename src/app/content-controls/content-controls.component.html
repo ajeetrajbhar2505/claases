@@ -61,6 +61,16 @@
   </div>
   <p></p>
   <h2><b>FAQ</b></h2>
+<div *ngIf="!loading">
+  <ion-item *ngIf="FAQS.length == 0">
+    <ion-icon
+      slot="start"
+      name="chatbox-ellipses-outline"
+    ></ion-icon>
+    <ion-label class="ion-text-wrap">{{
+      "Great news! Your FAQs are all up to date. No new FAQs to see here.!"
+    }}</ion-label>
+  </ion-item>
   <div class="tabs">
     <div class="tab" *ngFor="let data of FAQS;let i = index">
       <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
@@ -75,6 +85,7 @@
       </div>
     </div>
   </div>
+</div>
 </ion-content>
 <ion-footer>
   <div  class="arraydiv">

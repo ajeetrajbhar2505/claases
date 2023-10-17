@@ -58,6 +58,7 @@ export class ContentControlsComponent {
   };
 
   contentLoaded = false;
+  loading:boolean = false
   socket: any;
   FAQS: FAQ[] = [
     // { _id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
@@ -318,6 +319,7 @@ export class ContentControlsComponent {
   }
 
   async Querries() {
+    this.loading = true
     const req = new Requestmodels();
     req.RequestUrl = `Querries/` + this.contentDetails.contentId;
     req.RequestObject = '';
@@ -328,6 +330,7 @@ export class ContentControlsComponent {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.loading = false
             if (data.status !== 200) {
               return;
             }
