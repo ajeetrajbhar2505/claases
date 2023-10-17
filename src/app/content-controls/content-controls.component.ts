@@ -60,7 +60,7 @@ export class ContentControlsComponent {
   contentLoaded = false;
   socket: any;
   FAQS: FAQ[] = [
-    { id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
+    { _id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
   ];
 
   constructor(
@@ -303,10 +303,42 @@ export class ContentControlsComponent {
       this.FAQS.push(data);
     });
   }
+
+  
+
+  async sendMessage(){
+    const payload = {
+      label : 'Message',
+      contentId: this.contentDetails.contentId
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertUserQuerries`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
 }
 
 export interface FAQ {
-  id:string;
+  _id:string;
   label: string;
   content: string;
   author : string;
