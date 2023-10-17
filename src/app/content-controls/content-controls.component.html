@@ -67,7 +67,20 @@
       <input type="checkbox" [id]="'chck' + (i+11)">
       <label class="tab-label" [for]="'chck' + (i + 11)">{{data.label}}</label>
       <div class="tab-content">{{data.content}}</div>
+      <div  class="arraydiv" *ngIf="!data.content">
+        <div class="chat-footer">
+          <input [(ngModel)]="data.TeacherMessage" type="text" placeholder="Type your answer here">
+          <button [disabled]="!data.TeacherMessage" (click)="sendTeacherMessage(data.TeacherMessage,data._id)">Send</button>
+        </div>
+      </div>
     </div>
-    <button (click)="sendMessage()">Send Message</button>
   </div>
 </ion-content>
+<ion-footer>
+  <div  class="arraydiv">
+    <div class="chat-footer">
+      <input [(ngModel)]="FAQ.label" type="text" placeholder="Type your question here">
+      <button [disabled]="!FAQ.label" (click)="sendAuthorMessage()">Send</button>
+    </div>
+  </div>
+</ion-footer>

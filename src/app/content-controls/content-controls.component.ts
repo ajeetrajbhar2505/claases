@@ -60,8 +60,10 @@ export class ContentControlsComponent {
   contentLoaded = false;
   socket: any;
   FAQS: FAQ[] = [
-    { _id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
+    // { _id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
   ];
+
+  FAQ: FAQ = new FAQ();
 
   constructor(
     public http: HttpClient,
@@ -74,9 +76,9 @@ export class ContentControlsComponent {
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this._unsubscribeAll = new Subject();
-    this.socket = _https.socket
+    this.socket = _https.socket;
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
-      this.getMessage(param.contentId)
+      this.getMessage(param.contentId);
       this.contentDetails = param;
       this.contentLoaded = false;
       this.contentControls = {
@@ -90,8 +92,10 @@ export class ContentControlsComponent {
       this.contentToWatch = {};
 
       this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+      this.Querries()
       if (param.reload === 'true') {
         this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+       this.Querries()
       }
     });
 
@@ -298,21 +302,55 @@ export class ContentControlsComponent {
     return `background-image: url('${icon}');`;
   }
 
-  getMessage(classRoom:any) {
-    this.socket.on(classRoom, (data: any) => {
-      this.FAQS.push(data);
+  getMessage(classRoom: any) {
+    this.socket.on(classRoom, (data:any) => {
+      const index = this.FAQS.findIndex((item) => item._id === data._id);
+      if (index !== -1) {
+        // If the object with the same _id exists, replace it
+        this.FAQS[index] = data;
+      } else {
+        // If no object with the same _id is found, push the new object into the array
+        this.FAQS.push(data);
+      }
     });
+    
   }
 
-  
-
-  async sendMessage(){
-    const payload = {
-      label : 'Message',
-      contentId: this.contentDetails.contentId
-    }
+  async Querries() {
     const req = new Requestmodels();
-    req.RequestUrl = `upsertUserQuerries`;
+    req.RequestUrl = `Querries/` + this.contentDetails.contentId;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.FAQS = data.response || [];
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+
+  async sendTeacherMessage(content:any,_id:any) {
+    const payload = {
+      content: content,
+      id : _id,
+      contentId: this.contentDetails.contentId,
+    };
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertTeacherResponse`;
     req.RequestObject = payload;
 
     await this._https
@@ -335,13 +373,43 @@ export class ContentControlsComponent {
       );
   }
 
+  async sendAuthorMessage() {
+    const payload = {
+      label: this.FAQ.label,
+      contentId: this.contentDetails.contentId,
+    };
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertUserQuerries`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.FAQ.label = ''
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
 }
 
-export interface FAQ {
-  _id:string;
-  label: string;
-  content: string;
-  author : string;
-  authorProfile : string;
-  authorId : string;
+export class FAQ {
+  _id: any;
+  label: any;
+  content: any;
+  author: any;
+  authorProfile: any;
+  authorId: any;
+  TeacherMessage : any
 }
