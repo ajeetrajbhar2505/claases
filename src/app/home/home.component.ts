@@ -83,35 +83,36 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  notifications: Notification[] = [
-    {
-      icon: 'musical-notes-outline',
-      info: 'Admin uploaded a new audio',
-      content: 'audio',
-      classId: '642f2337de637e0827864e06',
-      lec_id: '642f2a79eb0a076652aa32fc',
-      contentId: '6529140a98e2dda6637e57aa',
-      from: '/tabs/home',
-    },
-    {
-      icon: 'play-circle-outline',
-      info: 'Admin uploaded a new video',
-      content: 'video',
-      classId: '642f2337de637e0827864e06',
-      lec_id: '642f2a79eb0a076652aa32fc',
-      contentId: '652913c098e2dda6637e57a9',
-      from: '/tabs/home',
-    },
-    {
-      icon: 'document-text-outline',
-      info: 'Admin uploaded a new document',
-      content: 'document',
-      classId: '642f2337de637e0827864e06',
-      lec_id: '642f2a79eb0a076652aa32fc',
-      contentId: '6529143c98e2dda6637e57ab',
-      from: '/tabs/home',
-    },
-  ];
+  notifications: Notification[] = [];
+  //   notifications: Notification[] = [
+  //   {
+  //     icon: 'musical-notes-outline',
+  //     info: 'Admin uploaded a new audio',
+  //     content: 'audio',
+  //     classId: '642f2337de637e0827864e06',
+  //     lec_id: '642f2a79eb0a076652aa32fc',
+  //     contentId: '6529140a98e2dda6637e57aa',
+  //     from: '/tabs/home',
+  //   },
+  //   {
+  //     icon: 'play-circle-outline',
+  //     info: 'Admin uploaded a new video',
+  //     content: 'video',
+  //     classId: '642f2337de637e0827864e06',
+  //     lec_id: '642f2a79eb0a076652aa32fc',
+  //     contentId: '652913c098e2dda6637e57a9',
+  //     from: '/tabs/home',
+  //   },
+  //   {
+  //     icon: 'document-text-outline',
+  //     info: 'Admin uploaded a new document',
+  //     content: 'document',
+  //     classId: '642f2337de637e0827864e06',
+  //     lec_id: '642f2a79eb0a076652aa32fc',
+  //     contentId: '6529143c98e2dda6637e57ab',
+  //     from: '/tabs/home',
+  //   },
+  // ];
   notification_count = this.notifications.length;
   contentId: any = 10;
   classId: any = 10;
@@ -150,6 +151,7 @@ export class HomeComponent implements OnInit {
 
     this.fetchMostWatched();
     this.fetchcontentDetails();
+    this.fetchNotifications()
 
     // socket connection
     this.getMessage();
@@ -159,13 +161,40 @@ export class HomeComponent implements OnInit {
       if (params.reload === 'true') {
         this.fetchMostWatched();
         this.fetchcontentDetails();
-
-        // socket connection
-        this.getMessage();
       }
     });
   }
 
+  async fetchNotifications() {
+    this.skeleton.mostWatched = true;
+    const req = new Requestmodels();
+    req.RequestUrl = `notifications`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton.mostWatched = false;
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.notifications = data.response || []
+            this.notification_count = this.notifications.length
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+  
   async fetchMostWatched() {
     this.skeleton.mostWatched = true;
     const req = new Requestmodels();
@@ -316,7 +345,7 @@ export class HomeComponent implements OnInit {
   }
 
   getMessage() {
-    this.socket.on('message', (data: any) => {
+    this.socket.on('notification', (data: any) => {
       this.notifications.push(data);
       this.notification_count = this.notification_count + 1;
     });

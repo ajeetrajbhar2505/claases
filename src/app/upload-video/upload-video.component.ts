@@ -98,6 +98,12 @@ export class UploadVideoComponent implements OnInit {
   }
 
   readUrl(event: any) {
+    const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+    if (event.target.files[0] && event.target.files[0].size > maxSizeInBytes) {
+      alert("File size exceeds the maximum allowed size (10MB). Please choose a smaller file.");
+      this.uploadVideogroup.get('file')?.setValue('');
+      return
+  }
     this.uploadVideogroup.get('file')?.patchValue(event.target.files[0]);
   }
 
@@ -217,20 +223,24 @@ export class UploadVideoComponent implements OnInit {
           message: data.response || 'File uploaded successfully!',
           statusType: 'info',
         });
-        this.uploadVideogroup.get('classId')?.setValue('');
-        this.uploadVideogroup.get('lec_id')?.setValue('');
-        this.uploadVideogroup.get('content_icon')?.setValue('');
-        this.uploadVideogroup.get('content_title')?.setValue('');
-        this.uploadVideogroup
-          .get('published_at')
-          ?.patchValue(this.service.getCurrentDate());
-        this.uploadVideogroup.get('file')?.setValue('');
+        // this.clearformcontrols()
       }
     } catch (error) {
       console.error(error);
     }
 
     return '';
+  }
+
+  clearformcontrols(){
+    this.uploadVideogroup.get('classId')?.setValue('');
+    this.uploadVideogroup.get('lec_id')?.setValue('');
+    this.uploadVideogroup.get('content_icon')?.setValue('');
+    this.uploadVideogroup.get('content_title')?.setValue('');
+    this.uploadVideogroup
+      .get('published_at')
+      ?.patchValue(this.service.getCurrentDate());
+    this.uploadVideogroup.get('file')?.setValue('');
   }
 
   getSnackbarStatus(status: any) {

@@ -40,6 +40,7 @@ export class EventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createCalenderGroup()
     this.fetchClassDetails();
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {

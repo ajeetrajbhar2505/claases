@@ -22,13 +22,13 @@ export class WebService {
   headers: any = new Headers({});
   UserProfile: UserProfile = new UserProfile();
 
-  local = 'http://192.168.31.159:3000';
+  local = 'http://192.168.0.107:3000';
   socket: any;
   constructor(private router: Router, public http: HttpClient) {
     this.fetchUserProfileDetails();
     // add token to headers of all apis
     this.setHeaders(this.UserProfile.token, this.UserProfile.userId);
-    this.socket = io(environment.nodeApi, {
+    this.socket = io(this.local, {
       transports: ['websocket'],
     });
   }
