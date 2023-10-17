@@ -50,6 +50,7 @@ input {
   &-label {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1em;
     background: $midnight;
     font-weight: bold;
@@ -114,4 +115,12 @@ input:checked {
   max-height: 100vh;
   padding: 1em;
 }
-
+.tab > p{
+  color: black;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}

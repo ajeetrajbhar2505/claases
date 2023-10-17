@@ -62,19 +62,11 @@
   <p></p>
   <h2><b>FAQ</b></h2>
   <div class="tabs">
-    <div class="tab">
-      <input type="checkbox" id="chck1">
-      <label class="tab-label" for="chck1">Who invented OOP?</label>
-      <div class="tab-content">
-        Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP
-      </div>
-    </div>
-    <div class="tab">
-      <input type="checkbox" id="chck2">
-      <label class="tab-label" for="chck2">Which is not a feature of OOP in general definitions?</label>
-      <div class="tab-content">
-        Duplicate/Redundant data is dependent on programmer and hence can’t be guaranteed by OOP. Code reusability is done using inheritance. Modularity is supported by using different code files and classes. Codes are more efficient because of features of OOP.
-      </div>
+    <div class="tab" *ngFor="let data of FAQS;let i = index">
+      <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
+      <input type="checkbox" [id]="'chck' + (i+11)">
+      <label class="tab-label" [for]="'chck' + (i + 11)">{{data.label}}</label>
+      <div class="tab-content">{{data.content}}</div>
     </div>
   </div>
 </ion-content>

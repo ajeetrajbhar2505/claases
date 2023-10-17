@@ -58,6 +58,10 @@ export class ContentControlsComponent {
   };
 
   contentLoaded = false;
+  socket: any;
+  FAQS: FAQ[] = [
+    { id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
+  ];
 
   constructor(
     public http: HttpClient,
@@ -70,7 +74,9 @@ export class ContentControlsComponent {
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this._unsubscribeAll = new Subject();
+    this.socket = _https.socket
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
+      this.getMessage(param.contentId)
       this.contentDetails = param;
       this.contentLoaded = false;
       this.contentControls = {
@@ -245,11 +251,10 @@ export class ContentControlsComponent {
     if (content) {
       if (content.paused) {
         content.play();
-        this.contentControls.playContent = false
+        this.contentControls.playContent = false;
       } else {
         content.pause();
-        this.contentControls.playContent = true
-
+        this.contentControls.playContent = true;
       }
     }
   }
@@ -289,8 +294,22 @@ export class ContentControlsComponent {
     return false;
   }
 
-
-  generateStyle(icon:any) {
-   return `background-image: url('${icon}');`
+  generateStyle(icon: any) {
+    return `background-image: url('${icon}');`;
   }
+
+  getMessage(classRoom:any) {
+    this.socket.on(classRoom, (data: any) => {
+      this.FAQS.push(data);
+    });
+  }
+}
+
+export interface FAQ {
+  id:string;
+  label: string;
+  content: string;
+  author : string;
+  authorProfile : string;
+  authorId : string;
 }
