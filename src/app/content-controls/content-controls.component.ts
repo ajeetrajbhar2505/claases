@@ -77,6 +77,8 @@ export class ContentControlsComponent {
   ) {
     this._unsubscribeAll = new Subject();
     this.socket = _https.socket;
+    this.FAQS = [];
+    this.FAQ = new FAQ();
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.getMessage(param.contentId);
       this.contentDetails = param;
@@ -92,10 +94,10 @@ export class ContentControlsComponent {
       this.contentToWatch = {};
 
       this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
-      this.Querries()
+      this.Querries();
       if (param.reload === 'true') {
         this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
-       this.Querries()
+        this.Querries();
       }
     });
 
@@ -303,7 +305,7 @@ export class ContentControlsComponent {
   }
 
   getMessage(classRoom: any) {
-    this.socket.on(classRoom, (data:any) => {
+    this.socket.on(classRoom, (data: any) => {
       const index = this.FAQS.findIndex((item) => item._id === data._id);
       if (index !== -1) {
         // If the object with the same _id exists, replace it
@@ -313,7 +315,6 @@ export class ContentControlsComponent {
         this.FAQS.push(data);
       }
     });
-    
   }
 
   async Querries() {
@@ -330,8 +331,10 @@ export class ContentControlsComponent {
             if (data.status !== 200) {
               return;
             }
+            
 
             // fetch
+            this.FAQS = [];
             this.FAQS = data.response || [];
           }
         },
@@ -342,11 +345,10 @@ export class ContentControlsComponent {
       );
   }
 
-
-  async sendTeacherMessage(content:any,_id:any) {
+  async sendTeacherMessage(content: any, _id: any) {
     const payload = {
       content: content,
-      id : _id,
+      id: _id,
       contentId: this.contentDetails.contentId,
     };
     const req = new Requestmodels();
@@ -393,7 +395,7 @@ export class ContentControlsComponent {
             }
 
             // fetch
-            this.FAQ.label = ''
+            this.FAQ.label = '';
           }
         },
         (_error) => {
@@ -411,5 +413,5 @@ export class FAQ {
   author: any;
   authorProfile: any;
   authorId: any;
-  TeacherMessage : any
+  TeacherMessage: any;
 }
