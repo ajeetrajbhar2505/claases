@@ -87,7 +87,7 @@
           }}</ion-label>
         </ion-item>
         {{data.content}}<br>
-        <div style="text-align: right;">- {{data.teacher}}</div>
+        <div style="text-align: right;" *ngIf="data.content">- {{data.teacher}}</div>
       </div>
       <div  class="arraydiv" *ngIf="!data.content && data.authorId != _https.UserProfile.userId">
         <div class="chat-footer">

@@ -32,6 +32,7 @@ interface Notification {
   lec_id: any;
   contentId: any;
   from: string;
+  authorId:any
 }
 
 interface LectureWiseVideosData {
