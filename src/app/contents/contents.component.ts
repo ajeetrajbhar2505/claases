@@ -78,7 +78,6 @@ export class ContentsComponent {
             if (data.status !== 200) {
               return;
             }
-
             // fetch
             this.contentsData = data.response || [];
             this.filteredData = data.response.filter(
