@@ -417,4 +417,5 @@ export class FAQ {
   authorProfile: any;
   authorId: any;
   TeacherMessage: any;
+  teacher:any
 }

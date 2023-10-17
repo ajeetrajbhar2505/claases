@@ -76,7 +76,19 @@
       <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
       <input type="checkbox" [id]="'chck' + (i+11)">
       <label class="tab-label" [for]="'chck' + (i + 11)">{{data.label}}</label>
-      <div class="tab-content">{{data.content}}</div>
+      <div class="tab-content">
+        <ion-item *ngIf="!data.content && data.authorId == _https.UserProfile.userId">
+          <ion-icon
+            slot="start"
+            name="chatbox-ellipses-outline"
+          ></ion-icon>
+          <ion-label class="ion-text-wrap">{{
+            " No answer to see here.!"
+          }}</ion-label>
+        </ion-item>
+        {{data.content}}<br>
+        <div style="text-align: right;">- {{data.teacher}}</div>
+      </div>
       <div  class="arraydiv" *ngIf="!data.content && data.authorId != _https.UserProfile.userId">
         <div class="chat-footer">
           <input [(ngModel)]="data.TeacherMessage" type="text" placeholder="Type your answer here">
