@@ -223,7 +223,7 @@ export class UploadVideoComponent implements OnInit {
           message: data.response || 'File uploaded successfully!',
           statusType: 'info',
         });
-        // this.clearformcontrols()
+        this.clearformcontrols()
       }
     } catch (error) {
       console.error(error);

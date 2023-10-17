@@ -184,7 +184,6 @@ export class HomeComponent implements OnInit {
 
             // fetch
             this.notifications = data.response || []
-            this.notification_count = this.notifications.length
           }
         },
         (_error) => {
