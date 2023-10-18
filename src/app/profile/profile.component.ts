@@ -205,7 +205,7 @@ export class UserProfileDetails {
   profile_picture: string;
   address1: string;
   address2: string;
-  phone: any;
+  phone: string;
   country: string;
   city: string;
   ZIP: string;
@@ -221,7 +221,7 @@ export class UserProfileDetails {
     this.profile_picture = '';
     this.address1 = '';
     this.address2 = '';
-    this.phone = null;
+    this.phone = '';
     this.country = '';
     this.city = '';
     this.ZIP = '';

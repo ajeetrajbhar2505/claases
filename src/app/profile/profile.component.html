@@ -107,7 +107,7 @@
     <ion-item>
       <ion-label>
         <h2>Phone</h2>
-        <ion-input type="number" class="{{!editable?'':''}}" (keyup)="limitNumber()" (input)="limitNumber()" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.phone" (mouseleave)="ableToText(false);limitNumber()" onfocusout="limitNumber()"  [readonly]="!editable" required placeholder="Enter your phone number here" autocomplete="off"></ion-input>
+        <ion-input class="{{!editable?'':''}}"  (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.phone" (mouseleave)="ableToText(false);limitNumber()"  [readonly]="!editable" required placeholder="Enter your phone number here" autocomplete="off"></ion-input>
       </ion-label>
     </ion-item>
 
