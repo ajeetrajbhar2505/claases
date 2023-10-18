@@ -346,8 +346,10 @@ export class HomeComponent implements OnInit {
 
   getMessage() {
     this.socket.on('notification', (data: any) => {
-      this.notifications.push(data);
-      this.notification_count = this.notification_count + 1;
+      if (data.authorId != this._https.UserProfile.userId) {
+        this.notifications.push(data);
+        this.notification_count = this.notification_count + 1;
+      }
     });
   }
 }
