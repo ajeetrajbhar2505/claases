@@ -38,7 +38,13 @@ export class WebService {
     localStorage.setItem('userId', userId);
     this.setHeaders(token, userId);
     this.fetchUserProfileDetails();
-    this.login();
+    setTimeout(() => {
+      this.router
+        .navigateByUrl('/tabs/home', { skipLocationChange: false })
+        .then(() => {
+          this.router.navigate(['/tabs/home']);
+        });
+    }, 1000);
   }
 
   setHeaders(token: any, userId: any) {
