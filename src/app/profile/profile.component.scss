@@ -39,6 +39,11 @@
     border: 1px solid lightgray;
   }
 
+  .circle-edit {
+    width: 90px;
+    height: 57px;
+  }
+
   .edit-icon
   {
     cursor: pointer;
@@ -78,6 +83,11 @@
   justify-content: center;
   align-items: center;
   margin-top: unset !important;
+  background-color: transparent;
+}
+
+#profilecard {
+  --background: #F8FAFA;
 }
 .center {
   display: flex;
@@ -138,13 +148,17 @@ input::-webkit-inner-spin-button {
 
 .submit {
   margin-top: 15px;
-  width: 60%;
+  width: 100px;
   background-color: #f44336;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+}
+.right{
+  width: 100%;
+  text-align: right;
 }
 .prefix img {
   position: absolute;
@@ -168,4 +182,12 @@ input::-webkit-inner-spin-button {
 ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
   --backdrop-opacity: 0.5;
   padding: 10px;
+}
+
+.card-css{
+  margin: unset;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-bottom: 20px;
+  box-shadow: unset;
 }

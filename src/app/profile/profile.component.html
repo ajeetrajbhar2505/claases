@@ -69,57 +69,17 @@
 
 <ion-modal [isOpen]="isPersonalDetailsModelOpen">
   <ng-template>
-      <ion-toolbar>
-        <ion-title>
-          Personal Details
-        </ion-title>
-        <ion-buttons slot="start">
-          <ion-icon name="chevron-back-outline" (click)="togglePersonalDetails()"></ion-icon>
-        </ion-buttons>
-      </ion-toolbar>
-    <ion-content  [fullscreen]="true">
-      <div class="container">
-        <div class="login-card">
-          <div class="wrapper" (click)="loading?toggleprofileMenu():null">
-            <ng-container *ngIf="UserProfileDetails.profile_picture">
-              <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
-            </ng-container>
-            <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
-      <div class="avatar-skeleton" *ngIf="skeleton"></div>
-      <ion-icon name="person"></ion-icon>
-              <ion-ripple-effect type="unbounded"></ion-ripple-effect>
-            </div>
-            <span class="edit-icon" *ngIf="loading">
-              <ion-icon name="camera-outline"></ion-icon>
-            </span>
-          </div>
-            <div class="field">
-              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.first_name" (mouseleave)="ableToText(false)"  [readonly]="!loading" required placeholder="Enter First Name" autocomplete="off" />
-            </div>
-            <div class="field">
-              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.last_name" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter Last Name" autocomplete="off" />
-            </div>
-            <div class="field">
-              <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-              <input class="{{!loading?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.username" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter username" autocomplete="off" />
-            </div>
-            <div class="field">
-              <span class="prefix"><img [src]="visiblepass[1]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(1)" alt="" width="20px"></span>
-              <input class="{{!loading?'':''}}" [type]="visiblepass[1]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Enter password" autocomplete="off" />
-            </div>
-            <div class="field">
-              <span class="prefix"><img [src]="visiblepass[2]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(2)" alt="" width="20px"></span>
-              <input class="{{!loading?'':''}}" [type]="visiblepass[2]?'text':'password'" [(ngModel)]="UserProfileDetails.username" (click)="ableToText(true)" (mouseleave)="ableToText(false)" [readonly]="!loading" placeholder="Confirm password" autocomplete="off" />
-            </div>
-            <div class="center">
-              <ion-button (click)="update()" expand="block" color="warn" shape="round" #shakebutton id="shakebutton" class="submit {{shakeButton?'disabled-shake':''}}">
-              <ion-icon *ngIf="!loading" slot="start" name="create-outline"></ion-icon>
-                {{loading?'Update':'Edit'}}</ion-button>
-            </div>
-        </div>
-      </div>
+    <ion-content  [fullscreen]="true" id="profilecard">
+      <div class="quize-cards card-css">
+        <ion-thumbnail slot="start" style="width:inherit;">
+          <img  [src]="UserProfileDetails.profile_picture" class="circle-edit" />
+        </ion-thumbnail>
+        <ion-label>{{UserProfileDetails.first_name + UserProfileDetails.last_name}}</ion-label>
+         <div class="right">
+          <ion-button  color="warn" shape="round" #shakebutton id="shakebutton" class="submit">
+            <ion-icon  slot="start" name="create-outline"></ion-icon>Edit</ion-button>
+         </div>
+    </div>
     </ion-content>
   </ng-template>
 </ion-modal>

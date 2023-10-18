@@ -104,6 +104,10 @@ ul.rb li .timestamp {
   }
 }
 
+ion-content {
+  --background: #F8FAFA;
+}
+
 ::ng-deep .searchbar-input {
   box-shadow: unset !important;
   border: 1px solid lightgray !important;
