@@ -58,7 +58,7 @@ export class ContentControlsComponent {
   };
 
   contentLoaded = false;
-  loading:boolean = false
+  loading: boolean = false;
   socket: any;
   FAQS: FAQ[] = [
     // { _id : '',author : 'ajeet rajbhar',authorProfile : 'https://lh3.googleusercontent.com/a/ACg8ocJALTzS2fpPpBzI01LiCts6FCCnlZtDhG0RRq_r_Jbfhx3S=s96-c',authorId : '47239478237847',label : 'Who invented OOP?',content : 'Alan Kay invented OOP, Andrea Ferro was a part of SmallTalk Development. Dennis invented C++ and Adele Goldberg was in team to develop SmallTalk but Alan actually had got rewarded for OOP'}
@@ -319,7 +319,7 @@ export class ContentControlsComponent {
   }
 
   async Querries() {
-    this.loading = true
+    this.loading = true;
     const req = new Requestmodels();
     req.RequestUrl = `Querries/` + this.contentDetails.contentId;
     req.RequestObject = '';
@@ -330,11 +330,10 @@ export class ContentControlsComponent {
       .subscribe(
         (data) => {
           if (data != null) {
-            this.loading = false
+            this.loading = false;
             if (data.status !== 200) {
               return;
             }
-            
 
             // fetch
             this.FAQS = [];
@@ -353,6 +352,15 @@ export class ContentControlsComponent {
       content: content,
       id: _id,
       contentId: this.contentDetails.contentId,
+      notification: {
+        icon: 'chatbox-ellipses-outline',
+        content: this.contentDetails.content,
+        classId: this.contentDetails.classId,
+        lec_id: this.contentDetails.lec_id,
+        contentId: this.contentDetails.contentId,
+        from: '/tabs/home',
+        topic : this.contentToWatch.content_title
+      },
     };
     const req = new Requestmodels();
     req.RequestUrl = `upsertTeacherResponse`;
@@ -382,6 +390,15 @@ export class ContentControlsComponent {
     const payload = {
       label: this.FAQ.label,
       contentId: this.contentDetails.contentId,
+      notification: {
+        icon: 'chatbox-ellipses-outline',
+        content: this.contentDetails.content,
+        classId: this.contentDetails.classId,
+        lec_id: this.contentDetails.lec_id,
+        contentId: this.contentDetails.contentId,
+        from: '/tabs/home',
+        topic : this.contentToWatch.content_title
+      },
     };
     const req = new Requestmodels();
     req.RequestUrl = `upsertUserQuerries`;
@@ -417,5 +434,5 @@ export class FAQ {
   authorProfile: any;
   authorId: any;
   TeacherMessage: any;
-  teacher:any
+  teacher: any;
 }
