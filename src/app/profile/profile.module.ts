@@ -1,10 +1,10 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,6 +14,7 @@ import { ProfileComponent } from './profile.component';
     ProfileRoutingModule,
     IonicModule,
     FormsModule,
+    ReactiveFormsModule,
     ExploreContainerComponentModule
   ]
 })

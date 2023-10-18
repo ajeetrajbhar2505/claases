@@ -139,9 +139,7 @@ export class WebService {
 
   login(): void {
     // TODO: Implement login logic
-    // localStorage.setItem('token','652ee5e20148b3ea472219f8')
-    // localStorage.setItem('userId','652ee5030148b3ea472219f5')
-     localStorage.setItem('token','652fc01984a431ae8c3ff46a')
+     localStorage.setItem('token','653013fb8e6ebbf4133d6f67')
     localStorage.setItem('userId','652ee5030148b3ea472219f5')
     setTimeout(() => {
       this.router
@@ -344,6 +342,14 @@ export class WebService {
     if ('vibrate' in navigator) {
       // Vibrate for 500ms
       navigator.vibrate(500);
+    }
+  }
+
+  limitText(formGroup: any, formcontrolName: string, maxNumber: number) {
+    const formcontrol = formGroup.get(formcontrolName);
+    if (formcontrol.value.toString().length > maxNumber) {
+      const truncatedNumber = formcontrol.value.toString().slice(0, maxNumber);
+      formcontrol.patchValue(truncatedNumber);
     }
   }
 }

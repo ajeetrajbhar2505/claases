@@ -4,6 +4,7 @@ import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,18 @@ export class ProfileComponent implements OnInit {
   shakeButton: boolean = false;
   UserProfileDetails: UserProfileDetails = new UserProfileDetails();
   private _unsubscribeAll: Subject<any>;
+  uploadStatus: any = { status: false, message: '', statusType: '' };
+  statusIcons = [
+    { name: 'checkmark-circle-outline', status: 'success' },
+    { name: 'close-circle-outline', status: 'failed' },
+    { name: 'information-circle-outline', status: 'info' },
+  ];
+  currentStatusIcon: any = '';
+  editable:boolean = false
 
+  editProfile(){
+    this.editable = ! this.editable
+  }
   showpassword(index: number) {
     this.visiblepass[index] = !this.visiblepass[index];
   }
@@ -29,7 +41,8 @@ export class ProfileComponent implements OnInit {
     public router: Router,
     public menuCtrl: MenuController,
     public service: WebService,
-    public ActivatedRoute: ActivatedRoute
+    public ActivatedRoute: ActivatedRoute,
+    public fb: FormBuilder
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -78,8 +91,41 @@ export class ProfileComponent implements OnInit {
     this.service.logout();
   }
 
-  update() {
-    this.loading = !this.loading;
+  async update() {
+    this.loading = true;
+    const req = new Requestmodels();
+    req.RequestUrl = `updateProfile`;
+    req.RequestObject = this.UserProfileDetails;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.loading = false;
+            if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
+              return;
+            }
+
+            // fetch
+            this.openSnackbar({
+              status: true,
+              message: data.response,
+              statusType: 'info',
+            });
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
   }
 
   async fetchcontentDetails() {
@@ -102,9 +148,19 @@ export class ProfileComponent implements OnInit {
             // fetch
             this.UserProfileDetails.first_name = data.response.given_name;
             this.UserProfileDetails.last_name = data.response.family_name;
+            this.UserProfileDetails.fullName =
+              data.response.given_name + ' ' + data.response.family_name;
             this.UserProfileDetails.email = data.response.email;
             this.UserProfileDetails.username = data.response.email;
             this.UserProfileDetails.profile_picture = data.response.picture;
+            this.UserProfileDetails.address1 = data.response.address1;
+            this.UserProfileDetails.address2 = data.response.address2;
+            this.UserProfileDetails.phone = data.response.phone;
+            this.UserProfileDetails.country = data.response.country;
+            this.UserProfileDetails.city = data.response.city;
+            this.UserProfileDetails.ZIP = data.response.ZIP;
+            this.UserProfileDetails.bio = data.response.bio;
+            this.UserProfileDetails._id = data.response._id
           }
         },
         (_error) => {
@@ -115,22 +171,61 @@ export class ProfileComponent implements OnInit {
   }
 
   ableToText(show: boolean) {
+    this.shakeButton = false;
     this.shakeButton = this.service.shakeButton(this.loading, show);
+  }
+
+  limitNumber() {
+    const phone = this.UserProfileDetails.phone;
+    if (phone && phone.toString().length >= 10) {
+      const truncatedNumber = phone.toString().slice(0, 10);
+      this.UserProfileDetails.phone = truncatedNumber;
+    }
+  }
+
+
+  openSnackbar(uploadStatus: any) {
+    this.uploadStatus = uploadStatus;
+    this.currentStatusIcon = this.statusIcons.filter(
+      (obj) => obj.status == this.uploadStatus.statusType
+    )[0].name;
+    this.uploadStatus.status = true;
+    setTimeout(() => {
+      this.uploadStatus.status = false;
+    }, 2000);
   }
 }
 
 export class UserProfileDetails {
+  fullName: string;
   first_name: string;
   last_name: string;
   username: string;
   email: string;
   profile_picture: string;
+  address1: string;
+  address2: string;
+  phone: any;
+  country: string;
+  city: string;
+  ZIP: string;
+  bio: string;
+  _id:string
 
   constructor() {
+    this.fullName = '';
     this.first_name = '';
     this.last_name = '';
     this.username = '';
     this.email = '';
     this.profile_picture = '';
+    this.address1 = '';
+    this.address2 = '';
+    this.phone = null;
+    this.country = '';
+    this.city = '';
+    this.ZIP = '';
+    this.bio = '';
+    this._id = ''
   }
 }

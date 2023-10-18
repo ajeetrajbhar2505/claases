@@ -1,82 +1,76 @@
 .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-  
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  
-    margin: 0 auto;
-    margin-top: 15px;
-    margin-bottom: 18px;
-    position: relative;
-  }
-  
-  b {
-    width: 100%;
-  }
-  
-  .ripple-parent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    position: relative;
-    overflow: hidden;
-  
-    border: 1px solid #ddd;
-  
-    user-select: none;
-    font-size: 60px;
-    color: white;
-    background-color: lightgray;
-  }
-  
-  .circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 1px solid lightgray;
-  }
+  display: flex;
+  flex-wrap: wrap;
 
-  .circle-edit {
-    width: 90px;
-    height: 57px;
-  }
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
-  .edit-icon
-  {
-    cursor: pointer;
-    position: absolute;
-    bottom: -16px;
-    border-radius: 50%;
-    font-size: 25px;
-    padding: 7px 7px 0px 7px;
-    background: white;
-    border: 1px solid lightgray;
-  }
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 18px;
+  position: relative;
+}
 
+b {
+  width: 100%;
+}
 
+.ripple-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
- ::ng-deep .isProfileModelOpen {
-    --height: 35%;
-    --border-radius: 16px;
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  position: relative;
+  overflow: hidden;
 
-    
-  }
-  
-  ::ng-deep .isProfileModelOpen::part(backdrop) {
-    background: rgba(209, 213, 219);
-    opacity: 1;
-  }
-  
-  ::ng-deep .isProfileModelOpen ion-toolbar {
-    --background: rgb(14 116 144);
-    --color: white;
-  }
+  border: 1px solid #ddd;
 
+  user-select: none;
+  font-size: 60px;
+  color: white;
+  background-color: lightgray;
+}
 
+.circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+}
+
+.circle-edit {
+  width: 90px;
+  height: 57px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  position: absolute;
+  bottom: -16px;
+  border-radius: 50%;
+  font-size: 25px;
+  padding: 7px 7px 0px 7px;
+  background: white;
+  border: 1px solid lightgray;
+}
+
+::ng-deep .isProfileModelOpen {
+  --height: 35%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+::ng-deep .isProfileModelOpen::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}
+
+::ng-deep .isProfileModelOpen ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
+}
 
 .container {
   display: flex;
@@ -87,7 +81,7 @@
 }
 
 #profilecard {
-  --background: #F8FAFA;
+  --background: #f8fafa;
 }
 .center {
   display: flex;
@@ -97,7 +91,6 @@
 .pb-2 {
   padding-bottom: 10px !important;
 }
-
 
 .login-card {
   max-width: 100%;
@@ -156,7 +149,7 @@ input::-webkit-inner-spin-button {
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
 }
-.right{
+.right {
   width: 100%;
   text-align: right;
 }
@@ -165,10 +158,10 @@ input::-webkit-inner-spin-button {
   margin: 16px 16px 16px 13px;
 }
 
-.signin{
+.signin {
   display: grid;
   margin-bottom: 20px;
-  .icons{
+  .icons {
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -177,17 +170,39 @@ input::-webkit-inner-spin-button {
   }
 }
 
-
-
 ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default {
   --backdrop-opacity: 0.5;
   padding: 10px;
 }
 
-.card-css{
+ion-item,
+ion-item > div {
+  --background: transparent;
+}
+
+.item-input.sc-ion-label-ios-h, .item-input .sc-ion-label-ios-h {
+  -ms-flex: initial;
+  flex: revert-layer;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+ion-input {
+  --padding-top: 0;
+  --padding-end: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+}
+
+.card-css {
   margin: unset;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   padding-bottom: 20px;
   box-shadow: unset;
+  margin-bottom: 20px;
+}
+
+ion-note {
+  display: block;
 }
