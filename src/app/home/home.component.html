@@ -15,7 +15,7 @@
         <ion-title>Notifications</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding" id="white-background">
       <ion-item
         *ngFor="let data of notifications"
         (click)="routeTocontentControls(data); toggleMenu()"
@@ -215,7 +215,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="ion-padding" id="white-background">
       <img src="assets/search.webp" *ngIf="!SearchedContents.length" alt="" />
       <ion-list>
         <ion-item

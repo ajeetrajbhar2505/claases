@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true" id="features">
+<ion-content [fullscreen]="true" id="white-background">
   <div class="wrapper">
     <ng-container *ngIf="UserProfileDetails.profile_picture">
       <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
@@ -76,7 +76,7 @@
         </ion-thumbnail>
         <ion-label>{{UserProfileDetails.first_name + UserProfileDetails.last_name}}</ion-label>
          <div class="right">
-          <ion-button  color="warn" shape="round" #shakebutton id="shakebutton" class="submit">
+          <ion-button  color="warn" shape="round" #shakebutton id="shakebutton" (click)="togglePersonalDetails()" class="submit">
             <ion-icon  slot="start" name="create-outline"></ion-icon>Edit</ion-button>
          </div>
     </div>
