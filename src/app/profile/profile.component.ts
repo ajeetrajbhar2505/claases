@@ -47,6 +47,7 @@ export class ProfileComponent implements OnInit,AfterViewInit {
     private loadingCtrl: LoadingController
   ) {
     this._unsubscribeAll = new Subject();
+    this.fetchProfileDetails()
   }
 
   async ngOnInit() {
