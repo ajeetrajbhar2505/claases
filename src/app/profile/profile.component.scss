@@ -207,9 +207,17 @@ ion-input {
   border-bottom-right-radius: 20px;
   padding-bottom: 20px;
   box-shadow: unset;
-  margin-bottom: 20px;
   z-index: 1500;
+  background: transparent;
+  backdrop-filter: blur(10px);
 }
+
+.header-ios ion-toolbar:last-of-type {
+  --border-width: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
 
 ion-tab-button{
   --background: white;

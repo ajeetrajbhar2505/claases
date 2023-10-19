@@ -1,9 +1,20 @@
 <ion-content [fullscreen]="true" id="white-background">
   <div class="wrapper">
     <ng-container *ngIf="UserProfileDetails.profile_picture">
-      <img id="preview" class="circle" [src]="UserProfileDetails.profile_picture" alt="Profile Photo" width="200">
+      <img
+        id="preview"
+        class="circle"
+        [src]="UserProfileDetails.profile_picture"
+        alt="Profile Photo"
+        width="200"
+      />
     </ng-container>
-    <div id="open-modal" expand="block" *ngIf="!UserProfileDetails.profile_picture" class="ion-activatable ripple-parent circle">
+    <div
+      id="open-modal"
+      expand="block"
+      *ngIf="!UserProfileDetails.profile_picture"
+      class="ion-activatable ripple-parent circle"
+    >
       <div class="avatar-skeleton" *ngIf="skeleton"></div>
       <ion-icon name="person"></ion-icon>
       <ion-ripple-effect type="unbounded"></ion-ripple-effect>
@@ -32,7 +43,11 @@
       <ion-label>Version2.9</ion-label>
     </ion-item>
     <ion-item (click)="logout()">
-      <ion-icon slot="start" style="transform: translate(180deg);" name="log-out-outline"></ion-icon>
+      <ion-icon
+        slot="start"
+        style="transform: translate(180deg)"
+        name="log-out-outline"
+      ></ion-icon>
       <ion-label>Logout</ion-label>
     </ion-item>
   </ion-list>
@@ -49,16 +64,19 @@
           <label for="profile-photo">
             <ion-item>
               <ion-label>
-                <input type="file" (change)="previewPhoto($event)" accept="image/*" id="profile-photo"
-                  style="display: none;">
+                <input
+                  type="file"
+                  (change)="previewPhoto($event)"
+                  accept="image/*"
+                  id="profile-photo"
+                  style="display: none"
+                />
                 Choose Photo
               </ion-label>
             </ion-item>
           </label>
           <ion-item (click)="removepreviewPhoto()">
-            <ion-label style="color: red;">
-              Delete Photo
-            </ion-label>
+            <ion-label style="color: red"> Delete Photo </ion-label>
           </ion-item>
         </ion-list>
       </ion-content>
@@ -66,119 +84,246 @@
   </ion-modal>
 </ion-content>
 
-
 <ion-modal [isOpen]="isPersonalDetailsModelOpen">
   <ng-template>
-    <ion-content  [fullscreen]="true" id="profilecard">
-      <div class="quize-cards card-css top-card">
-        <ion-thumbnail slot="start" style="width:inherit;">
-          <img  [src]="UserProfileDetails.profile_picture" class="circle-edit" />
-        </ion-thumbnail>
-        <ion-label>{{UserProfileDetails.first_name + UserProfileDetails.last_name}}</ion-label>
-         <div class="right">
-          <ion-button (click)="editable?update():editProfile()" color="warn" shape="round" #shakebutton id="shakebutton" class="submit {{shakeButton?'disabled-shake':''}}">
-            <ion-icon *ngIf="editable" slot="start" name="cloud-upload-outline"></ion-icon>
-            <ion-icon *ngIf="!editable" slot="start" name="create-outline"></ion-icon>
-                {{editable?(loading?'Saving':'Save'):'Edit'}} 
-              </ion-button>
-         </div>
-    </div>
+    <ion-header [translucent]="true" id="white-background">
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-icon
+            style="font-size: 25px"
+            name="close-outline"
+            (click)="togglePersonalDetails()"
+          ></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-toolbar>
+        <div class="quize-cards card-css top-card">
+          <ion-thumbnail slot="start" style="width: inherit">
+            <img
+              [src]="UserProfileDetails.profile_picture"
+              class="circle-edit"
+            />
+          </ion-thumbnail>
+          <ion-label>{{
+            UserProfileDetails.first_name + UserProfileDetails.last_name
+          }}</ion-label>
+          <div class="right">
+            <ion-button
+              (click)="editable ? update() : editProfile()"
+              color="warn"
+              shape="round"
+              #shakebutton
+              id="shakebutton"
+              class="submit {{ shakeButton ? 'disabled-shake' : '' }}"
+            >
+              <ion-icon
+                *ngIf="editable"
+                slot="start"
+                name="cloud-upload-outline"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!editable"
+                slot="start"
+                name="create-outline"
+              ></ion-icon>
+              {{ editable ? (loading ? "Saving" : "Save") : "Edit" }}
+            </ion-button>
+          </div>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content [fullscreen]="true" id="profilecard">
+      <ion-item>
+        <ion-label>
+          <h2>Name</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.fullName"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your name here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
+      <ion-item>
+        <ion-label>
+          <h2>Address 1</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.address1"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your address 1 here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Name</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.fullName" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your name here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Address 2</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.address2"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your address 2 here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Address 1</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.address1" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your address 1 here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Phone</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.phone"
+            (mouseleave)="ableToText(false); limitNumber()"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your phone number here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Address 2</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.address2" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your address 2 here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Email</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.email"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your email here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Phone</h2>
-        <ion-input class="{{!editable?'':''}}"  (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.phone" (mouseleave)="ableToText(false);limitNumber()"  [readonly]="!editable" required placeholder="Enter your phone number here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Country</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.country"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your country here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Email</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.email" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your email here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
-    
+      <ion-item>
+        <ion-label>
+          <h2>City</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.city"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your city here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Country</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.country" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your country here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>ZIP</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.ZIP"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your ZIP here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    
-    <ion-item>
-      <ion-label>
-        <h2>City</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.city" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your city here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
-    
-    
-    <ion-item>
-      <ion-label>
-        <h2>ZIP</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.ZIP" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your ZIP here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Bio</h2>
+          <ion-input
+            class="{{ !editable ? '' : '' }}"
+            type="text"
+            (click)="ableToText(true)"
+            [(ngModel)]="UserProfileDetails.bio"
+            (mouseleave)="ableToText(false)"
+            [readonly]="!editable"
+            required
+            placeholder="Enter your bio here"
+            autocomplete="off"
+          ></ion-input>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h2>Bio</h2>
-        <ion-input  class="{{!editable?'':''}}" type="text" (click)="ableToText(true)" [(ngModel)]="UserProfileDetails.bio" (mouseleave)="ableToText(false)"  [readonly]="!editable" required placeholder="Enter your bio here" autocomplete="off"></ion-input>
-      </ion-label>
-    </ion-item>
-    
-
-    <div class="quize-cards card-css bottom-card" *ngIf="!editable">
-      <a href="mailto:{{UserProfileDetails.email}}"><ion-tab-button>
-        <ion-icon name="mail-outline"></ion-icon>
-        Email
-      </ion-tab-button></a>
-      <a href="https://www.google.com/maps/dir/?api=1&destination={{UserProfileDetails.address1}}&travelmode=driving">
-      <ion-tab-button>
-        <ion-icon name="location-outline"></ion-icon>
-        Address
-      </ion-tab-button></a>
-      <a href="tel:{{UserProfileDetails.phone}}">
-      <ion-tab-button>
-        <ion-icon name="call-outline"></ion-icon>
-        Home
-      </ion-tab-button></a>
-      <a href="sms:{{UserProfileDetails.phone}}?body=Hello%20{{UserProfileDetails.fullName}}!">
-      <ion-tab-button>
-        <ion-icon name="chatbox-outline"></ion-icon>
-        SMS
-      </ion-tab-button></a>
-      
-  </div>
+      <div class="quize-cards card-css bottom-card" *ngIf="!editable">
+        <a href="mailto:{{ UserProfileDetails.email }}"
+          ><ion-tab-button>
+            <ion-icon name="mail-outline"></ion-icon>
+            Email
+          </ion-tab-button></a
+        >
+        <a
+          href="https://www.google.com/maps/dir/?api=1&destination={{
+            UserProfileDetails.address1
+          }}&travelmode=driving"
+        >
+          <ion-tab-button>
+            <ion-icon name="location-outline"></ion-icon>
+            Address
+          </ion-tab-button></a
+        >
+        <a href="tel:{{ UserProfileDetails.phone }}">
+          <ion-tab-button>
+            <ion-icon name="call-outline"></ion-icon>
+            Home
+          </ion-tab-button></a
+        >
+        <a
+          href="sms:{{ UserProfileDetails.phone }}?body=Hello%20{{
+            UserProfileDetails.fullName
+          }}!"
+        >
+          <ion-tab-button>
+            <ion-icon name="chatbox-outline"></ion-icon>
+            SMS
+          </ion-tab-button></a
+        >
+      </div>
 
       <!-- snackbar card -->
       <div *ngIf="uploadStatus.status" class="card">
         <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
-        <span class="message">{{uploadStatus.message}}</span>
+        <span class="message">{{ uploadStatus.message }}</span>
       </div>
     </ion-content>
   </ng-template>
