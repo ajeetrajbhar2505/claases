@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { WebService } from '../web.service';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-upload-video',
@@ -39,7 +40,9 @@ export class UploadVideoComponent implements OnInit {
     public router: Router,
     public service: WebService,
     public ActivatedRoute: ActivatedRoute,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private loadingCtrl: LoadingController
+
   ) {
     this._unsubscribeAll = new Subject();
     this.uploadVideogroup = this.fb.group({
@@ -183,6 +186,11 @@ export class UploadVideoComponent implements OnInit {
     }
     this.uploading = true;
     this.uploadStatus.status = false;
+    const loading = await this.loadingCtrl.create({
+      message: 'Uploading file...',
+      duration: 0,
+    });
+    loading.present()
     const req = new Requestmodels();
     // create a new FormData object
     const formData = new FormData();
@@ -214,7 +222,13 @@ export class UploadVideoComponent implements OnInit {
         .UploadFile(req, formData)
         .toPromise();
       if (data != null) {
+        loading.dismiss()
         if (data.error) {
+          this.openSnackbar({
+            status: true,
+            message: data.response,
+            statusType: 'failed',
+          });
           return '';
         }
         this.uploading = false;

@@ -52,7 +52,10 @@
       </ion-item>
     </ion-list>
 
-    <ion-button style="margin-top: 20px;" (click)="createEvent();" expand="block">{{uploading?'Uploading ':'Upload'}}  <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
+    <ion-button style="margin-top: 20px;" (click)="createEvent();" expand="block">
+      <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+      {{uploading?'Saving ':'Save'}}  
+      <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
     </ion-button>
 
     <!-- snackbar card -->

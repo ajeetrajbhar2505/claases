@@ -41,7 +41,10 @@
 		</div>
 
 
-    <ion-button style="margin-top: 20px;" (click)="uploadContent();" expand="block">{{uploading?'Uploading ':'Upload'}}  <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
+    <ion-button style="margin-top: 20px;" (click)="uploadContent();" expand="block">
+      <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+      {{uploading?'Uploading ':'Upload'}}  
+      <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
     </ion-button>
 
    </ion-card-content>

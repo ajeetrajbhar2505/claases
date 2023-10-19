@@ -4,6 +4,7 @@ import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { WebService } from '../web.service';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 const navigationExtras: NavigationExtras = {
   queryParams: { reload: 'true' }, // Add the "reload" query parameter

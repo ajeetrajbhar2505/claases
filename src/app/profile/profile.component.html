@@ -77,8 +77,10 @@
         <ion-label>{{UserProfileDetails.first_name + UserProfileDetails.last_name}}</ion-label>
          <div class="right">
           <ion-button (click)="editable?update():editProfile()" color="warn" shape="round" #shakebutton id="shakebutton" class="submit {{shakeButton?'disabled-shake':''}}">
-              <ion-icon *ngIf="!editable" slot="start" name="create-outline"></ion-icon>
-                {{editable?('Update'):'Edit'}}</ion-button>
+            <ion-icon *ngIf="editable" slot="start" name="cloud-upload-outline"></ion-icon>
+            <ion-icon *ngIf="!editable" slot="start" name="create-outline"></ion-icon>
+                {{editable?(loading?'Saving':'Save'):'Edit'}} 
+              </ion-button>
          </div>
     </div>
 
@@ -150,7 +152,7 @@
     </ion-item>
     
       <!-- snackbar card -->
-      <div class="card" *ngIf="uploadStatus.status">
+      <div *ngIf="uploadStatus.status" class="card">
         <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
         <span class="message">{{uploadStatus.message}}</span>
       </div>

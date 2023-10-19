@@ -5,6 +5,7 @@ import { WebService } from '../web.service';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -42,7 +43,7 @@ export class ProfileComponent implements OnInit {
     public menuCtrl: MenuController,
     public service: WebService,
     public ActivatedRoute: ActivatedRoute,
-    public fb: FormBuilder
+    private loadingCtrl: LoadingController
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -93,6 +94,12 @@ export class ProfileComponent implements OnInit {
 
   async update() {
     this.loading = true;
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Saving details...',
+      duration: 0,
+    });
+    loading.present()
     const req = new Requestmodels();
     req.RequestUrl = `updateProfile`;
     req.RequestObject = this.UserProfileDetails;
@@ -104,6 +111,8 @@ export class ProfileComponent implements OnInit {
         (data) => {
           if (data != null) {
             this.loading = false;
+            this.editable = false
+            loading.dismiss()
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
@@ -193,6 +202,17 @@ export class ProfileComponent implements OnInit {
     setTimeout(() => {
       this.uploadStatus.status = false;
     }, 2000);
+  }
+
+  async showLoading(msg:any) {
+    const loading = await this.loadingCtrl.create({
+      message: msg,
+      duration: 0,
+    });
+    loading.present();
+    if (!this.loading) {
+      loading.dismiss()
+    }
   }
 }
 
