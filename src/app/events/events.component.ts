@@ -34,7 +34,9 @@ export class EventsComponent implements OnInit {
     public router: Router,
     public service: WebService,
     public fb: FormBuilder,
-    public ActivatedRoute:ActivatedRoute
+    public ActivatedRoute:ActivatedRoute,
+    private loadingCtrl: LoadingController
+
   ) {
     this._unsubscribeAll = new Subject();
     this.createCalenderGroup();
@@ -86,6 +88,11 @@ export class EventsComponent implements OnInit {
       return;
     }
     this.uploading = true;
+    const loading = await this.loadingCtrl.create({
+      message: 'Creating event...',
+      duration: 0,
+    });
+    loading.present()
     const payload = this.calenderGroup.value;
     const req = new Requestmodels();
     req.RequestUrl = `upsertCalenderDetails`;
@@ -97,6 +104,7 @@ export class EventsComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            loading.dismiss()
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
