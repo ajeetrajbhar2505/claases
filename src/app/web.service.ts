@@ -352,4 +352,26 @@ export class WebService {
       formcontrol.patchValue(truncatedNumber);
     }
   }
+
+  getLocation(): Promise<{ latitude: string; longitude: string }> {
+    return new Promise((resolve, reject) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude.toString();
+            const longitude = position.coords.longitude.toString();
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            console.error("Error getting geolocation:", error.message);
+            reject(error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not available in this browser.");
+        reject(new Error("Geolocation is not available"));
+      }
+    });
+  }
+  
 }

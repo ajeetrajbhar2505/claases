@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
@@ -12,13 +12,14 @@ import { LoadingController } from '@ionic/angular';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit,AfterViewInit {
   isProfileModelOpen = false;
   isPersonalDetailsModelOpen = false;
   loading = false;
 
   visiblepass = [false, false];
   shakeButton: boolean = false;
+  location: location = new location()
   UserProfileDetails: UserProfileDetails = new UserProfileDetails();
   private _unsubscribeAll: Subject<any>;
   uploadStatus: any = { status: false, message: '', statusType: '' };
@@ -28,10 +29,10 @@ export class ProfileComponent implements OnInit {
     { name: 'information-circle-outline', status: 'info' },
   ];
   currentStatusIcon: any = '';
-  editable:boolean = false
+  editable: boolean = false;
 
-  editProfile(){
-    this.editable = ! this.editable
+  editProfile() {
+    this.editable = !this.editable;
   }
   showpassword(index: number) {
     this.visiblepass[index] = !this.visiblepass[index];
@@ -48,13 +49,24 @@ export class ProfileComponent implements OnInit {
     this._unsubscribeAll = new Subject();
   }
 
-  ngOnInit() {
-    this.fetchcontentDetails();
+  async ngOnInit() {
+    this._https.getLocation()
+    .then((location: location) => {
+      this.location = location
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+   this.fetchProfileDetails();
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {
-        this.fetchcontentDetails();
+        this.fetchProfileDetails();
       }
     });
+  }
+
+  async ngAfterViewInit() {
+   await this.fetchProfileDetails();
   }
 
   navigateTo(path: any) {
@@ -99,7 +111,7 @@ export class ProfileComponent implements OnInit {
       message: 'Saving details...',
       duration: 0,
     });
-    loading.present()
+    loading.present();
     const req = new Requestmodels();
     req.RequestUrl = `updateProfile`;
     req.RequestObject = this.UserProfileDetails;
@@ -111,8 +123,8 @@ export class ProfileComponent implements OnInit {
         (data) => {
           if (data != null) {
             this.loading = false;
-            this.editable = false
-            loading.dismiss()
+            this.editable = false;
+            loading.dismiss();
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
@@ -137,7 +149,7 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  async fetchcontentDetails() {
+  async fetchProfileDetails() {
     this.skeleton = true;
     const req = new Requestmodels();
     req.RequestUrl = `profile`;
@@ -169,7 +181,7 @@ export class ProfileComponent implements OnInit {
             this.UserProfileDetails.city = data.response.city;
             this.UserProfileDetails.ZIP = data.response.ZIP;
             this.UserProfileDetails.bio = data.response.bio;
-            this.UserProfileDetails._id = data.response._id
+            this.UserProfileDetails._id = data.response._id;
           }
         },
         (_error) => {
@@ -192,7 +204,6 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-
   openSnackbar(uploadStatus: any) {
     this.uploadStatus = uploadStatus;
     this.currentStatusIcon = this.statusIcons.filter(
@@ -204,14 +215,14 @@ export class ProfileComponent implements OnInit {
     }, 2000);
   }
 
-  async showLoading(msg:any) {
+  async showLoading(msg: any) {
     const loading = await this.loadingCtrl.create({
       message: msg,
       duration: 0,
     });
     loading.present();
     if (!this.loading) {
-      loading.dismiss()
+      loading.dismiss();
     }
   }
 }
@@ -230,7 +241,7 @@ export class UserProfileDetails {
   city: string;
   ZIP: string;
   bio: string;
-  _id:string
+  _id: string;
 
   constructor() {
     this.fullName = '';
@@ -246,6 +257,11 @@ export class UserProfileDetails {
     this.city = '';
     this.ZIP = '';
     this.bio = '';
-    this._id = ''
+    this._id = '';
   }
+}
+
+export class location {
+  latitude: any
+  longitude: any
 }

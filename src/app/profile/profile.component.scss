@@ -193,13 +193,26 @@ ion-input {
   --padding-start: 0;
 }
 
+.top-card{
+  top: 0;
+}
+.bottom-card{
+  bottom: 0;
+  justify-content: space-around;
+}
 .card-css {
+  position: sticky;
   margin: unset;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   padding-bottom: 20px;
   box-shadow: unset;
   margin-bottom: 20px;
+  z-index: 1500;
+}
+
+ion-tab-button{
+  --background: white;
 }
 
 ion-note {

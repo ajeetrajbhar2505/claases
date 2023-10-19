@@ -70,7 +70,7 @@
 <ion-modal [isOpen]="isPersonalDetailsModelOpen">
   <ng-template>
     <ion-content  [fullscreen]="true" id="profilecard">
-      <div class="quize-cards card-css">
+      <div class="quize-cards card-css top-card">
         <ion-thumbnail slot="start" style="width:inherit;">
           <img  [src]="UserProfileDetails.profile_picture" class="circle-edit" />
         </ion-thumbnail>
@@ -151,6 +151,30 @@
       </ion-label>
     </ion-item>
     
+
+    <div class="quize-cards card-css bottom-card" *ngIf="!editable">
+      <a href="mailto:{{UserProfileDetails.email}}"><ion-tab-button>
+        <ion-icon name="mail-outline"></ion-icon>
+        Email
+      </ion-tab-button></a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination={{UserProfileDetails.address1}}&travelmode=driving">
+      <ion-tab-button>
+        <ion-icon name="location-outline"></ion-icon>
+        Address
+      </ion-tab-button></a>
+      <a href="tel:{{UserProfileDetails.phone}}">
+      <ion-tab-button>
+        <ion-icon name="call-outline"></ion-icon>
+        Home
+      </ion-tab-button></a>
+      <a href="sms:{{UserProfileDetails.phone}}?body=Hello%20{{UserProfileDetails.fullName}}!">
+      <ion-tab-button>
+        <ion-icon name="chatbox-outline"></ion-icon>
+        SMS
+      </ion-tab-button></a>
+      
+  </div>
+
       <!-- snackbar card -->
       <div *ngIf="uploadStatus.status" class="card">
         <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
