@@ -1,7 +1,54 @@
-
-
-//   ion-content{
-//     --ion-background-color:rgb(25 25 37 / 25%);
-// }
+.card {
+    position: fixed;
+    width: 85%;
+    bottom: 0;
+    z-index: 1000;
+    animation: snackbar 300ms cubic-bezier(0.215, 0.610, 0.355, 1);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    transition: al  .3s ease-in;
+  }
   
+  @keyframes snackbar {
+    0% {
+      left: -200px;
+    }
+    50%{
+      left: 10px;
+    }
+    100% {
+      left: 18px;
+    }
+  }
   
+
+  .drag-file-area {
+    border: 2px dashed #7b2cbf;
+    border-radius: 40px;
+    margin: 10px 0 15px;
+    padding: 30px 50px;
+    width: 100%;
+    text-align: center;
+  }
+  .drag-file-area .upload-icon {
+    font-size: 50px;
+  }
+  .drag-file-area h3 {
+    font-size: 26px;
+    margin: 15px 0;
+  }
+  .drag-file-area label {
+    font-size: 19px;
+  }
+  .drag-file-area label .browse-files-text {
+    color: #7b2cbf;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+  .browse-files span {
+    position: relative;
+    top: -25px;
+  }
+  .default-file-input {
+    opacity: 0;
+  }

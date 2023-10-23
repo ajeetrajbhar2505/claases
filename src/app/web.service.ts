@@ -31,6 +31,16 @@ export class WebService {
     this.socket = io(this.local, {
       transports: ['websocket'],
     });
+    this.getIPAddress()
+    .then((ipAddress) => {
+      if (ipAddress) {
+        this.UserProfile.ipAddress = ipAddress
+      } else {
+        this.UserProfile.ipAddress = 'Unable to retrieve IP address.'
+        console.log('Unable to retrieve IP address.');
+      }
+    });
+
   }
 
   setlocalstorage(token: any, userId: any) {
@@ -51,7 +61,7 @@ export class WebService {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
       accept: ' text/plain',
-      Authorization: 'Bearer ' + token,
+      Authorization: 'Bearer ' +  token,
     });
   }
 
@@ -139,7 +149,7 @@ export class WebService {
 
   login(): void {
     // TODO: Implement login logic
-    //  localStorage.setItem('token','653013fb8e6ebbf4133d6f67')
+    //  localStorage.setItem('token','65319080890f181804c1fed5')
     // localStorage.setItem('userId','652ee5030148b3ea472219f5')
     setTimeout(() => {
       this.router
@@ -204,6 +214,7 @@ export class WebService {
       neg_mark: headers.indexOf('neg_mark'),
       question_type: headers.indexOf('question_type'),
       file_upload: headers.indexOf('file_upload'),
+      bt_level: headers.indexOf('bt_level'),
     };
 
     for (let i = 0; i < values.length; i++) {
@@ -220,6 +231,7 @@ export class WebService {
       const negMark = row[headerIndices.neg_mark];
       const questionType = row[headerIndices.question_type];
       const fileUpload = row[headerIndices.file_upload];
+      const bt_level = row[headerIndices.bt_level];
 
       result.push({
         question: questionText,
@@ -229,6 +241,7 @@ export class WebService {
         neg_mark: negMark,
         question_type: questionType,
         file_upload: fileUpload,
+        bt_level : bt_level
       });
     }
 
@@ -241,20 +254,29 @@ export class WebService {
       message: 'File was successfully uploaded',
       statusType: 'success',
     };
-    // let response:any = ""
-    // try {
-    // if (file) {
-    //   const excelData = await this.readExcelFile(file);
-    //   const headerData = this.extractHeadersData(excelData);
-    //   let body  = { data : headerData}
+    let response:any = ""
 
-    //     response = await this.postData(environment.nodeApi, body).toPromise();
+    const req = new Requestmodels();
+    req.RequestUrl = `upload`;
+    req.RequestObject = ''
 
-    //     uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
-    //   }
-    // } catch (error) {
-    //   uploadResponse.message = 'Error reading Excel file';
-    // }
+
+    try {
+    if (file) {
+      const excelData = await this.readExcelFile(file);
+      const headerData = this.extractHeadersData(excelData);
+      let body  = { data : headerData}
+      
+      console.log(body);
+      
+  
+        // response = await this.PostData(req).toPromise();
+
+        uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
+      }
+    } catch (error) {
+      uploadResponse.message = 'Error reading Excel file';
+    }
     return uploadResponse;
   }
 
@@ -270,7 +292,7 @@ export class WebService {
           headers: this.headers,
         })
         .pipe(
-          tap((data) => {
+          tap((data:any) => {
             // this.spinner.hide();
             return data;
           }),
@@ -282,7 +304,7 @@ export class WebService {
           headers: this.headers,
         })
         .pipe(
-          tap((data) => {
+          tap((data:any) => {
             // this.spinner.hide();
             return data;
           }),
@@ -321,7 +343,7 @@ export class WebService {
         headers: this.headers,
       })
       .pipe(
-        tap((data) => {
+        tap((data:any) => {
           // this.spinner.hide();
           return data;
         }),
@@ -373,5 +395,18 @@ export class WebService {
       }
     });
   }
+
+  // Create a function to fetch the IP address
+ async getIPAddress() {
+  try {
+    const response = await fetch('https://api64.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error('Error fetching IP address:', error);
+    return null;
+  }
+}
+
   
 }

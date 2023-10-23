@@ -1,10 +1,10 @@
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { QuizRoutingModule } from './quiz-routing.module';
 import { QuizComponent } from './quiz.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,6 +14,7 @@ import { QuizComponent } from './quiz.component';
     QuizRoutingModule,
     IonicModule,
     FormsModule,
+    ReactiveFormsModule,
     ExploreContainerComponentModule
   ]
 })
