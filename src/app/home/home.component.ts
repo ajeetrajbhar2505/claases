@@ -116,7 +116,6 @@ export class HomeComponent implements OnInit {
   // ];
   notification_count = this.notifications.length;
   contentId: any = 10;
-  classId: any = 10;
   LecturesWiseVideos: any = [];
   SearchedContents: any = [];
   colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
@@ -273,14 +272,14 @@ export class HomeComponent implements OnInit {
 
   beginTest(data: any) {
     const queryParams: commonNavigation = {
-      classId: this.classId,
-      lec_id: data.lec_id,
+      classId: data.classId,
+      lec_id: data._id,
       lec_title: data.lec_title,
       contentId: this.contentId,
       from: '/tabs/home',
       reload: 'true',
     };
-    this.router.navigate(['/tabs/test'], { queryParams });
+    this.router.navigate(['/tabs/quiz'], { queryParams });
   }
 
   toggleMenu() {

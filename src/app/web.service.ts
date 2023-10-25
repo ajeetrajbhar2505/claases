@@ -9,7 +9,7 @@ import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { Requestmodels } from './models/Requestmodels.module';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, retry, tap, throwError } from 'rxjs';
 import { UserProfile } from './models/UserProfile.module';
 
 @Injectable({
@@ -248,37 +248,31 @@ export class WebService {
     return result;
   }
 
-  async uploadExcelFile(file: File) {
-    let uploadResponse = {
-      status: 500,
-      message: 'File was successfully uploaded',
-      statusType: 'success',
-    };
-    let response:any = ""
-
-    const req = new Requestmodels();
-    req.RequestUrl = `upload`;
-    req.RequestObject = ''
-
-
+  async uploadQuizExcelFile(file: File) {
     try {
-    if (file) {
-      const excelData = await this.readExcelFile(file);
-      const headerData = this.extractHeadersData(excelData);
-      let body  = { data : headerData}
-      
-      console.log(body);
-      
-  
-        // response = await this.PostData(req).toPromise();
-
-        uploadResponse.message = response.status === 200 ? 'File was successfully uploaded' : 'Error reading Excel file';
+      if (!file) {
+        throw new Error('No file provided for upload');
       }
+  
+      const excelData = await this.readExcelFile(file);
+  
+      if (!excelData) {
+        throw new Error('Empty Excel file or invalid format');
+      }
+  
+      const headerData = this.extractHeadersData(excelData);
+  
+      if (!headerData || headerData.length === 0) {
+        throw new Error('No valid header data found in the Excel file');
+      }
+  
+      return { success: true, questions: headerData };
     } catch (error) {
-      uploadResponse.message = 'Error reading Excel file';
+      console.error('Error while uploading quiz Excel file:', error);
+      return { success: false, message: error };
     }
-    return uploadResponse;
   }
+  
 
   PostData(req: Requestmodels, showSpinner = true): Observable<any> {
     // if (showSpinner == true) this.spinner.show();

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,6 +13,8 @@ import { WebService } from '../web.service';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
+import { IonModal } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 @Component({
   selector: 'app-quiz',
@@ -20,13 +22,15 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./quiz.component.scss'],
 })
 export class QuizComponent implements OnInit {
+  @ViewChild(IonModal) modal!: IonModal;
   private _unsubscribeAll: Subject<any>;
   lecturesData: any[] = [];
   classData: any = [];
   params: any = {};
-  uploadVideogroup!: FormGroup;
+  uploadQuizgroup!: FormGroup;
   currentpaper: any = '';
   uploading: boolean = false;
+  papers: any[] = [];
   uploadStatus: any = { status: false, message: '', statusType: '' };
   statusIcons = [
     { name: 'checkmark-circle-outline', status: 'success' },
@@ -42,10 +46,9 @@ export class QuizComponent implements OnInit {
     public ActivatedRoute: ActivatedRoute,
     public fb: FormBuilder,
     private loadingCtrl: LoadingController
-
   ) {
     this._unsubscribeAll = new Subject();
-    this.uploadVideogroup = this.fb.group({
+    this.uploadQuizgroup = this.fb.group({
       classId: ['', Validators.required],
       lec_id: ['', Validators.required],
       paper_icon: ['', Validators.required],
@@ -56,18 +59,25 @@ export class QuizComponent implements OnInit {
       published_at: ['', Validators.required],
       file: ['', Validators.required],
     });
-    this.uploadVideogroup
+    this.uploadQuizgroup
       .get('published_at')
       ?.patchValue(this.service.getCurrentDate());
   }
 
   async ngOnInit() {
     this.fetchClassDetails();
+    this.fetchpapersDetails();
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      this.params = params
       if (params.reload === 'true') {
         this.fetchClassDetails();
+        this.fetchpapersDetails();
       }
     });
+  }
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
   }
 
   async fetchClassDetails() {
@@ -96,14 +106,56 @@ export class QuizComponent implements OnInit {
       );
   }
 
+  async fetchpapersDetails() {
+    if (!this.params.classId && !this.params.lec_id) {
+      return
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `fetchquizes/${this.params.classId}/${this.params.lec_id}`;
+    req.RequestObject = '';
+
+    await this.service
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.papers = data.response || [];
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+  routeToQuiz(data: any) {
+    const queryParams = {
+      classId: data.classId,
+      lec_id: data.lec_id,
+      contentId: data._id,
+      from: '/tabs/quiz',
+      reload: 'true',
+    };
+    this.router.navigate(['/tabs/test'], { queryParams });
+  }
+
   readUrl(event: any) {
     const maxSizeInBytes = 70 * 1024 * 1024; // 70MB  : 0:40 minutes
     if (event.target.files[0] && event.target.files[0].size > maxSizeInBytes) {
-      alert("File size exceeds the maximum allowed size (10MB). Please choose a smaller file.");
-      this.uploadVideogroup.get('file')?.setValue('');
-      return
-  }
-    this.uploadVideogroup.get('file')?.patchValue(event.target.files[0]);
+      alert(
+        'File size exceeds the maximum allowed size (10MB). Please choose a smaller file.'
+      );
+      this.uploadQuizgroup.get('file')?.setValue('');
+      return;
+    }
+    this.uploadQuizgroup.get('file')?.patchValue(event.target.files[0]);
   }
 
   getImgpaper(url: any): SafeUrl {
@@ -145,27 +197,23 @@ export class QuizComponent implements OnInit {
 
   switchpaper(paper: any) {
     this.currentpaper = paper;
-    this.uploadVideogroup.get('paper')?.patchValue(paper);
+    this.uploadQuizgroup.get('paper')?.patchValue(paper);
   }
 
   onchange_lecture(event: any) {
-    this.uploadVideogroup
-      .get('paper_icon')
-      ?.patchValue(this.getpaper_icon());
-      this.uploadVideogroup
-      .get('paper')
-      ?.patchValue(this.getpaper_name());
+    this.uploadQuizgroup.get('paper_icon')?.patchValue(this.getpaper_icon());
+    this.uploadQuizgroup.get('paper')?.patchValue(this.getpaper_name());
   }
 
   getpaper_icon(): string {
     return this.lecturesData.find(
-      (object) => object._id == this.uploadVideogroup.get('lec_id')?.value
+      (object) => object._id == this.uploadQuizgroup.get('lec_id')?.value
     ).lec_icon;
   }
 
   getpaper_name(): string {
     return this.lecturesData.find(
-      (object) => object._id == this.uploadVideogroup.get('lec_id')?.value
+      (object) => object._id == this.uploadQuizgroup.get('lec_id')?.value
     ).lec_title;
   }
   backTopaper() {
@@ -174,91 +222,20 @@ export class QuizComponent implements OnInit {
       lec_id: this.params.lec_id,
       paperId: this.params.paperId,
       from: '/tabs/lectures',
-      reload : 'true'
+      reload: 'true',
     };
     this.router.navigate([this.params.from], { queryParams });
   }
 
-  async uploadpaper(): Promise<string> {
-    if (!this.uploadVideogroup.valid) {
-      this.openSnackbar({
-        status: true,
-        message: 'Fill all the details!',
-        statusType: 'failed',
-      });
-      return '';
-    }
-    this.uploading = true;
-    this.uploadStatus.status = false;
-    const loading = await this.loadingCtrl.create({
-      message: 'Uploading file...',
-      duration: 0,
-    });
-    loading.present()
-    const req = new Requestmodels();
-    // create a new FormData object
-    const formData = new FormData();
-
-    const classId = this.uploadVideogroup.get('classId')?.value || '';
-    const lec_id = this.uploadVideogroup.get('lec_id')?.value || '';
-    const paper_icon =
-      this.uploadVideogroup.get('paper_icon')?.value || '' || '';
-    const paper_link = this.uploadVideogroup.get('paper_link')?.value || '';
-    const paper_title =
-      this.uploadVideogroup.get('paper_title')?.value || '';
-    const paper = this.uploadVideogroup.get('paper')?.value || '';
-    const published_at = this.uploadVideogroup.get('published_at')?.value || '';
-    const file = this.uploadVideogroup.get('file')?.value || '';
-
-    formData.append('classId', classId);
-    formData.append('lec_id', lec_id);
-    formData.append('paper_icon', paper_icon);
-    formData.append('paper_link', paper_link);
-    formData.append('paper_title', paper_title);
-    formData.append('paper', paper);
-    formData.append('published_at', published_at);
-    formData.append('file', file);
-
-    req.RequestUrl = `upload`;
-
-    try {
-      const data: any = await this.service
-        .UploadFile(req, formData)
-        .toPromise();
-      if (data != null) {
-        loading.dismiss()
-        if (data.error) {
-          this.openSnackbar({
-            status: true,
-            message: data.response,
-            statusType: 'failed',
-          });
-          return '';
-        }
-        this.uploading = false;
-        this.openSnackbar({
-          status: true,
-          message: data.response || 'File uploaded successfully!',
-          statusType: 'info',
-        });
-        this.clearformcontrols()
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    return '';
-  }
-
-  clearformcontrols(){
-    this.uploadVideogroup.get('classId')?.setValue('');
-    this.uploadVideogroup.get('lec_id')?.setValue('');
-    this.uploadVideogroup.get('paper_icon')?.setValue('');
-    this.uploadVideogroup.get('paper_title')?.setValue('');
-    this.uploadVideogroup
+  clearformcontrols() {
+    this.uploadQuizgroup.get('classId')?.setValue('');
+    this.uploadQuizgroup.get('lec_id')?.setValue('');
+    this.uploadQuizgroup.get('paper_icon')?.setValue('');
+    this.uploadQuizgroup.get('paper_title')?.setValue('');
+    this.uploadQuizgroup
       .get('published_at')
       ?.patchValue(this.service.getCurrentDate());
-    this.uploadVideogroup.get('file')?.setValue('');
+    this.uploadQuizgroup.get('file')?.setValue('');
   }
 
   getSnackbarStatus(status: any) {
@@ -276,10 +253,69 @@ export class QuizComponent implements OnInit {
     }, 2000);
   }
 
-
-  async uploadExcel(event: any) {
-    this.uploadStatus.status = true
-    this.uploadStatus = await this.service.uploadExcelFile(event.target.files[0])
+  filechange(event: any) {
+    this.uploadQuizgroup.get('file')?.setValue(event.target.files[0]);
   }
-  
+
+  async uploadExcel() {
+    if (!this.uploadQuizgroup.valid) {
+      this.openSnackbar({
+        status: true,
+        message: 'Please choose the file to upload!',
+        statusType: 'failed',
+      });
+      return;
+    }
+    if (!this.uploadQuizgroup.get('file')?.valid) {
+      this.openSnackbar({
+        status: true,
+        message: 'Please choose the file to upload!',
+        statusType: 'failed',
+      });
+      return;
+    }
+    this.uploading = true;
+    this.uploadStatus.status = false;
+    const loading = await this.loadingCtrl.create({
+      message: 'Uploading file...',
+      duration: 0,
+    });
+    loading.present();
+    const convertedExcelToJsonQuizData = await this.service.uploadQuizExcelFile(
+      this.uploadQuizgroup.get('file')?.value
+    );
+    const body = Object.assign(
+      convertedExcelToJsonQuizData,
+      this.uploadQuizgroup.value
+    );
+    delete body.file;
+    const req = new Requestmodels();
+    req.RequestUrl = `quizes`;
+    req.RequestObject = body;
+
+    try {
+      const data: any = await this.service.PostData(req).toPromise();
+      if (data != null) {
+        loading.dismiss();
+        if (data.error) {
+          this.openSnackbar({
+            status: true,
+            message: data.response,
+            statusType: 'failed',
+          });
+          return '';
+        }
+        this.uploading = false;
+        this.openSnackbar({
+          status: true,
+          message: data.response || 'File uploaded successfully!',
+          statusType: 'info',
+        });
+        this.clearformcontrols();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  }
 }
