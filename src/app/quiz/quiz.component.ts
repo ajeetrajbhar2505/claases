@@ -31,6 +31,7 @@ export class QuizComponent implements OnInit {
   currentpaper: any = '';
   uploading: boolean = false;
   papers: any[] = [];
+  skeleton:boolean = true
   uploadStatus: any = { status: false, message: '', statusType: '' };
   statusIcons = [
     { name: 'checkmark-circle-outline', status: 'success' },
@@ -56,6 +57,8 @@ export class QuizComponent implements OnInit {
       paper_link: [''],
       paper_title: ['', Validators.required],
       paper: ['', Validators.required],
+      date: ['', Validators.required],
+      time: ['', Validators.required],
       published_at: ['', Validators.required],
       file: ['', Validators.required],
     });
@@ -92,6 +95,12 @@ export class QuizComponent implements OnInit {
         (data) => {
           if (data != null) {
             if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
+              return;
               return;
             }
 
@@ -110,6 +119,7 @@ export class QuizComponent implements OnInit {
     if (!this.params.classId && !this.params.lec_id) {
       return
     }
+    this.skeleton = true
     const req = new Requestmodels();
     req.RequestUrl = `fetchquizes/${this.params.classId}/${this.params.lec_id}`;
     req.RequestObject = '';
@@ -120,7 +130,14 @@ export class QuizComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.skeleton = false
             if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
+              return;
               return;
             }
 
@@ -133,6 +150,32 @@ export class QuizComponent implements OnInit {
         },
         () => {}
       );
+  }
+
+
+  dateTimeUpdated(event: any) {
+    const dateTime = new Date(event.detail.value);
+    // Extract the date and time components
+    const time = dateTime.toTimeString().split(' ')[0].slice(0, -3); // Removing the seconds
+
+    // Extract and format the date in "dd-mm-yyyy" format
+    const day = String(dateTime.getDate()).padStart(2, '0');
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Note: Month is zero-based, so we add 1
+    const year = dateTime.getFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+    const desiredMonth = new Date(2023, parseInt(month) - 1, 1).toLocaleString(
+      'default',
+      {
+        month: 'short',
+      }
+    );
+
+    // patch fromgroup values
+    this.uploadQuizgroup.get('time')?.patchValue(time);
+    this.uploadQuizgroup.get('date')?.patchValue(formattedDate);
+
+
   }
 
   routeToQuiz(data: any) {
@@ -181,6 +224,11 @@ export class QuizComponent implements OnInit {
         (data) => {
           if (data != null) {
             if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
               return;
             }
 

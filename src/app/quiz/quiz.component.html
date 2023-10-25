@@ -10,16 +10,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding" id="white-background">
-  <button id="open-modal" expand="block" class="header__btn header__btn--right"><svg _ngcontent-dpd-c156="" width="26px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><path _ngcontent-dpd-c156="" fill="#fff" d="M416 277.333H277.333V416h-42.666V277.333H96v-42.666h138.667V96h42.666v138.667H416v42.666z"></path></svg></button>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <div class="quize-cards" *ngFor="let data of papers" (click)="routeToQuiz(data)">
-    <ion-thumbnail slot="start">
-      <img  [src]="data.paper_icon" />
-    </ion-thumbnail>
-    <ion-label>{{data.paper_title}}</ion-label>
-</div>
+<ion-list [inset]="true">
+  <ion-item [button]="true" detail="false" *ngFor="let data of papers" (click)="routeToQuiz(data)">
+    <!-- <div class="unread-indicator-wrapper" slot="start">
+      <div class="unread-indicator"></div>
+    </div> -->
+    <ion-label>
+      <strong>{{data.paper_title}}</strong>
+      <ion-text>{{data.className}} {{data.paper}}</ion-text><br />
+      <ion-note color="medium" class="ion-text-wrap">
+        {{data.date}}
+      </ion-note>
+    </ion-label>
+    <div class="metadata-end-wrapper" slot="end">
+      <ion-note color="medium">{{data.time}}</ion-note>
+      <ion-icon color="medium" name="chevron-forward"></ion-icon>
+    </div>
+  </ion-item>
+</ion-list>
 
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button size="small" id="open-modal" expand="block">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  </ion-fab>
 
 
 
@@ -43,6 +59,23 @@
                 <ion-label position="floating">Paper title</ion-label>
                 <ion-input formControlName="paper_title" placeholder="Enter text"></ion-input>
               </ion-item>
+              <ion-list>
+                <ion-item fill="">
+                  <div class="tabs">
+                    <div class="tab">
+                      <label class="tab-label" for="chck3"> Date & Time</label>
+                    </div>
+                  </div>
+                </ion-item>
+                  <div class="tab">
+                    <input type="checkbox" id="chck3">
+                    <div class="tab-content">
+                      <ion-datetime (ionChange)="dateTimeUpdated($event)"
+                      displayFormat="DD.MM.YYYY HH:mm" [showDefaultButtons]="true"
+                    ></ion-datetime>
+                    </div>
+                  </div>
+            </ion-list>
               <ion-list>
                 <ion-item fill="">
                 <ion-label position="floating">Class</ion-label>
@@ -85,3 +118,4 @@
 
   </ion-content>
   
+

@@ -74,8 +74,155 @@
 }
 
 
+.item.sc-ion-label-ios-h, .item .sc-ion-label-ios-h{
+  // padding-left: 30px;
+  padding: 10px;
+}
+
+#icon{
+  font-size:30px
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.unread-indicator {
+  background: var(--ion-color-primary);
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 100%;
+
+  position: absolute;
+
+  inset-inline-start: 12px;
+  top: 12px;
+}
+
+.metadata-end-wrapper {
+  position: absolute;
+
+  top: 10px;
+  inset-inline-end: 10px;
+
+  font-size: 0.8rem;
+
+  display: flex;
+  align-items: center;
+}
+
+ion-label strong {
+  display: block;
+
+  max-width: calc(100% - 60px);
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+ion-label ion-note {
+  font-size: 0.9rem;
+}
+
+$midnight: white;
+$clouds: white;
+// General
+body {
+  color: $midnight;
+  background: $clouds;
+  padding: 0 1em 1em;
+}
+h1 {
+  margin: 0;
+  line-height: 2;
+  text-align: center;
+}
+h2 {
+  margin: 0 0 .5em;
+  font-weight: normal;
+}
+input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+// Layout
+.row {
+  display:flex;
+  .col {
+    flex:1;
+    &:last-child {
+      margin-left: 1em;
+    }
+  }
+}
+/* Accordion styles */
+.tabs {
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+.tab {
+  width: 100%;
+  color: black;
+  overflow: hidden;
+  &-label {
+    display: flex;
+    justify-content: space-between;
+    background: $midnight;
+    cursor: pointer;
+    &::after {
+      content: "\276F";
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      transition: all .35s;
+    }
+  }
+  &-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: black;
+    background: white;
+    transition: all .35s;
+  }
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    background: $midnight;
+    cursor: pointer;
+  }
+}
+
+// :checked
+input:checked {
+  + .tab-label {
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+  ~ .tab-content {
+    max-height: 100vh;
+    padding: 1em;
+  }
+}
+
+.default-rotated{
+  &::after {
+    transform: rotate(90deg);
+  }
+  &::after {
+    content: "";
+  }
+}
+
+.default-opened{
+  max-height: 100vh;
+  padding: 1em;
 }
