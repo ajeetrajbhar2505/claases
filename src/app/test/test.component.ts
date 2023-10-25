@@ -24,6 +24,7 @@ export class TestComponent implements OnInit {
   isModalOpen: boolean = false;
   viewResult: boolean = false;
   quizArray: any = [];
+  startSpeech: boolean = false;
   lectureDetails = { lec_title: '', lec_id: '' };
   contentDetails: commonNavigation = {
     nested: '',
@@ -49,21 +50,42 @@ export class TestComponent implements OnInit {
   }
 
   speech() {
-    if (!this.quizArray.length) {
+    if (this.quizArray.length) {
       const question = this.quizArray[this.currentQuestion].question_text;
-      const speechtext =
-        question.replace(/^Q:\s*/, '') +
-        ' Options are ' +
-        this.quizArray[this.currentQuestion].options
-          .map((option: any) => option.option_text)
-          .join(' ');
+      console.log(question);
+  
+      // Replace multiple dashes or underscores with a single hyphen (-)
+      const questionText = question.replace(/[_-]+/g, ' - ');
+  
+      const options = this.quizArray[this.currentQuestion].options
+        .map((option: any, index: any) => {
+          const optionNumber = `Option ${index + 1}`;
+          // Replace multiple dashes or underscores with a single hyphen (-)
+          const optionText = option.option_text.replace(/[_-]+/g, ' - ');
+          return `${optionNumber} ${optionText}`;
+        })
+        .join(' ');
+  
+      const speechtext = questionText.replace(/^Q:\s*/, '') + options;
       this.service.speech(speechtext);
+  
       return;
     }
-
-    this.service.speechToText();
   }
+  
+  
+  
 
+  toggleSpeech() {
+    this.startSpeech = !this.startSpeech;
+    if (this.startSpeech) {
+      this.speech(); // Start speech synthesis
+    } else {
+      this.service.clearSpeech(); // Clear the voice when stopping
+    }
+  }
+  
+  
   async autoGenerateQuiz() {
     this.quizArray = [];
     const req = new Requestmodels();
@@ -81,38 +103,37 @@ export class TestComponent implements OnInit {
 
             // fetch
             const questions = data.response || [];
-              // Transformation and generation functions
-              questions.questions.map((element:any) => {
-                const questionModal: Question = {
-                  question_text: element.question,
-                  marks: element.mark,
-                  options: element.options.map((optionText:any, index:any) => {
-                    const isCorrect =
-                      element.correct_ans === String.fromCharCode(97 + index); // Check if it's the correct option
-                    return {
-                      id: index + 1,
-                      option_text: optionText.replace(/^.\)\s*/, ''),
-                      is_correct: isCorrect,
-                      selected: false,
-                      priority: isCorrect ? 4 : 0,
-                      correct_response: false,
-                    };
-                  }),
-                };
+            // Transformation and generation functions
+            questions.questions.map((element: any) => {
+              const questionModal: Question = {
+                question_text: element.question,
+                marks: element.mark,
+                options: element.options.map((optionText: any, index: any) => {
+                  const isCorrect =
+                    element.correct_ans === String.fromCharCode(97 + index); // Check if it's the correct option
+                  return {
+                    id: index + 1,
+                    option_text: optionText.replace(/^.\)\s*/, ''),
+                    is_correct: isCorrect,
+                    selected: false,
+                    priority: isCorrect ? 4 : 0,
+                    correct_response: false,
+                  };
+                }),
+              };
 
-                // Find the correct option and set it as the correct_response
-                const correctOption = questionModal.options.find(
-                  (option) => option.is_correct
-                );
-                if (correctOption) {
-                  questionModal.options.forEach((option) => {
-                    option.correct_response = option === correctOption;
-                  });
-                }
+              // Find the correct option and set it as the correct_response
+              const correctOption = questionModal.options.find(
+                (option) => option.is_correct
+              );
+              if (correctOption) {
+                questionModal.options.forEach((option) => {
+                  option.correct_response = option === correctOption;
+                });
+              }
 
               this.quizArray.push(questionModal);
             });
-
           }
         },
         (_error) => {
@@ -150,12 +171,16 @@ export class TestComponent implements OnInit {
 
   preQuestion() {
     if (this.currentQuestion > 0) {
+      this.startSpeech = false
+      this.service.clearSpeech()
       this.currentQuestion = this.currentQuestion - 1;
     }
   }
 
   nextQuestion() {
     if (this.currentQuestion < this.quizArray.length - 1) {
+      this.startSpeech = false
+      this.service.clearSpeech()
       this.currentQuestion = this.currentQuestion + 1;
     }
   }

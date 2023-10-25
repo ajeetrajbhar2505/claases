@@ -31,16 +31,14 @@ export class WebService {
     this.socket = io(this.local, {
       transports: ['websocket'],
     });
-    this.getIPAddress()
-    .then((ipAddress) => {
+    this.getIPAddress().then((ipAddress) => {
       if (ipAddress) {
-        this.UserProfile.ipAddress = ipAddress
+        this.UserProfile.ipAddress = ipAddress;
       } else {
-        this.UserProfile.ipAddress = 'Unable to retrieve IP address.'
+        this.UserProfile.ipAddress = 'Unable to retrieve IP address.';
         console.log('Unable to retrieve IP address.');
       }
     });
-
   }
 
   setlocalstorage(token: any, userId: any) {
@@ -61,7 +59,7 @@ export class WebService {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
       accept: ' text/plain',
-      Authorization: 'Bearer ' +  token,
+      Authorization: 'Bearer ' + token,
     });
   }
 
@@ -70,8 +68,21 @@ export class WebService {
     this.UserProfile.userId = localStorage.getItem('userId');
   }
 
+  clearSpeech() {
+    const speechSynthesis = window.speechSynthesis;
+    // Check if speechSynthesis is available in the browser
+    if (speechSynthesis) {
+      // Cancel any ongoing speech
+      speechSynthesis.cancel();
+    } else {
+      console.error('Speech synthesis is not supported in this browser.');
+    }
+  }
+
   speech(textToSpeech: string) {
     // create a new instance of the SpeechSynthesis interface
+    console.log(textToSpeech);
+
     const synth = window.speechSynthesis;
 
     // create a new SpeechSynthesisUtterance object with the desired text
@@ -149,8 +160,8 @@ export class WebService {
 
   login(): void {
     // TODO: Implement login logic
-     localStorage.setItem('token','6538d9ac53907b89bc715971')
-    localStorage.setItem('userId','652ee5030148b3ea472219f5')
+    localStorage.setItem('token', '6538d9ac53907b89bc715971');
+    localStorage.setItem('userId', '652ee5030148b3ea472219f5');
     setTimeout(() => {
       this.router
         .navigateByUrl('/tabs/home', { skipLocationChange: false })
@@ -241,7 +252,7 @@ export class WebService {
         neg_mark: negMark,
         question_type: questionType,
         file_upload: fileUpload,
-        bt_level : bt_level
+        bt_level: bt_level,
       });
     }
 
@@ -253,26 +264,25 @@ export class WebService {
       if (!file) {
         throw new Error('No file provided for upload');
       }
-  
+
       const excelData = await this.readExcelFile(file);
-  
+
       if (!excelData) {
         throw new Error('Empty Excel file or invalid format');
       }
-  
+
       const headerData = this.extractHeadersData(excelData);
-  
+
       if (!headerData || headerData.length === 0) {
         throw new Error('No valid header data found in the Excel file');
       }
-  
+
       return { success: true, questions: headerData };
     } catch (error) {
       console.error('Error while uploading quiz Excel file:', error);
       return { success: false, message: error };
     }
   }
-  
 
   PostData(req: Requestmodels, showSpinner = true): Observable<any> {
     // if (showSpinner == true) this.spinner.show();
@@ -286,7 +296,7 @@ export class WebService {
           headers: this.headers,
         })
         .pipe(
-          tap((data:any) => {
+          tap((data: any) => {
             // this.spinner.hide();
             return data;
           }),
@@ -298,7 +308,7 @@ export class WebService {
           headers: this.headers,
         })
         .pipe(
-          tap((data:any) => {
+          tap((data: any) => {
             // this.spinner.hide();
             return data;
           }),
@@ -328,7 +338,9 @@ export class WebService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.UserProfile.token,
     });
-    return this.http.post(environment.nodeApi + req.RequestUrl, file,{headers : headers});
+    return this.http.post(environment.nodeApi + req.RequestUrl, file, {
+      headers: headers,
+    });
   }
 
   fetchData(req: Requestmodels): Observable<any> {
@@ -337,7 +349,7 @@ export class WebService {
         headers: this.headers,
       })
       .pipe(
-        tap((data:any) => {
+        tap((data: any) => {
           // this.spinner.hide();
           return data;
         }),
@@ -371,7 +383,7 @@ export class WebService {
 
   getLocation(): Promise<{ latitude: string; longitude: string }> {
     return new Promise((resolve, reject) => {
-      if ("geolocation" in navigator) {
+      if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const latitude = position.coords.latitude.toString();
@@ -379,28 +391,26 @@ export class WebService {
             resolve({ latitude, longitude });
           },
           (error) => {
-            console.error("Error getting geolocation:", error.message);
+            console.error('Error getting geolocation:', error.message);
             reject(error);
           }
         );
       } else {
-        console.error("Geolocation is not available in this browser.");
-        reject(new Error("Geolocation is not available"));
+        console.error('Geolocation is not available in this browser.');
+        reject(new Error('Geolocation is not available'));
       }
     });
   }
 
   // Create a function to fetch the IP address
- async getIPAddress() {
-  try {
-    const response = await fetch('https://api64.ipify.org?format=json');
-    const data = await response.json();
-    return data.ip;
-  } catch (error) {
-    console.error('Error fetching IP address:', error);
-    return null;
+  async getIPAddress() {
+    try {
+      const response = await fetch('https://api64.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error('Error fetching IP address:', error);
+      return null;
+    }
   }
-}
-
-  
 }
