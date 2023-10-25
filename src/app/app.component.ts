@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { WebService } from './web.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 })//Hey
 export class AppComponent {
   loading:any = true
-   constructor(private router: Router) { 
+   constructor(private router: Router,public service:WebService) { 
     this.router.events.subscribe((routerEvent: any) => {
       this.checkRouterEvent(routerEvent);
    
@@ -27,6 +28,7 @@ export class AppComponent {
 
     
     checkRouterEvent(routerEvent: any): void {
+      this.service.clearSpeech()
       if (routerEvent instanceof NavigationStart) {
         const contentElement = this.getContentElement();
         if (contentElement) {

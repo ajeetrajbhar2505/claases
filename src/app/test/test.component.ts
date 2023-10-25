@@ -256,6 +256,7 @@ export class TestComponent implements OnInit {
       lec_id: this.contentDetails.lec_id,
       contentId: this.contentDetails.contentId,
       from: this.contentDetails.nested,
+      reload : 'true'
     };
     this.router.navigate([this.contentDetails.from], { queryParams });
   }
