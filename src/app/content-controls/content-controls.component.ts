@@ -65,6 +65,8 @@ export class ContentControlsComponent {
   ];
 
   FAQ: FAQ = new FAQ();
+  videoPlaying:boolean = false
+
 
   constructor(
     public http: HttpClient,
@@ -207,11 +209,12 @@ export class ContentControlsComponent {
       this.contentControls.currentDuration = this.formatTime(
         content.currentTime.toFixed(2)
       );
+      this.videoPlaying = true
       if (content.paused) {
-        this.contentControls.playContent = true;
+      this.contentControls.playContent = true;
       } else {
-        this.contentControls.playContent = false;
-      }
+      this.contentControls.playContent = false;
+    }
     }
   }
 

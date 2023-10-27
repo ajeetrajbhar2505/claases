@@ -37,6 +37,11 @@ input[type='checkbox'] {
     }
   }
 }
+ion-spinner{
+  position: absolute;
+  top: 30%;
+  left: 45%;
+}
 /* Accordion styles */
 .tabs {
   border-radius: 8px;

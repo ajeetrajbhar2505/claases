@@ -1,9 +1,6 @@
-
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Quizes
-    </ion-title>
+    <ion-title> Quizes </ion-title>
     <ion-buttons slot="start">
       <ion-icon name="chevron-back-outline" (click)="backTopaper()"></ion-icon>
     </ion-buttons>
@@ -11,111 +8,154 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-
-<ion-list [inset]="true">
-  <ion-item [button]="true" detail="false" *ngFor="let data of papers" (click)="routeToQuiz(data)">
-    <!-- <div class="unread-indicator-wrapper" slot="start">
+  <ion-list [inset]="true">
+    <ion-item
+      [button]="true"
+      detail="false"
+      *ngFor="let data of papers"
+      (click)="routeToQuiz(data)"
+    >
+      <!-- <div class="unread-indicator-wrapper" slot="start">
       <div class="unread-indicator"></div>
     </div> -->
-    <ion-label>
-      <strong>{{data.paper_title}}</strong>
-      <ion-text>{{data.className}} {{data.paper}}</ion-text><br />
-      <ion-note color="medium" class="ion-text-wrap">
-        {{data.date}}
-      </ion-note>
-    </ion-label>
-    <div class="metadata-end-wrapper" slot="end">
-      <ion-note color="medium">{{data.time}}</ion-note>
-      <ion-icon color="medium" name="chevron-forward"></ion-icon>
-    </div>
-  </ion-item>
-</ion-list>
+      <ion-label>
+        <strong>{{ data.paper_title }}</strong>
+        <ion-text>{{ data.className }} {{ data.paper }}</ion-text
+        ><br />
+        <ion-note color="medium" class="ion-text-wrap">
+          {{ data.date }}
+        </ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note color="medium">{{ data.time }}</ion-note>
+        <ion-icon color="medium" name="chevron-forward"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
 
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button size="small" id="open-modal" expand="block">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button size="small" id="open-modal" expand="block">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 
+  <ion-modal trigger="open-modal">
+    <ng-template>
+      <ion-header [translucent]="true">
+        <ion-toolbar>
+          <ion-title> Create Question Paper </ion-title>
+          <ion-buttons slot="start">
+            <ion-icon name="chevron-back-outline" (click)="cancel()"></ion-icon>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-
-
-        <ion-modal trigger="open-modal">
-        <ng-template>
-          <ion-header [translucent]="true">
-            <ion-toolbar>
-              <ion-title>
-                Create Question Paper
-              </ion-title>
-              <ion-buttons slot="start">
-                <ion-icon name="chevron-back-outline" (click)="cancel()"></ion-icon>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-          
-          <ion-content class="ion-padding" id="white-background">
-            <ion-card-content [formGroup]="uploadQuizgroup">
-              <ion-item fill="">
-                <ion-label position="floating">Paper title</ion-label>
-                <ion-input formControlName="paper_title" placeholder="Enter text"></ion-input>
-              </ion-item>
-              <ion-list>
-                <ion-item fill="">
-                  <div class="tabs">
-                    <div class="tab">
-                      <label class="tab-label" for="chck3"> Date & Time</label>
-                    </div>
-                  </div>
-                </ion-item>
-                  <div class="tab">
-                    <input type="checkbox" id="chck3">
-                    <div class="tab-content">
-                      <ion-datetime (ionChange)="dateTimeUpdated($event)"
-                      displayFormat="DD.MM.YYYY HH:mm" [showDefaultButtons]="true"
-                    ></ion-datetime>
-                    </div>
-                  </div>
-            </ion-list>
-              <ion-list>
-                <ion-item fill="">
-                <ion-label position="floating">Class</ion-label>
-                  <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false" (ionChange)="getSubjectsByclassId($event)">
-                    <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
-              <ion-list>
-                <ion-item fill="">
-                <ion-label position="floating">Lecture</ion-label>
-                  <ion-select  formControlName="lec_id" placeholder="Select Lecture" (ionChange)="onchange_lecture($event)" [multiple]="false">
-                    <ion-select-option *ngFor="let data of lecturesData" [value]="data._id">{{data.lec_title}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-              </ion-list>
-              <div class="drag-file-area">
-                <label for="choose-file">
-                <span class="material-icons-outlined upload-icon"><img src="assets\upload.png" alt="" width="30px"> </span>
-                <h3 class="dynamic-message browse-files-text"> Choose file here </h3>
-                <input type="file" id="choose-file" accept=".xlsx"  (change)="filechange($event)" formControlName="file" class="default-file-input"/> 
-                {{uploadQuizgroup.get('file')?.value.name}}
-                </label>
-              </div>
-          
-          
-              <ion-button style="margin-top: 20px;" (click)="uploadExcel();" expand="block">
-                <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
-                {{uploading?'Uploading ':'Upload'}}  
-                <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
+      <ion-content class="ion-padding" id="white-background">
+        <ion-card-content [formGroup]="uploadQuizgroup">
+          <a href="assets\sample question paper.xlsx" download vertical="top" horizontal="end">
+              <ion-button style="margin-top: 20px" fill="outline"
+                >Download Sample Paper
               </ion-button>
-          
-             </ion-card-content>
-                 <!-- snackbar card -->
-                 <div class="card" *ngIf="uploadStatus.status">
-                  <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
-                  <span class="message">{{uploadStatus.message}}</span>
+          </a>
+          <ion-item fill="">
+            <ion-label position="floating">Paper title</ion-label>
+            <ion-input
+              formControlName="paper_title"
+              placeholder="Enter text"
+            ></ion-input>
+          </ion-item>
+          <ion-list>
+            <ion-item fill="">
+              <div class="tabs">
+                <div class="tab">
+                  <label class="tab-label" for="chck3"> Date & Time</label>
                 </div>
-          
+              </div>
+            </ion-item>
+            <div class="tab">
+              <input type="checkbox" id="chck3" />
+              <div class="tab-content">
+                <ion-datetime
+                  (ionChange)="dateTimeUpdated($event)"
+                  displayFormat="DD.MM.YYYY HH:mm"
+                  [showDefaultButtons]="true"
+                ></ion-datetime>
+              </div>
+            </div>
+          </ion-list>
+          <ion-list>
+            <ion-item fill="">
+              <ion-label position="floating">Class</ion-label>
+              <ion-select
+                formControlName="classId"
+                placeholder="Select Class"
+                [multiple]="false"
+                (ionChange)="getSubjectsByclassId($event)"
+              >
+                <ion-select-option
+                  *ngFor="let data of classData"
+                  [value]="data._id"
+                  >{{ data.classNamme }}</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <ion-list>
+            <ion-item fill="">
+              <ion-label position="floating">Lecture</ion-label>
+              <ion-select
+                formControlName="lec_id"
+                placeholder="Select Lecture"
+                (ionChange)="onchange_lecture($event)"
+                [multiple]="false"
+              >
+                <ion-select-option
+                  *ngFor="let data of lecturesData"
+                  [value]="data._id"
+                  >{{ data.lec_title }}</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <div class="drag-file-area">
+            <label for="choose-file">
+              <span class="material-icons-outlined upload-icon"
+                ><img src="assets\upload.png" alt="" width="30px" />
+              </span>
+              <h3 class="dynamic-message browse-files-text">
+                Choose file here
+              </h3>
+              <input
+                type="file"
+                id="choose-file"
+                accept=".xlsx"
+                (change)="filechange($event)"
+                formControlName="file"
+                class="default-file-input"
+              />
+              {{ uploadQuizgroup.get("file")?.value.name }}
+            </label>
+          </div>
 
-  </ion-content>
-  
-
+          <ion-button
+            style="margin-top: 20px"
+            (click)="uploadExcel()"
+            expand="block"
+          >
+            <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+            {{ uploading ? "Uploading " : "Upload" }}
+            <ion-spinner
+              *ngIf="uploading"
+              name="lines-sharp-small"
+            ></ion-spinner>
+          </ion-button>
+        </ion-card-content>
+        <!-- snackbar card -->
+        <div class="card" *ngIf="uploadStatus.status">
+          <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+          <span class="message">{{ uploadStatus.message }}</span>
+        </div>
+      </ion-content>
+    </ng-template></ion-modal
+  ></ion-content
+>

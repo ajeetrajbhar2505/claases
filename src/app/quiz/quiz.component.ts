@@ -81,6 +81,7 @@ export class QuizComponent implements OnInit {
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
+    this.fetchpapersDetails();
   }
 
   async fetchClassDetails() {

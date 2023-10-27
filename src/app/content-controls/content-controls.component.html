@@ -15,7 +15,9 @@
     </figure>
   </div>
     <!-- <div class="quize-cards" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [style]="generateStyle(contentToWatch.content_icon)"></div> -->
-  <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
+    <ion-spinner *ngIf="!videoPlaying" name="bubbles"></ion-spinner>
+
+    <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
   (timeupdate)="checkContinuousContentduration()"  autoplay  frameborder="0">
   <source [src]="getImgContent(contentToWatch.content_link)" type="video/mp4">
   Your Device does not support the video.

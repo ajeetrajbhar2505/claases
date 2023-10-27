@@ -226,3 +226,9 @@ input:checked {
   max-height: 100vh;
   padding: 1em;
 }
+
+a{
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
