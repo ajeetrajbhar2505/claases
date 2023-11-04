@@ -160,8 +160,8 @@ export class WebService {
 
   login(): void {
     // TODO: Implement login logic
-    localStorage.setItem('token', '6530fac6ed0559324a4f9c92');
-    localStorage.setItem('userId', '6530fac6ed0559324a4f9c91');
+    localStorage.setItem('token', '653193a499cfc5cf9d1badd7');
+    localStorage.setItem('userId', '652ee5030148b3ea472219f5');
     setTimeout(() => {
       this.router
         .navigateByUrl('/tabs/home', { skipLocationChange: false })
