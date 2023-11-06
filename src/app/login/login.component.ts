@@ -60,6 +60,10 @@ export class LoginComponent implements OnInit {
   
   LogiinWithGoogle() {
     this.isPersonalDetailsModelOpen = true;
+    const firstOTPInput = document.getElementById("otp1");
+    if (firstOTPInput) {
+      firstOTPInput.focus();
+    }
     const url = environment.nodeApi + 'google';
     // // Use "_blank" as the target to open in a new tab
     window.open(url, '_blank');

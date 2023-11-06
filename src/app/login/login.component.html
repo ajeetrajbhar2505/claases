@@ -51,8 +51,11 @@
         <ion-content class="ion-padding">
           <div class="verification-code">
             <h2><label class="control-label">Verification Code</label></h2>
+            <div class="otp-message">
+              <p>OTP sent to your email (valid for 5 minutes).</p>
+            </div>
             <div class="verification-code--inputs" [formGroup]="otpgroup">
-              <input type="number" maxlength="1" id="otp1" (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
+              <input type="number" maxlength="1" #otp1 id="otp1" (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
               <input type="number" maxlength="1" id="otp2" (input)="restrictmaxNumber($event,'otp2');" formControlName="otp2" />
               <input type="number" maxlength="1" id="otp3" (input)="restrictmaxNumber($event,'otp3');" formControlName="otp3" />
               <input type="number" maxlength="1" id="otp4" (input)="restrictmaxNumber($event,'otp4')" formControlName="otp4" />
