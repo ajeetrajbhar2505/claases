@@ -26,7 +26,7 @@
           <ion-icon name="logo-apple"></ion-icon>
         </span> -->
         <div class="center">
-          <ion-button expand="block"  (click)="LogiinWithGoogle()"  color="light" shape="round"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
+          <ion-button id="open-modal" expand="block"  (click)="LogiinWithGoogle()"  color="light" shape="round"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
         </div>
       </div>
       <hr>
@@ -39,4 +39,30 @@
     </form>
   </div>
 </div>
+<ion-modal [isOpen]="isPersonalDetailsModelOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeModel()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <div class="verification-code">
+            <h2><label class="control-label">Verification Code</label></h2>
+            <div class="verification-code--inputs">
+              <input type="number" maxlength="1" [(ngModel)]="otp1" />
+              <input type="number" maxlength="1" [(ngModel)]="otp2" />
+              <input type="number" maxlength="1" [(ngModel)]="otp3" />
+              <input type="number" maxlength="1" [(ngModel)]="otp4" />
+            </div>
+          </div>
+          
+          <div class="center">
+            <ion-button expand="block" color="warn" shape="round" [disabled]="!validate()" class="submit" (click)="verifyOTP()">Verify</ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
 </ion-content>

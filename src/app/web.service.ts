@@ -28,7 +28,7 @@ export class WebService {
     this.fetchUserProfileDetails();
     // add token to headers of all apis
     this.setHeaders(this.UserProfile.token, this.UserProfile.userId);
-    this.socket = io(this.local, {
+    this.socket = io(environment.nodeApi, {
       transports: ['websocket'],
     });
     this.getIPAddress().then((ipAddress) => {

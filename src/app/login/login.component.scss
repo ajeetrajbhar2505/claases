@@ -89,9 +89,27 @@
   }
   
 
-  hr {
-    border: none; /* remove the default border */
-    height: 2px; /* set the height of the HR line */
-    background-color: #ccc; /* set the background color of the HR line */
-    margin: 20px 20px; /* add margin on the left and right sides of the HR line */
-  }
+.verification-code {
+  max-width: 300px;
+  position: relative;
+  margin:50px auto;
+  text-align:center;
+}
+.control-label{
+display:block;
+margin:40px auto;
+font-weight:900;
+}
+.verification-code--inputs{
+  display: flex;
+  justify-content: space-evenly;
+}
+.verification-code--inputs input[type=number] {
+  border: 2px solid #e1e1e1;
+  width: 46px;
+  height: 46px;
+  padding: 10px;
+  text-align: center;
+  display: inline-block;
+box-sizing:border-box;
+}
