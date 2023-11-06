@@ -11,10 +11,6 @@
         <span class="prefix"><img [src]="visiblepass?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword()" alt="" width="20px"></span>
         <input [type]="visiblepass?'text':'password'" placeholder="Enter Password" autocomplete="off" />
       </div>
-      <div class="field">
-        <span class="prefix"><img src="assets/login/code.png" style="margin-top: 18px;" alt="" width="21px"></span>
-        <input type="number" numberOnly placeholder="Enter Class Code" autocomplete="off" />
-      </div>
       <div class="center">
         <ion-button expand="block" color="warn" shape="round" class="submit" (click)="login()">Login</ion-button>
       </div>
