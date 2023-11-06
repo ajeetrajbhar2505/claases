@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   otp3 = ''
   otp4 = ''
 
-  isPersonalDetailsModelOpen = true;
+  isPersonalDetailsModelOpen = false;
 
   showpassword() {
     this.visiblepass = !this.visiblepass;
