@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ActionSheetController } from '@ionic/angular';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, retry, takeUntil } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,8 @@ import { Subject, retry, takeUntil } from 'rxjs';
 export class LoginComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   visiblepass: boolean = false;
-  presentingElement: any;
-  otp1 = '';
-  otp2 = ''
-  otp3 = ''
-  otp4 = ''
 
-  isPersonalDetailsModelOpen = false;
+  isPersonalDetailsModelOpen = true;
 
   showpassword() {
     this.visiblepass = !this.visiblepass;
@@ -29,15 +25,39 @@ export class LoginComponent implements OnInit {
     public router: Router,
     public service: WebService,
     private actionSheetCtrl: ActionSheetController,
-    public _https: WebService
+    public _https: WebService,
+    public fb:FormBuilder
   ) {
     this._unsubscribeAll = new Subject();
   }
 
+  otpgroup!:FormGroup
+
   ngOnInit(): void {
-    this.presentingElement = document.querySelector('.ion-page');
+    this.otpgroup = this.fb.group({
+      otp1 : ['',Validators.required],
+      otp2 : ['',Validators.required],
+      otp3 : ['',Validators.required],
+      otp4 : ['',Validators.required]
+    })
   }
 
+  restrictmaxNumber(event:any,name:any){
+    const formcontrol:any =  this.otpgroup.get(name)
+    if (formcontrol.value.toString().length > 1) {
+      const truncatedNumber = formcontrol.value.toString().slice(0, 1);
+      formcontrol.patchValue(truncatedNumber);
+    }
+    const nextInput = event.target.nextElementSibling;
+
+    if (nextInput && nextInput.tagName === 'INPUT') {
+      nextInput.focus();
+    }
+  
+  }
+
+
+  
   LogiinWithGoogle() {
     this.isPersonalDetailsModelOpen = true;
     const url = environment.nodeApi + 'google';
@@ -54,7 +74,7 @@ export class LoginComponent implements OnInit {
   }
 
   validate(): boolean {
-    if (!this.otp1 || !this.otp2 || !this.otp3 || !this.otp4) {
+    if (!this.otpgroup.valid) {
       // At least one field is empty, so the OTP is invalid
       return false;
     }
@@ -63,7 +83,7 @@ export class LoginComponent implements OnInit {
   
 
   async verifyOTP() {
-    const otp = this.otp1 + '' + this.otp2 + '' + this.otp3 + ''+  this.otp4
+    const otp = this.otpgroup.get('otp1')?.value + '' + this.otpgroup.get('otp2')?.value + '' + this.otpgroup.get('otp3')?.value + ''+  this.otpgroup.get('otp4')?.value
     const body = {
       otp: parseInt(otp),
     };
