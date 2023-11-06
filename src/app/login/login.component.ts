@@ -40,10 +40,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.otpgroup = this.fb.group({
-      otp1 : ['3',Validators.required],
-      otp2 : ['4',Validators.required],
-      otp3 : ['4',Validators.required],
-      otp4 : ['4',Validators.required]
+      otp1 : ['',Validators.required],
+      otp2 : ['',Validators.required],
+      otp3 : ['',Validators.required],
+      otp4 : ['',Validators.required]
     })
   }
 
