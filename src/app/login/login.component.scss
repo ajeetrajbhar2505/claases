@@ -121,9 +121,9 @@ border-radius: unset;
   bottom: 10%;
   z-index: 1000;
   animation: snackbar 300ms cubic-bezier(0.215, 0.610, 0.355, 1);
-  background: transparent;
+  background: white;
   backdrop-filter: blur(10px);
-  transition: al  .3s ease-in;
+  transition: all  .3s ease-in;
 }
 
 @keyframes snackbar {
@@ -149,6 +149,6 @@ border-radius: unset;
   color: #555;
 }
 
-::ng-deep ion-toolbar{
+ion-toolbar{
   --border-width:unset !important;
 }

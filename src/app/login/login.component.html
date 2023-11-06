@@ -65,6 +65,11 @@
           <div class="center">
             <ion-button expand="block" color="warn" shape="round" [disabled]="!validate()" class="submit" (click)="verifyOTP()">Verify</ion-button>
           </div>
+                <!-- snackbar card -->
+      <div *ngIf="uploadStatus.status" class="card">
+        <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+        <span class="message">{{ uploadStatus.message }}</span>
+      </div>
         </ion-content>
       </ng-template>
     </ion-modal>

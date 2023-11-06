@@ -14,10 +14,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
-  visiblepass: boolean = false;
-
+  visiblepass: boolean = false
   isPersonalDetailsModelOpen = true;
-
+  currentStatusIcon: any = '';
+  uploadStatus: any = { status: false, message: '', statusType: '' };
+  statusIcons = [
+    { name: 'checkmark-circle-outline', status: 'success' },
+    { name: 'close-circle-outline', status: 'failed' },
+    { name: 'information-circle-outline', status: 'info' },
+  ];
   showpassword() {
     this.visiblepass = !this.visiblepass;
   }
@@ -35,10 +40,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.otpgroup = this.fb.group({
-      otp1 : ['',Validators.required],
-      otp2 : ['',Validators.required],
-      otp3 : ['',Validators.required],
-      otp4 : ['',Validators.required]
+      otp1 : ['3',Validators.required],
+      otp2 : ['4',Validators.required],
+      otp3 : ['4',Validators.required],
+      otp4 : ['4',Validators.required]
     })
   }
 
@@ -59,6 +64,7 @@ export class LoginComponent implements OnInit {
 
   
   LogiinWithGoogle() {
+    this.otpgroup.reset()
     this.isPersonalDetailsModelOpen = true;
     const firstOTPInput = document.getElementById("otp1");
     if (firstOTPInput) {
@@ -103,8 +109,14 @@ export class LoginComponent implements OnInit {
         (data) => {
           if (data != null) {
             if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
               return;
             }
+
             this.isPersonalDetailsModelOpen = false;
             const url = `/sucessfull/${data.response.userId}/${data.response.token}`
             setTimeout(() => {
@@ -117,5 +129,16 @@ export class LoginComponent implements OnInit {
         },
         () => {}
       );
+  }
+
+  openSnackbar(uploadStatus: any) {
+    this.uploadStatus = uploadStatus;
+    this.currentStatusIcon = this.statusIcons.filter(
+      (obj) => obj.status == this.uploadStatus.statusType
+    )[0].name;
+    this.uploadStatus.status = true;
+    setTimeout(() => {
+      this.uploadStatus.status = false;
+    }, 2000);
   }
 }
