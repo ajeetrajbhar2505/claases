@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   visiblepass: boolean = false
-  isPersonalDetailsModelOpen = true;
+  isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
   uploadStatus: any = { status: false, message: '', statusType: '' };
   statusIcons = [
