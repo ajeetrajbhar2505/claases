@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
-  visiblepass: boolean = false
+  visiblepass: boolean = false;
   isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
   uploadStatus: any = { status: false, message: '', statusType: '' };
@@ -31,24 +31,29 @@ export class LoginComponent implements OnInit {
     public service: WebService,
     private actionSheetCtrl: ActionSheetController,
     public _https: WebService,
-    public fb:FormBuilder
+    public fb: FormBuilder
   ) {
     this._unsubscribeAll = new Subject();
   }
 
-  otpgroup!:FormGroup
+  otpgroup!: FormGroup;
+  loginForm!: FormGroup;
 
   ngOnInit(): void {
     this.otpgroup = this.fb.group({
-      otp1 : ['',Validators.required],
-      otp2 : ['',Validators.required],
-      otp3 : ['',Validators.required],
-      otp4 : ['',Validators.required]
-    })
+      otp1: ['', Validators.required],
+      otp2: ['', Validators.required],
+      otp3: ['', Validators.required],
+      otp4: ['', Validators.required],
+    });
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
-  restrictmaxNumber(event:any,name:any){
-    const formcontrol:any =  this.otpgroup.get(name)
+  restrictmaxNumber(event: any, name: any) {
+    const formcontrol: any = this.otpgroup.get(name);
     if (formcontrol.value.toString().length > 1) {
       const truncatedNumber = formcontrol.value.toString().slice(0, 1);
       formcontrol.patchValue(truncatedNumber);
@@ -58,15 +63,12 @@ export class LoginComponent implements OnInit {
     if (nextInput && nextInput.tagName === 'INPUT') {
       nextInput.focus();
     }
-  
   }
 
-
-  
   LogiinWithGoogle() {
-    this.otpgroup.reset()
+    this.otpgroup.reset();
     this.isPersonalDetailsModelOpen = true;
-    const firstOTPInput = document.getElementById("otp1");
+    const firstOTPInput = document.getElementById('otp1');
     if (firstOTPInput) {
       firstOTPInput.focus();
     }
@@ -79,8 +81,8 @@ export class LoginComponent implements OnInit {
     this.service.login();
   }
 
-  closeModel(){
-    this.isPersonalDetailsModelOpen = false
+  closeModel() {
+    this.isPersonalDetailsModelOpen = false;
   }
 
   validate(): boolean {
@@ -90,10 +92,55 @@ export class LoginComponent implements OnInit {
     }
     return true;
   }
-  
+
+  async getOTP() {
+    if (!this.loginForm.valid) {
+      this.openSnackbar({
+        status: true,
+        message: 'Please enter your username and password',
+        statusType: 'failed',
+      });
+      return;
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `Login`;
+
+    req.RequestObject = this.loginForm.value;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
+              return;
+            }
+            this.loginForm.reset()
+            this.isPersonalDetailsModelOpen = true;
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
 
   async verifyOTP() {
-    const otp = this.otpgroup.get('otp1')?.value + '' + this.otpgroup.get('otp2')?.value + '' + this.otpgroup.get('otp3')?.value + ''+  this.otpgroup.get('otp4')?.value
+    const otp =
+      this.otpgroup.get('otp1')?.value +
+      '' +
+      this.otpgroup.get('otp2')?.value +
+      '' +
+      this.otpgroup.get('otp3')?.value +
+      '' +
+      this.otpgroup.get('otp4')?.value;
     const body = {
       otp: parseInt(otp),
     };
@@ -118,9 +165,10 @@ export class LoginComponent implements OnInit {
             }
 
             this.isPersonalDetailsModelOpen = false;
-            const url = `/sucessfull/${data.response.userId}/${data.response.token}`
+            this.otpgroup.reset()
+            const url = `/sucessfull/${data.response.userId}/${data.response.token}`;
             setTimeout(() => {
-            this.router.navigate([url]);
+              this.router.navigate([url]);
             }, 100);
           }
         },

@@ -2,17 +2,17 @@
 <div class="container">
   <div class="login-card">
     <img mat-card-image src="assets/login/login.webp" height="250px" alt="Photo of a login page" />
-    <form>
+    <form [formGroup]="loginForm">
       <div class="field">
         <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-        <input type="text" required placeholder="Enter Username" autocomplete="off" />
+        <input type="text" required placeholder="Enter Username" formControlName="username" autocomplete="off" />
       </div>
       <div class="field">
         <span class="prefix"><img [src]="visiblepass?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword()" alt="" width="20px"></span>
-        <input [type]="visiblepass?'text':'password'" placeholder="Enter Password" autocomplete="off" />
+        <input [type]="visiblepass?'text':'password'" placeholder="Enter Password" formControlName="password" autocomplete="off" />
       </div>
       <div class="center">
-        <ion-button expand="block" color="warn" shape="round" class="submit" (click)="login()">Login</ion-button>
+        <ion-button expand="block" color="warn" shape="round" class="submit" (click)="getOTP()">Continue</ion-button>
       </div>
       <div class="signin">
         <p style="padding: unset;margin: unset;margin-top: 10px;margin-bottom: 10px;">Or sign in with</p>
@@ -35,6 +35,13 @@
     </form>
   </div>
 </div>
+
+                <!-- snackbar card -->
+                <div *ngIf="uploadStatus.status" class="card">
+                  <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+                  <span class="message">{{ uploadStatus.message }}</span>
+                </div>
+
 <ion-modal [isOpen]="isPersonalDetailsModelOpen">
       <ng-template>
         <ion-header>
