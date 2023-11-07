@@ -62,6 +62,9 @@ export class UploadVideoComponent implements OnInit {
     ActivatedRoute.queryParams.subscribe((params: any) => {
       this.params = params;
       this.uploadVideogroup.get('content')?.patchValue(params.content);
+      this.uploadVideogroup.get('classId')?.patchValue(params.classId);
+      this.fetchlectureDetails(params.classId)
+      this.uploadVideogroup.get('lec_id')?.patchValue(params.lec_id);
     });
   }
 
