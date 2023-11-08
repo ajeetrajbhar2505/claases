@@ -61,9 +61,17 @@
     display: none;
   }
   
+  .spinner{
+    margin-left: 10px;
+  }
+  
   .submit {
     margin-top: 15px;
     width: 60%;
+    gap: 10px !important  ;
+    display: flex;
+    align-content: center;
+
     background-color: #f44336;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -125,6 +133,7 @@ border-radius: unset;
   backdrop-filter: blur(10px);
   transition: all  .3s ease-in;
 }
+
 
 @keyframes snackbar {
   0% {

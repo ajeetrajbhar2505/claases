@@ -12,7 +12,9 @@
         <input [type]="visiblepass?'text':'password'" placeholder="Enter Password" formControlName="password" autocomplete="off" />
       </div>
       <div class="center">
-        <ion-button expand="block" color="warn" shape="round" class="submit" (click)="getOTP()">Continue</ion-button>
+        <ion-button expand="block" color="warn" shape="round" class="submit" (click)="getOTP()">Continue
+          <ion-spinner class="spinner" slot="end" *ngIf="loading" name="crescent"></ion-spinner>
+        </ion-button>
       </div>
       <div class="signin">
         <p style="padding: unset;margin: unset;margin-top: 10px;margin-bottom: 10px;">Or sign in with</p>
@@ -66,7 +68,10 @@
           </div>
           
           <div class="center">
-            <ion-button expand="block" color="warn" shape="round" [disabled]="!validate()" class="submit" (click)="verifyOTP()">Verify</ion-button>
+            <ion-button  color="warn" shape="round" [disabled]="!validate()" class="submit" (click)="verifyOTP()">
+              {{loading?'Verifying':'Verify'}}
+              <ion-spinner class="spinner" slot="end" *ngIf="loading" name="crescent"></ion-spinner>
+            </ion-button>
           </div>
                 <!-- snackbar card -->
       <div *ngIf="uploadStatus.status" class="card">

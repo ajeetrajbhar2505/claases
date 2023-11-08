@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
   uploadStatus: any = { status: false, message: '', statusType: '' };
+  loading: boolean = false;
   statusIcons = [
     { name: 'checkmark-circle-outline', status: 'success' },
     { name: 'close-circle-outline', status: 'failed' },
@@ -102,6 +103,7 @@ export class LoginComponent implements OnInit {
       });
       return;
     }
+    this.loading = true;
     const req = new Requestmodels();
     req.RequestUrl = `Login`;
 
@@ -113,6 +115,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.loading = false;
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
@@ -121,7 +124,7 @@ export class LoginComponent implements OnInit {
               });
               return;
             }
-            this.loginForm.reset()
+            this.loginForm.reset();
             this.isPersonalDetailsModelOpen = true;
           }
         },
@@ -133,6 +136,7 @@ export class LoginComponent implements OnInit {
   }
 
   async verifyOTP() {
+    this.loading = true;
     const otp =
       this.otpgroup.get('otp1')?.value +
       '' +
@@ -155,6 +159,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.loading = false;
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
@@ -165,7 +170,7 @@ export class LoginComponent implements OnInit {
             }
 
             this.isPersonalDetailsModelOpen = false;
-            this.otpgroup.reset()
+            this.otpgroup.reset();
             const url = `/sucessfull/${data.response.userId}/${data.response.token}`;
             setTimeout(() => {
               this.router.navigate([url]);
