@@ -24,18 +24,17 @@
 <body>
   <app-root></app-root>
   <script>
-    // Get all images on the page
-var images = document.getElementsByTagName('img');
-
-// Loop through each image
-for (var i = 0; i < images.length; i++) {
-  var currentImage = images[i];
-
-  // Check conditions and hide the image
-  if (currentImage.alt === "www.000webhost.com") {
-    currentImage.style.display = "none";
-  }
-}
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      // Your JavaScript code
+      var images = document.getElementsByTagName('img');
+      for (var i = 0; i < images.length; i++) {
+        var currentImage = images[i];
+        if (currentImage.alt === "hideThisImage" || currentImage.src.endsWith("path/to/your-image.jpg")) {
+          currentImage.style.display = "none";
+        }
+      }
+    });
     if ('webkitSpeechRecognition' in window) {
       // Create a new SpeechRecognition object and assign it to a global property
       window.recognition = new webkitSpeechRecognition();
