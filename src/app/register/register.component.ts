@@ -85,14 +85,22 @@ export class RegisterComponent implements OnInit {
   }
 
   async register() {
-      if (!this.registerForm.valid) {
-        this.openSnackbar({
-          status: true,
-          message: 'Please fill all the detauils',
-          statusType: 'failed',
-        });
-        return;
-      }
+    if (!this.registerForm.valid) {
+      this.openSnackbar({
+        status: true,
+        message: 'Please fill all the detauils!',
+        statusType: 'failed',
+      });
+      return;
+    }
+    if (this.registerForm.get('password')?.value != this.registerForm.get('re_password')?.value) {
+      this.openSnackbar({
+        status: true,
+        message: 'Password not matched!',
+        statusType: 'failed',
+      });
+      return;
+    }
       this.loading = true;
       const req = new Requestmodels();
       req.RequestUrl = `Register`;
@@ -107,7 +115,6 @@ export class RegisterComponent implements OnInit {
             if (data != null) {
               this.loading = false;
             
-              this.registerForm.reset();
               this.openSnackbar({
                 status: true,
                 message: data.response,

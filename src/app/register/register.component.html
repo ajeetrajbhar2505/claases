@@ -2,26 +2,22 @@
   <div class="container">
     <div class="login-card">
       <img mat-card-image src="assets/login/login.webp" height="250px" alt="Photo of a login page" />
-      <form>
+      <form [formGroup]="registerForm">
         <div class="field">
           <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-          <input type="text" required placeholder="Enter First Name" autocomplete="off" />
+          <input type="text" required placeholder="Enter Name" formControlName="firstname" autocomplete="off" />
         </div>
         <div class="field">
           <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-          <input type="text" placeholder="Enter Last Name" autocomplete="off" />
-        </div>
-        <div class="field">
-          <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-          <input type="number" placeholder="Enter Email" autocomplete="off" />
+          <input type="email" placeholder="Enter Email"  formControlName="email" autocomplete="off" />
         </div>
         <div class="field">
           <span class="prefix"><img [src]="visiblepass[1]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(1)" alt="" width="20px"></span>
-          <input [type]="visiblepass[1]?'text':'password'" placeholder="Enter password" autocomplete="off" />
+          <input [type]="visiblepass[1]?'text':'password'" formControlName="password" placeholder="Enter password" autocomplete="off" />
         </div>
         <div class="field">
           <span class="prefix"><img [src]="visiblepass[2]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(2)" alt="" width="20px"></span>
-          <input [type]="visiblepass[2]?'text':'password'" placeholder="Confirm password" autocomplete="off" />
+          <input [type]="visiblepass[2]?'text':'password'" formControlName="re_password" placeholder="Confirm password" autocomplete="off" />
         </div>
         <div class="center">
           <ion-button expand="block" color="warn" shape="round" class="submit"
