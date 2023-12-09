@@ -5,7 +5,7 @@
     <form [formGroup]="loginForm">
       <div class="field">
         <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-        <input type="text" required placeholder="Enter Username" formControlName="username" autocomplete="off" />
+        <input type="text" required placeholder="Enter Email" formControlName="username" autocomplete="off" />
       </div>
       <div class="field">
         <span class="prefix"><img [src]="visiblepass?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword()" alt="" width="20px"></span>

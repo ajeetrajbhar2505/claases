@@ -8,6 +8,7 @@ import { commonNavigation } from '../models/commonObjects.module';
 import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 const navigationExtras: NavigationExtras = {
   queryParams: { reload: 'true' }, // Add the "reload" query parameter
@@ -125,6 +126,9 @@ export class HomeComponent implements OnInit {
   getColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
+  searchQuery: string = '';
+  private searchSubject = new Subject<string>();
+
   constructor(
     public http: HttpClient,
     public _https: WebService,
@@ -162,6 +166,13 @@ export class HomeComponent implements OnInit {
         this.fetchMostWatched();
         this.fetchcontentDetails();
       }
+    });
+    this.searchSubject.pipe(
+      debounceTime(300), // 300 milliseconds debounce time
+      distinctUntilChanged() // Ignore if the new value is the same as the previous one
+    ).subscribe(query => {
+      // Call your search function here
+      this.fetchcontentDetails();
     });
   }
 

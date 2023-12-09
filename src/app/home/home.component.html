@@ -204,6 +204,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-searchbar
+        [(ngModel)]="searchQuery"
           (input)="searchData($event)"
           #searchBar
           id="searchBar"

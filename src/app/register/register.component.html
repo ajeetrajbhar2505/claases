@@ -13,7 +13,7 @@
         </div>
         <div class="field">
           <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-          <input type="number" placeholder="Enter username" autocomplete="off" />
+          <input type="number" placeholder="Enter Email" autocomplete="off" />
         </div>
         <div class="field">
           <span class="prefix"><img [src]="visiblepass[1]?'assets/login/visible.png':'assets/login/hide.png'" (click)="showpassword(1)" alt="" width="20px"></span>
@@ -25,7 +25,7 @@
         </div>
         <div class="center">
           <ion-button expand="block" color="warn" shape="round" class="submit"
-            (click)="register()">Register</ion-button>
+            (click)="register()">Continue</ion-button>
         </div>
         <div class="signin">
           <p>Or sign up with</p>
@@ -48,4 +48,48 @@
       </form>
     </div>
   </div>
+
+  <!-- snackbar card -->
+  <div *ngIf="uploadStatus.status" class="card">
+    <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+    <span class="message">{{ uploadStatus.message }}</span>
+  </div>
+
+<ion-modal [isOpen]="isPersonalDetailsModelOpen">
+<ng-template>
+<ion-header>
+<ion-toolbar>
+<ion-buttons slot="end">
+<ion-button (click)="closeModel()">Close</ion-button>
+</ion-buttons>
+</ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+<div class="verification-code">
+<h2><label class="control-label">Verification Code</label></h2>
+<div class="otp-message">
+<p>OTP sent to your email (valid for 5 minutes).</p>
+</div>
+<div class="verification-code--inputs" [formGroup]="otpgroup">
+<input type="number" maxlength="1" #otp1 id="otp1" (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
+<input type="number" maxlength="1" id="otp2" (input)="restrictmaxNumber($event,'otp2');" formControlName="otp2" />
+<input type="number" maxlength="1" id="otp3" (input)="restrictmaxNumber($event,'otp3');" formControlName="otp3" />
+<input type="number" maxlength="1" id="otp4" (input)="restrictmaxNumber($event,'otp4')" formControlName="otp4" />
+</div>
+</div>
+
+<div class="center">
+<ion-button  color="warn" shape="round" [disabled]="!validate()" class="submit" (click)="verifyOTP()">
+{{loading?'Verifying':'Verify'}}
+<ion-spinner class="spinner" slot="end" *ngIf="loading" name="crescent"></ion-spinner>
+</ion-button>
+</div>
+  <!-- snackbar card -->
+<div *ngIf="uploadStatus.status" class="card">
+<ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+<span class="message">{{ uploadStatus.message }}</span>
+</div>
+</ion-content>
+</ng-template>
+</ion-modal>
 </ion-content>
