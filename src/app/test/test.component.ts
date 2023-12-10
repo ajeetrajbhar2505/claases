@@ -252,10 +252,7 @@ export class TestComponent implements OnInit {
 
   routeToPreviousPage() {
     const queryParams = {
-      classId: this.contentDetails.classId,
-      lec_id: this.contentDetails.lec_id,
-      contentId: this.contentDetails.contentId,
-      from: this.contentDetails.nested,
+      from: '/tabs/home',
       reload : 'true'
     };
     this.router.navigate([this.contentDetails.from], { queryParams });

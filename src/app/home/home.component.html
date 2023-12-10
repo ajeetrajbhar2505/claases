@@ -205,7 +205,6 @@
       <ion-toolbar>
         <ion-searchbar
         [(ngModel)]="searchQuery"
-          (input)="searchData($event)"
           #searchBar
           id="searchBar"
         ></ion-searchbar>
@@ -214,6 +213,11 @@
             name="chevron-back-outline"
             (click)="toggleSeachmenu()"
           ></ion-icon>
+        </ion-buttons>
+        <ion-buttons fill="outline" slot="end" (click)="searchText()">
+          <ion-icon
+          name="paper-plane-outline"
+        ></ion-icon>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>

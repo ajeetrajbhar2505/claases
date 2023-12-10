@@ -275,6 +275,36 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  async searchText(){
+    const payload = {
+      searchText : this.searchQuery
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `search_contentDetails`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.SearchedContents = data.response || [];
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+
   focusSearchBar() {
     setTimeout(() => {
       this.searchBar.setFocus();
