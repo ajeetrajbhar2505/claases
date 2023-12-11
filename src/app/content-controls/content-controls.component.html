@@ -73,7 +73,7 @@
       "Great news! Your FAQs are all up to date. No new FAQs to see here.!"
     }}</ion-label>
   </ion-item>
-  <div class="tabs">
+  <div class="tabs" *ngIf="false">
     <div class="tab" *ngFor="let data of FAQS;let i = index">
       <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
       <input type="checkbox" [id]="'chck' + (i+11)">
@@ -101,7 +101,7 @@
   </div>
 </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="false">
   <div  class="arraydiv">
     <div class="chat-footer">
       <input [(ngModel)]="FAQ.label" type="text" placeholder="Type your question here">
