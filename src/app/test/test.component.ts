@@ -188,9 +188,16 @@ export class TestComponent implements OnInit {
                 options: element.options.map((optionText: any, index: any) => {
                   const isCorrect =
                     element.correct_ans === String.fromCharCode(97 + index); // Check if it's the correct option
+              
+                  // Convert optionText to a string and then replace if it's a string
+                  const processedOptionText =
+                    typeof optionText === 'string'
+                      ? optionText.replace(/^.\)\s*/, '')
+                      : String(optionText);
+              
                   return {
                     id: index + 1,
-                    option_text: optionText.replace(/^.\)\s*/, ''),
+                    option_text: processedOptionText,
                     is_correct: isCorrect,
                     selected: false,
                     priority: isCorrect ? 4 : 0,
@@ -198,6 +205,7 @@ export class TestComponent implements OnInit {
                   };
                 }),
               };
+              
 
               // Find the correct option and set it as the correct_response
               const correctOption = questionModal.options.find(
