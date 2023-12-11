@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title> {{lectureDetails.lec_title}} </ion-title>
     <ion-buttons slot="start">
-      <ion-icon name="chevron-back-outline" (click)="routeToPreviousPage()"></ion-icon>
+      <ion-icon size="large" name="chevron-back-outline" (click)="routeToPreviousPage()"></ion-icon>
     </ion-buttons>
     <ion-buttons slot="end" style="margin-right: 15px;">
     <ion-icon size="large" (click)="toggleSpeech()" name="volume-{{startSpeech?'mute':'high'}}-outline"></ion-icon>
