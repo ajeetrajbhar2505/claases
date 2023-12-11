@@ -33,7 +33,7 @@ interface Notification {
   lec_id: any;
   contentId: any;
   from: string;
-  authorId:any
+  authorId: any
 }
 
 interface LectureWiseVideosData {
@@ -122,7 +122,9 @@ export class HomeComponent implements OnInit {
   colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
   skeleton = {
     mostWatched: false,
+    lectureDetails: false
   };
+  lectureDetails: any = []
   getColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
@@ -154,7 +156,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.fetchMostWatched();
-    this.fetchcontentDetails();
+    this.fetchlectureDetails();
     this.fetchNotifications()
 
     // socket connection
@@ -164,15 +166,8 @@ export class HomeComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {
         this.fetchMostWatched();
-        this.fetchcontentDetails();
+        this.fetchlectureDetails();
       }
-    });
-    this.searchSubject.pipe(
-      debounceTime(300), // 300 milliseconds debounce time
-      distinctUntilChanged() // Ignore if the new value is the same as the previous one
-    ).subscribe(query => {
-      // Call your search function here
-      this.fetchcontentDetails();
     });
   }
 
@@ -200,11 +195,11 @@ export class HomeComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
-  
+
   async fetchMostWatched() {
     this.skeleton.mostWatched = true;
     const req = new Requestmodels();
@@ -235,13 +230,15 @@ export class HomeComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
-  async fetchcontentDetails() {
+  async fetchlectureDetails() {
+
+    this.skeleton.lectureDetails = true
     const req = new Requestmodels();
-    req.RequestUrl = `contentDetails`;
+    req.RequestUrl = `lectureDetails`;
     req.RequestObject = '';
 
     await this._https
@@ -255,13 +252,20 @@ export class HomeComponent implements OnInit {
             }
 
             // fetch
-            this.contentDetails = data.response || [];
+            this.lectureDetails = data.response.map((data: any) => {
+              return {
+                ...data,
+                ratings: 25,
+                contents: 16,
+              };
+            });
+            this.skeleton.lectureDetails = this.lectureDetails.length ? false : true
           }
         },
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -275,9 +279,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  async searchText(){
+  async searchText() {
     const payload = {
-      searchText : this.searchQuery
+      searchText: this.searchQuery
     }
     const req = new Requestmodels();
     req.RequestUrl = `search_contentDetails`;
@@ -300,7 +304,7 @@ export class HomeComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -331,7 +335,7 @@ export class HomeComponent implements OnInit {
   toggleSeachmenu() {
     this.SearchedContents = [];
     this.isSearchOpen = !this.isSearchOpen;
-    this.fetchcontentDetails();
+    this.fetchlectureDetails();
   }
 
   handleScrollStart() {

@@ -183,11 +183,50 @@ export class QuizComponent implements OnInit {
     const queryParams = {
       classId: data.classId,
       lec_id: data.lec_id,
-      contentId: data._id,
+      paperId: data._id,
       from: '/tabs/quiz',
       reload: 'true',
     };
     this.router.navigate(['/tabs/test'], { queryParams });
+
+    const userProfile  = {
+      userId: this.service.UserProfile.userId,
+      time: new Date().toISOString(),
+    }
+
+    this.addAttemptedUsers(data._id,userProfile)
+  }
+
+  async addAttemptedUsers(paperId:any,userProfile:any){
+
+    const payload = {
+      classId : this.params.classId,
+      lec_id : this.params.lec_id,
+      paperId : paperId,
+      userProfile : userProfile
+    }
+    this.skeleton = true
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertAttemptedUsers`;
+    req.RequestObject = payload;
+
+    await this.service
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton = false
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
   }
 
   readUrl(event: any) {

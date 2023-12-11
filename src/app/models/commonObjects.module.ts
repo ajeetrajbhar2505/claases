@@ -7,6 +7,7 @@ export interface commonNavigation{
     content?:string;
     nested?:string
     reload?:string
+    paperId?:string
 }
 
 export interface ContentControls {

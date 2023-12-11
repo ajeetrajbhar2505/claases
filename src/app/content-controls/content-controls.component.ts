@@ -14,7 +14,6 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { RangeCustomEvent, RangeValue } from '@ionic/core';
-import { environment } from 'src/environments/environment';
 import {
   commonNavigation,
   ContentControls,
@@ -32,7 +31,7 @@ const navigationExtras: NavigationExtras = {
   templateUrl: './content-controls.component.html',
   styleUrls: ['./content-controls.component.scss'],
 })
-export class ContentControlsComponent {
+export class ContentControlsComponent implements OnDestroy {
   private _unsubscribeAll: Subject<any>;
   @ViewChild('contentPlayer', { static: true }) contentplayer!: ElementRef;
   lastEmittedValue!: RangeValue;
@@ -65,7 +64,7 @@ export class ContentControlsComponent {
   ];
 
   FAQ: FAQ = new FAQ();
-  videoPlaying:boolean = false
+  videoPlaying: boolean = false
 
 
   constructor(
@@ -111,6 +110,8 @@ export class ContentControlsComponent {
     });
   }
 
+
+
   async fetchContentDetails(classId: any, lec_id: any, contentId: any) {
     this.contentLoaded = false;
     const req = new Requestmodels();
@@ -135,7 +136,7 @@ export class ContentControlsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -160,6 +161,7 @@ export class ContentControlsComponent {
 
     this.contentControls.playContent = false;
     this.contentControls.openFullscreen = false;
+    this.updateUserwiseVideoTime()
   }
 
   getImgContent(url: any): SafeUrl {
@@ -211,10 +213,10 @@ export class ContentControlsComponent {
       );
       this.videoPlaying = true
       if (content.paused) {
-      this.contentControls.playContent = true;
+        this.contentControls.playContent = true;
       } else {
-      this.contentControls.playContent = false;
-    }
+        this.contentControls.playContent = false;
+      }
     }
   }
 
@@ -346,7 +348,7 @@ export class ContentControlsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -362,7 +364,7 @@ export class ContentControlsComponent {
         lec_id: this.contentDetails.lec_id,
         contentId: this.contentDetails.contentId,
         from: '/tabs/home',
-        topic : this.contentToWatch.content_title
+        topic: this.contentToWatch.content_title
       },
     };
     const req = new Requestmodels();
@@ -385,7 +387,7 @@ export class ContentControlsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -400,7 +402,7 @@ export class ContentControlsComponent {
         lec_id: this.contentDetails.lec_id,
         contentId: this.contentDetails.contentId,
         from: '/tabs/home',
-        topic : this.contentToWatch.content_title
+        topic: this.contentToWatch.content_title
       },
     };
     const req = new Requestmodels();
@@ -424,9 +426,51 @@ export class ContentControlsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
+
+  async ngOnDestroy() {
+    this.updateUserwiseVideoTime()
+  }
+
+  async updateUserwiseVideoTime() {
+
+    const userProfile = {
+      userid: this._https.UserProfile.userId, // Replace with the actual user ID
+      datetime: new Date().toISOString(), // Current date and time in ISO format
+      watchTime : this.contentControls.currentDuration,
+      duration : this.contentControls.duration
+    };
+
+    const payload = {
+      classId: this.contentDetails.classId,
+      lec_id: this.contentDetails.lec_id,
+      contentId: this.contentDetails.contentId,
+      userProfile: userProfile
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertViewCount`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => { }
+      );
+  }
+
 }
 
 export class FAQ {

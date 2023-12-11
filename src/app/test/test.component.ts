@@ -33,6 +33,7 @@ export class TestComponent implements OnInit {
     lec_id: '',
     contentId: '',
     content: '',
+    paperId : ''
   };
   instructions =
     'Welcome to the auto quiz generation tool! This tool is designed by Ajeet Rajbhar for practice purposes and will generate multiple-choice quizzes for you automatically. Please note that while the correct answer will be provided, it may not always be displayed accurately or may be missing from the options provided. We appreciate your understanding and cooperation in using this tool. Happy practicing';
@@ -84,12 +85,88 @@ export class TestComponent implements OnInit {
       this.service.clearSpeech(); // Clear the voice when stopping
     }
   }
+
+  async addAttemptedUsers(){
+
+    const payload = {
+      classId : this.contentDetails.classId,
+      lec_id : this.contentDetails.lec_id,
+      paperId : this.contentDetails.paperId,
+      userProfile : {
+        userId: this.service.UserProfile.userId,
+        time: new Date().toISOString(),
+      }
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertAttemptedUsers`;
+    req.RequestObject = payload;
+
+    await this.service
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
   
+  async upsertUsersResponse(){
+    this.totalScore = 0;
+    this.totalMarks = 0;
+    for (let question of this.quizArray) {
+      this.totalMarks += question.marks;
+      for (let option of question['options']) {
+        if (option.selected && option.correct_response) {
+          this.totalScore += question.marks;
+        }
+      }
+    }
+
+    this.isModalOpen = true;
+    const payload = {
+      paperId : this.contentDetails.paperId,
+      userProfile : {
+        userId: this.service.UserProfile.userId,
+        scored : this.totalScore,
+        totalMarks : this.totalMarks
+      }
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertUsersResponse`;
+    req.RequestObject = payload;
+
+    await this.service
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+         
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
   
   async autoGenerateQuiz() {
     this.quizArray = [];
     const req = new Requestmodels();
-    req.RequestUrl = `fetchpaper/${this.contentDetails.contentId}`;
+    req.RequestUrl = `fetchpaper/${this.contentDetails.paperId}`;
 
     await this.service
       .fetchData(req)
@@ -185,19 +262,6 @@ export class TestComponent implements OnInit {
     }
   }
 
-  submitQuestion() {
-    this.totalScore = 0;
-    this.totalMarks = 0;
-    for (let question of this.quizArray) {
-      this.totalMarks += question.marks;
-      for (let option of question['options']) {
-        if (option.selected && option.correct_response) {
-          this.totalScore += question.marks;
-        }
-      }
-    }
-    this.isModalOpen = true;
-  }
 
   restartQuiz() {
     this.totalScore = 0;
@@ -210,7 +274,10 @@ export class TestComponent implements OnInit {
     }
     this.isModalOpen = false;
     this.viewResult = false;
+    this.addAttemptedUsers()
   }
+
+
 
   viewResults() {
     this.viewResult = true;

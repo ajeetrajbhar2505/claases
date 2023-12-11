@@ -133,5 +133,45 @@ export class ContentsComponent {
         reload: 'true',
       },
     });
+
+    const userProfile = {
+      userid: this._https.UserProfile.userId, // Replace with the actual user ID
+      datetime: new Date().toISOString(), // Current date and time in ISO format
+    };
+    
+    this.addViewCount(contentDetails._id,userProfile)
+  }
+
+  
+
+  async addViewCount(contentId:any,userProfile:any){
+    const payload = {
+      classId : this.params.classId,
+      lec_id : this.params.lec_id,
+      contentId : contentId,
+      userProfile : userProfile
+    }
+    this.skeleton = true
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertViewCount`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton = false
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
   }
 }
