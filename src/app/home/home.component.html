@@ -7,7 +7,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-icon
+          <ion-icon size="large"
             name="chevron-back-outline"
             (click)="toggleMenu()"
           ></ion-icon>
@@ -212,14 +212,14 @@
           id="searchBar"
         ></ion-searchbar>
         <ion-buttons slot="start">
-          <ion-icon
+          <ion-icon size="large"
             name="chevron-back-outline"
             (click)="toggleSeachmenu()"
           ></ion-icon>
         </ion-buttons>
         <ion-buttons fill="outline" slot="end" (click)="searchText()">
-          <ion-icon
-          name="paper-plane-outline"
+          <ion-icon size="large"
+          name="arrow-forward-circle-outline"
         ></ion-icon>
         </ion-buttons>
       </ion-toolbar>
@@ -230,7 +230,7 @@
         <ion-item
           *ngFor="let data of SearchedContents"
           expand="block"
-          (click)="routeTocontentControls(data); toggleSeachmenu()"
+          (click)="routeTocontentControls(data);toggleSeachmenu()"
         >
           <ion-icon
             slot="start"

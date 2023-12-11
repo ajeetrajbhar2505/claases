@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title> Quizes </ion-title>
     <ion-buttons slot="start">
-      <ion-icon name="chevron-back-outline" (click)="backTopaper()"></ion-icon>
+      <ion-icon size="large" name="chevron-back-outline" (click)="backTopaper()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -18,7 +18,7 @@
       <!-- <div class="unread-indicator-wrapper" slot="start">
       <div class="unread-indicator"></div>
     </div> -->
-      <ion-label>
+      <ion-label style="padding: 20px;">
         <strong>{{ data.paper_title }}</strong>
         <ion-text>{{ data.className }} {{ data.paper }}</ion-text
         ><br />

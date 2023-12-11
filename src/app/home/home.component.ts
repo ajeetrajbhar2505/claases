@@ -361,16 +361,18 @@ export class HomeComponent implements OnInit {
   }
 
   routeTocontentControls(contentDetails: any) {
-    this.router.navigate(['/tabs/content-controls'], {
-      queryParams: {
-        from: '/tabs/home',
-        classId: contentDetails.classId,
-        lec_id: contentDetails.lec_id,
-        contentId: contentDetails._id,
-        content: contentDetails.content,
-        reload: 'true',
-      },
-    });
+    const queryParams = {
+      from: '/tabs/home',
+      classId: contentDetails.classId,
+      lec_id: contentDetails.lec_id,
+      contentId: contentDetails._id,
+      content: contentDetails.content,
+      reload: 'true',
+    }
+
+    setTimeout(() => {
+      this.router.navigate(['/tabs/content-controls'], { queryParams });
+    }, 10);
 
     const userProfile = {
       userid: this._https.UserProfile.userId, // Replace with the actual user ID
@@ -378,6 +380,7 @@ export class HomeComponent implements OnInit {
     };
 
     this.addViewCount(contentDetails, userProfile)
+    this.searchQuery = ""
   }
 
   async addViewCount(contentDetails: any, userProfile: any) {
