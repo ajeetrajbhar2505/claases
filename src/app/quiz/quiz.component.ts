@@ -65,6 +65,7 @@ export class QuizComponent implements OnInit {
     this.uploadQuizgroup
       .get('published_at')
       ?.patchValue(this.service.getCurrentDate());
+      this.papers = []
   }
 
   async ngOnInit() {
@@ -117,6 +118,7 @@ export class QuizComponent implements OnInit {
   }
 
   async fetchpapersDetails() {
+    this.papers = []
     if (!this.params.classId && !this.params.lec_id) {
       return
     }
