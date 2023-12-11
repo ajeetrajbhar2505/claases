@@ -276,7 +276,6 @@ export class TestComponent implements OnInit {
     }
     this.isModalOpen = false;
     this.viewResult = false;
-    this.addAttemptedUsers()
   }
 
 
@@ -321,6 +320,8 @@ export class TestComponent implements OnInit {
 
   routeToPreviousPage() {
     const queryParams = {
+      classId : this.contentDetails.classId,
+      lec_id : this.contentDetails.lec_id,
       from: '/tabs/home',
       reload : 'true'
     };
