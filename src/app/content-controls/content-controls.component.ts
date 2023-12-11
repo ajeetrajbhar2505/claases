@@ -450,7 +450,7 @@ export class ContentControlsComponent implements OnDestroy {
       userProfile: userProfile
     }
     const req = new Requestmodels();
-    req.RequestUrl = `upsertViewCount`;
+    req.RequestUrl = `upsertWatchTime`;
     req.RequestObject = payload;
 
     await this._https

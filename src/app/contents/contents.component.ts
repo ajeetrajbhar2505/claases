@@ -139,7 +139,7 @@ export class ContentsComponent {
       datetime: new Date().toISOString(), // Current date and time in ISO format
     };
     
-    // this.addViewCount(contentDetails._id,userProfile)
+    this.addViewCount(contentDetails._id,userProfile)
   }
 
   
