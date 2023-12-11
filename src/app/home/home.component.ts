@@ -360,7 +360,56 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/tabs/contents'], { queryParams });
   }
 
-  routeTocontentControls(content: any) {
+  routeTocontentControls(contentDetails: any) {
+    this.router.navigate(['/tabs/content-controls'], {
+      queryParams: {
+        from: '/tabs/home',
+        classId: contentDetails.classId,
+        lec_id: contentDetails.lec_id,
+        contentId: contentDetails._id,
+        content: contentDetails.content,
+        reload: 'true',
+      },
+    });
+
+    const userProfile = {
+      userid: this._https.UserProfile.userId, // Replace with the actual user ID
+      datetime: new Date().toISOString(), // Current date and time in ISO format
+    };
+
+    this.addViewCount(contentDetails, userProfile)
+  }
+
+  async addViewCount(contentDetails: any, userProfile: any) {
+    const payload = {
+      classId: contentDetails.classId,
+      lec_id: contentDetails.lec_id,
+      contentId: contentDetails._id,
+      userProfile: userProfile
+    }
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertViewCount`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => { }
+      );
+  }
+
+  routeTocontentControls1(content: any) {
     const queryParams = {
       ...content,
       contentId: content.contentId ? content.contentId : content._id,
