@@ -224,13 +224,15 @@ export class TestComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.lectureDetails = param;
       this.autoGenerateQuiz();
-      this.restartQuiz();
 
       if (param.reload === 'true') {
         this.lectureDetails = param;
         this.autoGenerateQuiz();
         this.restartQuiz();
+        return
       }
+      this.restartQuiz();
+
     });
   }
 
