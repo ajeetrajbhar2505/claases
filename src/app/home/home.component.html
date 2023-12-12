@@ -87,7 +87,7 @@
       (click)="toggleSeachmenu(); focusSearchBar()"
     ></ion-searchbar>
 
-    <h4>Course Categories</h4>
+    <h4>Popular Contents</h4>
     <div class="slider-container" id="slider">
       <!-- loading -->
       <div *ngIf="skeleton.mostWatched" class="slider-container" id="slider">
@@ -178,9 +178,9 @@
           <span style="text-align: center">
             <span class="rating">
               <ion-icon name="chatbubbles-outline"></ion-icon>
-              {{ quiz.ratings + (i + 2) }}
+              {{ quiz.quizDetailsCount }}
               <ion-icon name="person-outline"></ion-icon>
-              {{ quiz.contents }}
+              {{ quiz.usersCount }}
             </span>
             <span>
               <ion-label>{{ quiz.lec_title }}</ion-label>

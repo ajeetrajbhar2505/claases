@@ -156,7 +156,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.fetchMostWatched();
-    this.fetchlectureDetails();
+    this.popular_lectureDetails();
     this.fetchNotifications()
 
     // socket connection
@@ -166,7 +166,7 @@ export class HomeComponent implements OnInit {
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       if (params.reload === 'true') {
         this.fetchMostWatched();
-        this.fetchlectureDetails();
+        this.popular_lectureDetails();
       }
     });
   }
@@ -199,6 +199,34 @@ export class HomeComponent implements OnInit {
       );
   }
 
+
+  async popular_lectureDetails() {
+    this.skeleton.mostWatched = true;
+    const req = new Requestmodels();
+    req.RequestUrl = `popular_lectureDetails`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton.mostWatched = false;
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.lectureDetails = data.response || []
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => { }
+      );
+  }
 
   async fetchMostWatched() {
     this.skeleton.mostWatched = true;

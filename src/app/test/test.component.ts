@@ -33,7 +33,7 @@ export class TestComponent implements OnInit {
     lec_id: '',
     contentId: '',
     content: '',
-    paperId : ''
+    paperId: ''
   };
   instructions =
     'Welcome to the auto quiz generation tool! This tool is designed by Ajeet Rajbhar for practice purposes and will generate multiple-choice quizzes for you automatically. Please note that while the correct answer will be provided, it may not always be displayed accurately or may be missing from the options provided. We appreciate your understanding and cooperation in using this tool. Happy practicing';
@@ -54,10 +54,10 @@ export class TestComponent implements OnInit {
     if (this.quizArray.length) {
       const question = this.quizArray[this.currentQuestion].question_text;
       console.log(question);
-  
+
       // Replace multiple dashes or underscores with a single hyphen (-)
       const questionText = question.replace(/[_-]+/g, ' - ');
-  
+
       const options = this.quizArray[this.currentQuestion].options
         .map((option: any, index: any) => {
           const optionNumber = `Option ${index + 1}`;
@@ -66,16 +66,16 @@ export class TestComponent implements OnInit {
           return `${optionNumber} ${optionText}`;
         })
         .join(' ');
-  
+
       const speechtext = questionText.replace(/^Q:\s*/, '') + options;
       this.service.speech(speechtext);
-  
+
       return;
     }
   }
-  
-  
-  
+
+
+
 
   toggleSpeech() {
     this.startSpeech = !this.startSpeech;
@@ -86,13 +86,13 @@ export class TestComponent implements OnInit {
     }
   }
 
-  async addAttemptedUsers(){
+  async addAttemptedUsers() {
 
     const payload = {
-      classId : this.contentDetails.classId,
-      lec_id : this.contentDetails.lec_id,
-      paperId : this.contentDetails.paperId,
-      userProfile : {
+      classId: this.contentDetails.classId,
+      lec_id: this.contentDetails.lec_id,
+      paperId: this.contentDetails.paperId,
+      userProfile: {
         userId: this.service.UserProfile.userId,
         time: new Date().toISOString(),
       }
@@ -115,11 +115,11 @@ export class TestComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
-  
-  async upsertUsersResponse(){
+
+  async upsertUsersResponse() {
     this.totalScore = 0;
     this.totalMarks = 0;
     for (let question of this.quizArray) {
@@ -133,11 +133,11 @@ export class TestComponent implements OnInit {
 
     this.isModalOpen = true;
     const payload = {
-      paperId : this.contentDetails.paperId,
-      userProfile : {
+      paperId: this.contentDetails.paperId,
+      userProfile: {
         userId: this.service.UserProfile.userId,
-        scored : this.totalScore,
-        totalMarks : this.totalMarks
+        scored: this.totalScore,
+        totalMarks: this.totalMarks
       }
     }
     const req = new Requestmodels();
@@ -153,16 +153,16 @@ export class TestComponent implements OnInit {
             if (data.status !== 200) {
               return;
             }
-         
+
           }
         },
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
-  
+
   async autoGenerateQuiz() {
     this.quizArray = [];
     const req = new Requestmodels();
@@ -180,6 +180,9 @@ export class TestComponent implements OnInit {
 
             // fetch
             const questions = data.response || [];
+            // Clear the quizArray before pushing new questions
+            this.quizArray = [];
+
             // Transformation and generation functions
             questions.questions.map((element: any) => {
               const questionModal: Question = {
@@ -188,13 +191,13 @@ export class TestComponent implements OnInit {
                 options: element.options.map((optionText: any, index: any) => {
                   const isCorrect =
                     element.correct_ans === String.fromCharCode(97 + index); // Check if it's the correct option
-              
+
                   // Convert optionText to a string and then replace if it's a string
                   const processedOptionText =
                     typeof optionText === 'string'
                       ? optionText.replace(/^.\)\s*/, '')
                       : String(optionText);
-              
+
                   return {
                     id: index + 1,
                     option_text: processedOptionText,
@@ -205,7 +208,6 @@ export class TestComponent implements OnInit {
                   };
                 }),
               };
-              
 
               // Find the correct option and set it as the correct_response
               const correctOption = questionModal.options.find(
@@ -219,12 +221,13 @@ export class TestComponent implements OnInit {
 
               this.quizArray.push(questionModal);
             });
+
           }
         },
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -328,10 +331,10 @@ export class TestComponent implements OnInit {
 
   routeToPreviousPage() {
     const queryParams = {
-      classId : this.contentDetails.classId,
-      lec_id : this.contentDetails.lec_id,
+      classId: this.contentDetails.classId,
+      lec_id: this.contentDetails.lec_id,
       from: '/tabs/home',
-      reload : 'true'
+      reload: 'true'
     };
     this.router.navigate([this.contentDetails.from], { queryParams });
   }
