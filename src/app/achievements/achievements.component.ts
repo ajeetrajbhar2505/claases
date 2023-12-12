@@ -59,4 +59,15 @@ export class AchievementsComponent implements OnInit  {
       );
   }
 
+  calculatePercentage(scored: number, totalMarks: number): number {
+    if (totalMarks === 0) {
+        return 0;
+    }
+
+    const percentage = (scored / totalMarks) * 100;
+    // Round to two decimal places
+    return Math.round(percentage * 100) / 100;
+}
+
+
 }

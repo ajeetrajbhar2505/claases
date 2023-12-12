@@ -29,8 +29,10 @@
           <tr>
             <th scope="col">Subject</th>
             <th scope="col">Paper Name</th>
-            <th scope="col">Actual</th>
-            <th scope="col">Target</th>
+            <th scope="col">Multiple Attempt Count</th>
+            <th scope="col">Scored</th>
+            <th scope="col">Total Marks</th>
+            <th scope="col">Percentage</th>
             <th scope="col">Date</th>
           </tr>
         </thead>
@@ -38,16 +40,20 @@
           <tr>
             <td data-title="Subject">{{ data.paper }}</td>
             <td data-title="Paper Name">{{ data.paper_title }}</td>
+            <td data-title="Multiple Attempt Count">{{ data.users.multipleAttemptCount !== undefined && data.users.multipleAttemptCount !== null ?
+              data.users.multipleAttemptCount : '-' }}</td>
             <td data-title="Actual">{{ data.users.scored !== undefined && data.users.scored !== null ?
               data.users.scored : '0' }}</td>
             <td data-title="Target">{{ data.users.totalMarks !== undefined && data.users.totalMarks !== null ?
               data.users.totalMarks : '-' }}</td>
+               <td data-title="Percentage">{{ calculatePercentage(data.users.scored,data.users.totalMarks) + '%' !== undefined && calculatePercentage(data.users.scored,data.users.totalMarks) + '%' !== null ?
+                calculatePercentage(data.users.scored,data.users.totalMarks) + '%' : '-' }}</td>
             <td data-title="Date">{{ data.users.time | date }}</td>
           </tr>
         </tbody>
         <tbody *ngIf="!student.quizAttempts.length">
           <tr>
-            <td  data-title="No marks available" colspan="5">
+            <td  data-title="No marks available" colspan="7">
               No marks available
             </td>
           </tr>
