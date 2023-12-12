@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Achievements
+      Score Card
     </ion-title>
     <ion-buttons slot="start">
       <ion-icon name="chevron-back-outline" (click)="backToHome()"></ion-icon>
@@ -10,31 +10,49 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <div class="donut center"></div>
-  
-    <ion-card-content>
-      <span class="donut-details"><div class="donut-blue"></div> Total Subjects</span>
-      <span class="donut-details"><div class="donut-red"></div> Total Marks</span>
-    </ion-card-content>
-  </ion-card>
-  <ion-card-content>
-    <ion-list>
-      <ion-item expand="block">
-        <ion-icon name="play-circle"></ion-icon>
-        <ion-icon slot="end" style="margin-right: 15px;" name="ribbon-outline"></ion-icon>
-        <ion-icon slot="end" name="trophy-outline"></ion-icon>
-        <ion-icon slot="end" name="analytics-outline"></ion-icon>
-      </ion-item>
-          <ion-item *ngFor="let data of lecturesData;let i = index" expand="block">
-            <ion-label>{{data.lec_title}}</ion-label>
-            <ion-label slot="end" >{{i == (2*1+1)?i+10:30}}</ion-label>
-            <ion-label slot="end" >100</ion-label>
-            <ion-icon slot="end" [name]="i == (2*1+1)?'trending-down-outline':'trending-up-outline'"></ion-icon>
-          </ion-item>
-    </ion-list>
-  </ion-card-content>
+  <div class="flex-container" *ngFor="let student of scoreCard;">
+    <div class="col card">
+      <div class="img-placeholder">
+        <img [src]="student.picture">
+      </div>
+      <div>
+        <h3>{{student.name}}</h3>
+        <p><i class="fa-solid fa-user"></i>{{student.email}}</p>
+        <p><i class="fa-solid fa-paper-plane"></i> <a href="mailto:wafaa_cr@outlook.com">Email Me</a></p>
+        <p><i class="fa-solid fa-location-dot"></i>{{student.address1}}</p>
+      </div>
+    </div>
+    <div class="container">
+      <table class="responsive-table">
+        <caption>The Scorecard</caption>
+        <thead>
+          <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Paper Name</th>
+            <th scope="col">Actual</th>
+            <th scope="col">Target</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let data of student.quizAttempts">
+          <tr>
+            <td data-title="Subject">{{ data.paper }}</td>
+            <td data-title="Paper Name">{{ data.paper_title }}</td>
+            <td data-title="Actual">{{ data.users.scored !== undefined && data.users.scored !== null ?
+              data.users.scored : '0' }}</td>
+            <td data-title="Target">{{ data.users.totalMarks !== undefined && data.users.totalMarks !== null ?
+              data.users.totalMarks : '-' }}</td>
+            <td data-title="Date">{{ data.users.time | date }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="!student.quizAttempts.length">
+          <tr>
+            <td  data-title="No marks available" colspan="5">
+              No marks available
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </ion-content>
-
-
-

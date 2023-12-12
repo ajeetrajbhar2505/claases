@@ -1,114 +1,321 @@
-ion-card{
-    border-radius: 20px;
-    position: sticky;
-    top: 10px;
-    z-index: 600;
+body {
+  color: #1a1a1a;
+  font-family: "Poppins", sans-serif;
+  background: hsla(141, 54%, 86%, 1);
+
+  background: linear-gradient(
+    to right,
+    hsla(141, 54%, 86%, 1) 0%,
+    hsla(333, 73%, 85%, 1) 50%,
+    hsla(211, 58%, 79%, 1) 100%
+  );
+
+  background: -moz-linear-gradient(
+    to right,
+    hsla(141, 54%, 86%, 1) 0%,
+    hsla(333, 73%, 85%, 1) 50%,
+    hsla(211, 58%, 79%, 1) 100%
+  );
+
+  background: -webkit-linear-gradient(
+    to right,
+    hsla(141, 54%, 86%, 1) 0%,
+    hsla(333, 73%, 85%, 1) 50%,
+    hsla(211, 58%, 79%, 1) 100%
+  );
+}
+.flex-container {
+  display: flex;
+  justify-content: start;
+  column-gap: 15px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-wrap:wrap
+
 }
 
-//size
-$size: 5rem;
 
-//colors
-$blue-color:#4285F4;
-$green-color:#34A853;
-$yellow-color:#FBBC05;
-$red-color:#EA4335;
+.card {
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  column-gap: 20px;
+  box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
+  text-wrap:wrap
 
-// .donut {
-//   background:transparent;
-//   width: 10rem;
-//   height: 10rem;
-//   border: 0;
-//   border-right: $size solid $green-color;
-//   border-left: $size solid $red-color;
-//   border-bottom: $size solid $yellow-color;
-//   border-top: $size solid $blue-color;
-//   border-radius:25rem;
-//   overflow:hidden;
-//   box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
-// }
+}
+.card img {
+  max-width: 150px;
+}
 
-.donut {
-    background: transparent;
-    width: 10rem;
-    height: 10rem;
+.img-placeholder {
+  position: relative;
+  max-height: 200px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.75);
+}
+h3 {
+  font-weight: 400;
+}
+p {
+  font-weight: 300;
+}
+a {
+  color: #888;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
+
+@media screen and (max-width: 815px) {
+  .flex-container {
+    display: block; /* Change to a block layout for smaller screens */
+    /* Adjust other styles for better mobile presentation */
+  }
+  .col {
+    width: initial;
+  }
+}
+
+.col {
+  width: 100%;
+}
+
+
+
+// Breakpoints
+$bp-maggie: 15em; 
+$bp-lisa: 30em;
+$bp-bart: 48em;
+$bp-marge: 62em;
+$bp-homer: 75em;
+
+// Styles
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  color: rgba(0,0,0,.87);
+}
+
+a {
+  color: rgba(38,137,13,1);
+  
+  &:hover,
+  &:focus {
+    color: rgba(4,106,56,1); 
+  }
+}
+
+.container {
+  margin-bottom: 20px !important;
+  @media (min-width: $bp-homer) {
+    margin: 2em auto;
+    max-width: $bp-homer;
+  }
+}
+
+.responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+  border-spacing: 0;
+  
+  @media (min-width: $bp-bart) {
+    font-size: .9em; 
+  }
+  
+  @media (min-width: $bp-marge) {
+    font-size: 1em; 
+  }
+  
+  thead {
+    // Accessibly hide <thead> on narrow viewports
+    position: absolute;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    padding: 0;
     border: 0;
-    border-right: $size solid $blue-color;
-    border-left: $size solid $red-color;
-    border-bottom: $size solid $blue-color;
-    border-top: $size solid $blue-color;
-    border-radius: 25rem;
+    height: 1px; 
+    width: 1px; 
     overflow: hidden;
-    box-shadow: 0px 25px 25px -10px rgba(0,0,0,0.25), 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
-    animation-name: donut;
-    animation-duration: 6s;
-    animation-timing-function: ease-in-out;
-  }
-  
-  @keyframes donut {
-    0% {
-      border-right: $size solid $red-color;
-      border-left: $size solid $red-color;
-      border-bottom: $size solid $red-color;
-      border-top: $size solid $red-color;
-      transform: rotate(0deg);
+    
+    @media (min-width: $bp-bart) {
+      // Unhide <thead> on wide viewports
+      position: relative;
+      clip: auto;
+      height: auto;
+      width: auto;
+      overflow: auto;
     }
-    25%{
-        border-right: $size solid $red-color;
-        border-left: $size solid $red-color;
-        border-bottom: $size solid $red-color;
-        border-top: $size solid $blue-color;
-        transform: rotate(90deg);
-    }
-    50% {
-        border-right: $size solid $blue-color;
-        border-left: $size solid $red-color;
-        border-bottom: $size solid $red-color;
-        border-top: $size solid $blue-color;
-      transform: rotate(180deg);
-    }
-
-    100% {
-        border-right: $size solid $blue-color;
-        border-left: $size solid $red-color;
-        border-bottom: $size solid $blue-color;
-        border-top: $size solid $blue-color;
-      transform: rotate(360deg);
+    
+    th {
+      background-color: rgba(38,137,13,1);
+      border: 1px solid rgba(134,188,37,1);
+      font-weight: normal;
+      text-align: center;
+      color: white;
+      
+      &:first-of-type {
+        text-align: left; 
+      }
     }
   }
   
-
-
-.donut-red {
-    background:transparent;
-    width: 10px;
-    height: 10px;
-    border: 0;
-    border: 5px solid $red-color;
-    border-radius:25rem;
-    overflow:hidden;
-    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+  // Set these items to display: block for narrow viewports
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    padding: 0;
+    text-align: left;
+    white-space: normal;
   }
-
-  .donut-blue {
-    background:transparent;
-    width: 10px;
-    height: 10px;
-    border: 0;
-    border: 5px solid $blue-color;
-    border-radius:25rem;
-    overflow:hidden;
-    box-shadow:0px 25px 25px -10px rgba(0,0,0,0.25) , 0px 30px 25px -10px rgba(0,0,0,0.3) inset;
+  
+  tr {   
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-row; 
+    }
   }
-
-  .donut-details{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  
+  th,
+  td {
+    padding: .5em;
+    vertical-align: middle;
+    
+    @media (min-width: $bp-lisa) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-cell;
+      padding: .5em;
+    }
+    
+    @media (min-width: $bp-marge) {
+      padding: .75em .5em; 
+    }
+    
+    @media (min-width: $bp-homer) {
+      padding: .75em; 
+    }
   }
-
-
-.center{
- margin: 0 auto;
- margin-top: 10px;
+  
+  caption {
+    margin-bottom: 1em;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    
+    @media (min-width: $bp-bart) {
+      font-size: 1.5em;
+    }
+  }
+  
+  tfoot {
+    font-size: .8em;
+    font-style: italic;
+    
+    @media (min-width: $bp-marge) {
+      font-size: .9em;
+    }
+  }
+  
+  tbody {
+    @media (min-width: $bp-bart) {
+      // Undo display: block 
+      display: table-row-group; 
+    }
+    
+    tr {
+      margin-bottom: 1em;
+      
+      @media (min-width: $bp-bart) {
+        // Undo display: block 
+        display: table-row;
+        border-width: 1px;
+      }
+      
+      &:last-of-type {
+        margin-bottom: 0; 
+      }
+      
+      &:nth-of-type(even) {
+        @media (min-width: $bp-bart) {
+          background-color: rgba(0,0,0,.12);
+        }
+      }
+    }
+    
+    th[scope="row"] {
+      background-color: rgba(38,137,13,1);
+      color: white;
+      
+      @media (min-width: $bp-lisa) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+      }
+      
+      @media (min-width: $bp-bart) {
+        background-color: transparent;
+        color: rgba(0,0,0.87);
+        text-align: left;
+      }
+    }
+    
+    td {
+      text-align: right;
+      
+      @media (min-width: $bp-bart) {
+        border-left: 1px solid rgba(134,188,37,1);
+        border-bottom: 1px solid rgba(134,188,37,1);
+        text-align: center; 
+      }
+      
+      &:last-of-type {
+        @media (min-width: $bp-bart) {
+          border-right: 1px solid rgba(134,188,37,1);
+        } 
+      }
+    }
+    
+    td[data-type=currency] {
+      text-align: right; 
+    }
+    
+    td[data-title]:before {
+      content: attr(data-title);
+      float: left;
+      font-size: .8em;
+      color: rgba(0,0,0,.54);
+      
+      @media (min-width: $bp-lisa) {
+        font-size: .9em; 
+      }
+      
+      @media (min-width: $bp-bart) {
+        // Don’t show data-title labels 
+        content: none; 
+      }
+    } 
+  }
 }

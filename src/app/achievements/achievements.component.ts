@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Requestmodels } from '../models/Requestmodels.module';
+import { WebService } from '../web.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-achievements',
@@ -9,25 +12,51 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AchievementsComponent implements OnInit  {
   lecturesData:any = []
-  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router) {
-
+  scoreCard:any[] = []
+  private _unsubscribeAll: Subject<any>;
+  constructor(public http: HttpClient, public ActivatedRoute: ActivatedRoute, public router: Router,public _https: WebService
+    ) {
+    this._unsubscribeAll = new Subject();
   }
 
   async ngOnInit() {
-    const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
-    const data = response.filter((data: any) => data.classId === 10)[0];
-    this.lecturesData = data.subjects;
-    
     this.ActivatedRoute.queryParams.subscribe(async (params: any) => {
       if (params.reload === 'true') {
-        const response: any = await this.http.get('assets/classWiseLectures.json').toPromise();
-        const data = response.filter((data: any) => data.classId === 10)[0];
-        this.lecturesData = data.subjects;
+        this.getscoreCard()
+        return
       }
+      this.getscoreCard()
     });
   }
 
   backToHome(){
    this.router.navigate(['/tabs/home'])
   }
+
+  async getscoreCard() {
+    const req = new Requestmodels();
+    req.RequestUrl = `scoreCard`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            if (data.status !== 200) {
+              return;
+            }
+
+            // fetch
+            this.scoreCard = data.response || []
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => { }
+      );
+  }
+
 }
