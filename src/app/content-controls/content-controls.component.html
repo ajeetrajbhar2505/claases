@@ -15,7 +15,7 @@
     </figure>
   </div>
     <!-- <div class="quize-cards" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [style]="generateStyle(contentToWatch.content_icon)"></div> -->
-    <ion-spinner *ngIf="!videoPlaying" name="bubbles"></ion-spinner>
+    <ion-spinner *ngIf="!videoPlaying && contentToWatch.content != 'document'" name="bubbles"></ion-spinner>
 
     <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
   (timeupdate)="checkContinuousContentduration()"  autoplay  frameborder="0">

@@ -232,3 +232,22 @@ a{
   display: flex;
   justify-content: right;
 }
+
+
+.animate-svg {
+  transition: all 0.3s ease-in-out;
+  animation: animate 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+  background-color: transparent;
+}
+
+@keyframes animate {
+  0% {
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(0.3);
+  }
+}
