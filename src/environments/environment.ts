@@ -8,7 +8,7 @@ export const environment = {
   apilastkey : '?v=1677959874652',
   // nodeApi : 'https://ajeetrajbhar.com/'
   // nodeApi : 'http://localhost:3000/'
-  nodeApi : 'https://zany-plum-llama-tam.cyclic.app/'
+  nodeApi : 'https://long-pink-rooster-gear.cyclic.app/'
 };
 
 /*
