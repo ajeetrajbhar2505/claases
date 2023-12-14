@@ -32,4 +32,53 @@
       <ion-label>{{ data.lec_title }}</ion-label>
     </div>
   </div>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button size="small" (click)="OpenDialog()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+
+<ion-modal [isOpen]="isModelOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title> Add Class </ion-title>
+        <ion-buttons slot="start">
+          <ion-icon size="large"
+            name="chevron-back-outline"
+            (click)="OpenDialog()"
+          ></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" id="white-background" [formGroup]="lectureGroup">
+      <ion-list>
+        <ion-item fill="">
+        <ion-label position="floating">Class</ion-label>
+          <ion-select formControlName="classId" placeholder="Select Class" [multiple]="false">
+            <ion-select-option *ngFor="let data of classData" [value]="data._id">{{data.classNamme}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item fill="">
+          <ion-label position="floating">Lecture Name</ion-label>
+          <ion-input formControlName="name" placeholder="Enter text"></ion-input>
+        </ion-item>
+    </ion-list>
+      <ion-button style="margin-top: 20px;" (click)="createLecture();" expand="block">
+        <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+        {{uploading?'Saving ':'Save'}}  
+        <ion-spinner *ngIf="uploading" name="lines-sharp-small"></ion-spinner>
+      </ion-button>
+  
+      <!-- snackbar card -->
+      <div class="card" *ngIf="uploadStatus.status">
+        <ion-icon size="large" [name]="currentStatusIcon"></ion-icon>
+        <span class="message">{{uploadStatus.message}}</span>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
