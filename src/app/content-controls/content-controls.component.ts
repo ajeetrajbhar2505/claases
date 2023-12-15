@@ -96,10 +96,10 @@ export class ContentControlsComponent implements OnDestroy {
       };
       this.contentToWatch = {};
 
-      this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+      this.fetchContentDetails(param.contentId);
       this.Querries();
       if (param.reload === 'true') {
-        this.fetchContentDetails(param.classId, param.lec_id, param.contentId);
+        this.fetchContentDetails(param.contentId);
         this.Querries();
       }
     });
@@ -114,10 +114,10 @@ export class ContentControlsComponent implements OnDestroy {
 
 
 
-  async fetchContentDetails(classId: any, lec_id: any, contentId: any) {
+  async fetchContentDetails(contentId: any) {
     this.contentLoaded = false;
     const req = new Requestmodels();
-    req.RequestUrl = `content/` + classId + '/' + lec_id + '/' + contentId;
+    req.RequestUrl = `content/` + contentId;
     req.RequestObject = '';
 
     await this._https
