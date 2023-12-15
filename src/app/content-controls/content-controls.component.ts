@@ -37,6 +37,7 @@ export class ContentControlsComponent implements OnDestroy {
   lastEmittedValue!: RangeValue;
 
   contentToWatch: any = {};
+  imagepath!: SafeUrl;
 
   contentControls: ContentControls = {
     playContent: false,
@@ -108,6 +109,7 @@ export class ContentControlsComponent implements OnDestroy {
         App.exitApp();
       }
     });
+    
   }
 
 
@@ -131,6 +133,7 @@ export class ContentControlsComponent implements OnDestroy {
             // fetch
             this.contentToWatch = data.response[0] || {};
             this.contentLoaded = true;
+           this.imagepath =  this.sanitizer.bypassSecurityTrustResourceUrl(this.contentToWatch.content_link);
           }
         },
         (_error) => {
@@ -162,10 +165,6 @@ export class ContentControlsComponent implements OnDestroy {
     this.contentControls.playContent = false;
     this.contentControls.openFullscreen = false;
     this.updateUserwiseVideoTime()
-  }
-
-  getImgContent(url: any): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   onIonKnobMovecontent(ev: Event, ended: boolean) {

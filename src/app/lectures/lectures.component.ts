@@ -56,14 +56,16 @@ export class LecturesComponent  {
       }
     });
 
+   this.createLectureGroup()
+  }
+
+  createLectureGroup(){
     this.lectureGroup = this.fb.group({
       classId: ['', Validators.required],
       lec_icon: ['assets/std_icon.webp', Validators.required],
       lec_title: ['', Validators.required],
     })
-
   }
-
 
   OpenDialog(){
     this.isModelOpen = !this.isModelOpen
@@ -113,7 +115,7 @@ export class LecturesComponent  {
               message: 'Lecture created successfully',
               statusType: 'success',
             });
-            this.lectureGroup.reset()
+            this.createLectureGroup()
             this.isModelOpen = false
             this.fetchlectureDetails(this.classId)
           }

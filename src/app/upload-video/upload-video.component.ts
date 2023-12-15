@@ -48,7 +48,7 @@ export class UploadVideoComponent implements OnInit {
     this.uploadVideogroup = this.fb.group({
       classId: ['', Validators.required],
       lec_id: ['', Validators.required],
-      content_icon: ['', Validators.required],
+      content_icon: ['assets/std_icon.webp', Validators.required],
       content_link_duplicate: [''],
       content_link: [''],
       content_title: ['', Validators.required],
@@ -75,6 +75,7 @@ export class UploadVideoComponent implements OnInit {
         this.fetchClassDetails();
       }
     });
+    this.onchange_lecture(null)
   }
 
   async fetchClassDetails() {
@@ -250,8 +251,8 @@ export class UploadVideoComponent implements OnInit {
   }
 
   clearformcontrols(){
-    this.uploadVideogroup.get('classId')?.setValue('');
-    this.uploadVideogroup.get('lec_id')?.setValue('');
+    // this.uploadVideogroup.get('classId')?.setValue('');
+    // this.uploadVideogroup.get('lec_id')?.setValue('');
     this.uploadVideogroup.get('content_icon')?.setValue('');
     this.uploadVideogroup.get('content_title')?.setValue('');
     this.uploadVideogroup

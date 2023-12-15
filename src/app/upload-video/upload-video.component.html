@@ -35,7 +35,7 @@
       <label for="choose-file">
 			<span class="material-icons-outlined upload-icon"><img src="assets\upload.png" alt="" width="30px"> </span>
 			<h3 class="dynamic-message browse-files-text"> Choose file here </h3>
-      <input type="file" id="choose-file" [accept]="uploadVideogroup.get('content')?.value =='video'?'video/mp4':uploadVideogroup.get('content')?.value =='audio'?'audio/mp3':uploadVideogroup.get('content')?.value =='document'?'application/pdf':''"  (change)="readUrl($event)" formControlName="file" class="default-file-input"/> 
+      <input type="file" id="choose-file" [accept]="uploadVideogroup.get('content')?.value =='video'?'video/mp4':uploadVideogroup.get('content')?.value =='audio'?'audio/mp3':uploadVideogroup.get('content')?.value =='document'?'application/pdf,image/png, image/gif, image/jpeg':''"  (change)="readUrl($event)" formControlName="file" class="default-file-input"/> 
       {{uploadVideogroup.get('file')?.value.name}}
       </label>
 		</div>
