@@ -38,28 +38,41 @@ export class ContentsComponent {
   };
   params: any = '';
   skeleton:boolean = false
+  papers: any[] = [];
+  uploadStatus: any = { status: false, message: '', statusType: '' };
+  statusIcons = [
+    { name: 'checkmark-circle-outline', status: 'success' },
+    { name: 'close-circle-outline', status: 'failed' },
+    { name: 'information-circle-outline', status: 'info' },
+  ];
+  currentStatusIcon: any = '';
   constructor(
     public http: HttpClient,
     public _https: WebService,
     public ActivatedRoute: ActivatedRoute,
     public router: Router,
-    private sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,  
     private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
     this._unsubscribeAll = new Subject();
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.params = param;
-      this.fetchContentDetails(param.classId, param.lec_id);
       if (param.reload === 'true') {
         this.fetchContentDetails(param.classId, param.lec_id);
+        this.fetchpapersDetails()
+        return
       }
+      this.fetchContentDetails(param.classId, param.lec_id);
+      this.fetchpapersDetails()
+
     });
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (!this.routerOutlet?.canGoBack()) {
         App.exitApp();
       }
     });
+    this.papers = []
   }
 
   async fetchContentDetails(classId: any, lec_id: any) {
@@ -121,6 +134,19 @@ export class ContentsComponent {
     this.router.navigate(['/tabs/uploadVideo'], { queryParams });
   }
 
+  public uploadQuiz(content: any) {
+    const queryParams: commonNavigation = {
+      classId: this.params.classId,
+      lec_id: this.params.lec_id,
+      contentId: this.params.contentId,
+      from: '/tabs/contents',
+      content: content,
+      nested: this.params.nested,
+      reload: 'true',
+    };
+    this.router.navigate(['/tabs/quiz'], { queryParams });
+  }
+
   routeTocontentControls(contentDetails: any) {
     this.router.navigate(['/tabs/content-controls'], {
       queryParams: {
@@ -140,6 +166,57 @@ export class ContentsComponent {
     };
     
     this.addViewCount(contentDetails._id,userProfile)
+  }
+
+
+  async fetchpapersDetails() {
+    this.papers = []
+    if (!this.params.classId && !this.params.lec_id) {
+      return
+    }
+    this.skeleton = true
+    const req = new Requestmodels();
+    req.RequestUrl = `fetchquizes/${this.params.classId}/${this.params.lec_id}`;
+    req.RequestObject = '';
+
+    await this._https
+      .fetchData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton = false
+            if (data.status !== 200) {
+              this.openSnackbar({
+                status: true,
+                message: data.response,
+                statusType: 'failed',
+              });
+              return;
+              return;
+            }
+
+            // fetch
+            this.papers = data.response || [];
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
+
+  openSnackbar(uploadStatus: any) {
+    this.uploadStatus = uploadStatus;
+    this.currentStatusIcon = this.statusIcons.filter(
+      (obj) => obj.status == this.uploadStatus.statusType
+    )[0].name;
+    this.uploadStatus.status = true;
+    setTimeout(() => {
+      this.uploadStatus.status = false;
+    }, 2000);
   }
 
   
@@ -174,4 +251,55 @@ export class ContentsComponent {
         () => {}
       );
   }
+
+  routeToQuiz(data: any) {
+    const queryParams = {
+      classId: data.classId,
+      lec_id: data.lec_id,
+      paperId: data._id,
+      from: '/tabs/contents',
+      reload: 'true',
+    };
+    this.router.navigate(['/tabs/test'], { queryParams });
+
+    const userProfile  = {
+      userId: this._https.UserProfile.userId,
+      time: new Date().toISOString(),
+    }
+
+    this.addAttemptedUsers(data._id,userProfile)
+  }
+
+  async addAttemptedUsers(paperId:any,userProfile:any){
+
+    const payload = {
+      classId : this.params.classId,
+      lec_id : this.params.lec_id,
+      paperId : paperId,
+      userProfile : userProfile
+    }
+    this.skeleton = true
+    const req = new Requestmodels();
+    req.RequestUrl = `upsertAttemptedUsers`;
+    req.RequestObject = payload;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.skeleton = false
+            if (data.status !== 200) {
+              return;
+            }
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => {}
+      );
+  }
+
 }

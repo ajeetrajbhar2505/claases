@@ -23,6 +23,9 @@
       <ion-segment-button value="document">
         <ion-label>Document</ion-label>
       </ion-segment-button>
+      <ion-segment-button value="quiz">
+        <ion-label>Quiz</ion-label>
+      </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
@@ -63,6 +66,28 @@
               <!-- <ion-reorder slot="end"></ion-reorder> -->
             </ion-item>
           </div>
+          <div *ngSwitchCase="'quiz'">
+            <ion-item
+              *ngFor="let data of papers"
+              (click)="routeToQuiz(data)">
+              <ion-label style="padding: 20px;">
+                <strong>{{ data.paper_title }}</strong><br>
+                <ion-note color="medium" class="ion-text-wrap">
+                  {{ data.className }}
+                </ion-note><br>
+                <ion-note color="medium" class="ion-text-wrap">
+                  {{ data.paper }}
+                </ion-note><br>
+                <ion-note color="medium" class="ion-text-wrap">
+                  {{ data.date }}
+                </ion-note>
+              </ion-label>
+              <div class="metadata-end-wrapper" slot="end">
+                <ion-note color="medium">{{ data.time }}</ion-note>
+                <ion-icon color="medium" name="chevron-forward"></ion-icon>
+              </div>
+            </ion-item>
+          </div>
         </div>
       </ion-list>
     </ion-card-content>
@@ -81,6 +106,9 @@
       </ion-fab-button>
       <ion-fab-button (click)="uploadContent('document')">
         <ion-icon name="document-text-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="uploadQuiz('quiz')">
+        <ion-icon name="documents-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
