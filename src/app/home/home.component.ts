@@ -363,7 +363,6 @@ export class HomeComponent implements OnInit {
   toggleSeachmenu() {
     this.SearchedContents = [];
     this.isSearchOpen = !this.isSearchOpen;
-    this.fetchlectureDetails();
   }
 
   handleScrollStart() {

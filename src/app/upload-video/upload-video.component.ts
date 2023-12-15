@@ -105,7 +105,7 @@ export class UploadVideoComponent implements OnInit {
   }
 
   readUrl(event: any) {
-    const maxSizeInBytes = 70 * 1024 * 1024; // 70MB  : 0:40 minutes
+    const maxSizeInBytes = 300 * 1024 * 1024; // 70MB  : 0:40 minutes
     if (event.target.files[0] && event.target.files[0].size > maxSizeInBytes) {
       alert("File size exceeds the maximum allowed size (10MB). Please choose a smaller file.");
       this.uploadVideogroup.get('file')?.setValue('');
