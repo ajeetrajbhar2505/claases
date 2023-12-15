@@ -9,44 +9,44 @@
 <!-- api key -->
 <!-- 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 -->
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="card" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" >
+  <div class="card" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')">
     <figure class="card__thumbnail">
       <img [src]="contentToWatch.content_icon">
     </figure>
   </div>
-    <!-- <div class="quize-cards" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [style]="generateStyle(contentToWatch.content_icon)"></div> -->
-    <ion-spinner *ngIf="!videoPlaying && contentToWatch.content != 'document'" name="bubbles"></ion-spinner>
+  <!-- <div class="quize-cards" *ngIf="!contentControls.openFullscreen && (contentToWatch.content == 'audio')" [style]="generateStyle(contentToWatch.content_icon)"></div> -->
+  <ion-spinner *ngIf="!videoPlaying && contentToWatch.content != 'document'" name="bubbles"></ion-spinner>
 
-    <video *ngIf="contentToWatch.content == 'video'"  (dblclick)="toggleFullscreenContent()" width="100%" height="320px" id="classContent" (loadeddata)="checkContentLoaded()"
-  (timeupdate)="checkContinuousContentduration()"  autoplay  frameborder="0">
-  <source [src]="imagepath" type="video/mp4">
-  Your Device does not support the video.
-</video>
-  <audio *ngIf="contentToWatch.content == 'audio'"  width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
-  (timeupdate)="checkContinuousContentduration()"  autoplay frameborder="0">
-  <source [src]="imagepath" type="audio/mp3">
-  Your Device does not support the video.
-</audio>
-<ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
-  <ion-range
-    [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
-    (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
-    <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
-    <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
-  </ion-range>
-  <div class="contentcontrols">
-    <ion-fab-button (click)="rewindContent(10)" size="small">
-      <ion-icon name="play-skip-back-circle-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="playPauseContent()" size="small">
-      <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="skipContent(10)" size="small">
-      <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
-    </ion-fab-button>
-  </div>
-</ion-card-header>
-<iframe *ngIf="contentToWatch.content == 'document'" [src]="imagepath" width="100%" height="480"></iframe>
+  <video *ngIf="contentToWatch.content == 'video'" (dblclick)="toggleFullscreenContent()" width="100%" height="320px"
+    id="classContent" (loadeddata)="checkContentLoaded()" (timeupdate)="checkContinuousContentduration()" autoplay
+    frameborder="0">
+    <source [src]="imagepath" type="video/mp4">
+    Your Device does not support the video.
+  </video>
+  <audio *ngIf="contentToWatch.content == 'audio'" width="100%" id="classContent" (loadeddata)="checkContentLoaded()"
+    (timeupdate)="checkContinuousContentduration()" autoplay frameborder="0">
+    <source [src]="imagepath" type="audio/mp3">
+    Your Device does not support the video.
+  </audio>
+  <ion-card-header *ngIf="isVideoOrAudioContent(contentToWatch.content)">
+    <ion-range [value]="contentControls.currentRangeDuration" [min]="0" [max]="contentControls.Rangeduration"
+      (ionKnobMoveStart)="onIonKnobMovecontent($event,false)" (ionKnobMoveEnd)="onIonKnobMovecontent($event,true)">
+      <span slot="start">{{contentControls.currentDuration?contentControls.currentDuration:'00:00'}}</span>
+      <span slot="end"> {{contentControls.duration?contentControls.duration:'00:00'}}</span>
+    </ion-range>
+    <div class="contentcontrols">
+      <ion-fab-button (click)="rewindContent(10)" size="small">
+        <ion-icon name="play-skip-back-circle-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="playPauseContent()" size="small">
+        <ion-icon [name]="contentControls.playContent?'play-circle-outline':'pause-circle-outline'"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="skipContent(10)" size="small">
+        <ion-icon name="play-skip-forward-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </div>
+  </ion-card-header>
+  <iframe *ngIf="contentToWatch.content == 'document'" [src]="imagepath" width="100%" height="480"></iframe>
   <div class="tabs">
     <div class="tab">
       <input type="checkbox" id="chck0">
@@ -56,53 +56,59 @@
         {{contentToWatch.published_at?'Published : ' + contentToWatch.published_at : '' |
         lowercase}}<br>
         {{contentToWatch.author? 'Auther : ' + contentToWatch.author : '' |
-      lowercase}}<br>
-
+        lowercase}}<br>
+      <div class="authors-container" data-collaborators="2">
+        <div class="author" *ngFor="let dt of contentToWatch.viewerDetails">
+          <a class=" account-photo  account-product-owner ">
+    
+            <div class="mask">
+              <img src="{{dt.picture}}" class="photo">
+            </div>
+          </a>
+        </div>
       </div>
+      </div>
+
     </div>
   </div>
   <p></p>
-  <h2><b>FAQ</b></h2>
-<div *ngIf="!loading">
-  <ion-item *ngIf="FAQS.length == 0">
-    <ion-icon
-      slot="start"
-      name="chatbox-ellipses-outline"
-    ></ion-icon>
-    <ion-label class="ion-text-wrap">{{
-      "Great news! Your FAQs are all up to date. No new FAQs to see here.!"
-    }}</ion-label>
-  </ion-item>
-  <div class="tabs" *ngIf="false">
-    <div class="tab" *ngFor="let data of FAQS;let i = index">
-      <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
-      <input type="checkbox" [id]="'chck' + (i+11)">
-      <label class="tab-label" [for]="'chck' + (i + 11)">{{data.label}}</label>
-      <div class="tab-content">
-        <ion-item *ngIf="!data.content && data.authorId == _https.UserProfile.userId">
-          <ion-icon
-            slot="start"
-            name="chatbox-ellipses-outline"
-          ></ion-icon>
-          <ion-label class="ion-text-wrap">{{
-            " No answer to see here.!"
-          }}</ion-label>
-        </ion-item>
-        {{data.content}}<br>
-        <div style="text-align: right;" *ngIf="data.content">- {{data.teacher}}</div>
-      </div>
-      <div  class="arraydiv" *ngIf="!data.content && data.authorId != _https.UserProfile.userId">
-        <div class="chat-footer">
-          <input [(ngModel)]="data.TeacherMessage" type="text" placeholder="Type your answer here">
-          <button [disabled]="!data.TeacherMessage" (click)="sendTeacherMessage(data.TeacherMessage,data._id)">Send</button>
+    <br>
+    <h2><b>FAQ</b></h2>
+  <div *ngIf="!loading">
+    <ion-item *ngIf="FAQS.length == 0">
+      <ion-icon slot="start" name="chatbox-ellipses-outline"></ion-icon>
+      <ion-label class="ion-text-wrap">{{
+        "Great news! Your FAQs are all up to date. No new FAQs to see here.!"
+        }}</ion-label>
+    </ion-item>
+    <div class="tabs" *ngIf="false">
+      <div class="tab" *ngFor="let data of FAQS;let i = index">
+        <p><img [src]="data.authorProfile" width="40px" alt=""> {{data.author | titlecase}}</p>
+        <input type="checkbox" [id]="'chck' + (i+11)">
+        <label class="tab-label" [for]="'chck' + (i + 11)">{{data.label}}</label>
+        <div class="tab-content">
+          <ion-item *ngIf="!data.content && data.authorId == _https.UserProfile.userId">
+            <ion-icon slot="start" name="chatbox-ellipses-outline"></ion-icon>
+            <ion-label class="ion-text-wrap">{{
+              " No answer to see here.!"
+              }}</ion-label>
+          </ion-item>
+          {{data.content}}<br>
+          <div style="text-align: right;" *ngIf="data.content">- {{data.teacher}}</div>
+        </div>
+        <div class="arraydiv" *ngIf="!data.content && data.authorId != _https.UserProfile.userId">
+          <div class="chat-footer">
+            <input [(ngModel)]="data.TeacherMessage" type="text" placeholder="Type your answer here">
+            <button [disabled]="!data.TeacherMessage"
+              (click)="sendTeacherMessage(data.TeacherMessage,data._id)">Send</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </ion-content>
 <ion-footer *ngIf="false">
-  <div  class="arraydiv">
+  <div class="arraydiv">
     <div class="chat-footer">
       <input [(ngModel)]="FAQ.label" type="text" placeholder="Type your question here">
       <button [disabled]="!FAQ.label" (click)="sendAuthorMessage()">Send</button>
