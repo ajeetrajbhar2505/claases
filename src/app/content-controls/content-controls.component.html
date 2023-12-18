@@ -57,15 +57,28 @@
         lowercase}}<br>
         {{contentToWatch.author? 'Auther : ' + contentToWatch.author : '' |
         lowercase}}<br>
-      <div class="authors-container" data-collaborators="2">
-        <div class="author" *ngFor="let dt of contentToWatch.viewerDetails">
+      <div class="authors-container" data-collaborators="2" (click)="OpenDialog()">
+        <div class="author" *ngFor="let dt of contentToWatch.viewers">
           <a class=" account-photo  account-product-owner ">
-    
             <div class="mask">
               <img src="{{dt.picture}}" class="photo">
             </div>
           </a>
         </div>
+        <!-- <div class="author">
+          <a class=" account-photo  account-product-owner ">
+            <div class="mask number">
+              <span class="photo">+</span>
+            </div>
+          </a>
+        </div>
+        <div class="author">
+          <a class=" account-photo  account-product-owner ">
+            <div class="mask number-count">
+              <span class="photo">20</span>
+            </div>
+          </a>
+        </div> -->
       </div>
       </div>
 
@@ -115,3 +128,30 @@
     </div>
   </div>
 </ion-footer>
+
+
+<ion-modal [isOpen]="isModelOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title> Viewers </ion-title>
+        <ion-buttons slot="start">
+          <ion-icon size="large"
+            name="chevron-back-outline"
+            (click)="OpenDialog()"
+          ></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" id="white-background">
+      <ion-list>
+        <ion-item *ngFor="let info of contentToWatch.viewers">
+          <ion-thumbnail slot="start">
+            <img class="viewer-pic" [src]="info.picture" />
+          </ion-thumbnail>
+          <ion-label>{{info.name}}</ion-label>
+        </ion-item>
+        </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

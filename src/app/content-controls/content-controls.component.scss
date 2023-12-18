@@ -564,3 +564,23 @@ input[type='text'] {
   font-size: 13px;
   z-index: 3
 }
+
+.number,
+.number-count {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.number{
+  color: #ff3737;;
+}
+
+.number-count {
+  color: white;
+  background: #ff3737;
+  border: 1px solid;
+}
+
+.viewer-pic{
+  border-radius: 50%;
+}

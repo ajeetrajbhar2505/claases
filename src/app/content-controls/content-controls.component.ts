@@ -66,6 +66,7 @@ export class ContentControlsComponent implements OnDestroy {
 
   FAQ: FAQ = new FAQ();
   videoPlaying: boolean = false
+  isModelOpen:boolean = false
 
 
   constructor(
@@ -112,6 +113,9 @@ export class ContentControlsComponent implements OnDestroy {
     
   }
 
+  OpenDialog(){
+    this.isModelOpen = !this.isModelOpen
+  }
 
 
   async fetchContentDetails(contentId: any) {
@@ -131,7 +135,7 @@ export class ContentControlsComponent implements OnDestroy {
             }
 
             // fetch
-            this.contentToWatch = data.response[0] || {};
+            this.contentToWatch = data.response || {};
             this.contentLoaded = true;
            this.imagepath =  this.sanitizer.bypassSecurityTrustResourceUrl(this.contentToWatch.content_link);
           }
