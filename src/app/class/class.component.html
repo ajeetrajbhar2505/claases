@@ -19,7 +19,7 @@
 
   <div *ngIf="!skeleton">
     <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data._id)">
-    <ion-thumbnail slot="start">
+    <ion-thumbnail slot="start" class="coverImage">
       <img  [src]="data.std_icon" />
     </ion-thumbnail>
     <ion-label>{{data.classNamme}}</ion-label>

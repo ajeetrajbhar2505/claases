@@ -26,7 +26,7 @@
       *ngFor="let data of lecturesData"
       (click)="routeTocontents(data._id)"
     >
-      <ion-thumbnail slot="start">
+      <ion-thumbnail slot="start" class="coverImage">
         <img alt="Silhouette of mountains" [src]="data.lec_icon" />
       </ion-thumbnail>
       <ion-label>{{ data.lec_title }}</ion-label>
