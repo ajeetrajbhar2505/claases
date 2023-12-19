@@ -13,7 +13,7 @@
   <ion-card-content [formGroup]="uploadVideogroup">
     <ion-item fill="">
       <ion-label position="floating">Content title</ion-label>
-      <ion-input formControlName="content_title" placeholder="Enter text"></ion-input>
+      <ion-input formControlName="content_title" (keyup.enter)="uploadContent()" placeholder="Enter text"></ion-input>
     </ion-item>
     <ion-list>
       <ion-item fill="">

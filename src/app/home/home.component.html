@@ -208,6 +208,7 @@
       <ion-toolbar>
         <ion-searchbar
         [(ngModel)]="searchQuery"
+        (keyup.enter)="searchText()"
           #searchBar
           id="searchBar"
         ></ion-searchbar>

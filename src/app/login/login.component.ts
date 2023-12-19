@@ -154,6 +154,9 @@ export class LoginComponent implements OnInit {
   }
 
   async verifyOTP() {
+    if (!this.otpgroup.valid) {
+      return;
+    }
     this.loading = true;
     const otp =
       this.otpgroup.get('otp1')?.value +
