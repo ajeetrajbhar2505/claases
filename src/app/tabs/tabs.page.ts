@@ -69,7 +69,7 @@ export class TabsPage  {
 
   async presentActionSheetMore() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'More tabs',
+      header: 'Switch tab',
       // subHeader: 'Example subheader',
       buttons: [
         {
