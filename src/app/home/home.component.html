@@ -218,7 +218,8 @@
             (click)="toggleSeachmenu()"
           ></ion-icon>
         </ion-buttons>
-        <ion-buttons fill="outline" slot="end" (click)="searchText()">
+        <img slot="end" *ngIf="loading" src="assets\loader\spin.gif" width="32px" alt="">
+        <ion-buttons *ngIf="!loading" fill="outline" slot="end" (click)="searchText()">
           <ion-icon size="large"
           name="arrow-forward-circle-outline"
         ></ion-icon>

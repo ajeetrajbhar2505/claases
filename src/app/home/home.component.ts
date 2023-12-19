@@ -125,6 +125,7 @@ export class HomeComponent implements OnInit {
     lectureDetails: false
   };
   lectureDetails: any = []
+  loading: boolean = false
   getColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
@@ -308,6 +309,10 @@ export class HomeComponent implements OnInit {
   }
 
   async searchText() {
+    if (!this.searchQuery) {
+      return
+    }
+    this.loading = true
     const payload = {
       searchText: this.searchQuery
     }
@@ -321,6 +326,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data != null) {
+            this.loading = false
             if (data.status !== 200) {
               return;
             }
