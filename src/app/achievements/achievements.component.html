@@ -11,10 +11,8 @@
 
 <ion-content [fullscreen]="true">
   <div class="flex-container" *ngFor="let student of scoreCard;">
-    <div class="col card">
-      <div class="img-placeholder">
-        <img [src]="student.picture">
-      </div>
+    <div class="col profilecard">
+      <img [src]="student.picture">
       <div>
         <h3>{{student.name}}</h3>
         <p><i class="fa-solid fa-user"></i>{{student.email}}</p>
@@ -42,9 +40,9 @@
             <td data-title="Paper Name">{{ data.paper_title }}</td>
             <td data-title="Multiple Attempt Count">{{ data.users.multipleAttemptCount !== undefined && data.users.multipleAttemptCount !== null ?
               data.users.multipleAttemptCount : '-' }}</td>
-            <td data-title="Actual">{{ data.users.scored !== undefined && data.users.scored !== null ?
+            <td data-title="Scored">{{ data.users.scored !== undefined && data.users.scored !== null ?
               data.users.scored : '0' }}</td>
-            <td data-title="Target">{{ data.users.totalMarks !== undefined && data.users.totalMarks !== null ?
+            <td data-title="Total Marks">{{ data.users.totalMarks !== undefined && data.users.totalMarks !== null ?
               data.users.totalMarks : '-' }}</td>
                <td data-title="Percentage">{{ calculatePercentage(data.users.scored,data.users.totalMarks) + '%' !== undefined && calculatePercentage(data.users.scored,data.users.totalMarks) + '%' !== null ?
                 calculatePercentage(data.users.scored,data.users.totalMarks) + '%' : '-' }}</td>
@@ -60,5 +58,6 @@
         </tbody>
       </table>
     </div>
+    <hr>
   </div>
 </ion-content>

@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { WebService } from '../web.service';
 import { NavigationExtras } from '@angular/router';
-
 const navigationExtras: NavigationExtras = {
-  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+  queryParams: { reload: 'true',from : '/tabs/home' },
 };
+
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -20,20 +20,26 @@ export class TabsPage  {
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Create +',
-      // subHeader: 'Example subheader',
       buttons: [
         {
-          text: 'Upload a video',
+          text: 'Upload Video',
           role: 'upload',
           data: {
-            action: 'upload',  
+            action: 'video',  
           },
         },
         {
-          text: 'Go live',
-          role: 'live',
+          text: 'Upload Audio',
+          role: 'upload',
           data: {
-            action: 'live',
+            action: 'audio',  
+          },
+        },
+        {
+          text: 'Upload Document',
+          role: 'upload',
+          data: {
+            action: 'document',  
           },
         },
         {
@@ -51,11 +57,12 @@ export class TabsPage  {
     const result = await actionSheet.onDidDismiss();
     this.result = JSON.stringify(result, null, 2);
     if (result.role == 'upload') {
+      const navigationExtras: NavigationExtras = {
+        queryParams: { reload: 'true',from : '/tabs/home',content : result.data.action },
+      };
       this.router.navigate(['/tabs/uploadVideo'],navigationExtras)
     }
-    else if (result.role == 'live') {
-      this.router.navigate(['/tabs/live'],navigationExtras)
-    }
+
        
   }
 

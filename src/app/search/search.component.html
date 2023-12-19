@@ -12,7 +12,7 @@
     <div class="chat-body" *ngFor="let data of searchArrayControl();let i = index">
       <div *ngIf="data.get('searched')?.value == true" class="message sent">
         <p>{{data.get('question')?.value}}</p>
-        <img [src]="userProfile" alt="" width="80px">
+        <img [src]="userProfile" alt="" width="80px" style="margin-left: 10px;">
       </div>
       <div *ngIf="data.get('searched')?.value == true" class="message received">
         <!-- <ion-icon name="chatbox-ellipses-outline"></ion-icon> -->
