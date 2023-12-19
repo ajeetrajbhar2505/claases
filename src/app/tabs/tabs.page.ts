@@ -60,6 +60,57 @@ export class TabsPage  {
   }
 
 
+  async presentActionSheetMore() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'More tabs',
+      // subHeader: 'Example subheader',
+      buttons: [
+        {
+          text: 'Chat',
+          role: 'chat',
+          data: {
+            action: 'Chat',  
+          },
+        },
+        {
+          text: 'Calender',
+          role: 'calender',
+          data: {
+            action: 'Calender',
+          },
+        },
+        {
+          text: 'Score card',
+          role: 'scorecard',
+          data: {
+            action: 'achievements',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+
+    await actionSheet.present();
+
+    const result = await actionSheet.onDidDismiss();
+    this.result = JSON.stringify(result, null, 2);
+    if (result.role == 'chat') {
+      this.router.navigate(['/tabs/search'],navigationExtras)
+    }
+    else if (result.role == 'calender') {
+      this.router.navigate(['/tabs/calender'],navigationExtras)
+    }
+    else if (result.role == 'scorecard') {
+      this.router.navigate(['/tabs/achievements'],navigationExtras)
+    }
+       
+  }
 
   ngDoCheck(): void {
     // Check for changes to login status

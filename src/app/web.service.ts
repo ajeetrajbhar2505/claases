@@ -66,6 +66,7 @@ export class WebService {
   fetchUserProfileDetails() {
     this.UserProfile.token = localStorage.getItem('token');
     this.UserProfile.userId = localStorage.getItem('userId');
+    this.UserProfile.picture = localStorage.getItem('picture');
   }
 
   clearSpeech() {
@@ -175,6 +176,7 @@ export class WebService {
     // Clear login status and perform other necessary actions
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('picture');
     // Clear cache and redirect to login page
     setTimeout(() => {
       this.router

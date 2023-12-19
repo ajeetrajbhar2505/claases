@@ -189,6 +189,7 @@ export class LoginComponent implements OnInit {
 
             this.isPersonalDetailsModelOpen = false;
             this.otpgroup.reset();
+            localStorage.setItem('picture',data.response.picture)
             const url = `/sucessfull/${data.response.userId}/${data.response.token}`;
             setTimeout(() => {
               this.router.navigate([url]);

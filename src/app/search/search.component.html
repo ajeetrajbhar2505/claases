@@ -1,8 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Ask a question 
+    <ion-title >
+      Chat
     </ion-title>
+    <img slot="end" src="assets/ai.png" alt="" width="80px">
   </ion-toolbar>
 </ion-header>
 
@@ -11,10 +12,11 @@
     <div class="chat-body" *ngFor="let data of searchArrayControl();let i = index">
       <div *ngIf="data.get('searched')?.value == true" class="message sent">
         <p>{{data.get('question')?.value}}</p>
-        <ion-icon name="person-circle-outline"></ion-icon>
+        <img [src]="userProfile" alt="" width="80px">
       </div>
       <div *ngIf="data.get('searched')?.value == true" class="message received">
-        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+        <!-- <ion-icon name="chatbox-ellipses-outline"></ion-icon> -->
+        <img slot="start" src="assets/ai.png" alt="" width="80px">
         <p *ngIf="data.get('answer')?.value">{{data.get('answer')?.value}}</p>
         <ion-spinner *ngIf="data.get('searched')?.value == true && data.get('answer')?.value == ''" name="dots"></ion-spinner>
       </div>
@@ -29,7 +31,8 @@
       <div *ngIf="recordingStarted" id="bars">
         <div class="bar" *ngFor="let bar of [1,2,3,4,5,6]"></div>
       </div>
-      <input *ngIf="!recordingStarted" type="text" formControlName="question" placeholder="Type your message here">
+      <input *ngIf="!recordingStarted"   (keyup.enter)="getResponse(i)"
+      type="text" formControlName="question" placeholder="Type your message here">
       <button *ngIf="!recordingStarted" (click)="getResponse(i)">Send</button>
     </div>
   </div>

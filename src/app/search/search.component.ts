@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { WebService } from '../web.service';
 
 
 @Component({
@@ -17,9 +18,12 @@ export class SearchComponent implements OnInit {
   loading = false
   recordingStarted = false
   recognition: any
+  userProfile:string = ''
   @ViewChild('content') private content: any;
 
-  constructor(public http: HttpClient, public formbuilder: FormBuilder) { }
+  constructor(public http: HttpClient, public formbuilder: FormBuilder,private service:WebService) { 
+    this.userProfile = this.service.UserProfile.picture
+  }
 
   ngOnInit() {
     this.createFormgroup()
@@ -56,21 +60,27 @@ export class SearchComponent implements OnInit {
 
 
   async getResponse(index: any) {
-    this.scrollToBottomOnInit();
-    this.loading = true
-    let array = this.searchGroup.get('array') as FormArray
-    let question = array.at(index).get('question')?.value
+    const array = this.searchGroup.get('array') as FormArray;
+    const question = array.at(index).get('question')?.value.trim();
+  
+    if (!question) {
+      return;
+    }
+  
     array.at(index).get('searched')?.patchValue(true)
+    this.scrollToBottomOnInit();
+    this.push()
+    this.loading = true
+
     let body = {
-      question: question
+      prompt: question
     }
 
-    let response: any = await this.http.post(environment.nodeApi + '/questionResponse', body).toPromise()
-      this.push()
-      if (response.status == 200) {
+    let response: any = await this.http.post(environment.nodeApi + 'geminiSearch', body).toPromise()
+    if (response.status == 200) {
       this.loading = false
       this.scrollToBottomOnInit();
-      array.at(index).get('answer')?.patchValue(response.data)
+      array.at(index).get('answer')?.patchValue(response.response)
 
     } else {
       this.loading = false
@@ -111,7 +121,7 @@ export class SearchComponent implements OnInit {
             clearInterval(timerInterval);
           }
         }, 1000);
-  
+
         this.recognition.onresult = (event: any) => {
           const result = event.results[0][0].transcript;
           array.at(index).get('question')?.patchValue(result);
@@ -124,8 +134,8 @@ export class SearchComponent implements OnInit {
       }
     }
   }
-  
-  
+
+
   stopFunction(index: any) {
     const array: any = this.searchGroup.get('array') as FormArray;
     if (this.recognition && this.recordingStarted) {
@@ -142,7 +152,7 @@ export class SearchComponent implements OnInit {
       }
     }
   }
-  
+
 
 
 }
