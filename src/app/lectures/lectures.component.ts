@@ -11,9 +11,7 @@ import { Requestmodels } from '../models/Requestmodels.module';
 import { WebService } from '../web.service';
 import { NavigationExtras } from '@angular/router';
 
-const navigationExtras: NavigationExtras = {
-  queryParams: { reload: 'true' }, // Add the "reload" query parameter
-};
+
 
 @Component({
   selector: 'app-lectures',
@@ -36,6 +34,7 @@ export class LecturesComponent  {
   ];
   currentStatusIcon: any = '';
   isModelOpen: boolean = false
+  queryParams:any = ""
   constructor(public http: HttpClient, public _https:WebService,public ActivatedRoute: ActivatedRoute, public router: Router, private sanitizer: DomSanitizer, public fb: FormBuilder, private platform: Platform,
     private loadingCtrl: LoadingController,
     @Optional() private routerOutlet?: IonRouterOutlet) {
@@ -43,6 +42,7 @@ export class LecturesComponent  {
     this.fetchClassDetails()
     this.ActivatedRoute.queryParams.subscribe(async (param: any) => {
       this.classId = param.classId
+      this.queryParams= param
       this.lecturesData = []
       this.fetchlectureDetails(param.classId)
 
@@ -200,13 +200,27 @@ export class LecturesComponent  {
   
 
 
-  routeTocontents(lec_id: any) {
-    this.router.navigate(['/tabs/contents'],{queryParams : {classId : this.classId, lec_id : lec_id,from : '/tabs/lectures',reload : 'true'}})
-   }
-
-  backToclass() {
-    this.router.navigate(['/tabs/class'],navigationExtras)
-  }
+    routeToContents(lec_id: any) {
+      const practice = this.queryParams?.practice === 'true';
+      const queryParams = {
+        classId: this.classId,
+        lec_id,
+        from: '/tabs/lectures',
+        reload: 'true',
+        practice: practice ? 'true' : ''
+      };
+      const destination = `/tabs/${practice ? 'quiz' : 'contents'}`;
+      this.router.navigate([destination], { queryParams });
+    }
+    
+    backToClass() {
+      const queryParams = {
+        reload: 'true',
+        practice: this.queryParams?.practice === 'true' ? 'true' : ''
+      };
+      this.router.navigate(['/tabs/class'], { queryParams });
+    }
+    
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     ev.detail.complete();

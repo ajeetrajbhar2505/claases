@@ -134,6 +134,7 @@ export class QuizComponent implements OnInit {
         (data) => {
           if (data != null) {
             this.skeleton = false
+            this.skeleton = false
             if (data.status !== 200) {
               this.openSnackbar({
                 status: true,
@@ -306,16 +307,26 @@ export class QuizComponent implements OnInit {
       (object) => object._id == this.uploadQuizgroup.get('lec_id')?.value
     ).lec_title;
   }
-  backTopaper() {
+
+  backToLectures() {
+    // Check if this.params is truthy before accessing its properties to avoid potential errors
+    const classId = this.params?.classId;
+    const lec_id = this.params?.lec_id;
+    const paperId = this.params?.paperId;
+    const practice = this.params?.practice === 'true' ? 'true' : '';
+    const from = this.params?.from;
+  
     const queryParams = {
-      classId: this.params.classId,
-      lec_id: this.params.lec_id,
-      paperId: this.params.paperId,
+      classId,
+      lec_id,
+      paperId,
+      practice,
       from: '/tabs/lectures',
       reload: 'true',
     };
-    this.router.navigate([this.params.from], { queryParams });
+    this.router.navigate([from], { queryParams });
   }
+  
 
   clearformcontrols() {
     this.uploadQuizgroup.get('classId')?.setValue('');

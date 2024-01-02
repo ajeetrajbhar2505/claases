@@ -169,15 +169,21 @@ export class UploadVideoComponent implements OnInit {
   }
 
   backToContent() {
+    const classId = this.params?.classId;
+    const lec_id = this.params?.lec_id;
+    const contentId = this.params?.contentId;
+    const from = this.params?.from;
     const queryParams = {
-      classId: this.params.classId,
-      lec_id: this.params.lec_id,
-      contentId: this.params.contentId,
+      classId,
+      lec_id,
+      contentId,
       from: '/tabs/lectures',
-      reload : 'true'
+      reload: 'true',
     };
-    this.router.navigate([this.params.from], { queryParams });
+  
+    this.router.navigate([from], { queryParams });
   }
+  
 
   async uploadContent(): Promise<string> {
     if (!this.uploadVideogroup.valid) {

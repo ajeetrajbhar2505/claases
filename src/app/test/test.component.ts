@@ -330,13 +330,14 @@ export class TestComponent implements OnInit {
   };
 
   routeToPreviousPage() {
+    const from = this.contentDetails?.from
     const queryParams = {
       classId: this.contentDetails.classId,
       lec_id: this.contentDetails.lec_id,
       from: '/tabs/home',
       reload: 'true'
     };
-    this.router.navigate([this.contentDetails.from], { queryParams });
+    this.router.navigate([from], { queryParams });
   }
 
   // removing A) , a. like this from options

@@ -17,6 +17,7 @@ export class ClassComponent implements OnInit {
   skeleton: boolean = false;
   uploading: boolean = false;
   classGroup!: FormGroup;
+  queryParams:any = ""
   private _unsubscribeAll: Subject<any>;
   uploadStatus: any = { status: false, message: '', statusType: '' };
   statusIcons = [
@@ -35,16 +36,20 @@ export class ClassComponent implements OnInit {
   ) {
     this._unsubscribeAll = new Subject();
   }
-
-  routeTosubjects(classId: any) {
+  
+  routeToSubjects(classId: any) {
+    const practice = this.queryParams?.practice === 'true';
+    const queryParams = { classId, reload: 'true', practice: practice ? 'true' : '' };
     this.router.navigate(['/tabs/lectures'], {
-      queryParams: { classId: classId, reload: 'true' },
+      queryParams,
     });
   }
-
+  
+  
   ngOnInit() {
     this.fetchClassDetails();
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      this.queryParams = params
       if (params.reload === 'true') {
         this.fetchClassDetails();
       }

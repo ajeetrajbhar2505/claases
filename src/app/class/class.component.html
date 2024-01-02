@@ -18,7 +18,7 @@
   </div>
 
   <div *ngIf="!skeleton">
-    <div class="quize-cards" *ngFor="let data of classes" (click)="routeTosubjects(data._id)">
+    <div class="quize-cards" *ngFor="let data of classes" (click)="routeToSubjects(data._id)">
     <ion-thumbnail slot="start" class="coverImage">
       <img  [src]="data.std_icon" />
     </ion-thumbnail>

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title> Lectures </ion-title>
     <ion-buttons slot="start">
-      <ion-icon size="large" name="chevron-back-outline" (click)="backToclass()"></ion-icon>
+      <ion-icon size="large" name="chevron-back-outline" (click)="backToClass()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -24,7 +24,7 @@
     <div
       class="quize-cards"
       *ngFor="let data of lecturesData"
-      (click)="routeTocontents(data._id)"
+      (click)="routeToContents(data._id)"
     >
       <ion-thumbnail slot="start" class="coverImage">
         <img alt="Silhouette of mountains" [src]="data.lec_icon" />

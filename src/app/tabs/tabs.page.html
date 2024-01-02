@@ -3,25 +3,32 @@
   <ion-tab-bar slot="bottom">
     <ion-tab-button (click)="routesTo('home')">
       <ion-icon name="home"></ion-icon>
-      Home
+      Class
     </ion-tab-button>
-    
     <ion-tab-button (click)="routesTo('class')">
-      <ion-icon name="play-circle"></ion-icon>
-      Course
+      <img src="assets/learn.png" width="25px" alt="">
+      Learn
     </ion-tab-button>
-      <ion-tab-button (click)="presentActionSheet()">
+    <ion-tab-button (click)="routesForPractice('class')">
+      <img src="assets/target.png" width="25px" alt="">
+      Practice
+    </ion-tab-button>
+    <ion-tab-button (click)="routesTo('search')">
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+      Chat
+    </ion-tab-button>
+      <!-- <ion-tab-button (click)="presentActionSheet()">
       <ion-fab-button size="small">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
-    </ion-tab-button>
+    </ion-tab-button> -->
     <ion-tab-button (click)="presentActionSheetMore()">
       <ion-icon name="apps-outline"></ion-icon>
       More
       </ion-tab-button>
-    <ion-tab-button (click)="routesTo('profile')">
+    <!-- <ion-tab-button (click)="routesTo('profile')">
       <ion-icon name="person-outline"></ion-icon>
       Profile
-    </ion-tab-button>
+    </ion-tab-button> -->
   </ion-tab-bar>
 </ion-tabs>

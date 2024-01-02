@@ -156,6 +156,7 @@ export class ContentControlsComponent implements OnDestroy {
     if (content) {
       content.pause();
     }
+   const from  = this.contentDetails?.from
 
     const queryParams: commonNavigation = {
       classId: this.contentDetails.classId,
@@ -164,7 +165,7 @@ export class ContentControlsComponent implements OnDestroy {
       from: this.contentDetails.nested,
       reload: 'true',
     };
-    this.router.navigate([this.contentDetails.from], { queryParams });
+    this.router.navigate([from], { queryParams });
 
     this.contentControls.playContent = false;
     this.contentControls.openFullscreen = false;

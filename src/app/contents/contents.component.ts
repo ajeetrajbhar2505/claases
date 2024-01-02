@@ -106,8 +106,12 @@ export class ContentsComponent {
   }
 
   backTolectures() {
-    this.router.navigate([this.params.from], {
-      queryParams: { classId: this.params.classId, reload: 'true' },
+    const classId = this.params?.classId;
+    const practice = this.params?.practice === 'true' ? 'true' : '';
+    const queryParams = { classId, reload: 'true', practice };
+    const from = this.params?.from;
+    this.router.navigate([from], {
+      queryParams,
     });
   }
 

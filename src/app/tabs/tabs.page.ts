@@ -4,7 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { WebService } from '../web.service';
 import { NavigationExtras } from '@angular/router';
 const navigationExtras: NavigationExtras = {
-  queryParams: { reload: 'true',from : '/tabs/home' },
+  queryParams: { reload: 'true',from : '/tabs/home'},
 };
 
 @Component({
@@ -73,13 +73,6 @@ export class TabsPage  {
       // subHeader: 'Example subheader',
       buttons: [
         {
-          text: 'Chat',
-          role: 'chat',
-          data: {
-            action: 'Chat',  
-          },
-        },
-        {
           text: 'Calender',
           role: 'calender',
           data: {
@@ -92,14 +85,7 @@ export class TabsPage  {
           data: {
             action: 'achievements',
           },
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {
-            action: 'cancel',
-          },
-        },
+        }
       ],
     });
 
@@ -133,6 +119,11 @@ export class TabsPage  {
   routesTo(path:any)
   {
     this.router.navigate(['/tabs/' + path],navigationExtras)
+  }
+
+  routesForPractice(path:any)
+  {
+    this.router.navigate(['/tabs/' + path],{queryParams: { reload: 'true',from : '/tabs/home',practice:'true' }})
   }
 
 }
