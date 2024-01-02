@@ -398,7 +398,7 @@ export class HomeComponent implements OnInit {
       from: '/tabs/home',
       classId: contentDetails.classId,
       lec_id: contentDetails.lec_id,
-      contentId: contentDetails.contentId,
+      contentId: contentDetails._id,
       content: contentDetails.content,
       reload: 'true',
     }
