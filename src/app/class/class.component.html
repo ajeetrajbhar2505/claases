@@ -25,7 +25,7 @@
     <ion-label>{{data.classNamme}}</ion-label>
 </div>
 </div>
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+<ion-fab slot="fixed" *ngIf="queryParams?.practice != 'true'" vertical="bottom" horizontal="end">
   <ion-fab-button size="small" (click)="OpenDialog()">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
