@@ -14,7 +14,10 @@
   }
   
  
+ 
   .login-card {
+    display: flex;
+    align-items: center;
     max-width: 100%;
     position: unset;
     top: unset;
@@ -28,6 +31,20 @@
   input:-webkit-autofill {
     box-shadow: 0 0 0 1000px white inset !important;
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  }
+  .login-card > img{
+  width: 600px;
+  height: 600px;
+  }
+
+  @media only screen and (max-width: 876px) {
+    .login-card {
+      display: block
+    }
+    .login-card > img {
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
   
   form {
