@@ -13,9 +13,9 @@ import { Requestmodels } from '../models/Requestmodels.module';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  
+
   private _unsubscribeAll: Subject<any>;
-  visiblepass:any = [false,false];
+  visiblepass: any = [false, false];
   isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
   uploadStatus: any = { status: false, message: '', statusType: '' };
@@ -49,7 +49,6 @@ export class RegisterComponent implements OnInit {
     });
     this.registerForm = this.fb.group({
       email: ['', Validators.required],
-      firstname : ['', Validators.required],
       password: ['', Validators.required],
       re_password: ['', Validators.required],
     });
@@ -101,35 +100,45 @@ export class RegisterComponent implements OnInit {
       });
       return;
     }
-      this.loading = true;
-      const req = new Requestmodels();
-      req.RequestUrl = `Register`;
-  
-      req.RequestObject = this.registerForm.value;
-  
-      await this._https
-        .PostData(req)
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(
-          (data) => {
-            if (data != null) {
-              this.loading = false;
-            
-              this.openSnackbar({
-                status: true,
-                message: data.response,
-                statusType: 'failed',
-              });
-              this.router.navigate(['/login'])
-              return;
+    this.loading = true;
+    const req = new Requestmodels();
+    req.RequestUrl = `Register`;
 
+    req.RequestObject = this.registerForm.value;
+
+    await this._https
+      .PostData(req)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(
+        (data) => {
+          if (data != null) {
+            this.loading = false;
+
+            this.openSnackbar({
+              status: true,
+              message: data.response,
+              statusType: 'failed',
+            });
+
+            if (data.status == 200) {
+              this.otpgroup.reset();
+              this.isPersonalDetailsModelOpen = true;
+              const firstOTPInput = document.getElementById('otp1');
+              if (firstOTPInput) {
+                firstOTPInput.focus();
+              }
             }
-          },
-          (_error) => {
-            return;
-          },
-          () => {}
-        );
+
+
+
+
+          }
+        },
+        (_error) => {
+          return;
+        },
+        () => { }
+      );
   }
 
   closeModel() {
@@ -190,7 +199,7 @@ export class RegisterComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 

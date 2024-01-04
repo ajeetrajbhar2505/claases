@@ -5,10 +5,6 @@
       <form [formGroup]="registerForm">
         <div class="field">
           <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
-          <input type="text" required placeholder="Enter Name" formControlName="firstname" autocomplete="off" />
-        </div>
-        <div class="field">
-          <span class="prefix"><img src="assets/login/user.png" alt="" width="20px"></span>
           <input type="email" placeholder="Enter Email"  formControlName="email" autocomplete="off" />
         </div>
         <div class="field">
@@ -21,7 +17,9 @@
         </div>
         <div class="center">
           <ion-button expand="block" color="warn" shape="round" class="submit"
-            (click)="register()">Continue</ion-button>
+            (click)="register()">Continue
+            <ion-spinner class="spinner" slot="end" *ngIf="loading" name="crescent"></ion-spinner>
+          </ion-button>
         </div>
         <div class="signin">
           <p>Or sign up with</p>
@@ -34,7 +32,6 @@
           <ion-button expand="block"  (click)="LogiinWithGoogle()"  color="light" shape="round"> <img src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
           </div>
         </div>
-        <hr>
         <div class="signin">
           <span>Already have an account?</span>
           <span class="link">
@@ -64,7 +61,7 @@
 <div class="verification-code">
 <h2><label class="control-label">Verification Code</label></h2>
 <div class="otp-message">
-<p>OTP sent to your email (valid for 5 minutes).</p>
+  <p>Registration Confirmation message has been sent to your email. Click the link below to verify your email address and receive an OTP (valid for 5 minutes).</p>
 </div>
 <div class="verification-code--inputs" [formGroup]="otpgroup">
 <input type="number" maxlength="1" #otp1 id="otp1" (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
