@@ -142,6 +142,7 @@ export class RegisterComponent implements OnInit {
   }
 
   closeModel() {
+    this.loading = false
     this.isPersonalDetailsModelOpen = false;
   }
 

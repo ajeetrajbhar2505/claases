@@ -101,6 +101,7 @@ export class LoginComponent implements OnInit {
   }
 
   closeModel() {
+    this.loading = false
     this.isPersonalDetailsModelOpen = false;
   }
 
