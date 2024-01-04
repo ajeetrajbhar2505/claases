@@ -172,3 +172,10 @@ ion-content {
   left: 00;
   width: max-content;
 }
+
+::ng-deep .sc-ion-buttons-md-h{
+  display: block !important;
+}
+.profile-photo{
+  border-radius: 50%;
+}

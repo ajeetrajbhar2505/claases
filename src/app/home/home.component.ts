@@ -9,9 +9,10 @@ import { Requestmodels } from '../models/Requestmodels.module';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { UserProfile } from '../models/UserProfile.module';
 
 const navigationExtras: NavigationExtras = {
-  queryParams: { reload: 'true' }, // Add the "reload" query parameter
+  queryParams: { reload: 'true',from : '/tabs/home'},
 };
 interface MenuItem {
   icon: string;
@@ -126,6 +127,8 @@ export class HomeComponent implements OnInit {
   };
   lectureDetails: any = []
   loading: boolean = false
+  UserProfile: UserProfile = new UserProfile();
+
   getColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
@@ -142,6 +145,7 @@ export class HomeComponent implements OnInit {
   ) {
     this._unsubscribeAll = new Subject();
     this.socket = service.socket;
+    this.UserProfile = service.UserProfile
   }
 
   async ngOnInit() {
@@ -481,4 +485,11 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+
+  routesTo(path:any)
+  {
+    this.router.navigate(['/tabs/' + path],navigationExtras)
+  }
+
 }

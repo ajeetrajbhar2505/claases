@@ -47,12 +47,12 @@
     </ion-content>
   </ion-menu>
   <ion-toolbar id="main-content">
-    <ion-buttons slot="end">
+    <ion-buttons  slot="end">
       <ion-card-header class="notification-header">
         <ion-icon
           color="white"
           (click)="toggleMenu()"
-          style="font-size: 25px"
+          style="font-size: 25px;"
           name="notifications-outline"
         ></ion-icon>
         <div
@@ -64,6 +64,9 @@
         </div>
       </ion-card-header>
     </ion-buttons>
+    <ion-buttons (click)="routesTo('profile')" slot="end">
+      <img [src]="UserProfile.picture" class="profile-photo" width="35px" alt="">
+    </ion-buttons >
     <ion-card-title style="position: relative; margin-left: 15px">
       <ion-icon
         color="white"
