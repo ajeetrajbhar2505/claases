@@ -11,6 +11,9 @@ import * as XLSX from 'xlsx';
 import { Requestmodels } from './models/Requestmodels.module';
 import { Observable, catchError, retry, tap, throwError } from 'rxjs';
 import { UserProfile } from './models/UserProfile.module';
+import { AdmobAds, BannerPosition, BannerSize } from 'capacitor-admob-ads'
+import { ToastController } from '@ionic/angular';
+
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +23,13 @@ export class WebService {
   public isSplashLoaded = false;
   public alertButtons = ['OK'];
   headers: any = new Headers({});
+  isRewarded: boolean = false
+  nativeAds:Array<any> = []
   UserProfile: UserProfile = new UserProfile();
 
   local = 'http://192.168.0.107:3000';
   socket: any;
-  constructor(private router: Router, public http: HttpClient) {
+  constructor(private router: Router, public http: HttpClient,public toastCtrl: ToastController) {
     this.fetchUserProfileDetails();
     // add token to headers of all apis
     this.setHeaders(this.UserProfile.token, this.UserProfile.userId);
@@ -39,6 +44,9 @@ export class WebService {
         console.log('Unable to retrieve IP address.');
       }
     });
+    AdmobAds.addListener('rewardedVideoAdOnRewarded',()=>{
+      this.isRewarded = true
+    })
   }
 
   setlocalstorage(token: any, userId: any) {
@@ -415,4 +423,113 @@ export class WebService {
       return null;
     }
   }
+
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      mode: 'ios',
+      position: 'top',
+      color: 'success'
+    })
+    toast.present()
+  }
+
+
+  showBannerAds() {
+    AdmobAds.showBannerAd({
+      adId: environment.BannerAdId,
+      isTesting: true,
+      adSize: BannerSize.BANNER,
+      adPosition: BannerPosition.BOTTOM
+    }).then(() => {
+      this.presentToast('Banner is shown')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  hideBannerAds(){
+    AdmobAds.hideBannerAd().then(() => {
+      this.presentToast('Banner is hidden')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  resumeBannerAds(){
+    AdmobAds.resumeBannerAd().then(() => {
+      this.presentToast('Banner is resumed')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  removeBannerAds(){
+    AdmobAds.removeBannerAd().then(() => {
+      this.presentToast('Banner is removed')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  loadInterstialAd() {
+    AdmobAds.loadInterstitialAd({
+      adId: environment.InterstitialAdsId,
+      isTesting: true,
+    }).then(() => {
+      this.presentToast('InterstialAd is loaded')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+  showloadInterstialAds(){
+    AdmobAds.showInterstitialAd().then(() => {
+      this.presentToast('InterstialAd is shown')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+  loadRewardedInterstialAd() {
+    AdmobAds.loadRewardedInterstitialAd({
+      adId: environment.RewardedInterstialAdsId,
+      isTesting: true,
+    }).then(() => {
+      this.presentToast('RewardedInterstialAd is loaded')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+  showloadRewardedInterstialAds(){
+    AdmobAds.showRewardedInterstitialAd().then(() => {
+      this.presentToast('InterstialAd is shown')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+ 
+  loadRewardedVideoAd() {
+    AdmobAds.loadRewardedVideoAd({
+      adId: environment.RewardedVideoAddId,
+      isTesting: true,
+    }).then(() => {
+      this.presentToast('RewardedVideoAd is loaded')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+  showloadRewardedVideoAds(){
+    AdmobAds.showRewardedVideoAd().then(() => {
+      this.presentToast('VideoAd is shown')
+    }).catch((err) => {
+      this.presentToast(err.message)
+    })
+  }
+ 
+ 
 }

@@ -7,8 +7,13 @@ export const environment = {
   apifirstKey : 'https://cdn.glitch.me/77fbbc57-651f-4482-aa3c-97402292b10b/',
   apilastkey : '?v=1677959874652',
   // nodeApi : 'https://ajeetrajbhar.com/'
-  nodeApi : 'http://localhost:3000/'
+  nodeApi : 'http://localhost:3000/',
   // nodeApi : 'https://long-pink-rooster-gear.cyclic.app/'
+  BannerAdId : 'ca-app-pub-3940256099942544/6300978111',
+  InterstitialAdsId : 'ca-app-pub-3940256099942544/1033173712',
+  RewardedInterstialAdsId : 'ca-app-pub-3940256099942544/5354046379',
+  RewardedVideoAddId : 'ca-app-pub-3940256099942544/5224354917'
+
 };
 
 /*
