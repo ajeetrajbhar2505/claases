@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSearchbar, ScrollDetail } from '@ionic/angular';
+import { IonSearchbar, ScrollDetail, ToastController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { WebService } from '../web.service';
 import { commonNavigation } from '../models/commonObjects.module';
@@ -10,9 +10,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UserProfile } from '../models/UserProfile.module';
+import { AdmobAds, BannerPosition, BannerSize } from 'capacitor-admob-ads'
 
 const navigationExtras: NavigationExtras = {
-  queryParams: { reload: 'true',from : '/tabs/home'},
+  queryParams: { reload: 'true', from: '/tabs/home' },
 };
 interface MenuItem {
   icon: string;
@@ -141,7 +142,8 @@ export class HomeComponent implements OnInit {
     public ActivatedRoute: ActivatedRoute,
     public router: Router,
     public menuCtrl: MenuController,
-    public service: WebService
+    public service: WebService,
+    public toastCtrl: ToastController
   ) {
     this._unsubscribeAll = new Subject();
     this.socket = service.socket;
@@ -487,9 +489,56 @@ export class HomeComponent implements OnInit {
   }
 
 
-  routesTo(path:any)
-  {
-    this.router.navigate(['/tabs/' + path],navigationExtras)
+  routesTo(path: any) {
+    this.router.navigate(['/tabs/' + path], navigationExtras)
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      mode: 'ios',
+      position: 'top',
+      color: 'success'
+    })
+    toast.present()
+  }
+
+  showBannerAds() {
+    AdmobAds.showBannerAd({
+      adId: 'ca-app-pub-3940256099942544/6300978111',
+      isTesting: true,
+      adSize: BannerSize.BANNER,
+      adPosition: BannerPosition.BOTTOM
+    }).then(() => {
+      this.presentToast('Banner is shown')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  hideBannerAds(){
+    AdmobAds.hideBannerAd().then(() => {
+      this.presentToast('Banner is hidden')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  resumeBannerAds(){
+    AdmobAds.resumeBannerAd().then(() => {
+      this.presentToast('Banner is resumed')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
+  }
+
+  removeBannerAds(){
+    AdmobAds.removeBannerAd().then(() => {
+      this.presentToast('Banner is removed')
+    }).catch((err) => {
+      this.presentToast(err)
+    })
   }
 
 }
