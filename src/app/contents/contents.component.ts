@@ -37,7 +37,7 @@ export class ContentsComponent {
     content: '',
   };
   params: any = '';
-  skeleton:boolean = false
+  skeleton: boolean = false
   papers: any[] = [];
   uploadStatus: any = { status: false, message: '', statusType: '' };
   statusIcons = [
@@ -51,7 +51,7 @@ export class ContentsComponent {
     public _https: WebService,
     public ActivatedRoute: ActivatedRoute,
     public router: Router,
-    private sanitizer: DomSanitizer,  
+    private sanitizer: DomSanitizer,
     private platform: Platform,
     @Optional() private routerOutlet?: IonRouterOutlet
   ) {
@@ -101,7 +101,7 @@ export class ContentsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -152,24 +152,47 @@ export class ContentsComponent {
   }
 
   routeTocontentControls(contentDetails: any) {
-    this.router.navigate(['/tabs/content-controls'], {
-      queryParams: {
-        nested: this.params.from,
-        from: '/tabs/contents',
-        classId: this.params.classId,
-        lec_id: this.params.lec_id,
-        contentId: contentDetails._id,
-        content: contentDetails.content,
-        reload: 'true',
-      },
-    });
+    this._https.loadRewardedVideoAd()
+      .then((result: boolean) => {
+        if (result) {
+          this._https.showloadRewardedVideoAds()
+            .then((result: boolean) => {
+              if (result) {
 
-    const userProfile = {
-      userid: this._https.UserProfile.userId, // Replace with the actual user ID
-      datetime: new Date().toISOString(), // Current date and time in ISO format
-    };
-    
-    this.addViewCount(contentDetails._id,userProfile)
+                this.router.navigate(['/tabs/content-controls'], {
+                  queryParams: {
+                    nested: this.params.from,
+                    from: '/tabs/contents',
+                    classId: this.params.classId,
+                    lec_id: this.params.lec_id,
+                    contentId: contentDetails._id,
+                    content: contentDetails.content,
+                    reload: 'true',
+                  },
+                });
+
+                const userProfile = {
+                  userid: this._https.UserProfile.userId, // Replace with the actual user ID
+                  datetime: new Date().toISOString(), // Current date and time in ISO format
+                };
+
+                this.addViewCount(contentDetails._id, userProfile)
+              } else {
+                this._https.presentToast('Failed to show Rewarded Video ad')
+              }
+            })
+            .catch((error) => {
+              this._https.presentToast(error)
+            });
+
+        } else {
+          this._https.presentToast('Failed to load Rewarded Video ad')
+        }
+      })
+      .catch((error) => {
+        this._https.presentToast(error)
+      });
+
   }
 
 
@@ -207,7 +230,7 @@ export class ContentsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -223,14 +246,14 @@ export class ContentsComponent {
     }, 2000);
   }
 
-  
 
-  async addViewCount(contentId:any,userProfile:any){
+
+  async addViewCount(contentId: any, userProfile: any) {
     const payload = {
-      classId : this.params.classId,
-      lec_id : this.params.lec_id,
-      contentId : contentId,
-      userProfile : userProfile
+      classId: this.params.classId,
+      lec_id: this.params.lec_id,
+      contentId: contentId,
+      userProfile: userProfile
     }
     this.skeleton = true
     const req = new Requestmodels();
@@ -252,7 +275,7 @@ export class ContentsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -266,21 +289,21 @@ export class ContentsComponent {
     };
     this.router.navigate(['/tabs/test'], { queryParams });
 
-    const userProfile  = {
+    const userProfile = {
       userId: this._https.UserProfile.userId,
       time: new Date().toISOString(),
     }
 
-    this.addAttemptedUsers(data._id,userProfile)
+    this.addAttemptedUsers(data._id, userProfile)
   }
 
-  async addAttemptedUsers(paperId:any,userProfile:any){
+  async addAttemptedUsers(paperId: any, userProfile: any) {
 
     const payload = {
-      classId : this.params.classId,
-      lec_id : this.params.lec_id,
-      paperId : paperId,
-      userProfile : userProfile
+      classId: this.params.classId,
+      lec_id: this.params.lec_id,
+      paperId: paperId,
+      userProfile: userProfile
     }
     this.skeleton = true
     const req = new Requestmodels();
@@ -302,7 +325,7 @@ export class ContentsComponent {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 

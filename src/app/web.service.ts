@@ -473,63 +473,76 @@ export class WebService {
     })
   }
 
-  loadInterstialAd() {
-    AdmobAds.loadInterstitialAd({
-      adId: environment.InterstitialAdsId,
-      isTesting: true,
-    }).then(() => {
-      this.presentToast('InterstialAd is loaded')
-    }).catch((err) => {
+  async loadInterstitialAd(): Promise<boolean> {
+    try {
+      await AdmobAds.loadInterstitialAd({
+        adId: environment.InterstitialAdsId,
+        isTesting: true,
+      });
+      return true;
+    } catch (err:any) {
       this.presentToast(err.message)
-    })
+      return false;
+    }
   }
+  
  
-  showloadInterstialAds(){
-    AdmobAds.showInterstitialAd().then(() => {
-      this.presentToast('InterstialAd is shown')
-    }).catch((err) => {
-      this.presentToast(err.message)
-    })
+  async showInterstitialAds(): Promise<boolean> {
+    try {
+      await AdmobAds.showInterstitialAd();
+      return true
+    } catch (err:any) {
+      this.presentToast(err.message);
+      return false
+    }
   }
- 
-  loadRewardedInterstialAd() {
-    AdmobAds.loadRewardedInterstitialAd({
-      adId: environment.RewardedInterstialAdsId,
-      isTesting: true,
-    }).then(() => {
-      this.presentToast('RewardedInterstialAd is loaded')
-    }).catch((err) => {
-      this.presentToast(err.message)
-    })
+  
+  async loadRewardedInterstialAd(): Promise<boolean> {
+    try {
+      await AdmobAds.loadRewardedInterstitialAd({
+        adId: environment.RewardedInterstialAdsId,
+        isTesting: true,
+      });
+      return true;
+    } catch (err: any) {
+      this.presentToast(err.message);
+      return false;
+    }
   }
- 
-  showloadRewardedInterstialAds(){
-    AdmobAds.showRewardedInterstitialAd().then(() => {
-      this.presentToast('InterstialAd is shown')
-    }).catch((err) => {
-      this.presentToast(err.message)
-    })
+  
+  async showloadRewardedInterstialAds(): Promise<boolean> {
+    try {
+      await AdmobAds.showRewardedInterstitialAd();
+      return true;
+    } catch (err: any) {
+      this.presentToast(err.message);
+      return false;
+    }
   }
- 
- 
-  loadRewardedVideoAd() {
-    AdmobAds.loadRewardedVideoAd({
-      adId: environment.RewardedVideoAddId,
-      isTesting: true,
-    }).then(() => {
-      this.presentToast('RewardedVideoAd is loaded')
-    }).catch((err) => {
-      this.presentToast(err.message)
-    })
+  
+  async loadRewardedVideoAd(): Promise<boolean> {
+    try {
+      await AdmobAds.loadRewardedVideoAd({
+        adId: environment.RewardedVideoAddId,
+        isTesting: true,
+      });
+      return true;
+    } catch (err: any) {
+      this.presentToast(err.message);
+      return false;
+    }
   }
- 
-  showloadRewardedVideoAds(){
-    AdmobAds.showRewardedVideoAd().then(() => {
-      this.presentToast('VideoAd is shown')
-    }).catch((err) => {
-      this.presentToast(err.message)
-    })
+  
+  async showloadRewardedVideoAds(): Promise<boolean> {
+    try {
+      await AdmobAds.showRewardedVideoAd();
+      return true;
+    } catch (err: any) {
+      this.presentToast(err.message);
+      return false;
+    }
   }
+  
  
  
 }

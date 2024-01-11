@@ -5,6 +5,7 @@ import { Requestmodels } from '../models/Requestmodels.module';
 import { WebService } from '../web.service';
 import { LoadingController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AdmobAds, BannerPosition, BannerSize } from 'capacitor-admob-ads'
 
 @Component({
   selector: 'app-class',
@@ -26,6 +27,7 @@ export class ClassComponent implements OnInit {
     { name: 'information-circle-outline', status: 'info' },
   ];
   currentStatusIcon: any = '';
+  adsLoaded:boolean = false
   constructor(
     public router: Router,
     public _https: WebService,
@@ -38,11 +40,35 @@ export class ClassComponent implements OnInit {
   }
   
   routeToSubjects(classId: any) {
-    const practice = this.queryParams?.practice === 'true';
-    const queryParams = { classId, reload: 'true', practice: practice ? 'true' : '' };
-    this.router.navigate(['/tabs/lectures'], {
-      queryParams,
+
+    this._https.loadInterstitialAd()
+    .then((result: boolean) => {
+      if (result) {
+
+      this._https.showInterstitialAds()
+      .then((result: boolean) => {
+        if (result) {
+          const practice = this.queryParams?.practice === 'true';
+          const queryParams = { classId, reload: 'true', practice: practice ? 'true' : '' };
+          this.router.navigate(['/tabs/lectures'], {
+            queryParams,
+          });
+        } else {
+         this._https.presentToast('Failed to show interstitial ad')
+        }
+      })
+      .catch((error) => {
+        this._https.presentToast(error)
+      });
+      } else {
+       this._https.presentToast('Failed to load interstitial ad')
+      }
+    })
+    .catch((error) => {
+      this._https.presentToast(error)
     });
+
+
   }
   
   
