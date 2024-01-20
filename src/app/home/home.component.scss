@@ -179,3 +179,10 @@ ion-content {
 .profile-photo{
   border-radius: 50%;
 }
+
+ion-toolbar {
+  --background: transparent;
+}
+
+.searchbar-search-icon { display:none; width:0; height:0; }
+

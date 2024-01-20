@@ -1,43 +1,30 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
     <ion-title> {{lectureDetails.lec_title}} </ion-title>
     <ion-buttons slot="start">
       <ion-icon size="large" name="chevron-back-outline" (click)="routeToPreviousPage()"></ion-icon>
     </ion-buttons>
-    <ion-buttons slot="end" style="margin-right: 15px;">
-    <ion-icon size="large" (click)="toggleSpeech()" name="volume-{{startSpeech?'mute':'high'}}-outline"></ion-icon>
-    </ion-buttons>
+    <!-- add question button here -->
   </ion-toolbar>
-  <ion-content
-    class="ion-content"
-    #content
-    [fullscreen]="true"
-    class="ion-padding"
-  >
-  <div *ngIf="!quizArray.length" style="display:flex;justify-content:center;margin:0 auto;flex-direction: row;flex-wrap: wrap;align-items:center;justify-items:center;gap:15px">
-    
-    <ion-card>
-      <ion-card-content>
-        {{instructions}}
-      </ion-card-content>
-    </ion-card>
-    <ion-spinner name="bubbles"></ion-spinner>
-   <p> Please wait. The quiz is auto-generating</p>
-  </div>
+  <ion-content class="ion-content" #content [fullscreen]="true" class="ion-padding">
+    <div *ngIf="!quizArray.length"
+      style="display:flex;justify-content:center;margin:0 auto;flex-direction: row;flex-wrap: wrap;align-items:center;justify-items:center;gap:15px">
+
+      <ion-card>
+        <ion-card-content>
+          {{instructions}}
+        </ion-card-content>
+      </ion-card>
+      <ion-spinner name="bubbles"></ion-spinner>
+      <p> Please wait. The quiz is auto-generating</p>
+    </div>
     <div class="quiz-card">
       <div *ngFor="let question of quizArray; let i = index">
         <div *ngIf="currentQuestion == i">
           <p style="font-weight: 700;">{{'Question ' + (i + 1) + '/' + (quizArray.length)}}</p>
-          <div
-            class="question-text"
-            [innerHTML]="question['question_text']"
-          ></div>
-          <div
-            class="options"
-            *ngFor="let option of question['options']; let j = index"
-          >
-            <div
-              [class]="
+          <div class="question-text" [innerHTML]="question['question_text']"></div>
+          <div class="options" *ngFor="let option of question['options']; let j = index">
+            <div [class]="
                 option.selected && option.correct_response && viewResult
                   ? 'right option-text'
                   : 'option-text' &&
@@ -47,35 +34,21 @@
                   : 'option-text' && option.selected?'right option-text'
                   : 'option-text' && option.is_correct && viewResult ?'right option-text'
                   : 'option-text'
-              "
-              (click)="!viewResult?onselectOption(i, option):null"
-              [innerHTML]="'Option.' + (j + 1) + ' ' + option['option_text']"
-            ></div>
+              " (click)="!viewResult?onselectOption(i, option):null"
+              [innerHTML]="'Option.' + (j + 1) + ' ' + option['option_text']"></div>
           </div>
         </div>
       </div>
       <div class="action-buttons" *ngIf="quizArray.length">
-        <ion-button slot="start" (click)="preQuestion()"
-          ><ion-icon name="chevron-back-outline"></ion-icon
-        ></ion-button>
-        <ion-button slot="end" (click)="nextQuestion()"
-          ><ion-icon name="arrow-forward-outline"></ion-icon
-        ></ion-button>
+        <ion-button slot="start" (click)="preQuestion()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
+        <ion-button slot="end" (click)="nextQuestion()"><ion-icon name="arrow-forward-outline"></ion-icon></ion-button>
       </div>
       <div class="align-items-center">
-        <ion-button
-          color="success"
-          *ngIf="this.currentQuestion == this.quizArray.length - 1"
-          (click)="upsertUsersResponse()"
-          >Submit</ion-button
-        >
+        <ion-button color="success" *ngIf="this.currentQuestion == this.quizArray.length - 1"
+          (click)="upsertUsersResponse()">Submit</ion-button>
       </div>
     </div>
-    <ion-modal
-      [isOpen]="isModalOpen"
-      [enterAnimation]="enterAnimation"
-      [leaveAnimation]="leaveAnimation"
-    >
+    <ion-modal [isOpen]="isModalOpen" [enterAnimation]="enterAnimation" [leaveAnimation]="leaveAnimation">
       <ng-template>
         <ion-header>
           <ion-toolbar>
@@ -87,17 +60,19 @@
         <ion-content>
           <div class="wrapper">
             <div class="modal modal--congratulations">
-                <div class="modal-top">
-                    <img class="modal-icon u-imgResponsive" src="assets/trophy.png" alt="Trophy" />
-                    <div class="modal-header">Congratulations</div>
-                    <div class="modal-subheader">You have successfully completed the test. You have scored {{ totalScore ? totalScore : 0 }} Out of {{totalMarks?totalMarks:0}}</div>
-                </div>
-                <div class="modal-bottom">
-                    <button class="modal-btn u-btn u-btn--share"  (click)="viewResults()">See Result</button>
-                    <button class="modal-btn u-btn u-btn--success" (click)="restartQuiz();addAttemptedUsers()">Replay Quiz</button>
-                </div>
+              <div class="modal-top">
+                <img class="modal-icon u-imgResponsive" src="assets/trophy.png" alt="Trophy" />
+                <div class="modal-header">Congratulations</div>
+                <div class="modal-subheader">You have successfully completed the test. You have scored {{ totalScore ?
+                  totalScore : 0 }} Out of {{totalMarks?totalMarks:0}}</div>
+              </div>
+              <div class="modal-bottom">
+                <button class="modal-btn u-btn u-btn--share" (click)="viewResults()">See Result</button>
+                <button class="modal-btn u-btn u-btn--success" (click)="restartQuiz();addAttemptedUsers()">Replay
+                  Quiz</button>
+              </div>
             </div>
-        </div>
+          </div>
         </ion-content>
       </ng-template>
     </ion-modal>

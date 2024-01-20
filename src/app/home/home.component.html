@@ -4,7 +4,7 @@
     contentId="main-content"
     style="--width: 100% !important"
   >
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-icon size="large"
@@ -207,9 +207,11 @@
 
 <ion-modal [isOpen]="isSearchOpen">
   <ng-template>
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar>
         <ion-searchbar
+        searchbar-search-icon=“undefined” 
+        show-clear-button="never"
         [(ngModel)]="searchQuery"
         (keyup.enter)="searchText()"
           #searchBar
@@ -217,12 +219,11 @@
         ></ion-searchbar>
         <ion-buttons slot="start">
           <ion-icon size="large"
-            name="close-outline"
+            name="chevron-back-outline"
             (click)="toggleSeachmenu()"
           ></ion-icon>
         </ion-buttons>
-        <img slot="end" *ngIf="loading" src="assets\loader\spin.gif" width="32px" alt="">
-        <ion-buttons *ngIf="!loading" fill="outline" slot="end" (click)="searchText()">
+        <ion-buttons fill="outline" slot="end" (click)="searchText()">
           <ion-icon size="large"
           name="arrow-forward-circle-outline"
         ></ion-icon>
@@ -230,7 +231,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding" id="white-background">
-      <img src="assets/search.webp" *ngIf="!SearchedContents.length" alt="" />
+      <img src="assets/searching.gif" *ngIf="!SearchedContents.length  && loading" alt="" />
+      <img src="assets/no-data-1.jpeg" *ngIf="!SearchedContents.length && !loading" alt="" />
       <ion-list>
         <ion-item
           *ngFor="let data of SearchedContents"
