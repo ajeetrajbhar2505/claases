@@ -17,13 +17,7 @@ export class LoginComponent implements OnInit {
   visiblepass: boolean = false;
   isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
-  uploadStatus: any = { status: false, message: '', statusType: '' };
   loading: boolean = false;
-  statusIcons = [
-    { name: 'checkmark-circle-outline', status: 'success' },
-    { name: 'close-circle-outline', status: 'failed' },
-    { name: 'information-circle-outline', status: 'info' },
-  ];
   showpassword() {
     this.visiblepass = !this.visiblepass;
   }
@@ -34,7 +28,7 @@ export class LoginComponent implements OnInit {
     public _https: WebService,
     public fb: FormBuilder
   ) {
-    this._unsubscribeAll = new Subject();``
+    this._unsubscribeAll = new Subject(); ``
   }
 
   otpgroup!: FormGroup;
@@ -54,16 +48,36 @@ export class LoginComponent implements OnInit {
 
   restrictmaxNumber(event: any, name: any) {
     const formcontrol: any = this.otpgroup.get(name);
-    if (formcontrol.value.toString().length > 1) {
+    
+    // Check if the event is a delete key press
+    if (event.keyCode === 46) {
+      // Move to the previous input element
+      const previousInput = event.target.previousElementSibling;
+      
+      // If there is a previous input and it's an <input> element
+      if (previousInput && previousInput.tagName === 'INPUT') {
+        // Set focus on the previous input
+        previousInput.focus();
+        
+        // Remove the value of the previous input
+        const previousFormControl: any = this.otpgroup.get(previousInput.name);
+        if (previousFormControl) {
+          previousFormControl.patchValue('');
+        }
+      }
+    } else if (formcontrol.value.toString().length > 1) {
+      // If not a delete key press and length is greater than 1, truncate to the first character
       const truncatedNumber = formcontrol.value.toString().slice(0, 1);
       formcontrol.patchValue(truncatedNumber);
     }
+  
+    // Focus on the next input
     const nextInput = event.target.nextElementSibling;
-
     if (nextInput && nextInput.tagName === 'INPUT') {
       nextInput.focus();
     }
   }
+  
 
   LoginWithGoogle() {
     this.otpgroup.reset();
@@ -72,19 +86,19 @@ export class LoginComponent implements OnInit {
     if (firstOTPInput) {
       firstOTPInput.focus();
     }
-  
+
     const url = environment.nodeApi + 'google';
     const width = 600;
     const height = 600;
-  
+
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 2;
-  
+
     const features = `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,resizable=yes,scrollbars=yes,status=no`;
-    
+
     // Open the URL in a popup
     const popup = window.open(url, '_blank', features);
-  
+
     if (popup) {
       // Focus on the popup if it was successfully opened
       popup.focus();
@@ -93,7 +107,7 @@ export class LoginComponent implements OnInit {
       alert("Please allow pop-ups for this site to log in with Google.");
     }
   }
-  
+
 
   login() {
     this.service.login();
@@ -112,15 +126,24 @@ export class LoginComponent implements OnInit {
     return true;
   }
 
+  isValidEmail(email: string): boolean {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+$/;
+    return email.match(validRegex) !== null;
+  }
+
   async getOTP() {
     if (!this.loginForm.valid) {
-      this.openSnackbar({
-        status: true,
-        message: 'Please enter your username and password',
-        statusType: 'failed',
-      });
+      this._https.openToast('Please enter your email', 'danger');
       return;
     }
+  
+    if (!this.isValidEmail(this.loginForm.get('username')?.value)) {
+      this._https.openToast('Please enter a valid email', 'danger');
+      return;
+    }
+  
+    this.loading = true;
+
     this.loading = true;
     const req = new Requestmodels();
     req.RequestUrl = `Login`;
@@ -135,11 +158,7 @@ export class LoginComponent implements OnInit {
           if (data != null) {
             this.loading = false;
             if (data.status !== 200) {
-              this.openSnackbar({
-                status: true,
-                message: data.response,
-                statusType: 'failed',
-              });
+              this._https.openToast(data.response, 'danger')
               return;
             }
             this.loginForm.reset();
@@ -149,7 +168,7 @@ export class LoginComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
@@ -181,18 +200,16 @@ export class LoginComponent implements OnInit {
         (data) => {
           if (data != null) {
             this.loading = false;
+            console.log(data.status);
+            
             if (data.status !== 200) {
-              this.openSnackbar({
-                status: true,
-                message: data.response,
-                statusType: 'failed',
-              });
+              this._https.openToast(data.response, 'danger')
               return;
             }
 
             this.isPersonalDetailsModelOpen = false;
             this.otpgroup.reset();
-            localStorage.setItem('picture',data.response.picture)
+            localStorage.setItem('picture', data.response.picture)
             const url = `/sucessfull/${data.response.userId}/${data.response.token}`;
             setTimeout(() => {
               this.router.navigate([url]);
@@ -202,18 +219,8 @@ export class LoginComponent implements OnInit {
         (_error) => {
           return;
         },
-        () => {}
+        () => { }
       );
   }
 
-  openSnackbar(uploadStatus: any) {
-    this.uploadStatus = uploadStatus;
-    this.currentStatusIcon = this.statusIcons.filter(
-      (obj) => obj.status == this.uploadStatus.statusType
-    )[0].name;
-    this.uploadStatus.status = true;
-    setTimeout(() => {
-      this.uploadStatus.status = false;
-    }, 2000);
-  }
 }

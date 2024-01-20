@@ -543,6 +543,15 @@ export class WebService {
     }
   }
   
-
+async openToast(message: string,type:string) {
+  const toast = await this.toastCtrl.create({
+    message: message,
+    duration: 3000,
+    mode: 'ios',
+    position: 'top',
+    color: type
+  })
+  toast.present()
+}
  
 }

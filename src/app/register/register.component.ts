@@ -16,17 +16,9 @@ export class RegisterComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any>;
   visiblepass: any = [false, false];
-  isPersonalDetailsModelOpen = false;
+  isPersonalDetailsModelOpen = true;
   currentStatusIcon: any = '';
-  uploadStatus: any = { status: false, message: '', statusType: '' };
   loading: boolean = false;
-
-  statusIcons = [
-    { name: 'checkmark-circle-outline', status: 'success' },
-    { name: 'close-circle-outline', status: 'failed' },
-    { name: 'information-circle-outline', status: 'info' },
-  ];
-
   constructor(
     public router: Router,
     public service: WebService,
@@ -90,23 +82,22 @@ export class RegisterComponent implements OnInit {
     window.open(url, '_blank', features);
   }
 
+  isValidEmail(email: string): boolean {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+$/;
+    return email.match(validRegex) !== null;
+  }
+
   async register() {
     if (!this.registerForm.valid) {
-      this.openSnackbar({
-        status: true,
-        message: 'Please fill all the detauils!',
-        statusType: 'failed',
-      });
+      this._https.openToast('Please enter your email', 'danger');
       return;
     }
-    if (this.registerForm.get('password')?.value != this.registerForm.get('re_password')?.value) {
-      this.openSnackbar({
-        status: true,
-        message: 'Password not matched!',
-        statusType: 'failed',
-      });
+
+    if (!this.isValidEmail(this.registerForm.get('email')?.value)) {
+      this._https.openToast('Please enter a valid email', 'danger');
       return;
     }
+
     this.loading = true;
     const req = new Requestmodels();
     req.RequestUrl = `Register`;
@@ -120,12 +111,7 @@ export class RegisterComponent implements OnInit {
         (data) => {
           if (data != null) {
             this.loading = false;
-
-            this.openSnackbar({
-              status: true,
-              message: data.response,
-              statusType: 'failed',
-            });
+            this._https.openToast(data.response,'danger')
 
             if (data.status == 200) {
               this.otpgroup.reset();
@@ -188,11 +174,7 @@ export class RegisterComponent implements OnInit {
           if (data != null) {
             this.loading = false;
             if (data.status !== 200) {
-              this.openSnackbar({
-                status: true,
-                message: data.response,
-                statusType: 'failed',
-              });
+            this._https.openToast(data.response,'danger')
               return;
             }
 
@@ -212,14 +194,5 @@ export class RegisterComponent implements OnInit {
       );
   }
 
-  openSnackbar(uploadStatus: any) {
-    this.uploadStatus = uploadStatus;
-    this.currentStatusIcon = this.statusIcons.filter(
-      (obj) => obj.status == this.uploadStatus.statusType
-    )[0].name;
-    this.uploadStatus.status = true;
-    setTimeout(() => {
-      this.uploadStatus.status = false;
-    }, 2000);
-  }
+
 }
