@@ -61,6 +61,9 @@
     } else {
       console.error('Web Speech API is not supported in this browser');
     }
+    document.addEventListener('contextmenu', function (e) {
+              e.preventDefault();
+            });
   </script>
 </body>
 

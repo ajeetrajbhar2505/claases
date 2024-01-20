@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  
   restrictmaxNumber(event: any, name: any) {
     const formcontrol: any = this.otpgroup.get(name);
     
