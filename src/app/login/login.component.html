@@ -14,15 +14,17 @@
         </div>
         <div class="signin">
           <p style="padding: unset;margin: unset;margin-top: 10px;margin-bottom: 10px;">Or sign in with</p>
-          <!-- <span class="icons">
-          <ion-icon (click)="LogiinWithGoogle()" name="logo-google"></ion-icon>
-          <ion-icon name="logo-facebook"></ion-icon>
-          <ion-icon name="logo-apple"></ion-icon>
-        </span> -->
-          <div class="center">
-            <ion-button id="open-modal" expand="block" (click)="LoginWithGoogle()" color="light" shape="round"> <img
-                src="assets/google-preview.png" style="margin-bottom: -5px;" width="100px" alt=""></ion-button>
-          </div>
+          <span class="icons">
+            <img (click)="LoginWithGoogle()"  width="27px" src="assets/google.svg" alt="">
+          <ion-icon size="large" color="primary" name="logo-facebook"></ion-icon>
+          <ion-icon size="large" color="outline" name="logo-apple"></ion-icon>
+        </span>
+  
+          <!-- <div class="center">
+            <button type="button" (click)="LoginWithGoogle()" class="login-with-google-btn" >
+              Sign in with Google
+            </button>
+          </div> -->
         </div>
         <hr>
         <div class="signin">

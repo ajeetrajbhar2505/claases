@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
     this.visiblepass[index] = !this.visiblepass[index];
   }
 
-  LogiinWithGoogle() {
+  LoginWithGoogle() {
     this.otpgroup.reset();
     this.isPersonalDetailsModelOpen = true;
     const firstOTPInput = document.getElementById('otp1');
