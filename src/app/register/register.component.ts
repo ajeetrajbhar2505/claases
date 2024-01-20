@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   private _unsubscribeAll: Subject<any>;
   visiblepass: any = [false, false];
-  isPersonalDetailsModelOpen = true;
+  isPersonalDetailsModelOpen = false;
   currentStatusIcon: any = '';
   loading: boolean = false;
   constructor(
