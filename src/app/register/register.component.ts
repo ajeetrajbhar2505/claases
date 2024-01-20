@@ -49,8 +49,6 @@ export class RegisterComponent implements OnInit {
     });
     this.registerForm = this.fb.group({
       email: ['', Validators.required],
-      password: ['', Validators.required],
-      re_password: ['', Validators.required],
     });
   }
 
@@ -78,9 +76,18 @@ export class RegisterComponent implements OnInit {
     if (firstOTPInput) {
       firstOTPInput.focus();
     }
+
     const url = environment.nodeApi + 'google';
+    const width = 600;
+    const height = 600;
+  
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+  
+    const features = `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,resizable=yes,scrollbars=yes,status=no`;
+
     // // Use "_blank" as the target to open in a new tab
-    window.open(url, '_blank');
+    window.open(url, '_blank', features);
   }
 
   async register() {

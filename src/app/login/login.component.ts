@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     public _https: WebService,
     public fb: FormBuilder
   ) {
-    this._unsubscribeAll = new Subject();
+    this._unsubscribeAll = new Subject();``
   }
 
   otpgroup!: FormGroup;
@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
     });
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
     });
   }
 
